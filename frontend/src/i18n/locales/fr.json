@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "ARUANÃ - Vision Assistive",
+    "subtitle": "Système d'IA pour l'Accessibilité et l'Autonomie des Personnes Aveugles",
+    "description": "Transformer les informations visuelles en expériences auditives interactives"
+  },
+  "navigation": {
+    "webcam": "Caméra",
+    "upload": "Télécharger",
+    "history": "Historique",
+    "alerts": "Alertes",
+    "settings": "Paramètres"
+  },
+  "webcam": {
+    "title": "Capture Vidéo",
+    "start": "Démarrer la Caméra",
+    "stop": "Arrêter",
+    "analyze": "Analyser la Scène",
+    "analyzing": "Analyse en cours...",
+    "localDetection": "Détection Locale (TensorFlow.js)",
+    "cloudAnalysis": "Analyse Cloud (Gemini Vision)",
+    "results": "Résultats de Détection",
+    "description": "Description:",
+    "objectsDetected": "Objets Détectés:",
+    "alertsTriggered": "Alertes Déclenchées:",
+    "noDetection": "Aucune détection effectuée pour le moment"
+  },
+  "upload": {
+    "title": "Télécharger une Image",
+    "dropzone": "Cliquez pour télécharger ou glissez-déposez",
+    "formats": "PNG, JPG ou JPEG",
+    "analyze": "Analyser l'Image",
+    "results": "Résultats de l'Analyse",
+    "noResults": "Téléchargez une image pour l'analyse"
+  },
+  "history": {
+    "title": "Historique",
+    "details": "Détails de Détection",
+    "exportJSON": "Exporter JSON",
+    "exportCSV": "Exporter CSV",
+    "noDetections": "Aucune détection trouvée",
+    "noSelection": "Sélectionnez une détection pour voir les détails",
+    "webcam": "Webcam",
+    "upload": "Télécharger",
+    "cloud": "Cloud",
+    "local": "Local"
+  },
+  "alerts": {
+    "title": "Gérer les Alertes",
+    "howItWorks": "Comment ça marche?",
+    "description": "Créez des alertes pour des objets spécifiques. Lorsque ces objets sont détectés, vous serez notifié. Par exemple: 'personne', 'voiture', 'chien', etc.",
+    "inputPlaceholder": "Nom de l'objet (ex: personne, voiture...)",
+    "add": "Ajouter",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "noAlerts": "Aucune alerte configurée",
+    "noAlertsDesc": "Ajoutez des alertes pour être notifié lorsque des objets spécifiques sont détectés",
+    "created": "Créé le:"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "voice": "Voix de Narration",
+    "male": "Masculin",
+    "female": "Féminin",
+    "voiceSpeed": "Vitesse de la Voix",
+    "autoNarrate": "Narration Automatique",
+    "highContrast": "Contraste Élevé",
+    "fontSize": "Taille de Police"
+  },
+  "toast": {
+    "webcamError": "Erreur d'accès à la webcam",
+    "analyzeError": "Erreur d'analyse",
+    "analyzeSuccess": "Analyse terminée avec succès!",
+    "alertTriggered": "Alerte:",
+    "detected": "détecté!",
+    "alertCreated": "Alerte créée avec succès!",
+    "alertDeleted": "Alerte supprimée",
+    "alertUpdated": "Alerte mise à jour",
+    "detectionDeleted": "Détection supprimée",
+    "reportExported": "Rapport exporté avec succès!",
+    "loadError": "Erreur de chargement"
+  }
+}

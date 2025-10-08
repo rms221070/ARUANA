@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "ARUANÃ - 辅助视觉",
+    "subtitle": "盲人无障碍和自主人工智能系统",
+    "description": "将视觉信息转化为互动听觉体验"
+  },
+  "navigation": {
+    "webcam": "相机",
+    "upload": "上传",
+    "history": "历史",
+    "alerts": "警报",
+    "settings": "设置"
+  },
+  "webcam": {
+    "title": "视频捕捉",
+    "start": "启动相机",
+    "stop": "停止",
+    "analyze": "分析场景",
+    "analyzing": "分析中...",
+    "localDetection": "本地检测 (TensorFlow.js)",
+    "cloudAnalysis": "云分析 (Gemini Vision)",
+    "results": "检测结果",
+    "description": "描述:",
+    "objectsDetected": "检测到的物体:",
+    "alertsTriggered": "触发的警报:",
+    "noDetection": "尚未执行检测"
+  },
+  "upload": {
+    "title": "图像上传",
+    "dropzone": "点击上传或拖放",
+    "formats": "PNG、JPG 或 JPEG",
+    "analyze": "分析图像",
+    "results": "分析结果",
+    "noResults": "上传图像进行分析"
+  },
+  "history": {
+    "title": "历史",
+    "details": "检测详情",
+    "exportJSON": "导出 JSON",
+    "exportCSV": "导出 CSV",
+    "noDetections": "未找到检测",
+    "noSelection": "选择一个检测以查看详情",
+    "webcam": "网络摄像头",
+    "upload": "上传",
+    "cloud": "云",
+    "local": "本地"
+  },
+  "alerts": {
+    "title": "管理警报",
+    "howItWorks": "如何工作?",
+    "description": "为特定对象创建警报。当检测到这些对象时，您将收到通知。例如：'人'、'汽车'、'狗'等。",
+    "inputPlaceholder": "对象名称（例如：人、汽车...）",
+    "add": "添加",
+    "active": "活动",
+    "inactive": "不活动",
+    "noAlerts": "未配置警报",
+    "noAlertsDesc": "添加警报以在检测到特定对象时收到通知",
+    "created": "创建于:"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "voice": "叙述语音",
+    "male": "男性",
+    "female": "女性",
+    "voiceSpeed": "语音速度",
+    "autoNarrate": "自动叙述",
+    "highContrast": "高对比度",
+    "fontSize": "字体大小"
+  },
+  "toast": {
+    "webcamError": "访问网络摄像头错误",
+    "analyzeError": "分析错误",
+    "analyzeSuccess": "分析成功完成！",
+    "alertTriggered": "警报:",
+    "detected": "检测到！",
+    "alertCreated": "警报创建成功！",
+    "alertDeleted": "警报已删除",
+    "alertUpdated": "警报已更新",
+    "detectionDeleted": "检测已删除",
+    "reportExported": "报告导出成功！",
+    "loadError": "加载错误"
+  }
+}

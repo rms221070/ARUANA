@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "ARUANÃ - Assistive Vision",
+    "subtitle": "AI System for Accessibility and Autonomy of Blind People",
+    "description": "Transforming visual information into interactive auditory experiences"
+  },
+  "navigation": {
+    "webcam": "Camera",
+    "upload": "Upload",
+    "history": "History",
+    "alerts": "Alerts",
+    "settings": "Settings"
+  },
+  "webcam": {
+    "title": "Video Capture",
+    "start": "Start Camera",
+    "stop": "Stop",
+    "analyze": "Analyze Scene",
+    "analyzing": "Analyzing...",
+    "localDetection": "Local Detection (TensorFlow.js)",
+    "cloudAnalysis": "Cloud Analysis (Gemini Vision)",
+    "results": "Detection Results",
+    "description": "Description:",
+    "objectsDetected": "Objects Detected:",
+    "alertsTriggered": "Alerts Triggered:",
+    "noDetection": "No detection performed yet"
+  },
+  "upload": {
+    "title": "Image Upload",
+    "dropzone": "Click to upload or drag and drop",
+    "formats": "PNG, JPG or JPEG",
+    "analyze": "Analyze Image",
+    "results": "Analysis Results",
+    "noResults": "Upload an image for analysis"
+  },
+  "history": {
+    "title": "History",
+    "details": "Detection Details",
+    "exportJSON": "Export JSON",
+    "exportCSV": "Export CSV",
+    "noDetections": "No detections found",
+    "noSelection": "Select a detection to view details",
+    "webcam": "Webcam",
+    "upload": "Upload",
+    "cloud": "Cloud",
+    "local": "Local"
+  },
+  "alerts": {
+    "title": "Manage Alerts",
+    "howItWorks": "How it works?",
+    "description": "Create alerts for specific objects. When these objects are detected, you will be notified. For example: 'person', 'car', 'dog', etc.",
+    "inputPlaceholder": "Object name (ex: person, car...)",
+    "add": "Add",
+    "active": "Active",
+    "inactive": "Inactive",
+    "noAlerts": "No alerts configured",
+    "noAlertsDesc": "Add alerts to be notified when specific objects are detected",
+    "created": "Created at:"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "voice": "Narration Voice",
+    "male": "Male",
+    "female": "Female",
+    "voiceSpeed": "Voice Speed",
+    "autoNarrate": "Auto Narration",
+    "highContrast": "High Contrast",
+    "fontSize": "Font Size"
+  },
+  "toast": {
+    "webcamError": "Error accessing webcam",
+    "analyzeError": "Error analyzing",
+    "analyzeSuccess": "Analysis completed successfully!",
+    "alertTriggered": "Alert:",
+    "detected": "detected!",
+    "alertCreated": "Alert created successfully!",
+    "alertDeleted": "Alert removed",
+    "alertUpdated": "Alert updated",
+    "detectionDeleted": "Detection removed",
+    "reportExported": "Report exported successfully!",
+    "loadError": "Error loading"
+  }
+}
