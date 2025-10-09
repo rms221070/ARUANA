@@ -99,6 +99,59 @@ class ReportQuery(BaseModel):
     end_date: Optional[str] = None
     report_type: str = "general"  # general, emotions, objects, scientific
 
+class ResearcherProfile(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    name: str
+    institution: str
+    area: str
+    bio: str
+    research_interests: List[str] = []
+    contact_email: str
+    avatar_url: Optional[str] = None
+
+class ResearcherProfileCreate(BaseModel):
+    name: str
+    institution: str
+    area: str
+    bio: str
+    research_interests: List[str]
+    contact_email: str
+    avatar_url: Optional[str] = None
+
+class Post(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    author_id: str
+    author_name: str
+    content: str
+    tags: List[str] = []
+    likes: int = 0
+    comments_count: int = 0
+
+class PostCreate(BaseModel):
+    author_id: str
+    author_name: str
+    content: str
+    tags: List[str] = []
+
+class Comment(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    post_id: str
+    author_id: str
+    author_name: str
+    content: str
+
+class CommentCreate(BaseModel):
+    post_id: str
+    author_id: str
+    author_name: str
+    content: str
+
 # Routes
 @api_router.get("/")
 async def root():
