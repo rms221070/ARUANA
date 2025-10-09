@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,11 +7,14 @@ import { Switch } from "@/components/ui/switch";
 import { Bell, Plus, Trash2, RefreshCw } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
+import { useSettings } from "@/context/SettingsContext";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const AlertsManager = () => {
+  const { t } = useTranslation();
+  const { settings, narrate } = useSettings();
   const [alerts, setAlerts] = useState([]);
   const [newAlertName, setNewAlertName] = useState("");
   const [loading, setLoading] = useState(true);
@@ -25,7 +29,7 @@ const AlertsManager = () => {
       const response = await axios.get(`${API}/alerts`);
       setAlerts(response.data);
     } catch (error) {
-      toast.error("Erro ao carregar alertas");
+      toast.error(t('toast.loadError'));
     } finally {
       setLoading(false);
     }
@@ -33,7 +37,9 @@ const AlertsManager = () => {
 
   const createAlert = async () => {
     if (!newAlertName.trim()) {
-      toast.error("Digite um nome para o alerta");
+      const msg = t('alerts.inputPlaceholder');
+      toast.error(msg);
+      narrate(msg);
       return;
     }
 
@@ -44,9 +50,11 @@ const AlertsManager = () => {
       });
       setAlerts([...alerts, response.data]);
       setNewAlertName("");
-      toast.success("Alerta criado com sucesso!");
+      const successMsg = t('toast.alertCreated');
+      toast.success(successMsg);
+      narrate(`${t('alerts.title')}: ${newAlertName} ${successMsg}`);
     } catch (error) {
-      toast.error("Erro ao criar alerta");
+      toast.error(t('toast.loadError'));
     }
   };
 
@@ -54,9 +62,9 @@ const AlertsManager = () => {
     try {
       await axios.delete(`${API}/alerts/${id}`);
       setAlerts(alerts.filter(a => a.id !== id));
-      toast.success("Alerta removido");
+      toast.success(t('toast.alertDeleted'));
     } catch (error) {
-      toast.error("Erro ao remover alerta");
+      toast.error(t('toast.loadError'));
     }
   };
 
@@ -64,24 +72,26 @@ const AlertsManager = () => {
     try {
       await axios.patch(`${API}/alerts/${id}?enabled=${enabled}`);
       setAlerts(alerts.map(a => a.id === id ? { ...a, enabled } : a));
-      toast.success(enabled ? "Alerta ativado" : "Alerta desativado");
+      const msg = enabled ? t('alerts.active') : t('alerts.inactive');
+      toast.success(t('toast.alertUpdated'));
+      narrate(msg);
     } catch (error) {
-      toast.error("Erro ao atualizar alerta");
+      toast.error(t('toast.loadError'));
     }
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString("pt-BR");
+    return new Date(dateString).toLocaleString(settings.language === 'pt' ? 'pt-BR' : settings.language);
   };
 
   return (
     <div className="max-w-4xl mx-auto" data-testid="alerts-manager-container">
-      <Card className="bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
+      <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/90 backdrop-blur-sm border-indigo-200 shadow-xl'}`}>
         <CardHeader>
-          <CardTitle className="text-2xl text-slate-800 flex items-center justify-between">
+          <CardTitle className={`text-2xl flex items-center justify-between ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>
             <div className="flex items-center gap-2">
-              <Bell className="w-6 h-6 text-blue-600" />
-              Gerenciar Alertas
+              <Bell className={`w-6 h-6 ${settings.highContrast ? 'text-white' : 'text-indigo-600'}`} />
+              {t('alerts.title')}
             </div>
             <Button
               onClick={fetchAlerts}
@@ -94,11 +104,12 @@ const AlertsManager = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-2">Como funciona?</h3>
-            <p className="text-sm text-blue-700">
-              Crie alertas para objetos específicos. Quando esses objetos forem detectados,
-              você será notificado. Por exemplo: "pessoa", "carro", "cão", etc.
+          <div className={`rounded-lg p-4 border ${
+            settings.highContrast ? 'bg-gray-800 border-white' : 'bg-indigo-50 border-indigo-200'
+          }`}>
+            <h3 className={`font-semibold mb-2 ${settings.highContrast ? 'text-white' : 'text-indigo-900'}`}>{t('alerts.howItWorks')}</h3>
+            <p className={`text-sm ${settings.highContrast ? 'text-gray-300' : 'text-indigo-700'}`}>
+              {t('alerts.description')}
             </p>
           </div>
 
@@ -106,41 +117,47 @@ const AlertsManager = () => {
             <Input
               value={newAlertName}
               onChange={(e) => setNewAlertName(e.target.value)}
-              placeholder="Nome do objeto (ex: pessoa, carro...)"
+              placeholder={t('alerts.inputPlaceholder')}
               onKeyPress={(e) => e.key === "Enter" && createAlert()}
-              className="flex-1"
+              className={`flex-1 ${settings.highContrast ? 'bg-gray-800 text-white border-white' : ''}`}
               data-testid="alert-name-input"
             />
             <Button
               onClick={createAlert}
-              className="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
               data-testid="create-alert-btn"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Adicionar
+              {t('alerts.add')}
             </Button>
           </div>
 
           <div className="space-y-3" data-testid="alerts-list">
             {loading ? (
-              <div className="text-center py-8 text-slate-400">Carregando alertas...</div>
+              <div className={`text-center py-8 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`}>
+                {t('toast.loadError')}
+              </div>
             ) : alerts.length === 0 ? (
-              <div className="text-center py-8 text-slate-400" data-testid="no-alerts-message">
+              <div className={`text-center py-8 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`} data-testid="no-alerts-message">
                 <Bell className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p>Nenhum alerta configurado</p>
-                <p className="text-sm mt-2">Adicione alertas para ser notificado quando objetos específicos forem detectados</p>
+                <p>{t('alerts.noAlerts')}</p>
+                <p className="text-sm mt-2">{t('alerts.noAlertsDesc')}</p>
               </div>
             ) : (
               alerts.map((alert) => (
                 <div
                   key={alert.id}
-                  className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors"
+                  className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${
+                    settings.highContrast 
+                      ? 'bg-gray-800 border-gray-600 hover:border-gray-500' 
+                      : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                  }`}
                   data-testid={`alert-item-${alert.id}`}
                 >
                   <div className="flex-1">
-                    <h3 className="font-semibold text-slate-800 text-lg">{alert.object_name}</h3>
-                    <p className="text-xs text-slate-500 mt-1">
-                      Criado em: {formatDate(alert.created_at)}
+                    <h3 className={`font-semibold text-lg ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>{alert.object_name}</h3>
+                    <p className={`text-xs mt-1 ${settings.highContrast ? 'text-gray-400' : 'text-slate-500'}`}>
+                      {t('alerts.created')} {formatDate(alert.created_at)}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -151,9 +168,11 @@ const AlertsManager = () => {
                         data-testid={`toggle-alert-${alert.id}`}
                       />
                       <span className={`text-sm font-medium ${
-                        alert.enabled ? "text-emerald-600" : "text-slate-400"
+                        alert.enabled 
+                          ? 'text-emerald-600' 
+                          : settings.highContrast ? 'text-gray-400' : 'text-slate-400'
                       }`}>
-                        {alert.enabled ? "Ativo" : "Inativo"}
+                        {alert.enabled ? t('alerts.active') : t('alerts.inactive')}
                       </span>
                     </div>
                     <Button
