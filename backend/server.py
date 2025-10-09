@@ -87,25 +87,58 @@ async def analyze_frame(input: DetectionCreate):
         )
         
         if input.detection_type == "cloud":
-            # Use Gemini Vision for detailed analysis
+            # Use Gemini Vision for detailed analysis with sentiment
             chat = LlmChat(
                 api_key=GOOGLE_API_KEY,
                 session_id=f"detection_{detection.id}",
-                system_message="You are an expert computer vision system. Analyze images and provide detailed descriptions of people, objects, and environments."
+                system_message="Você é um sistema especialista em visão computacional e análise de emoções. Analise imagens e forneça descrições detalhadas em português brasileiro sobre pessoas, objetos, ambientes e estados emocionais."
             ).with_model("gemini", "gemini-2.0-flash")
             
             image_content = ImageContent(image_base64=image_data)
             
-            prompt = """Analyze this image in detail and provide:
-1. List all people detected (description, clothing, actions)
-2. List all objects detected (type, location, characteristics)
-3. Describe the environment/scene (location type, lighting, atmosphere)
-4. Any notable actions or events happening
+            prompt = """Analise esta imagem em DETALHES e forneça EM PORTUGUÊS BRASILEIRO:
 
-Provide a comprehensive JSON response with this structure:
+1. **PESSOAS DETECTADAS**: Para cada pessoa, descreva:
+   - Características físicas (idade aproximada, gênero aparente, etnia)
+   - Vestimenta e acessórios
+   - Postura e linguagem corporal
+   - **ANÁLISE EMOCIONAL DETALHADA**:
+     * Expressão facial (sorrindo, sério, triste, surpreso, zangado, neutro)
+     * Estado emocional aparente (feliz, ansioso, relaxado, concentrado, etc)
+     * Nível de energia (alta, média, baixa)
+     * Indicadores de humor (se está positivo, negativo ou neutro)
+   - Ações que estão realizando
+
+2. **OBJETOS DETECTADOS**: Liste todos os objetos visíveis com:
+   - Tipo e características
+   - Localização na cena
+   - Estado e condição
+
+3. **AMBIENTE/CENÁRIO**: Descreva:
+   - Tipo de local (interno/externo, residencial/comercial/público)
+   - Iluminação e atmosfera
+   - Condições gerais do ambiente
+
+4. **ANÁLISE DE SENTIMENTO GERAL**: Avalie o clima emocional geral da cena
+
+Forneça uma resposta JSON COMPLETA em português com esta estrutura:
 {
-  "objects": [{"label": "person", "confidence": 0.95, "description": "detailed description"}],
-  "description": "overall scene description"
+  "objects": [
+    {
+      "label": "pessoa", 
+      "confidence": 0.95, 
+      "description": "descrição completa em português",
+      "emotions": {
+        "expression": "sorrindo/sério/triste/surpreso/zangado/neutro",
+        "emotional_state": "feliz/ansioso/relaxado/concentrado/etc",
+        "is_smiling": true/false,
+        "sentiment": "positivo/neutro/negativo",
+        "energy_level": "alta/média/baixa"
+      }
+    }
+  ],
+  "description": "descrição geral da cena em português detalhado",
+  "overall_sentiment": "análise do sentimento geral da cena"
 }"""
             
             user_message = UserMessage(
