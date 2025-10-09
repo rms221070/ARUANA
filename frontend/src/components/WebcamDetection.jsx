@@ -34,10 +34,6 @@ const WebcamDetection = () => {
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
         setIsStreaming(true);
-        
-        if (detectionType === "local" && model) {
-          detectObjects();
-        }
       }
     } catch (error) {
       toast.error("Erro ao acessar webcam: " + error.message);
