@@ -401,6 +401,107 @@ async def delete_scientific_record(record_id: str):
     return {"message": "Record deleted"}
 
 # Intelligent Reports
+@api_router.post("/analyze/sentiment-deep")
+async def analyze_sentiment_deep(input: DetectionCreate):
+    """Análise profunda de sentimentos usando técnica avançada de IA"""
+    try:
+        # Decode base64 image
+        image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
+        
+        # Use Gemini Vision with advanced sentiment analysis technique
+        chat = LlmChat(
+            api_key=GOOGLE_API_KEY,
+            session_id=f"sentiment_analysis_{uuid.uuid4()}",
+            system_message="""Você é um especialista em análise de sentimentos e psicologia comportamental. 
+            Use a técnica de 'Análise Multimodal de Sentimentos' que combina:
+            1. Detecção de microexpressões faciais (FACS - Facial Action Coding System)
+            2. Análise de linguagem corporal e postura
+            3. Contexto ambiental e situacional
+            4. Teoria das emoções de Ekman (6 emoções básicas + variações)
+            5. Análise de valência emocional (positivo/negativo) e arousal (ativação)"""
+        ).with_model("gemini", "gemini-2.0-flash")
+        
+        image_content = ImageContent(image_base64=image_data)
+        
+        prompt = """Realize uma ANÁLISE PROFUNDA DE SENTIMENTOS desta imagem usando a técnica de Análise Multimodal:
+
+**MÉTODO CIENTÍFICO:**
+1. **FACS (Facial Action Coding System)**: Identifique Action Units (AUs) nas expressões faciais
+2. **Teoria de Ekman**: Classifique emoções básicas (alegria, tristeza, raiva, medo, surpresa, nojo)
+3. **Valência e Arousal**: Avalie dimensões emocionais (positivo/negativo, alta/baixa ativação)
+4. **Linguagem Corporal**: Analise postura, gestos e posicionamento
+5. **Contexto**: Considere ambiente, objetos e situação
+
+**PARA CADA PESSOA DETECTADA:**
+- **Microexpressões**: Detalhe movimentos faciais específicos
+- **Estado emocional primário**: Emoção dominante
+- **Estados secundários**: Emoções sutis presentes
+- **Intensidade emocional**: Escala 1-10
+- **Congruência**: Alinhamento entre face, corpo e contexto
+- **Indicadores fisiológicos**: Tensão muscular, dilatação pupilar (se visível)
+- **Interpretação psicológica**: O que a pessoa pode estar sentindo/pensando
+
+**ANÁLISE DE GRUPO** (se múltiplas pessoas):
+- **Dinâmica emocional**: Como as emoções interagem entre pessoas
+- **Contágio emocional**: Influência mútua de sentimentos
+- **Clima emocional geral**: Atmosfera do grupo
+
+Forneça resposta em JSON em PORTUGUÊS com estrutura detalhada:
+{
+  "sentiment_analysis": {
+    "methodology": "FACS + Ekman + Análise Multimodal",
+    "people": [{
+      "person_id": 1,
+      "primary_emotion": "alegria",
+      "emotion_intensity": 8.5,
+      "secondary_emotions": ["satisfação", "tranquilidade"],
+      "facial_action_units": ["AU6 (elevação da bochecha)", "AU12 (sorriso)"],
+      "valence": "positivo",
+      "arousal": "moderado",
+      "body_language": "postura relaxada, braços abertos",
+      "psychological_interpretation": "pessoa demonstra contentamento genuíno...",
+      "confidence_score": 0.92
+    }],
+    "group_dynamics": {
+      "overall_mood": "positivo e colaborativo",
+      "emotional_contagion": "alta",
+      "tension_level": "baixo"
+    },
+    "contextual_factors": ["ambiente bem iluminado", "presença de objetos positivos"],
+    "detailed_description": "descrição narrativa completa em português"
+  }
+}"""
+        
+        user_message = UserMessage(
+            text=prompt,
+            file_contents=[image_content]
+        )
+        
+        response = await chat.send_message(user_message)
+        
+        # Parse response
+        try:
+            response_text = response.strip()
+            if '```json' in response_text:
+                response_text = response_text.split('```json')[1].split('```')[0].strip()
+            elif '```' in response_text:
+                response_text = response_text.split('```')[1].split('```')[0].strip()
+            
+            result = json.loads(response_text)
+            return result
+        except:
+            return {
+                "sentiment_analysis": {
+                    "methodology": "FACS + Ekman + Análise Multimodal",
+                    "raw_analysis": response,
+                    "status": "partial_parse"
+                }
+            }
+        
+    except Exception as e:
+        logging.error(f"Error in deep sentiment analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/reports/intelligent")
 async def generate_intelligent_report(query: ReportQuery):
     """Gerar relatório inteligente com análises"""
