@@ -231,11 +231,16 @@ const WebcamDetection = () => {
                     data-testid="analyze-btn"
                   >
                     {isAnalyzing ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        {t('webcam.analyzing')}
+                      </>
                     ) : (
-                      <Cloud className="w-4 h-4 mr-2" />
+                      <>
+                        <Cloud className="w-4 h-4 mr-2" />
+                        {t('webcam.analyze')}
+                      </>
                     )}
-                    Analisar Frame
                   </Button>
                 )}
               </>
