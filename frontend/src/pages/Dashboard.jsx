@@ -11,6 +11,7 @@ import About from "@/components/About";
 import AdminDashboard from "@/components/AdminDashboard";
 import IntelligentReports from "@/components/IntelligentReports";
 import ScientificCollaboration from "@/components/ScientificCollaboration";
+import SystemManual from "@/components/SystemManual";
 import { Camera, Upload, History, Bell, Settings as SettingsIcon, Info, Shield, BarChart3, Network } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 
