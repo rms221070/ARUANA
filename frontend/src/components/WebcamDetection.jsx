@@ -221,7 +221,7 @@ const WebcamDetection = () => {
                   data-testid="stop-webcam-btn"
                 >
                   <Square className="w-4 h-4 mr-2" />
-                  Parar
+                  {t('webcam.stop')}
                 </Button>
                 {detectionType === "cloud" && (
                   <Button
