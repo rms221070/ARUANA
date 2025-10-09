@@ -215,6 +215,7 @@ const Dashboard = () => {
           <TabsContent value="about" data-testid="about-content">
             <div className="space-y-6">
               <About />
+              <TechnicalDocument />
               <SystemManual />
               <Card className={`${
                 settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-gradient-to-br from-indigo-950/90 to-purple-950/90 backdrop-blur-xl border-indigo-700/30'
