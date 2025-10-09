@@ -15,26 +15,11 @@ const WebcamDetection = () => {
   const { settings, narrate } = useSettings();
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [detectionType, setDetectionType] = useState("cloud");
   const [lastDetection, setLastDetection] = useState(null);
-  const [model, setModel] = useState(null);
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);
   const streamRef = useRef(null);
-  const animationFrameRef = useRef(null);
 
   useEffect(() => {
-    // Load TensorFlow model for local detection
-    const loadModel = async () => {
-      try {
-        const loadedModel = await cocoSsd.load();
-        setModel(loadedModel);
-      } catch (error) {
-        console.error("Error loading model:", error);
-      }
-    };
-    loadModel();
-
     return () => {
       stopWebcam();
     };
