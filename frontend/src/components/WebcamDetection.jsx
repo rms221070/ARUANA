@@ -249,9 +249,9 @@ const WebcamDetection = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
+      <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/90 backdrop-blur-sm border-indigo-200 shadow-xl'}`}>
         <CardHeader>
-          <CardTitle className="text-2xl text-slate-800">Resultados da Detecção</CardTitle>
+          <CardTitle className={`text-2xl ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>{t('webcam.results')}</CardTitle>
         </CardHeader>
         <CardContent>
           {lastDetection ? (
