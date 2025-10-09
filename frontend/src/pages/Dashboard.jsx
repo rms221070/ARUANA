@@ -45,15 +45,7 @@ const Dashboard = () => {
         settings.highContrast ? 'border-white bg-black' : 'border-orange-500/30 bg-gradient-to-r from-blue-950/95 via-slate-900/95 to-blue-950/95 backdrop-blur-xl'
       } sticky top-0 z-50 shadow-2xl`}>
         <div className="container mx-auto px-4 py-4">
-          {/* Banner Image */}
-          <div className="flex items-center justify-center mb-4">
-            <img 
-              src="https://customer-assets.emergentagent.com/job_object-spotter-1/artifacts/e1glcn5g_banner_oswaldo_125.jpg" 
-              alt="IOC/Fiocruz Banner"
-              className="h-24 object-contain filter drop-shadow-2xl"
-              style={{ imageRendering: 'crisp-edges' }}
-            />
-          </div>
+          {/* Banner Image - Removed to improve visibility */}
           
           <div className="flex items-center justify-between">
             <div className="flex-1">
