@@ -141,26 +141,24 @@ const WebcamDetection = () => {
                   <Square className="w-4 h-4 mr-2" />
                   {t('webcam.stop')}
                 </Button>
-                {detectionType === "cloud" && (
-                  <Button
-                    onClick={captureAndAnalyze}
-                    disabled={isAnalyzing}
-                    className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white"
-                    data-testid="analyze-btn"
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        {t('webcam.analyzing')}
-                      </>
-                    ) : (
-                      <>
-                        <Cloud className="w-4 h-4 mr-2" />
-                        {t('webcam.analyze')}
-                      </>
-                    )}
-                  </Button>
-                )}
+                <Button
+                  onClick={captureAndAnalyze}
+                  disabled={isAnalyzing}
+                  className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white"
+                  data-testid="analyze-btn"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      {t('webcam.analyzing')}
+                    </>
+                  ) : (
+                    <>
+                      <Cloud className="w-4 h-4 mr-2" />
+                      {t('webcam.analyze')}
+                    </>
+                  )}
+                </Button>
               </>
             )}
           </div>
