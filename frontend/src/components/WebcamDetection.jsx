@@ -62,7 +62,7 @@ const WebcamDetection = () => {
     try {
       const response = await axios.post(`${API}/detect/analyze-frame`, {
         source: "webcam",
-        detection_type: detectionType,
+        detection_type: "cloud",
         image_data: imageData
       });
 
