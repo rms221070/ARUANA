@@ -137,10 +137,17 @@ const WebcamDetection = () => {
 
       setLastDetection(response.data);
       
+      // Narrate the full description
+      if (response.data.description) {
+        narrate(response.data.description);
+      }
+      
       if (response.data.alerts_triggered && response.data.alerts_triggered.length > 0) {
-        toast.warning(`Alerta: ${response.data.alerts_triggered.join(", ")} detectado!`);
+        const alertMessage = `${t('toast.alertTriggered')} ${response.data.alerts_triggered.join(", ")} ${t('toast.detected')}`;
+        toast.warning(alertMessage);
+        narrate(alertMessage);
       } else {
-        toast.success("Análise concluída com sucesso!");
+        toast.success(t('toast.analyzeSuccess'));
       }
     } catch (error) {
       toast.error("Erro ao analisar frame: " + error.message);
