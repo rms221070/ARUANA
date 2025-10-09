@@ -36,7 +36,7 @@ const Dashboard = () => {
       className={`min-h-screen ${
         settings.highContrast 
           ? 'bg-black text-white' 
-          : 'bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-900'
+          : 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-800'
       }`}
     >
       {/* Sophisticated Scientific Header */}
