@@ -308,6 +308,141 @@ async def export_report(format: str = Query("json", regex="^(json|csv)$")):
             headers={"Content-Disposition": "attachment; filename=detections_report.csv"}
         )
 
+# Scientific Records Routes
+@api_router.post("/scientific-records", response_model=ScientificRecord)
+async def create_scientific_record(input: ScientificRecordCreate):
+    """Criar novo registro científico"""
+    record = ScientificRecord(**input.model_dump())
+    doc = record.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.scientific_records.insert_one(doc)
+    return record
+
+@api_router.get("/scientific-records", response_model=List[ScientificRecord])
+async def get_scientific_records(
+    record_type: Optional[str] = None,
+    research_line: Optional[str] = None,
+    limit: int = Query(100, ge=1, le=500)
+):
+    """Listar registros científicos"""
+    query = {}
+    if record_type:
+        query["record_type"] = record_type
+    if research_line:
+        query["research_line"] = research_line
+    
+    records = await db.scientific_records.find(query, {"_id": 0}).sort("created_at", -1).limit(limit).to_list(limit)
+    
+    for rec in records:
+        if isinstance(rec['created_at'], str):
+            rec['created_at'] = datetime.fromisoformat(rec['created_at'])
+    
+    return records
+
+@api_router.delete("/scientific-records/{record_id}")
+async def delete_scientific_record(record_id: str):
+    """Deletar registro científico"""
+    result = await db.scientific_records.delete_one({"id": record_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Record not found")
+    return {"message": "Record deleted"}
+
+# Intelligent Reports
+@api_router.post("/reports/intelligent")
+async def generate_intelligent_report(query: ReportQuery):
+    """Gerar relatório inteligente com análises"""
+    # Build query
+    db_query = {}
+    if query.start_date:
+        db_query["timestamp"] = {"$gte": query.start_date}
+    if query.end_date:
+        if "timestamp" in db_query:
+            db_query["timestamp"]["$lte"] = query.end_date
+        else:
+            db_query["timestamp"] = {"$lte": query.end_date}
+    
+    detections = await db.detections.find(db_query, {"_id": 0}).to_list(1000)
+    
+    # Analyze data
+    total_detections = len(detections)
+    webcam_count = sum(1 for d in detections if d.get('source') == 'webcam')
+    upload_count = sum(1 for d in detections if d.get('source') == 'upload')
+    
+    # Emotion analysis
+    emotions_data = {
+        "sorrindo": 0,
+        "serio": 0,
+        "triste": 0,
+        "surpreso": 0,
+        "zangado": 0,
+        "neutro": 0
+    }
+    
+    sentiment_data = {
+        "positivo": 0,
+        "neutro": 0,
+        "negativo": 0
+    }
+    
+    objects_count = {}
+    
+    for detection in detections:
+        # Count objects
+        for obj in detection.get('objects_detected', []):
+            label = obj.get('label', 'unknown')
+            objects_count[label] = objects_count.get(label, 0) + 1
+            
+            # Extract emotions if present
+            if 'emotions' in obj:
+                emotions = obj['emotions']
+                expr = emotions.get('expression', 'neutro')
+                if expr in emotions_data:
+                    emotions_data[expr] += 1
+                
+                sent = emotions.get('sentiment', 'neutro')
+                if sent in sentiment_data:
+                    sentiment_data[sent] += 1
+    
+    # Scientific records stats
+    scientific_records = await db.scientific_records.find({}, {"_id": 0}).to_list(1000)
+    records_by_type = {}
+    records_by_line = {}
+    
+    for rec in scientific_records:
+        rec_type = rec.get('record_type', 'unknown')
+        records_by_type[rec_type] = records_by_type.get(rec_type, 0) + 1
+        
+        line = rec.get('research_line', 'unknown')
+        records_by_line[line] = records_by_line.get(line, 0) + 1
+    
+    return {
+        "report_type": query.report_type,
+        "period": {
+            "start": query.start_date,
+            "end": query.end_date
+        },
+        "detections_summary": {
+            "total": total_detections,
+            "by_source": {
+                "webcam": webcam_count,
+                "upload": upload_count
+            }
+        },
+        "emotions_analysis": emotions_data,
+        "sentiment_analysis": sentiment_data,
+        "objects_detected": dict(sorted(objects_count.items(), key=lambda x: x[1], reverse=True)[:10]),
+        "scientific_records": {
+            "total": len(scientific_records),
+            "by_type": records_by_type,
+            "by_research_line": records_by_line
+        },
+        "insights": {
+            "most_detected_object": max(objects_count.items(), key=lambda x: x[1])[0] if objects_count else "N/A",
+            "dominant_emotion": max(emotions_data.items(), key=lambda x: x[1])[0] if any(emotions_data.values()) else "N/A",
+            "overall_sentiment": max(sentiment_data.items(), key=lambda x: x[1])[0] if any(sentiment_data.values()) else "N/A"
+        }
+    }
+
 # Include router
 app.include_router(api_router)
 
