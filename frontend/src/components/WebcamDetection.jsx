@@ -210,7 +210,7 @@ const WebcamDetection = () => {
                 data-testid="start-webcam-btn"
               >
                 <Camera className="w-4 h-4 mr-2" />
-                Iniciar Câmera
+                {t('webcam.start')}
               </Button>
             ) : (
               <>
