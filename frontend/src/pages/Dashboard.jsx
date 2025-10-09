@@ -41,7 +41,7 @@ const Dashboard = () => {
     >
       {/* Sophisticated Scientific Header */}
       <div className={`border-b ${
-        settings.highContrast ? 'border-white bg-black' : 'border-indigo-800/30 bg-gradient-to-r from-indigo-950/90 via-purple-950/90 to-slate-950/90 backdrop-blur-xl'
+        settings.highContrast ? 'border-white bg-black' : 'border-orange-500/30 bg-gradient-to-r from-blue-950/95 via-slate-900/95 to-blue-950/95 backdrop-blur-xl'
       } sticky top-0 z-50 shadow-2xl`}>
         <div className="container mx-auto px-4 py-4">
           {/* Banner Image */}
