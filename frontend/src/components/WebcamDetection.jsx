@@ -284,19 +284,19 @@ const WebcamDetection = () => {
               )}
 
               {lastDetection.alerts_triggered && lastDetection.alerts_triggered.length > 0 && (
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg" data-testid="alerts-triggered">
-                  <h3 className="font-semibold text-amber-800 mb-2 flex items-center gap-2">
+                <div className={`p-4 rounded-lg border ${settings.highContrast ? 'bg-yellow-900 border-yellow-500' : 'bg-amber-50 border-amber-200'}`} data-testid="alerts-triggered">
+                  <h3 className={`font-semibold mb-2 flex items-center gap-2 ${settings.highContrast ? 'text-yellow-200' : 'text-amber-800'}`}>
                     <Bell className="w-5 h-5" />
-                    Alertas Disparados:
+                    {t('webcam.alertsTriggered')}
                   </h3>
-                  <p className="text-amber-700">{lastDetection.alerts_triggered.join(", ")}</p>
+                  <p className={settings.highContrast ? 'text-yellow-100' : 'text-amber-700'}>{lastDetection.alerts_triggered.join(", ")}</p>
                 </div>
               )}
             </div>
           ) : (
-            <div className="text-center py-12 text-slate-400" data-testid="no-detection-message">
+            <div className={`text-center py-12 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`} data-testid="no-detection-message">
               <Camera className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>Nenhuma detecção realizada ainda</p>
+              <p>{t('webcam.noDetection')}</p>
             </div>
           )}
         </CardContent>
