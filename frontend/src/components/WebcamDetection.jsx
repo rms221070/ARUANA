@@ -108,30 +108,17 @@ const WebcamDetection = () => {
               className="w-full h-full object-cover"
               data-testid="webcam-video"
             />
-            <canvas
-              ref={canvasRef}
-              className="absolute top-0 left-0 w-full h-full pointer-events-none"
-              style={{ display: detectionType === "local" && isStreaming ? "block" : "none" }}
-              data-testid="detection-canvas"
-            />
           </div>
 
-          <RadioGroup value={detectionType} onValueChange={setDetectionType} data-testid="detection-type-selector">
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="local" id="local" data-testid="local-radio" />
-              <Label htmlFor="local" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
-                <Cpu className="w-4 h-4" />
-                {t('webcam.localDetection')}
-              </Label>
+          <div className={`p-3 rounded-lg ${settings.highContrast ? 'bg-gray-800 border border-gray-600' : 'bg-blue-50 border border-blue-200'}`}>
+            <div className={`flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-blue-800'}`}>
+              <Cloud className="w-4 h-4" />
+              <span className="text-sm font-medium">{t('webcam.cloudAnalysis')}</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="cloud" id="cloud" data-testid="cloud-radio" />
-              <Label htmlFor="cloud" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
-                <Cloud className="w-4 h-4" />
-                {t('webcam.cloudAnalysis')}
-              </Label>
-            </div>
-          </RadioGroup>
+            <p className={`text-xs mt-1 ${settings.highContrast ? 'text-gray-300' : 'text-blue-600'}`}>
+              {t('webcam.cloudDescription')}
+            </p>
+          </div>
 
           <div className="flex gap-3">
             {!isStreaming ? (
