@@ -100,7 +100,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="webcam" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="webcam-tab"
               aria-label={t('navigation.webcam')}
@@ -111,7 +111,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="upload" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="upload-tab"
               aria-label={t('navigation.upload')}
@@ -122,7 +122,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="history" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="history-tab"
               aria-label={t('navigation.history')}
@@ -133,7 +133,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="alerts" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="alerts-tab"
               aria-label={t('navigation.alerts')}
@@ -144,7 +144,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="reports" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="reports-tab"
               aria-label="Relatórios"
@@ -155,7 +155,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="collaboration" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="collaboration-tab"
               aria-label="Colaboração"
@@ -166,7 +166,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="about" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="about-tab"
               aria-label="Sobre"
@@ -177,7 +177,7 @@ const Dashboard = () => {
             <TabsTrigger 
               value="settings" 
               className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
               }`}
               data-testid="settings-tab"
               aria-label={t('navigation.settings')}
