@@ -150,7 +150,9 @@ const WebcamDetection = () => {
         toast.success(t('toast.analyzeSuccess'));
       }
     } catch (error) {
-      toast.error("Erro ao analisar frame: " + error.message);
+      const errorMsg = t('toast.analyzeError') + ": " + error.message;
+      toast.error(errorMsg);
+      narrate(errorMsg);
     } finally {
       setIsAnalyzing(false);
     }
