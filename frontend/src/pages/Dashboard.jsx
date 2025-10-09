@@ -68,7 +68,7 @@ const Dashboard = () => {
                   <h1 className={`text-3xl md:text-4xl font-bold ${
                     settings.highContrast 
                       ? 'text-white' 
-                      : 'bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent'
+                      : 'bg-gradient-to-r from-orange-400 via-white to-blue-400 bg-clip-text text-transparent'
                   } mb-1 tracking-tight`}>
                     {t('app.title')}
                   </h1>
