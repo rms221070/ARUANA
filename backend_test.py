@@ -7,7 +7,7 @@ from io import BytesIO
 from PIL import Image
 
 class DetectionSystemTester:
-    def __init__(self, base_url="https://object-spotter-1.preview.emergentagent.com"):
+    def __init__(self, base_url="https://ai-sight-4.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
