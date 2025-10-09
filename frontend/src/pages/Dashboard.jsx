@@ -95,7 +95,7 @@ const Dashboard = () => {
           <TabsList className={`grid w-full grid-cols-7 mb-8 ${
             settings.highContrast 
               ? 'bg-gray-900 border-2 border-white' 
-              : 'bg-gradient-to-r from-indigo-950/80 via-purple-950/80 to-slate-950/80 backdrop-blur-md shadow-2xl border border-indigo-700/30'
+              : 'bg-gradient-to-r from-blue-950/90 via-slate-900/90 to-blue-950/90 backdrop-blur-md shadow-2xl border border-orange-500/30'
           }`}>
             <TabsTrigger 
               value="webcam" 
