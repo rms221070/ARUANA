@@ -80,7 +80,7 @@ const Dashboard = () => {
                   <p className={`text-xs md:text-sm mt-2 ${
                     settings.highContrast ? 'text-gray-400' : 'text-indigo-300/80'
                   } font-light italic tracking-wide`}>
-                    INTELIGÊNCIA ARTIFICIAL E VISÃO COMPUTACIONAL NA CONSTRUÇÃO DE EXPERIÊNCIAS INTERATIVAS
+                    "ARUANÃ": INTELIGÊNCIA ARTIFICIAL E VISÃO COMPUTACIONAL NA CONSTRUÇÃO DE EXPERIÊNCIAS INTERATIVAS
                   </p>
                 </div>
               </div>
