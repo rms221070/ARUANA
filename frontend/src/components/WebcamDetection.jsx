@@ -160,11 +160,11 @@ const WebcamDetection = () => {
 
   return (
     <div className="grid lg:grid-cols-2 gap-6" data-testid="webcam-detection-container">
-      <Card className="bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
+      <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/90 backdrop-blur-sm border-indigo-200 shadow-xl'}`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl text-slate-800">
-            <Camera className="w-6 h-6 text-blue-600" />
-            Captura de Vídeo
+          <CardTitle className={`flex items-center gap-2 text-2xl ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>
+            <Camera className={`w-6 h-6 ${settings.highContrast ? 'text-white' : 'text-indigo-600'}`} />
+            {t('webcam.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
