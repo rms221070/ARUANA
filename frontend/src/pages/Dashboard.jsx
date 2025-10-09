@@ -205,16 +205,46 @@ const Dashboard = () => {
             <IntelligentReports />
           </TabsContent>
 
-          <TabsContent value="admin" data-testid="admin-content">
-            <AdminDashboard />
+          <TabsContent value="collaboration" data-testid="collaboration-content">
+            <ScientificCollaboration />
           </TabsContent>
 
           <TabsContent value="about" data-testid="about-content">
-            <About />
+            <div className="space-y-6">
+              <About />
+              <Card className={`${
+                settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-gradient-to-br from-indigo-950/90 to-purple-950/90 backdrop-blur-xl border-indigo-700/30'
+              }`}>
+                <CardHeader>
+                  <CardTitle className={`flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-cyan-300'}`}>
+                    <Bell className="w-6 h-6" />
+                    Alertas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <AlertsManager />
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="settings" data-testid="settings-content">
-            <Settings />
+            <div className="space-y-6">
+              <Settings />
+              <Card className={`${
+                settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-gradient-to-br from-indigo-950/90 to-purple-950/90 backdrop-blur-xl border-indigo-700/30'
+              }`}>
+                <CardHeader>
+                  <CardTitle className={`flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-cyan-300'}`}>
+                    <Shield className="w-6 h-6" />
+                    Dashboard Administrativo
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <AdminDashboard />
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
