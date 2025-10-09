@@ -200,6 +200,14 @@ const Dashboard = () => {
             <AlertsManager />
           </TabsContent>
 
+          <TabsContent value="reports" data-testid="reports-content">
+            <IntelligentReports />
+          </TabsContent>
+
+          <TabsContent value="admin" data-testid="admin-content">
+            <AdminDashboard />
+          </TabsContent>
+
           <TabsContent value="about" data-testid="about-content">
             <About />
           </TabsContent>
