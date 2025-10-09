@@ -73,6 +73,11 @@ const Dashboard = () => {
                   } mb-1 tracking-tight`}>
                     {t('app.title')}
                   </h1>
+                  <h2 className={`text-lg md:text-xl font-semibold ${
+                    settings.highContrast ? 'text-gray-300' : 'text-blue-200'
+                  } mb-2 tracking-wide`}>
+                    Laboratório de Comunicação Celular (LCC)
+                  </h2>
                   <p className={`text-sm md:text-base mt-2 ${
                     settings.highContrast ? 'text-gray-400' : 'text-orange-300/90'
                   } font-light italic tracking-wide`}>
