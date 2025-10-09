@@ -139,6 +139,28 @@ const Dashboard = () => {
               <span className="hidden sm:inline">{t('navigation.alerts')}</span>
             </TabsTrigger>
             <TabsTrigger 
+              value="reports" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
+              data-testid="reports-tab"
+              aria-label="Relatórios"
+            >
+              <BarChart3 className="w-5 h-5" />
+              <span className="hidden sm:inline">Relatórios</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="admin" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
+              data-testid="admin-tab"
+              aria-label="Admin"
+            >
+              <Shield className="w-5 h-5" />
+              <span className="hidden sm:inline">Admin</span>
+            </TabsTrigger>
+            <TabsTrigger 
               value="about" 
               className={`flex items-center gap-2 ${
                 settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
