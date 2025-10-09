@@ -496,6 +496,124 @@ async def generate_intelligent_report(query: ReportQuery):
         }
     }
 
+# Social Network Routes
+@api_router.post("/researchers", response_model=ResearcherProfile)
+async def create_researcher_profile(input: ResearcherProfileCreate):
+    """Criar perfil de pesquisador"""
+    profile = ResearcherProfile(**input.model_dump())
+    doc = profile.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.researchers.insert_one(doc)
+    return profile
+
+@api_router.get("/researchers", response_model=List[ResearcherProfile])
+async def get_researchers(limit: int = Query(50, ge=1, le=100)):
+    """Listar pesquisadores"""
+    researchers = await db.researchers.find({}, {"_id": 0}).sort("created_at", -1).limit(limit).to_list(limit)
+    for r in researchers:
+        if isinstance(r['created_at'], str):
+            r['created_at'] = datetime.fromisoformat(r['created_at'])
+    return researchers
+
+@api_router.get("/researchers/{researcher_id}", response_model=ResearcherProfile)
+async def get_researcher(researcher_id: str):
+    """Obter perfil de pesquisador"""
+    researcher = await db.researchers.find_one({"id": researcher_id}, {"_id": 0})
+    if not researcher:
+        raise HTTPException(status_code=404, detail="Researcher not found")
+    if isinstance(researcher['created_at'], str):
+        researcher['created_at'] = datetime.fromisoformat(researcher['created_at'])
+    return ResearcherProfile(**researcher)
+
+@api_router.delete("/researchers/{researcher_id}")
+async def delete_researcher(researcher_id: str):
+    """Deletar pesquisador"""
+    result = await db.researchers.delete_one({"id": researcher_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Researcher not found")
+    return {"message": "Researcher deleted"}
+
+@api_router.post("/posts", response_model=Post)
+async def create_post(input: PostCreate):
+    """Criar post"""
+    post = Post(**input.model_dump())
+    doc = post.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.posts.insert_one(doc)
+    return post
+
+@api_router.get("/posts", response_model=List[Post])
+async def get_posts(limit: int = Query(50, ge=1, le=100)):
+    """Listar posts"""
+    posts = await db.posts.find({}, {"_id": 0}).sort("created_at", -1).limit(limit).to_list(limit)
+    for p in posts:
+        if isinstance(p['created_at'], str):
+            p['created_at'] = datetime.fromisoformat(p['created_at'])
+    return posts
+
+@api_router.post("/posts/{post_id}/like")
+async def like_post(post_id: str):
+    """Curtir post"""
+    result = await db.posts.update_one(
+        {"id": post_id},
+        {"$inc": {"likes": 1}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return {"message": "Post liked"}
+
+@api_router.delete("/posts/{post_id}")
+async def delete_post(post_id: str):
+    """Deletar post"""
+    result = await db.posts.delete_one({"id": post_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Post not found")
+    # Delete associated comments
+    await db.comments.delete_many({"post_id": post_id})
+    return {"message": "Post deleted"}
+
+@api_router.post("/comments", response_model=Comment)
+async def create_comment(input: CommentCreate):
+    """Criar comentário"""
+    comment = Comment(**input.model_dump())
+    doc = comment.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.comments.insert_one(doc)
+    
+    # Increment comments count on post
+    await db.posts.update_one(
+        {"id": input.post_id},
+        {"$inc": {"comments_count": 1}}
+    )
+    
+    return comment
+
+@api_router.get("/comments/{post_id}", response_model=List[Comment])
+async def get_comments(post_id: str):
+    """Listar comentários de um post"""
+    comments = await db.comments.find({"post_id": post_id}, {"_id": 0}).sort("created_at", 1).to_list(1000)
+    for c in comments:
+        if isinstance(c['created_at'], str):
+            c['created_at'] = datetime.fromisoformat(c['created_at'])
+    return comments
+
+@api_router.delete("/comments/{comment_id}")
+async def delete_comment(comment_id: str):
+    """Deletar comentário"""
+    comment = await db.comments.find_one({"id": comment_id})
+    if not comment:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    
+    await db.comments.delete_one({"id": comment_id})
+    
+    # Decrement comments count on post
+    await db.posts.update_one(
+        {"id": comment['post_id']},
+        {"$inc": {"comments_count": -1}}
+    )
+    
+    return {"message": "Comment deleted"}
+
 # Include router
 app.include_router(api_router)
 
