@@ -6,7 +6,8 @@ import UploadDetection from "@/components/UploadDetection";
 import DetectionHistory from "@/components/DetectionHistory";
 import AlertsManager from "@/components/AlertsManager";
 import Settings from "@/components/Settings";
-import { Camera, Upload, History, Bell, Settings as SettingsIcon, Eye } from "lucide-react";
+import About from "@/components/About";
+import { Camera, Upload, History, Bell, Settings as SettingsIcon, Info } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 
 const Dashboard = () => {
@@ -30,55 +31,72 @@ const Dashboard = () => {
       className={`min-h-screen ${
         settings.highContrast 
           ? 'bg-black text-white' 
-          : 'bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50'
+          : 'bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-900'
       }`}
     >
-      {/* Hero Header */}
+      {/* Sophisticated Scientific Header */}
       <div className={`border-b ${
-        settings.highContrast ? 'border-white bg-black' : 'border-indigo-200 bg-white/80 backdrop-blur-md'
-      } sticky top-0 z-50 shadow-lg`}>
-        <div className="container mx-auto px-4 py-6">
+        settings.highContrast ? 'border-white bg-black' : 'border-indigo-800/30 bg-gradient-to-r from-indigo-950/90 via-purple-950/90 to-slate-950/90 backdrop-blur-xl'
+      } sticky top-0 z-50 shadow-2xl`}>
+        <div className="container mx-auto px-4 py-4">
+          {/* Banner Image */}
+          <div className="flex items-center justify-center mb-4">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_object-spotter-1/artifacts/e1glcn5g_banner_oswaldo_125.jpg" 
+              alt="IOC/Fiocruz Banner"
+              className="h-24 object-contain filter drop-shadow-2xl"
+              style={{ imageRendering: 'crisp-edges' }}
+            />
+          </div>
+          
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className={`p-3 rounded-2xl ${
-                settings.highContrast ? 'bg-white' : 'bg-gradient-to-br from-indigo-600 to-purple-600'
-              } shadow-xl`}>
-                <Eye className={`w-8 h-8 ${settings.highContrast ? 'text-black' : 'text-white'}`} />
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <div className={`p-2 rounded-xl ${
+                  settings.highContrast ? 'bg-white' : 'bg-gradient-to-br from-cyan-500 to-blue-600'
+                } shadow-2xl animate-pulse-slow`}>
+                  <svg className={`w-8 h-8 ${settings.highContrast ? 'text-black' : 'text-white'}`} fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h1 className={`text-3xl md:text-4xl font-bold ${
+                    settings.highContrast 
+                      ? 'text-white' 
+                      : 'bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent'
+                  } mb-1 tracking-tight`}>
+                    {t('app.title')}
+                  </h1>
+                  <p className={`text-sm md:text-base ${
+                    settings.highContrast ? 'text-gray-300' : 'text-cyan-300/90'
+                  } font-light tracking-wide`}>
+                    {t('app.subtitle')}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className={`text-3xl md:text-4xl font-bold ${
-                  settings.highContrast 
-                    ? 'text-white' 
-                    : 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent'
-                } mb-1`}>
-                  {t('app.title')}
-                </h1>
-                <p className={`text-sm md:text-base ${
-                  settings.highContrast ? 'text-gray-300' : 'text-slate-600'
-                }`}>
-                  {t('app.subtitle')}
-                </p>
+              <div className={`flex items-center gap-2 text-xs ${
+                settings.highContrast ? 'text-gray-400' : 'text-indigo-300/80'
+              }`}>
+                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                <span className="font-light italic">{t('app.description')}</span>
               </div>
             </div>
           </div>
-          <p className={`mt-3 text-sm ${
-            settings.highContrast ? 'text-gray-400' : 'text-slate-500'
-          } italic`}>
-            {t('app.description')}
-          </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full" data-testid="main-tabs">
-          <TabsList className={`grid w-full grid-cols-5 mb-8 ${
+          <TabsList className={`grid w-full grid-cols-6 mb-8 ${
             settings.highContrast 
               ? 'bg-gray-900 border-2 border-white' 
-              : 'bg-white/90 backdrop-blur-sm shadow-xl border border-indigo-200'
+              : 'bg-gradient-to-r from-indigo-950/80 via-purple-950/80 to-slate-950/80 backdrop-blur-md shadow-2xl border border-indigo-700/30'
           }`}>
             <TabsTrigger 
               value="webcam" 
-              className="flex items-center gap-2"
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
               data-testid="webcam-tab"
               aria-label={t('navigation.webcam')}
             >
@@ -87,7 +105,9 @@ const Dashboard = () => {
             </TabsTrigger>
             <TabsTrigger 
               value="upload" 
-              className="flex items-center gap-2" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
               data-testid="upload-tab"
               aria-label={t('navigation.upload')}
             >
@@ -96,7 +116,9 @@ const Dashboard = () => {
             </TabsTrigger>
             <TabsTrigger 
               value="history" 
-              className="flex items-center gap-2" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
               data-testid="history-tab"
               aria-label={t('navigation.history')}
             >
@@ -105,7 +127,9 @@ const Dashboard = () => {
             </TabsTrigger>
             <TabsTrigger 
               value="alerts" 
-              className="flex items-center gap-2" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
               data-testid="alerts-tab"
               aria-label={t('navigation.alerts')}
             >
@@ -113,8 +137,21 @@ const Dashboard = () => {
               <span className="hidden sm:inline">{t('navigation.alerts')}</span>
             </TabsTrigger>
             <TabsTrigger 
+              value="about" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
+              data-testid="about-tab"
+              aria-label="Sobre"
+            >
+              <Info className="w-5 h-5" />
+              <span className="hidden sm:inline">Sobre</span>
+            </TabsTrigger>
+            <TabsTrigger 
               value="settings" 
-              className="flex items-center gap-2" 
+              className={`flex items-center gap-2 ${
+                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 data-[state=active]:text-white'
+              }`}
               data-testid="settings-tab"
               aria-label={t('navigation.settings')}
             >
@@ -137,6 +174,10 @@ const Dashboard = () => {
 
           <TabsContent value="alerts" data-testid="alerts-content">
             <AlertsManager />
+          </TabsContent>
+
+          <TabsContent value="about" data-testid="about-content">
+            <About />
           </TabsContent>
 
           <TabsContent value="settings" data-testid="settings-content">
