@@ -188,16 +188,16 @@ const WebcamDetection = () => {
           <RadioGroup value={detectionType} onValueChange={setDetectionType} data-testid="detection-type-selector">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="local" id="local" data-testid="local-radio" />
-              <Label htmlFor="local" className="flex items-center gap-2 cursor-pointer">
+              <Label htmlFor="local" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
                 <Cpu className="w-4 h-4" />
-                Detecção Local (TensorFlow.js)
+                {t('webcam.localDetection')}
               </Label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="cloud" id="cloud" data-testid="cloud-radio" />
-              <Label htmlFor="cloud" className="flex items-center gap-2 cursor-pointer">
+              <Label htmlFor="cloud" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
                 <Cloud className="w-4 h-4" />
-                Análise em Nuvem (Gemini Vision)
+                {t('webcam.cloudAnalysis')}
               </Label>
             </div>
           </RadioGroup>
