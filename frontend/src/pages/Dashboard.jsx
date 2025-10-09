@@ -72,13 +72,8 @@ const Dashboard = () => {
                   } mb-1 tracking-tight`}>
                     {t('app.title')}
                   </h1>
-                  <p className={`text-sm md:text-base ${
-                    settings.highContrast ? 'text-gray-300' : 'text-cyan-300/90'
-                  } font-light tracking-wide`}>
-                    {t('app.subtitle')}
-                  </p>
-                  <p className={`text-xs md:text-sm mt-2 ${
-                    settings.highContrast ? 'text-gray-400' : 'text-indigo-300/80'
+                  <p className={`text-sm md:text-base mt-2 ${
+                    settings.highContrast ? 'text-gray-400' : 'text-orange-300/90'
                   } font-light italic tracking-wide`}>
                     "ARUANÃ": INTELIGÊNCIA ARTIFICIAL E VISÃO COMPUTACIONAL NA CONSTRUÇÃO DE EXPERIÊNCIAS INTERATIVAS
                   </p>
