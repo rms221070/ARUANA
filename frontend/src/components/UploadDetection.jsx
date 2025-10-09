@@ -133,22 +133,15 @@ const UploadDetection = () => {
                 </Button>
               </div>
 
-              <RadioGroup value={detectionType} onValueChange={setDetectionType} data-testid="upload-detection-type">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="local" id="upload-local" data-testid="upload-local-radio" />
-                  <Label htmlFor="upload-local" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
-                    <Cpu className="w-4 h-4" />
-                    {t('webcam.localDetection')}
-                  </Label>
+              <div className={`p-3 rounded-lg ${settings.highContrast ? 'bg-gray-800 border border-gray-600' : 'bg-blue-50 border border-blue-200'}`}>
+                <div className={`flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-blue-800'}`}>
+                  <Cloud className="w-4 h-4" />
+                  <span className="text-sm font-medium">{t('webcam.cloudAnalysis')}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="cloud" id="upload-cloud" data-testid="upload-cloud-radio" />
-                  <Label htmlFor="upload-cloud" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
-                    <Cloud className="w-4 h-4" />
-                    {t('webcam.cloudAnalysis')}
-                  </Label>
-                </div>
-              </RadioGroup>
+                <p className={`text-xs mt-1 ${settings.highContrast ? 'text-gray-300' : 'text-blue-600'}`}>
+                  {t('webcam.cloudDescription')}
+                </p>
+              </div>
 
               <Button
                 onClick={analyzeImage}
