@@ -67,6 +67,38 @@ class AlertCreate(BaseModel):
     object_name: str
     enabled: bool = True
 
+class ScientificRecord(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    record_type: str  # "atividade", "trabalho", "artigo", "tcc"
+    title: str
+    authors: List[str] = []
+    description: str
+    keywords: List[str] = []
+    research_line: str  # 1, 2, 3, ou 4
+    status: str = "em_andamento"  # em_andamento, concluído, publicado
+    date: str
+    attachments: List[str] = []
+    metadata: dict = {}
+
+class ScientificRecordCreate(BaseModel):
+    record_type: str
+    title: str
+    authors: List[str]
+    description: str
+    keywords: List[str]
+    research_line: str
+    status: str = "em_andamento"
+    date: str
+    attachments: List[str] = []
+    metadata: dict = {}
+
+class ReportQuery(BaseModel):
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    report_type: str = "general"  # general, emotions, objects, scientific
+
 # Routes
 @api_router.get("/")
 async def root():
