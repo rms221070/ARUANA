@@ -257,15 +257,15 @@ const WebcamDetection = () => {
           {lastDetection ? (
             <div className="space-y-4" data-testid="detection-results">
               <div>
-                <h3 className="font-semibold text-lg text-slate-700 mb-2">Descrição:</h3>
-                <p className="text-slate-600 leading-relaxed" data-testid="detection-description">
+                <h3 className={`font-semibold text-lg mb-2 ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>{t('webcam.description')}</h3>
+                <p className={`leading-relaxed ${settings.highContrast ? 'text-gray-300' : 'text-slate-600'}`} data-testid="detection-description">
                   {lastDetection.description}
                 </p>
               </div>
 
               {lastDetection.objects_detected && lastDetection.objects_detected.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-lg text-slate-700 mb-2">Objetos Detectados:</h3>
+                  <h3 className={`font-semibold text-lg mb-2 ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>{t('webcam.objectsDetected')}</h3>
                   <div className="space-y-2" data-testid="detected-objects-list">
                     {lastDetection.objects_detected.map((obj, idx) => (
                       <div
