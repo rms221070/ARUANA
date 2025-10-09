@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -6,11 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Upload, Loader2, X, Image as ImageIcon, Cloud, Cpu } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
+import { useSettings } from "@/context/SettingsContext";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const UploadDetection = () => {
+  const { t } = useTranslation();
+  const { settings, narrate } = useSettings();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -27,6 +31,7 @@ const UploadDetection = () => {
       };
       reader.readAsDataURL(file);
       setResult(null);
+      narrate(t('upload.title'));
     }
   };
 
@@ -40,6 +45,8 @@ const UploadDetection = () => {
     if (!selectedFile || !previewUrl) return;
 
     setIsAnalyzing(true);
+    narrate(t('webcam.analyzing'));
+    
     try {
       const response = await axios.post(`${API}/detect/analyze-frame`, {
         source: "upload",
@@ -49,13 +56,22 @@ const UploadDetection = () => {
 
       setResult(response.data);
       
+      // Narrate the full description
+      if (response.data.description) {
+        narrate(response.data.description);
+      }
+      
       if (response.data.alerts_triggered && response.data.alerts_triggered.length > 0) {
-        toast.warning(`Alerta: ${response.data.alerts_triggered.join(", ")} detectado!`);
+        const alertMessage = `${t('toast.alertTriggered')} ${response.data.alerts_triggered.join(", ")} ${t('toast.detected')}`;
+        toast.warning(alertMessage);
+        narrate(alertMessage);
       } else {
-        toast.success("Análise concluída com sucesso!");
+        toast.success(t('toast.analyzeSuccess'));
       }
     } catch (error) {
-      toast.error("Erro ao analisar imagem: " + error.message);
+      const errorMsg = t('toast.analyzeError') + ": " + error.message;
+      toast.error(errorMsg);
+      narrate(errorMsg);
     } finally {
       setIsAnalyzing(false);
     }
@@ -63,26 +79,30 @@ const UploadDetection = () => {
 
   return (
     <div className="grid lg:grid-cols-2 gap-6" data-testid="upload-detection-container">
-      <Card className="bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
+      <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/90 backdrop-blur-sm border-indigo-200 shadow-xl'}`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl text-slate-800">
-            <Upload className="w-6 h-6 text-blue-600" />
-            Upload de Imagem
+          <CardTitle className={`flex items-center gap-2 text-2xl ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>
+            <Upload className={`w-6 h-6 ${settings.highContrast ? 'text-white' : 'text-indigo-600'}`} />
+            {t('upload.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {!previewUrl ? (
             <label
               htmlFor="file-upload"
-              className="flex flex-col items-center justify-center w-full h-80 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors"
+              className={`flex flex-col items-center justify-center w-full h-80 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                settings.highContrast 
+                  ? 'border-white bg-gray-800 hover:bg-gray-700' 
+                  : 'border-slate-300 bg-slate-50 hover:bg-slate-100'
+              }`}
               data-testid="upload-dropzone"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <Upload className="w-16 h-16 mb-4 text-slate-400" />
-                <p className="mb-2 text-sm text-slate-600">
-                  <span className="font-semibold">Clique para fazer upload</span> ou arraste e solte
+                <Upload className={`w-16 h-16 mb-4 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`} />
+                <p className={`mb-2 text-sm ${settings.highContrast ? 'text-gray-300' : 'text-slate-600'}`}>
+                  <span className="font-semibold">{t('upload.dropzone')}</span>
                 </p>
-                <p className="text-xs text-slate-500">PNG, JPG ou JPEG</p>
+                <p className={`text-xs ${settings.highContrast ? 'text-gray-400' : 'text-slate-500'}`}>{t('upload.formats')}</p>
               </div>
               <input
                 id="file-upload"
@@ -116,16 +136,16 @@ const UploadDetection = () => {
               <RadioGroup value={detectionType} onValueChange={setDetectionType} data-testid="upload-detection-type">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="local" id="upload-local" data-testid="upload-local-radio" />
-                  <Label htmlFor="upload-local" className="flex items-center gap-2 cursor-pointer">
+                  <Label htmlFor="upload-local" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
                     <Cpu className="w-4 h-4" />
-                    Detecção Local
+                    {t('webcam.localDetection')}
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="cloud" id="upload-cloud" data-testid="upload-cloud-radio" />
-                  <Label htmlFor="upload-cloud" className="flex items-center gap-2 cursor-pointer">
+                  <Label htmlFor="upload-cloud" className={`flex items-center gap-2 cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
                     <Cloud className="w-4 h-4" />
-                    Análise em Nuvem
+                    {t('webcam.cloudAnalysis')}
                   </Label>
                 </div>
               </RadioGroup>
@@ -133,18 +153,18 @@ const UploadDetection = () => {
               <Button
                 onClick={analyzeImage}
                 disabled={isAnalyzing}
-                className="w-full bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
                 data-testid="analyze-upload-btn"
               >
                 {isAnalyzing ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Analisando...
+                    {t('webcam.analyzing')}
                   </>
                 ) : (
                   <>
                     <Cloud className="w-4 h-4 mr-2" />
-                    Analisar Imagem
+                    {t('upload.analyze')}
                   </>
                 )}
               </Button>
@@ -153,34 +173,36 @@ const UploadDetection = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
+      <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/90 backdrop-blur-sm border-indigo-200 shadow-xl'}`}>
         <CardHeader>
-          <CardTitle className="text-2xl text-slate-800">Resultados da Análise</CardTitle>
+          <CardTitle className={`text-2xl ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>{t('upload.results')}</CardTitle>
         </CardHeader>
         <CardContent>
           {result ? (
             <div className="space-y-4" data-testid="upload-results">
               <div>
-                <h3 className="font-semibold text-lg text-slate-700 mb-2">Descrição:</h3>
-                <p className="text-slate-600 leading-relaxed" data-testid="upload-description">
+                <h3 className={`font-semibold text-lg mb-2 ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>{t('webcam.description')}</h3>
+                <p className={`leading-relaxed ${settings.highContrast ? 'text-gray-300' : 'text-slate-600'}`} data-testid="upload-description">
                   {result.description}
                 </p>
               </div>
 
               {result.objects_detected && result.objects_detected.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-lg text-slate-700 mb-2">Objetos Detectados:</h3>
+                  <h3 className={`font-semibold text-lg mb-2 ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>{t('webcam.objectsDetected')}</h3>
                   <div className="space-y-2" data-testid="upload-objects-list">
                     {result.objects_detected.map((obj, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200"
+                        className={`flex items-center justify-between p-3 rounded-lg border ${
+                          settings.highContrast ? 'bg-gray-800 border-gray-600' : 'bg-slate-50 border-slate-200'
+                        }`}
                         data-testid={`upload-object-${idx}`}
                       >
                         <div>
-                          <span className="font-medium text-slate-700">{obj.label}</span>
+                          <span className={`font-medium ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>{obj.label}</span>
                           {obj.description && (
-                            <p className="text-sm text-slate-500 mt-1">{obj.description}</p>
+                            <p className={`text-sm mt-1 ${settings.highContrast ? 'text-gray-400' : 'text-slate-500'}`}>{obj.description}</p>
                           )}
                         </div>
                         <span className="text-sm text-emerald-600 font-semibold">
@@ -193,16 +215,18 @@ const UploadDetection = () => {
               )}
 
               {result.alerts_triggered && result.alerts_triggered.length > 0 && (
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg" data-testid="upload-alerts">
-                  <h3 className="font-semibold text-amber-800 mb-2">Alertas Disparados:</h3>
-                  <p className="text-amber-700">{result.alerts_triggered.join(", ")}</p>
+                <div className={`p-4 rounded-lg border ${
+                  settings.highContrast ? 'bg-yellow-900 border-yellow-500' : 'bg-amber-50 border-amber-200'
+                }`} data-testid="upload-alerts">
+                  <h3 className={`font-semibold mb-2 ${settings.highContrast ? 'text-yellow-200' : 'text-amber-800'}`}>{t('webcam.alertsTriggered')}</h3>
+                  <p className={settings.highContrast ? 'text-yellow-100' : 'text-amber-700'}>{result.alerts_triggered.join(", ")}</p>
                 </div>
               )}
             </div>
           ) : (
-            <div className="text-center py-12 text-slate-400" data-testid="no-upload-results">
+            <div className={`text-center py-12 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`} data-testid="no-upload-results">
               <ImageIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>Faça upload de uma imagem para análise</p>
+              <p>{t('upload.noResults')}</p>
             </div>
           )}
         </CardContent>
