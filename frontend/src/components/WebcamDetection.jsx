@@ -45,9 +45,6 @@ const WebcamDetection = () => {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
     }
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
     setIsStreaming(false);
   };
 
