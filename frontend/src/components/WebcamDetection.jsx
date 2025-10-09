@@ -48,49 +48,6 @@ const WebcamDetection = () => {
     setIsStreaming(false);
   };
 
-  const detectObjects = async () => {
-    if (!videoRef.current || !canvasRef.current || !model) return;
-
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-
-    const detect = async () => {
-      if (video.readyState === 4) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        const predictions = await model.detect(video);
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        predictions.forEach(prediction => {
-          const [x, y, width, height] = prediction.bbox;
-          
-          ctx.strokeStyle = "#10b981";
-          ctx.lineWidth = 3;
-          ctx.strokeRect(x, y, width, height);
-          
-          ctx.fillStyle = "#10b981";
-          ctx.font = "18px Space Grotesk";
-          const text = `${prediction.class} ${Math.round(prediction.score * 100)}%`;
-          const textWidth = ctx.measureText(text).width;
-          ctx.fillRect(x, y - 25, textWidth + 10, 25);
-          
-          ctx.fillStyle = "white";
-          ctx.fillText(text, x + 5, y - 7);
-        });
-      }
-
-      if (isStreaming) {
-        animationFrameRef.current = requestAnimationFrame(detect);
-      }
-    };
-
-    detect();
-  };
-
   const captureAndAnalyze = async () => {
     if (!videoRef.current) return;
 
