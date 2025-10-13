@@ -436,7 +436,7 @@ class DetectionSystemTester:
         draw.ellipse([100, 50, 200, 150], fill='peachpuff', outline='black', width=2)
         
         # Hair
-        draw.ellipse([95, 45, 205, 120], fill='brown', outline='darkbrown')
+        draw.ellipse([95, 45, 205, 120], fill='#8B4513', outline='#654321')  # Brown colors
         
         # Eyes with more detail
         draw.ellipse([120, 85, 135, 100], fill='white')  # Left eye white
@@ -445,8 +445,8 @@ class DetectionSystemTester:
         draw.ellipse([170, 90, 175, 95], fill='blue')    # Right iris
         
         # Eyebrows
-        draw.ellipse([118, 80, 137, 85], fill='brown')
-        draw.ellipse([163, 80, 182, 85], fill='brown')
+        draw.ellipse([118, 80, 137, 85], fill='#8B4513')  # Brown
+        draw.ellipse([163, 80, 182, 85], fill='#8B4513')  # Brown
         
         # Nose
         draw.ellipse([145, 105, 155, 120], fill='pink')
@@ -455,7 +455,7 @@ class DetectionSystemTester:
         draw.arc([130, 125, 170, 145], start=0, end=180, fill='red', width=3)
         
         # Body/clothing
-        draw.rectangle([125, 150, 175, 300], fill='blue', outline='darkblue')  # Shirt
+        draw.rectangle([125, 150, 175, 300], fill='blue', outline='navy')  # Shirt
         
         # Arms
         draw.rectangle([100, 170, 125, 280], fill='peachpuff')  # Left arm
@@ -463,10 +463,10 @@ class DetectionSystemTester:
         
         # Add some accessories
         # Necklace
-        draw.ellipse([140, 160, 160, 170], outline='gold', width=2)
+        draw.ellipse([140, 160, 160, 170], outline='#FFD700', width=2)  # Gold
         
         # Watch on wrist
-        draw.rectangle([95, 260, 105, 270], fill='silver', outline='black')
+        draw.rectangle([95, 260, 105, 270], fill='#C0C0C0', outline='black')  # Silver
         
         buffer = BytesIO()
         img.save(buffer, format='JPEG')
