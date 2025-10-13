@@ -519,8 +519,8 @@ class DetectionSystemTester:
 
     def run_all_tests(self):
         """Run all backend tests"""
-        print("🚀 Starting Backend API Tests for Detection System")
-        print("=" * 60)
+        print("🚀 Starting Backend API Tests for Enhanced Person Analysis System")
+        print("=" * 70)
         
         # Test basic connectivity
         self.test_root_endpoint()
@@ -534,8 +534,15 @@ class DetectionSystemTester:
         # Test frame analysis (core functionality)
         self.test_analyze_frame()
         
-        # Test NEW emotion and sentiment analysis features
+        # Test emotion and sentiment analysis features
         self.test_emotion_sentiment_analysis()
+        
+        # Test NEW ENHANCED FEATURES - Ultra-detailed person analysis
+        print("\n🔍 Testing Enhanced Person Analysis Features:")
+        print("-" * 50)
+        self.test_enhanced_person_analysis()
+        self.test_prompt_enhancement_validation()
+        self.test_api_response_times()
         
         # Test deep sentiment analysis endpoint
         self.test_deep_sentiment_analysis()
@@ -544,7 +551,7 @@ class DetectionSystemTester:
         self.test_export_reports()
         
         # Print summary
-        print("\n" + "=" * 60)
+        print("\n" + "=" * 70)
         print(f"📊 Test Summary: {self.tests_passed}/{self.tests_run} tests passed")
         print(f"Success Rate: {(self.tests_passed/self.tests_run)*100:.1f}%")
         
@@ -554,6 +561,8 @@ class DetectionSystemTester:
             print("\n❌ Failed Tests:")
             for test in failed_tests:
                 print(f"  - {test['test_name']}: {test['details']}")
+        else:
+            print("\n✅ All tests passed successfully!")
         
         return self.tests_passed == self.tests_run
 
