@@ -83,6 +83,25 @@
     "highContrast": "Alto Contraste",
     "fontSize": "Tamaño de Fuente"
   },
+  "emotions": {
+    "title": "Análisis de Emociones",
+    "smiling": "Sonriendo",
+    "serious": "Serio",
+    "sad": "Triste", 
+    "surprised": "Sorprendido",
+    "angry": "Enojado",
+    "neutral": "Neutro",
+    "person": "persona",
+    "people": "personas"
+  },
+  "sentiments": {
+    "title": "Análisis de Sentimientos",
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+    "person": "persona",
+    "people": "personas"
+  },
   "toast": {
     "webcamError": "Error al acceder a la webcam",
     "analyzeError": "Error al analizar",
