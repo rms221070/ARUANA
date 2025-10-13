@@ -601,17 +601,17 @@ async def generate_intelligent_report(query: ReportQuery):
             objects_count[label] = objects_count.get(label, 0) + 1
             
         # Extract emotions from detection-level analysis
-        if 'emotion_analysis' in detection:
+        if 'emotion_analysis' in detection and detection['emotion_analysis']:
             emotion_data = detection['emotion_analysis']
             for emotion, count in emotion_data.items():
-                if emotion in emotions_data:
+                if emotion in emotions_data and isinstance(count, int):
                     emotions_data[emotion] += count
                     
-        # Extract sentiment from detection-level analysis
-        if 'sentiment_analysis' in detection:
+        # Extract sentiment from detection-level analysis  
+        if 'sentiment_analysis' in detection and detection['sentiment_analysis']:
             sentiment_analysis = detection['sentiment_analysis']
             for sentiment, count in sentiment_analysis.items():
-                if sentiment in sentiment_data:
+                if sentiment in sentiment_data and isinstance(count, int):
                     sentiment_data[sentiment] += count
     
     # Scientific records stats
