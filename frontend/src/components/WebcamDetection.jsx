@@ -71,12 +71,27 @@ const WebcamDetection = () => {
     if (!videoRef.current) return;
 
     setIsAnalyzing(true);
+    narrate(t('webcam.capturingImage'));
+    
+    // Create canvas with better quality settings
     const canvas = document.createElement("canvas");
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
+    const video = videoRef.current;
+    canvas.width = video.videoWidth || 1280;
+    canvas.height = video.videoHeight || 720;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(videoRef.current, 0, 0);
-    const imageData = canvas.toDataURL("image/jpeg", 0.8);
+    
+    // Draw the current frame
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = canvas.toDataURL("image/jpeg", 0.9); // Higher quality
+    
+    // Show captured image preview
+    setCapturedImage(imageData);
+    setShowPreview(true);
+    
+    // Stop the camera stream to show the captured image clearly
+    stopWebcam();
+    
+    narrate(t('webcam.imageCapturedd') + '. ' + t('webcam.analyzingImage'));
 
     try {
       const response = await axios.post(`${API}/detect/analyze-frame`, {
@@ -87,9 +102,12 @@ const WebcamDetection = () => {
 
       setLastDetection(response.data);
       
-      // Narrate the full description
+      // Enhanced narration with more details
       if (response.data.description) {
-        narrate(response.data.description);
+        const detailedNarration = t('webcam.analysisComplete') + '. ' + 
+                                  t('webcam.detectionResults') + ': ' + 
+                                  response.data.description;
+        narrate(detailedNarration);
       }
       
       if (response.data.alerts_triggered && response.data.alerts_triggered.length > 0) {
@@ -98,6 +116,7 @@ const WebcamDetection = () => {
         narrate(alertMessage);
       } else {
         toast.success(t('toast.analyzeSuccess'));
+        narrate(t('toast.analyzeSuccess'));
       }
     } catch (error) {
       const errorMsg = t('toast.analyzeError') + ": " + error.message;
@@ -106,6 +125,14 @@ const WebcamDetection = () => {
     } finally {
       setIsAnalyzing(false);
     }
+  };
+
+  const retakePhoto = () => {
+    setCapturedImage(null);
+    setShowPreview(false);
+    setLastDetection(null);
+    startWebcam();
+    narrate(t('webcam.retakingPhoto'));
   };
 
   return (
