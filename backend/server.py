@@ -256,8 +256,23 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
   ],
   "description": "DESCRIÇÃO NARRATIVA EXTREMAMENTE RICA E DETALHADA da cena completa em português brasileiro, como se estivesse contando para uma pessoa cega com todos os detalhes visuais possíveis",
   "overall_sentiment": "análise profunda do sentimento e atmosfera geral da cena",
-  "accessibility_notes": "informações específicas para acessibilidade e navegação"
-}"""
+  "accessibility_notes": "informações específicas para acessibilidade e navegação",
+  "emotion_analysis": {
+    "sorrindo": 0,
+    "serio": 0,
+    "triste": 0,
+    "surpreso": 0,
+    "zangado": 0,
+    "neutro": 0
+  },
+  "sentiment_analysis": {
+    "positivo": 0,
+    "neutro": 0,
+    "negativo": 0
+  }
+}
+
+IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na imagem apresentam cada emoção/sentimento. Por exemplo, se há 3 pessoas sorrindo, coloque "sorrindo": 3. Se há 2 pessoas com sentimento positivo, coloque "positivo": 2."""
             
             user_message = UserMessage(
                 text=prompt,
