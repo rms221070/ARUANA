@@ -96,6 +96,25 @@
     "highContrast": "High Contrast",
     "fontSize": "Font Size"
   },
+  "emotions": {
+    "title": "Emotion Analysis",
+    "smiling": "Smiling",
+    "serious": "Serious",
+    "sad": "Sad", 
+    "surprised": "Surprised",
+    "angry": "Angry",
+    "neutral": "Neutral",
+    "person": "person",
+    "people": "people"
+  },
+  "sentiments": {
+    "title": "Sentiment Analysis",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative",
+    "person": "person",
+    "people": "people"
+  },
   "toast": {
     "webcamError": "Error accessing webcam",
     "analyzeError": "Error analyzing",
