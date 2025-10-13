@@ -60,7 +60,17 @@ class DetectionSystemTester:
                     details += f", Response: {response.text[:200]}"
 
             self.log_test(name, success, details)
-            return success, response.json() if success and response.content else {}
+            
+            # Handle different response types
+            if success and response.content:
+                if 'application/json' in response.headers.get('content-type', ''):
+                    return success, response.json()
+                elif 'text/csv' in response.headers.get('content-type', ''):
+                    return success, {"csv_content": response.text}
+                else:
+                    return success, {"content": response.text}
+            else:
+                return success, {}
 
         except Exception as e:
             self.log_test(name, False, f"Exception: {str(e)}")
