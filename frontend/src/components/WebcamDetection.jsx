@@ -64,6 +64,7 @@ const WebcamDetection = () => {
       streamRef.current = null;
     }
     setIsStreaming(false);
+    narrate(t('webcam.cameraStopped'));
   };
 
   const captureAndAnalyze = async () => {
