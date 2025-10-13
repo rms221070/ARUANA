@@ -243,10 +243,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Mobile camera improvements"
-    - "Enhanced AI analysis prompts"
-    - "Enhanced accessibility narration"
-    - "Researcher names display"
+    - "Emotion Analysis Models Implementation"
+    - "Sentiment Analysis Models Implementation"
+    - "Enhanced AI Analysis Endpoint"
+    - "Database Integration for Emotion/Sentiment Data"
+    - "Deep Sentiment Analysis Endpoint"
+    - "Intelligent Reports with Emotion Data"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
