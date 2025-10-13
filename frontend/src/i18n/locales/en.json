@@ -51,7 +51,17 @@
     "captured": "Captured",
     "retake": "Retake Photo",
     "retakingPhoto": "Preparing for new photo",
-    "analyzeCapture": "Analyze Photo"
+    "analyzeCapture": "Analyze Photo",
+    "cameraSelection": "Camera Selection",
+    "frontCamera": "front camera",
+    "rearCamera": "rear camera",
+    "switchToFront": "Front",
+    "switchToRear": "Rear",
+    "currentCamera": "Current camera",
+    "usingCamera": "Using",
+    "switchingToCamera": "Switching to",
+    "multipleCamerasDetected": "Multiple cameras detected. You can switch between them.",
+    "detailedPersonAnalysis": "Detailed person analysis including physical characteristics, clothing, brands and accessories"
   },
   "upload": {
     "title": "Image Upload",
