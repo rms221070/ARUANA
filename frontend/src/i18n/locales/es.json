@@ -14,7 +14,8 @@
   "webcam": {
     "title": "Captura de Video",
     "start": "Iniciar Cámara",
-    "stop": "Detener",
+    "stop": "Parar",
+    "capture": "Capturar y Analizar",
     "analyze": "Analizar Escena",
     "analyzing": "Analizando...",
     "cloudAnalysis": "Análisis en la Nube (Gemini Vision)",
@@ -23,7 +24,21 @@
     "description": "Descripción:",
     "objectsDetected": "Objetos Detectados:",
     "alertsTriggered": "Alertas Activadas:",
-    "noDetection": "Aún no se ha realizado ninguna detección"
+    "noDetection": "Ninguna detección realizada aún",
+    "accessibilityDescription": "Interfaz de captura de video con análisis de IA para accesibilidad",
+    "cameraStarted": "Cámara iniciada con éxito",
+    "cameraStopped": "Cámara detenida",
+    "cameraError": "Error de acceso a la cámara",
+    "capturingImage": "Capturando imagen",
+    "imageCapturedd": "Imagen capturada",
+    "analyzingImage": "Analizando imagen con inteligencia artificial",
+    "analysisComplete": "Análisis completo",
+    "detectionResults": "Resultados de detección",
+    "capturedImage": "Imagen capturada",
+    "captured": "Capturada",
+    "retake": "Nueva Foto",
+    "retakingPhoto": "Preparando nueva foto",
+    "analyzeCapture": "Analizar Foto"
   },
   "upload": {
     "title": "Subir Imagen",
