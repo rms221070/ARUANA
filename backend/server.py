@@ -63,6 +63,8 @@ class Detection(BaseModel):
     description: str = ""
     image_data: Optional[str] = None  # base64 encoded
     alerts_triggered: List[str] = []
+    emotion_analysis: Optional[EmotionAnalysis] = None
+    sentiment_analysis: Optional[SentimentAnalysis] = None
 
 class DetectionCreate(BaseModel):
     source: str
