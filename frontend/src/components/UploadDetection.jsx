@@ -225,6 +225,14 @@ const UploadDetection = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Análise de Emoções e Sentimentos */}
+      {result && (result.emotion_analysis || result.sentiment_analysis) && (
+        <EmotionAnalysis 
+          emotionData={result.emotion_analysis}
+          sentimentData={result.sentiment_analysis}
+        />
+      )}
     </div>
   );
 };
