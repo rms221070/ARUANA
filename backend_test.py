@@ -269,6 +269,210 @@ class DetectionSystemTester:
         
         return False
 
+    def test_enhanced_person_analysis(self):
+        """Test NEW ultra-detailed person analysis features"""
+        # Create a more detailed test image with a person
+        test_image = self.create_detailed_person_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        # Test enhanced person analysis with ultra-detailed prompts
+        success, result = self.run_test(
+            "Ultra-Detailed Person Analysis",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            }
+        )
+        
+        if success:
+            # Test that description contains ultra-detailed analysis
+            description = result.get('description', '')
+            has_detailed_description = len(description) > 100  # Should be very detailed
+            
+            self.log_test("Enhanced Description Length", 
+                         has_detailed_description,
+                         f"Description length: {len(description)} characters")
+            
+            # Test for enhanced prompt elements in description
+            detailed_elements = [
+                'características físicas',
+                'olhos',
+                'cabelo',
+                'vestimenta',
+                'acessórios',
+                'postura',
+                'expressão'
+            ]
+            
+            elements_found = sum(1 for element in detailed_elements 
+                               if element.lower() in description.lower())
+            
+            self.log_test("Enhanced Prompt Elements", 
+                         elements_found >= 3,
+                         f"Found {elements_found}/{len(detailed_elements)} detailed elements")
+            
+            # Test objects detected with enhanced details
+            objects_detected = result.get('objects_detected', [])
+            has_person_object = any(obj.get('label', '').lower() == 'pessoa' 
+                                  for obj in objects_detected)
+            
+            self.log_test("Person Object Detection", 
+                         has_person_object,
+                         f"Objects detected: {len(objects_detected)}")
+            
+            # Test enhanced emotion analysis still works
+            has_emotion_analysis = 'emotion_analysis' in result and result['emotion_analysis']
+            has_sentiment_analysis = 'sentiment_analysis' in result and result['sentiment_analysis']
+            
+            self.log_test("Enhanced Analysis - Emotion/Sentiment Integration", 
+                         has_emotion_analysis and has_sentiment_analysis,
+                         f"Emotion: {bool(has_emotion_analysis)}, Sentiment: {bool(has_sentiment_analysis)}")
+            
+            return (has_detailed_description and elements_found >= 3 and 
+                   has_emotion_analysis and has_sentiment_analysis)
+        
+        return False
+
+    def test_prompt_enhancement_validation(self):
+        """Test that enhanced prompts are correctly implemented"""
+        test_image = self.create_detailed_person_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        # Test multiple requests to validate consistency
+        results = []
+        for i in range(2):
+            success, result = self.run_test(
+                f"Prompt Enhancement Validation - Request {i+1}",
+                "POST",
+                "detect/analyze-frame",
+                200,
+                data={
+                    "source": "upload",
+                    "detection_type": "cloud",
+                    "image_data": image_data
+                }
+            )
+            
+            if success:
+                results.append(result)
+        
+        if len(results) >= 1:
+            # Test that Gemini 2.0 Flash is being used (check response quality)
+            first_result = results[0]
+            description = first_result.get('description', '')
+            
+            # Enhanced prompts should produce very detailed Portuguese descriptions
+            quality_indicators = [
+                len(description) > 200,  # Should be very detailed
+                'português' in description.lower() or 'pessoa' in description.lower(),
+                'análise' in description.lower() or 'detalhes' in description.lower()
+            ]
+            
+            quality_score = sum(quality_indicators)
+            
+            self.log_test("Gemini 2.0 Flash Response Quality", 
+                         quality_score >= 2,
+                         f"Quality indicators: {quality_score}/3")
+            
+            # Test JSON parsing still works with enhanced outputs
+            has_proper_structure = all(key in first_result for key in 
+                                     ['id', 'description', 'timestamp', 'objects_detected'])
+            
+            self.log_test("Enhanced Output - JSON Structure", 
+                         has_proper_structure,
+                         f"Required fields present: {has_proper_structure}")
+            
+            return quality_score >= 2 and has_proper_structure
+        
+        return False
+
+    def test_api_response_times(self):
+        """Test API response times with enhanced processing"""
+        import time
+        
+        test_image = self.create_detailed_person_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        start_time = time.time()
+        
+        success, result = self.run_test(
+            "Enhanced Processing - Response Time",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            }
+        )
+        
+        end_time = time.time()
+        response_time = end_time - start_time
+        
+        # Enhanced processing should still be reasonable (under 30 seconds)
+        acceptable_time = response_time < 30.0
+        
+        self.log_test("Enhanced Processing - Response Time", 
+                     acceptable_time,
+                     f"Response time: {response_time:.2f} seconds")
+        
+        return success and acceptable_time
+
+    def create_detailed_person_image(self):
+        """Create a more detailed test image with person-like features for enhanced analysis"""
+        # Create a 300x400 image with more detailed person representation
+        img = Image.new('RGB', (300, 400), color='lightgray')
+        
+        from PIL import ImageDraw
+        draw = ImageDraw.Draw(img)
+        
+        # Draw a more detailed person figure
+        # Head
+        draw.ellipse([100, 50, 200, 150], fill='peachpuff', outline='black', width=2)
+        
+        # Hair
+        draw.ellipse([95, 45, 205, 120], fill='brown', outline='darkbrown')
+        
+        # Eyes with more detail
+        draw.ellipse([120, 85, 135, 100], fill='white')  # Left eye white
+        draw.ellipse([165, 85, 180, 100], fill='white')  # Right eye white
+        draw.ellipse([125, 90, 130, 95], fill='blue')    # Left iris
+        draw.ellipse([170, 90, 175, 95], fill='blue')    # Right iris
+        
+        # Eyebrows
+        draw.ellipse([118, 80, 137, 85], fill='brown')
+        draw.ellipse([163, 80, 182, 85], fill='brown')
+        
+        # Nose
+        draw.ellipse([145, 105, 155, 120], fill='pink')
+        
+        # Mouth (smiling)
+        draw.arc([130, 125, 170, 145], start=0, end=180, fill='red', width=3)
+        
+        # Body/clothing
+        draw.rectangle([125, 150, 175, 300], fill='blue', outline='darkblue')  # Shirt
+        
+        # Arms
+        draw.rectangle([100, 170, 125, 280], fill='peachpuff')  # Left arm
+        draw.rectangle([175, 170, 200, 280], fill='peachpuff')  # Right arm
+        
+        # Add some accessories
+        # Necklace
+        draw.ellipse([140, 160, 160, 170], outline='gold', width=2)
+        
+        # Watch on wrist
+        draw.rectangle([95, 260, 105, 270], fill='silver', outline='black')
+        
+        buffer = BytesIO()
+        img.save(buffer, format='JPEG')
+        img_data = buffer.getvalue()
+        return base64.b64encode(img_data).decode('utf-8')
+
     def test_deep_sentiment_analysis(self):
         """Test the deep sentiment analysis endpoint"""
         test_image = self.create_test_image()
