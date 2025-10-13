@@ -83,6 +83,25 @@
     "highContrast": "高对比度",
     "fontSize": "字体大小"
   },
+  "emotions": {
+    "title": "情绪分析",
+    "smiling": "微笑",
+    "serious": "严肃",
+    "sad": "悲伤", 
+    "surprised": "惊讶",
+    "angry": "愤怒",
+    "neutral": "中性",
+    "person": "人",
+    "people": "人"
+  },
+  "sentiments": {
+    "title": "情感分析",
+    "positive": "积极",
+    "neutral": "中性",
+    "negative": "消极",
+    "person": "人",
+    "people": "人"
+  },
   "toast": {
     "webcamError": "访问网络摄像头错误",
     "analyzeError": "分析错误",
