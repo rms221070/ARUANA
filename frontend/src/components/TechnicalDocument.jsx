@@ -711,10 +711,10 @@ DOI: [Pendente de submissão]
 
 O Sistema ARUANÃ foi concebido seguindo uma arquitetura de três camadas (Three-Tier Architecture):
 
-┌─────────────────────────────────────────────────────────────────┐
-│                    CAMADA DE APRESENTAÇÃO                        │
-│  (Frontend - React 19 + TailwindCSS + Shadcn UI)               │
-└─────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------+
+|                    CAMADA DE APRESENTAÇÃO                        |
+|  (Frontend - React 19 + TailwindCSS + Shadcn UI)               |
++-----------------------------------------------------------------+
                               ↕
 ┌─────────────────────────────────────────────────────────────────┐
 │                    CAMADA DE APLICAÇÃO                           │
