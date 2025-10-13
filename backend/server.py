@@ -198,18 +198,79 @@ async def analyze_frame(input: DetectionCreate):
             
             prompt = """Você é um assistente especialista em visão computacional para acessibilidade. Analise esta imagem em DETALHES EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição MUITO RICA para pessoas cegas ou com deficiência visual:
 
-1. **PESSOAS DETECTADAS** - Para cada pessoa, descreva MINUCIOSAMENTE:
-   - Características físicas: idade aproximada, gênero aparente, tipo físico, altura relativa
-   - Cabelos: cor, comprimento, estilo, textura
-   - Vestimenta COMPLETA: cores, tipos de roupa, estampas, tecidos, estilo
-   - Acessórios: óculos, joias, bolsas, chapéus, calçados
-   - Postura corporal: como está posicionado, direção do olhar
-   - **ANÁLISE EMOCIONAL AVANÇADA**:
-     * Expressão facial detalhada (microexpressões, tensões, relaxamentos)
-     * Estado emocional completo (feliz, triste, ansioso, confiante, cansado, etc)
-     * Sinais de humor e bem-estar
-     * Linguagem corporal (gesticulação, posição dos braços, pernas)
-   - Atividades: o que está fazendo, interações com outros ou objetos
+1. **PESSOAS DETECTADAS** - Para cada pessoa, descreva MINUCIOSAMENTE COM MÁXIMO DETALHAMENTO:
+   
+   **CARACTERÍSTICAS FÍSICAS DETALHADAS:**
+   - Idade aproximada e gênero aparente
+   - Tipo físico, altura e estrutura corporal
+   - Tom de pele (claro, médio, escuro, bronzeado, etc.)
+   - Formato do rosto (redondo, oval, quadrado, triangular)
+   
+   **OLHOS E EXPRESSÃO FACIAL:**
+   - Cor dos olhos (castanhos, azuis, verdes, mel, pretos, etc.)
+   - Formato e tamanho dos olhos
+   - Sobrancelhas (cor, formato, espessura)
+   - Expressão do olhar (direto, desviado, concentrado, etc.)
+   
+   **CABELOS DETALHADOS:**
+   - Cor exata (loiro platinado, castanho escuro, ruivo, grisalho, etc.)
+   - Comprimento (curtíssimo, curto, médio, longo, muito longo)
+   - Textura (liso, ondulado, cacheado, crespo)
+   - Penteado ou corte específico
+   - Produtos ou acessórios no cabelo
+   
+   **VESTIMENTA ULTRA DETALHADA:**
+   - Peças de roupa específicas (camiseta, camisa social, blusa, etc.)
+   - Cores exatas e combinações de cores
+   - Padrões e estampas (listras, xadrez, floral, geométrico, etc.)
+   - Tecidos aparentes (algodão, jeans, seda, lã, etc.)
+   - MARCAS VISÍVEIS: identifique logos, marcas ou escritos em roupas
+   - Estado da roupa (nova, usada, amarrotada, bem cuidada)
+   - Estilo (casual, formal, esportivo, alternativo, etc.)
+   
+   **BIJUTERIAS E ACESSÓRIOS COMPLETOS:**
+   - Brincos: tipo, tamanho, material aparente (ouro, prata, etc.)
+   - Colares: correntes, pingentes, materiais
+   - Pulseiras: quantidade, estilo, material
+   - Anéis: dedo, tipo, pedras ou detalhes
+   - Relógios: tipo, cor da pulseira, tamanho
+   - Óculos: formato, cor da armação, tipo de lente
+   - Piercings visíveis
+   - Tatuagens aparentes: localização e descrição
+   
+   **CALÇADOS E DETALHES:**
+   - Tipo de calçado (tênis, sapato social, sandália, etc.)
+   - Marca quando visível
+   - Cor e material
+   - Estado (novo, usado, limpo, sujo)
+   - Meias ou meia-calça visível
+   
+   **OUTROS ACESSÓRIOS:**
+   - Bolsas: tipo, tamanho, cor, marca se visível
+   - Chapéus ou bonés: estilo, cor, logos
+   - Lenços ou echarpes
+   - Cintos: cor, fivela, estilo
+   - Qualquer objeto que a pessoa está segurando
+   
+   **POSTURA E LINGUAGEM CORPORAL:**
+   - Posição do corpo (em pé, sentado, deitado, caminhando)
+   - Direção do olhar e para onde está olhando
+   - Posição dos braços e mãos
+   - Expressão facial completa
+   - Gestos que está fazendo
+   
+   **ANÁLISE EMOCIONAL AVANÇADA:**
+   - Expressão facial detalhada (sorriso, franzir de testa, etc.)
+   - Estado emocional aparente (feliz, triste, ansioso, relaxado, etc.)
+   - Microexpressões observáveis
+   - Linguagem corporal emocional
+   - Sinais de cansaço, energia, estresse, etc.
+   
+   **ATIVIDADES E CONTEXTO:**
+   - O que a pessoa está fazendo no momento
+   - Interações com outras pessoas
+   - Interação com objetos do ambiente
+   - Localização na cena
 
 2. **OBJETOS E ELEMENTOS** - Identifique TODOS os elementos visíveis:
    - Móveis: tipo, material aparente, cor, condição
