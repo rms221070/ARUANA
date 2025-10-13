@@ -302,6 +302,12 @@ class DetectionSystemTester:
         # Test frame analysis (core functionality)
         self.test_analyze_frame()
         
+        # Test NEW emotion and sentiment analysis features
+        self.test_emotion_sentiment_analysis()
+        
+        # Test deep sentiment analysis endpoint
+        self.test_deep_sentiment_analysis()
+        
         # Test export functionality
         self.test_export_reports()
         
