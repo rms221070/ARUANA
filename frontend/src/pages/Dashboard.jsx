@@ -70,7 +70,13 @@ const Dashboard = () => {
                   } mb-2 tracking-wide`}>
                     Laboratório de Comunicação Celular (LCC)
                   </h2>
-                  <p className={`text-sm md:text-base mt-2 ${
+                  <div className={`text-xs md:text-sm mt-3 space-y-1 ${
+                    settings.highContrast ? 'text-gray-300' : 'text-blue-200/90'
+                  } font-medium`}>
+                    <div>Aluno Pós-Doc: Ricardo Marciano dos Santos</div>
+                    <div>Supervisor Pós-Doc: Luiz Anastacio Alves</div>
+                  </div>
+                  <p className={`text-sm md:text-base mt-3 ${
                     settings.highContrast ? 'text-gray-400' : 'text-orange-300/90'
                   } font-light italic tracking-wide`}>
                     "ARUANÃ": INTELIGÊNCIA ARTIFICIAL E VISÃO COMPUTACIONAL NA CONSTRUÇÃO DE EXPERIÊNCIAS INTERATIVAS
