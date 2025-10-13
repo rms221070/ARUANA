@@ -6,11 +6,23 @@
   },
   "navigation": {
     "webcam": "Câmera",
-    "upload": "Upload",
+    "upload": "Upload", 
     "history": "Histórico",
     "alerts": "Alertas",
+    "reports": "Relatórios",
+    "collaboration": "Colaboração",
     "about": "Sobre",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "welcome": "Sistema de inteligência artificial para acessibilidade. Navegue pelas abas disponíveis para diferentes funcionalidades",
+    "navigatingTo": "Navegando para",
+    "webcamDescription": "Capture e analise imagens da webcam com inteligência artificial",
+    "uploadDescription": "Envie e analise imagens já existentes",
+    "historyDescription": "Visualize o histórico de detecções realizadas",
+    "alertsDescription": "Configure alertas para objetos específicos",
+    "reportsDescription": "Visualize relatórios inteligentes do sistema",
+    "collaborationDescription": "Rede de colaboração científica",
+    "aboutDescription": "Informações sobre o projeto e manual do sistema",
+    "settingsDescription": "Configure preferências de idioma e acessibilidade"
   },
   "webcam": {
     "title": "Captura de Vídeo",
