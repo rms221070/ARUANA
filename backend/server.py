@@ -181,49 +181,67 @@ async def analyze_frame(input: DetectionCreate):
             
             image_content = ImageContent(image_base64=image_data)
             
-            prompt = """Analise esta imagem em DETALHES e forneça EM PORTUGUÊS BRASILEIRO:
+            prompt = """Você é um assistente especialista em visão computacional para acessibilidade. Analise esta imagem em DETALHES EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição MUITO RICA para pessoas cegas ou com deficiência visual:
 
-1. **PESSOAS DETECTADAS**: Para cada pessoa, descreva:
-   - Características físicas (idade aproximada, gênero aparente, etnia)
-   - Vestimenta e acessórios
-   - Postura e linguagem corporal
-   - **ANÁLISE EMOCIONAL DETALHADA**:
-     * Expressão facial (sorrindo, sério, triste, surpreso, zangado, neutro)
-     * Estado emocional aparente (feliz, ansioso, relaxado, concentrado, etc)
-     * Nível de energia (alta, média, baixa)
-     * Indicadores de humor (se está positivo, negativo ou neutro)
-   - Ações que estão realizando
+1. **PESSOAS DETECTADAS** - Para cada pessoa, descreva MINUCIOSAMENTE:
+   - Características físicas: idade aproximada, gênero aparente, tipo físico, altura relativa
+   - Cabelos: cor, comprimento, estilo, textura
+   - Vestimenta COMPLETA: cores, tipos de roupa, estampas, tecidos, estilo
+   - Acessórios: óculos, joias, bolsas, chapéus, calçados
+   - Postura corporal: como está posicionado, direção do olhar
+   - **ANÁLISE EMOCIONAL AVANÇADA**:
+     * Expressão facial detalhada (microexpressões, tensões, relaxamentos)
+     * Estado emocional completo (feliz, triste, ansioso, confiante, cansado, etc)
+     * Sinais de humor e bem-estar
+     * Linguagem corporal (gesticulação, posição dos braços, pernas)
+   - Atividades: o que está fazendo, interações com outros ou objetos
 
-2. **OBJETOS DETECTADOS**: Liste todos os objetos visíveis com:
-   - Tipo e características
-   - Localização na cena
-   - Estado e condição
+2. **OBJETOS E ELEMENTOS** - Identifique TODOS os elementos visíveis:
+   - Móveis: tipo, material aparente, cor, condição
+   - Eletrônicos: dispositivos, estado (ligado/desligado), marcas visíveis
+   - Decoração: quadros, plantas, ornamentos
+   - Utensílios: ferramentas, livros, documentos, comida, bebida
+   - Arquitetura: portas, janelas, paredes, piso, teto
+   - Localização espacial: onde estão posicionados na cena
 
-3. **AMBIENTE/CENÁRIO**: Descreva:
-   - Tipo de local (interno/externo, residencial/comercial/público)
-   - Iluminação e atmosfera
-   - Condições gerais do ambiente
+3. **AMBIENTE COMPLETO**:
+   - Tipo específico de local (cozinha, sala, escritório, rua, parque, etc)
+   - Dimensões aparentes e layout espacial
+   - Iluminação: natural/artificial, intensa/suave, fonte de luz
+   - Clima e atmosfera: formal/informal, limpo/bagunçado, moderno/tradicional
+   - Sons que podem estar presentes (implícitos pela cena)
+   - Texturas visíveis: materiais, superfícies
 
-4. **ANÁLISE DE SENTIMENTO GERAL**: Avalie o clima emocional geral da cena
+4. **CONTEXTO E NARRATIVA**:
+   - O que está acontecendo na cena
+   - Possível história ou situação
+   - Relações entre pessoas e objetos
+   - Tempo provável (manhã, tarde, noite)
+
+5. **DETALHES DE ACESSIBILIDADE**:
+   - Obstáculos ou facilidades de mobilidade
+   - Elementos de segurança visíveis
+   - Pontos de referência importantes
 
 Forneça uma resposta JSON COMPLETA em português com esta estrutura:
 {
   "objects": [
     {
-      "label": "pessoa", 
+      "label": "pessoa/objeto", 
       "confidence": 0.95, 
-      "description": "descrição completa em português",
+      "description": "descrição extremamente detalhada em português",
       "emotions": {
-        "expression": "sorrindo/sério/triste/surpreso/zangado/neutro",
-        "emotional_state": "feliz/ansioso/relaxado/concentrado/etc",
+        "expression": "descrição completa da expressão",
+        "emotional_state": "estado emocional detalhado",
         "is_smiling": true/false,
-        "sentiment": "positivo/neutro/negativo",
-        "energy_level": "alta/média/baixa"
+        "sentiment": "análise completa do sentimento",
+        "energy_level": "nível de energia com explicação"
       }
     }
   ],
-  "description": "descrição geral da cena em português detalhado",
-  "overall_sentiment": "análise do sentimento geral da cena"
+  "description": "DESCRIÇÃO NARRATIVA EXTREMAMENTE RICA E DETALHADA da cena completa em português brasileiro, como se estivesse contando para uma pessoa cega com todos os detalhes visuais possíveis",
+  "overall_sentiment": "análise profunda do sentimento e atmosfera geral da cena",
+  "accessibility_notes": "informações específicas para acessibilidade e navegação"
 }"""
             
             user_message = UserMessage(
