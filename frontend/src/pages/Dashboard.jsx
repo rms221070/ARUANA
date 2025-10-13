@@ -29,7 +29,8 @@ const Dashboard = () => {
 
   const handleTabChange = (value) => {
     setActiveTab(value);
-    narrate(t(`navigation.${value}`));
+    const tabMessage = `${t('navigation.navigatingTo')} ${t(`navigation.${value}`)}. ${t(`navigation.${value}Description`)}`;
+    narrate(tabMessage);
   };
 
   return (
