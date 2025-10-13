@@ -31,41 +31,14 @@ const WebcamDetection = () => {
     };
   }, []);
 
-  // Detect available cameras
-  const detectCameras = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
-      setAvailableCameras(videoDevices);
-      
-      // Check if we have front and back cameras
-      const hasEnvironment = videoDevices.some(device => 
-        device.label.toLowerCase().includes('back') || 
-        device.label.toLowerCase().includes('rear') ||
-        device.label.toLowerCase().includes('environment')
-      );
-      const hasUser = videoDevices.some(device => 
-        device.label.toLowerCase().includes('front') || 
-        device.label.toLowerCase().includes('user') ||
-        device.label.toLowerCase().includes('facing')
-      );
-      
-      if (hasEnvironment && hasUser) {
-        narrate(t('webcam.multipleCamerasDetected'));
-      }
-    } catch (error) {
-      console.log("Error detecting cameras:", error);
-    }
-  };
-
   const startWebcam = async () => {
     try {
-      // Enhanced mobile camera configuration with camera selection
+      // Enhanced mobile camera configuration with preference for rear camera
       const constraints = {
         video: {
           width: { ideal: 1280, max: 1920 },
           height: { ideal: 720, max: 1080 },
-          facingMode: { ideal: cameraFacing },
+          facingMode: { ideal: "environment" }, // Use rear camera on mobile by default
           frameRate: { ideal: 30, max: 60 }
         }
       };
@@ -77,34 +50,13 @@ const WebcamDetection = () => {
         setIsStreaming(true);
         setCapturedImage(null);
         setShowPreview(false);
-        
-        // Announce which camera is being used
-        const cameraType = cameraFacing === "user" ? t('webcam.frontCamera') : t('webcam.rearCamera');
-        const message = t('webcam.cameraStarted') + '. ' + t('webcam.usingCamera') + ' ' + cameraType;
-        narrate(message);
+        narrate(t('webcam.cameraStarted'));
       }
     } catch (error) {
       const errorMsg = t('webcam.cameraError') + ": " + error.message;
       toast.error(errorMsg);
       narrate(errorMsg);
     }
-  };
-
-  const switchCamera = async () => {
-    const newFacing = cameraFacing === "user" ? "environment" : "user";
-    setCameraFacing(newFacing);
-    
-    if (isStreaming) {
-      stopWebcam();
-      // Small delay before starting new camera
-      setTimeout(() => {
-        setCameraFacing(newFacing);
-        setTimeout(startWebcam, 500);
-      }, 200);
-    }
-    
-    const cameraType = newFacing === "user" ? t('webcam.frontCamera') : t('webcam.rearCamera');
-    narrate(t('webcam.switchingToCamera') + ' ' + cameraType);
   };
 
   const stopWebcam = () => {
