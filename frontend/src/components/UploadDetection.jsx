@@ -8,6 +8,7 @@ import { Upload, Loader2, X, Image as ImageIcon, Cloud } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
+import EmotionAnalysis from "@/components/EmotionAnalysis";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
