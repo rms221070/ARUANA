@@ -5,8 +5,27 @@ from io import BytesIO
 from PIL import Image
 
 def create_test_image():
-    """Create a simple test image as base64"""
-    img = Image.new('RGB', (100, 100), color='red')
+    """Create a more realistic test image with a simple face-like pattern"""
+    # Create a 200x200 image with a simple face pattern
+    img = Image.new('RGB', (200, 200), color='lightblue')
+    
+    # Draw a simple face using PIL
+    from PIL import ImageDraw
+    draw = ImageDraw.Draw(img)
+    
+    # Face outline (circle)
+    draw.ellipse([50, 50, 150, 150], fill='peachpuff', outline='black')
+    
+    # Eyes
+    draw.ellipse([70, 80, 85, 95], fill='black')  # Left eye
+    draw.ellipse([115, 80, 130, 95], fill='black')  # Right eye
+    
+    # Nose
+    draw.ellipse([95, 100, 105, 110], fill='pink')
+    
+    # Mouth (smile)
+    draw.arc([80, 115, 120, 135], start=0, end=180, fill='red', width=3)
+    
     buffer = BytesIO()
     img.save(buffer, format='JPEG')
     img_data = buffer.getvalue()
