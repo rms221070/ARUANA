@@ -23,9 +23,8 @@ const WebcamDetection = () => {
   const streamRef = useRef(null);
 
   useEffect(() => {
-    // Narrate component when loaded and detect cameras
+    // Narrate component when loaded
     narrate(t('webcam.title') + '. ' + t('webcam.accessibilityDescription'));
-    detectCameras();
     
     return () => {
       stopWebcam();
