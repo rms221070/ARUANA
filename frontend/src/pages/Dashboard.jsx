@@ -22,8 +22,9 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("webcam");
 
   useEffect(() => {
-    // Narrate welcome message
-    narrate(t('app.title') + '. ' + t('app.subtitle'));
+    // Detailed welcome message with navigation info
+    const welcomeMessage = `${t('app.title')}. ${t('app.subtitle')}. ${t('navigation.welcome')}`;
+    narrate(welcomeMessage);
   }, []);
 
   const handleTabChange = (value) => {
