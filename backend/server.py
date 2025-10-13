@@ -295,6 +295,12 @@ IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na
                     DetectedObject(**obj) for obj in result.get('objects', [])
                 ]
                 detection.description = result.get('description', response)
+                
+                # Process emotion and sentiment analysis
+                if 'emotion_analysis' in result:
+                    detection.emotion_analysis = EmotionAnalysis(**result['emotion_analysis'])
+                if 'sentiment_analysis' in result:
+                    detection.sentiment_analysis = SentimentAnalysis(**result['sentiment_analysis'])
             except:
                 # If JSON parsing fails, use raw response
                 detection.description = response
