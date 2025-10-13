@@ -1,130 +1,124 @@
 {
   "summary": {
-    "total_tests": 20,
-    "passed_tests": 17,
-    "success_rate": 85.0,
-    "timestamp": "2025-10-13T02:13:25.191304"
+    "total_tests": 19,
+    "passed_tests": 19,
+    "success_rate": 100.0,
+    "timestamp": "2025-10-13T02:14:43.595082"
   },
   "detailed_results": [
     {
       "test_name": "Root API Endpoint",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:19.877099"
+      "timestamp": "2025-10-13T02:14:30.832752"
     },
     {
       "test_name": "Create Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:19.921688"
+      "timestamp": "2025-10-13T02:14:30.872881"
     },
     {
       "test_name": "Get Alerts",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:19.964282"
+      "timestamp": "2025-10-13T02:14:30.954055"
     },
     {
       "test_name": "Find Created Alert",
       "success": true,
-      "details": "Alert ID: afb8818c-5082-4b59-87fd-2809730ea2ac",
-      "timestamp": "2025-10-13T02:13:19.964830"
+      "details": "Alert ID: cc2a0a96-caba-48f4-9f71-c44e1b7535ab",
+      "timestamp": "2025-10-13T02:14:30.954706"
     },
     {
       "test_name": "Toggle Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:20.006361"
+      "timestamp": "2025-10-13T02:14:30.995690"
     },
     {
       "test_name": "Delete Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:20.045894"
+      "timestamp": "2025-10-13T02:14:31.033963"
     },
     {
       "test_name": "Get Detections",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:20.108934"
+      "timestamp": "2025-10-13T02:14:31.082598"
     },
     {
       "test_name": "Analyze Frame - Cloud",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:21.071767"
+      "timestamp": "2025-10-13T02:14:35.656714"
     },
     {
       "test_name": "Frame Analysis - Response Structure",
       "success": true,
       "details": "ID: True, Description: True, Timestamp: True",
-      "timestamp": "2025-10-13T02:13:21.072419"
+      "timestamp": "2025-10-13T02:14:35.657359"
     },
     {
       "test_name": "Analyze Frame - Local",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:21.112129"
+      "timestamp": "2025-10-13T02:14:35.696868"
     },
     {
       "test_name": "Enhanced AI Analysis - Emotion/Sentiment",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:22.144084"
+      "timestamp": "2025-10-13T02:14:40.085401"
     },
     {
       "test_name": "Emotion Analysis - Structure",
-      "success": false,
-      "details": "Present: True, Valid: False",
-      "timestamp": "2025-10-13T02:13:22.144746"
+      "success": true,
+      "details": "Present: True, Valid: True",
+      "timestamp": "2025-10-13T02:14:40.086052"
     },
     {
       "test_name": "Sentiment Analysis - Structure",
-      "success": false,
-      "details": "Present: True, Valid: False",
-      "timestamp": "2025-10-13T02:13:22.144762"
+      "success": true,
+      "details": "Present: True, Valid: True",
+      "timestamp": "2025-10-13T02:14:40.086072"
     },
     {
       "test_name": "Retrieve Detection with Emotion/Sentiment",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:22.181475"
+      "timestamp": "2025-10-13T02:14:40.146820"
     },
     {
       "test_name": "Database Integration - Emotion/Sentiment Storage",
       "success": true,
       "details": "Emotion saved: True, Sentiment saved: True",
-      "timestamp": "2025-10-13T02:13:22.182108"
+      "timestamp": "2025-10-13T02:14:40.147468"
     },
     {
       "test_name": "Deep Sentiment Analysis",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:25.056979"
+      "timestamp": "2025-10-13T02:14:43.482850"
     },
     {
       "test_name": "Deep Sentiment Analysis - Response Structure",
       "success": true,
       "details": "Sentiment: True, Methodology: True, People: True",
-      "timestamp": "2025-10-13T02:13:25.057629"
+      "timestamp": "2025-10-13T02:14:43.483520"
     },
     {
       "test_name": "Export Report - JSON",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:25.138604"
+      "timestamp": "2025-10-13T02:14:43.553214"
     },
     {
       "test_name": "Export Report - CSV",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T02:13:25.190360"
-    },
-    {
-      "test_name": "Export Report - CSV",
-      "success": false,
-      "details": "Exception: Expecting value: line 1 column 1 (char 0)",
-      "timestamp": "2025-10-13T02:13:25.190422"
+      "timestamp": "2025-10-13T02:14:43.594201"
     }
   ]
 }
