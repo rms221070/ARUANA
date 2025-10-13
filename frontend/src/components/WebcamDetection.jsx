@@ -16,10 +16,15 @@ const WebcamDetection = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastDetection, setLastDetection] = useState(null);
+  const [capturedImage, setCapturedImage] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
   useEffect(() => {
+    // Narrate component when loaded
+    narrate(t('webcam.title') + '. ' + t('webcam.accessibilityDescription'));
+    
     return () => {
       stopWebcam();
     };
