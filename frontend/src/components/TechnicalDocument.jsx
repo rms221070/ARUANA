@@ -8,19 +8,19 @@ const TechnicalDocument = () => {
   const { settings } = useSettings();
 
   const documentContent = `
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                                                                                                   ║
-║                              SISTEMA ARUANÃ - VISÃO ASSISTIVA                                   ║
-║          INTELIGÊNCIA ARTIFICIAL E ANÁLISE COMPUTACIONAL DE EMOÇÕES E SENTIMENTOS               ║
-║                              DOCUMENTO TÉCNICO CIENTÍFICO                                        ║
-║                                                                                                   ║
-║                    Laboratório de Comunicação Celular (LCC)                                     ║
-║                           Instituto Oswaldo Cruz (IOC/Fiocruz)                                   ║
-║                                                                                                   ║
-║                   Aluno Pós-Doc: Ricardo Marciano dos Santos                                     ║
-║                   Supervisor Pós-Doc: Luiz Anastacio Alves                                       ║
-║                                                                                                   ║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝
+=================================================================================================
+                                                                                                   
+                              SISTEMA ARUANÃ - VISÃO ASSISTIVA                                   
+          INTELIGÊNCIA ARTIFICIAL E ANÁLISE COMPUTACIONAL DE EMOÇÕES E SENTIMENTOS               
+                              DOCUMENTO TÉCNICO CIENTÍFICO                                        
+                                                                                                   
+                    Laboratório de Comunicação Celular (LCC)                                     
+                           Instituto Oswaldo Cruz (IOC/Fiocruz)                                   
+                                                                                                   
+                   Aluno Pós-Doc: Ricardo Marciano dos Santos                                     
+                   Supervisor Pós-Doc: Luiz Anastacio Alves                                       
+                                                                                                   
+=================================================================================================
 
 =====================================================================================================
 
