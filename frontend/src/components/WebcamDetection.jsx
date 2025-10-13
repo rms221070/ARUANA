@@ -222,13 +222,38 @@ const WebcamDetection = () => {
             )}
           </div>
 
+          {/* Camera Controls for Mobile */}
+          {availableCameras.length > 1 && (
+            <div className={`p-3 rounded-lg border ${settings.highContrast ? 'bg-gray-800 border-gray-600' : 'bg-orange-50 border-orange-200'}`}>
+              <div className="flex items-center justify-between">
+                <div className={`flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-orange-800'}`}>
+                  <Smartphone className="w-4 h-4" />
+                  <span className="text-sm font-medium">{t('webcam.cameraSelection')}</span>
+                </div>
+                <Button
+                  onClick={switchCamera}
+                  variant="outline"
+                  size="sm"
+                  className={`${settings.highContrast ? 'border-gray-400 text-gray-200' : 'border-orange-300 text-orange-700'} hover:bg-orange-100`}
+                  data-testid="switch-camera-btn"
+                >
+                  <RotateCcw className="w-3 h-3 mr-1" />
+                  {cameraFacing === "user" ? t('webcam.switchToRear') : t('webcam.switchToFront')}
+                </Button>
+              </div>
+              <p className={`text-xs mt-1 ${settings.highContrast ? 'text-gray-300' : 'text-orange-600'}`}>
+                {t('webcam.currentCamera')}: {cameraFacing === "user" ? t('webcam.frontCamera') : t('webcam.rearCamera')}
+              </p>
+            </div>
+          )}
+
           <div className={`p-3 rounded-lg ${settings.highContrast ? 'bg-gray-800 border border-gray-600' : 'bg-blue-50 border border-blue-200'}`}>
             <div className={`flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-blue-800'}`}>
               <Cloud className="w-4 h-4" />
               <span className="text-sm font-medium">{t('webcam.cloudAnalysis')}</span>
             </div>
             <p className={`text-xs mt-1 ${settings.highContrast ? 'text-gray-300' : 'text-blue-600'}`}>
-              {t('webcam.cloudDescription')}
+              {t('webcam.cloudDescription')} - {t('webcam.detailedPersonAnalysis')}
             </p>
           </div>
 
