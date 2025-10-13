@@ -309,15 +309,6 @@ const WebcamDetection = () => {
           sentimentData={lastDetection.sentiment_analysis}
         />
       )}
-          ) : (
-            <div className={`text-center py-12 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`} data-testid="no-detection-message">
-              <Camera className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>{t('webcam.noDetection')}</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
   );
 };
 
