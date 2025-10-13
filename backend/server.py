@@ -600,16 +600,19 @@ async def generate_intelligent_report(query: ReportQuery):
             label = obj.get('label', 'unknown')
             objects_count[label] = objects_count.get(label, 0) + 1
             
-            # Extract emotions if present
-            if 'emotions' in obj:
-                emotions = obj['emotions']
-                expr = emotions.get('expression', 'neutro')
-                if expr in emotions_data:
-                    emotions_data[expr] += 1
-                
-                sent = emotions.get('sentiment', 'neutro')
-                if sent in sentiment_data:
-                    sentiment_data[sent] += 1
+        # Extract emotions from detection-level analysis
+        if 'emotion_analysis' in detection:
+            emotion_data = detection['emotion_analysis']
+            for emotion, count in emotion_data.items():
+                if emotion in emotions_data:
+                    emotions_data[emotion] += count
+                    
+        # Extract sentiment from detection-level analysis
+        if 'sentiment_analysis' in detection:
+            sentiment_analysis = detection['sentiment_analysis']
+            for sentiment, count in sentiment_analysis.items():
+                if sentiment in sentiment_data:
+                    sentiment_data[sentiment] += count
     
     # Scientific records stats
     scientific_records = await db.scientific_records.find({}, {"_id": 0}).to_list(1000)
