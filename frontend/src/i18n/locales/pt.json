@@ -51,7 +51,17 @@
     "captured": "Capturada",
     "retake": "Nova Foto",
     "retakingPhoto": "Preparando para nova foto",
-    "analyzeCapture": "Analisar Foto"
+    "analyzeCapture": "Analisar Foto",
+    "cameraSelection": "Seleção de Câmera",
+    "frontCamera": "câmera frontal",
+    "rearCamera": "câmera traseira",
+    "switchToFront": "Frontal",
+    "switchToRear": "Traseira",
+    "currentCamera": "Câmera atual",
+    "usingCamera": "Usando",
+    "switchingToCamera": "Alternando para",
+    "multipleCamerasDetected": "Múltiplas câmeras detectadas. Você pode alternar entre elas.",
+    "detailedPersonAnalysis": "Análise detalhada de pessoas incluindo características físicas, roupas, marcas e acessórios"
   },
   "upload": {
     "title": "Upload de Imagem",
