@@ -170,9 +170,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "UI branding cleanup"
-    - "Header subtitle addition"
-    - "Visual interference removal"
+    - "Mobile camera improvements"
+    - "Enhanced AI analysis prompts"
+    - "Enhanced accessibility narration"
+    - "Researcher names display"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
