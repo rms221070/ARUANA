@@ -309,6 +309,7 @@ const WebcamDetection = () => {
           sentimentData={lastDetection.sentiment_analysis}
         />
       )}
+    </div>
   );
 };
 
