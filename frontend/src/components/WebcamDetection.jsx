@@ -301,6 +301,22 @@ const WebcamDetection = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Análise de Emoções e Sentimentos */}
+      {lastDetection && (lastDetection.emotion_analysis || lastDetection.sentiment_analysis) && (
+        <EmotionAnalysis 
+          emotionData={lastDetection.emotion_analysis}
+          sentimentData={lastDetection.sentiment_analysis}
+        />
+      )}
+          ) : (
+            <div className={`text-center py-12 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`} data-testid="no-detection-message">
+              <Camera className="w-16 h-16 mx-auto mb-4 opacity-50" />
+              <p>{t('webcam.noDetection')}</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };
