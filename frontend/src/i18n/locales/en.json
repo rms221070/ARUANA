@@ -6,10 +6,23 @@
   },
   "navigation": {
     "webcam": "Camera",
-    "upload": "Upload",
+    "upload": "Upload", 
     "history": "History",
     "alerts": "Alerts",
-    "settings": "Settings"
+    "reports": "Reports",
+    "collaboration": "Collaboration",
+    "about": "About",
+    "settings": "Settings",
+    "welcome": "Artificial intelligence system for accessibility. Navigate through available tabs for different features",
+    "navigatingTo": "Navigating to",
+    "webcamDescription": "Capture and analyze images from webcam with artificial intelligence",
+    "uploadDescription": "Upload and analyze existing images",
+    "historyDescription": "View detection history",
+    "alertsDescription": "Configure alerts for specific objects",
+    "reportsDescription": "View intelligent system reports",
+    "collaborationDescription": "Scientific collaboration network",
+    "aboutDescription": "Project information and system manual",
+    "settingsDescription": "Configure language and accessibility preferences"
   },
   "webcam": {
     "title": "Video Capture",
