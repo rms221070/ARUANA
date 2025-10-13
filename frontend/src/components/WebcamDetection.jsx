@@ -180,22 +180,45 @@ const WebcamDetection = () => {
             </p>
           </div>
 
-          <div className="flex gap-3">
-            {!isStreaming ? (
+          <div className="flex gap-3 flex-wrap">
+            {!isStreaming && !showPreview ? (
               <Button
                 onClick={startWebcam}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white"
+                className="flex-1 min-w-[200px] bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white"
                 data-testid="start-webcam-btn"
               >
                 <Camera className="w-4 h-4 mr-2" />
                 {t('webcam.start')}
               </Button>
+            ) : showPreview ? (
+              <>
+                <Button
+                  onClick={retakePhoto}
+                  variant="outline"
+                  className="flex-1 min-w-[140px]"
+                  data-testid="retake-btn"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  {t('webcam.retake')}
+                </Button>
+                {!isAnalyzing && !lastDetection && (
+                  <Button
+                    onClick={() => captureAndAnalyze()}
+                    disabled={isAnalyzing}
+                    className="flex-1 min-w-[140px] bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white"
+                    data-testid="analyze-captured-btn"
+                  >
+                    <Cloud className="w-4 h-4 mr-2" />
+                    {t('webcam.analyzeCapture')}
+                  </Button>
+                )}
+              </>
             ) : (
               <>
                 <Button
                   onClick={stopWebcam}
                   variant="destructive"
-                  className="flex-1"
+                  className="flex-1 min-w-[100px]"
                   data-testid="stop-webcam-btn"
                 >
                   <Square className="w-4 h-4 mr-2" />
@@ -204,8 +227,8 @@ const WebcamDetection = () => {
                 <Button
                   onClick={captureAndAnalyze}
                   disabled={isAnalyzing}
-                  className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white"
-                  data-testid="analyze-btn"
+                  className="flex-1 min-w-[140px] bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white"
+                  data-testid="capture-analyze-btn"
                 >
                   {isAnalyzing ? (
                     <>
@@ -214,8 +237,8 @@ const WebcamDetection = () => {
                     </>
                   ) : (
                     <>
-                      <Cloud className="w-4 h-4 mr-2" />
-                      {t('webcam.analyze')}
+                      <Camera className="w-4 h-4 mr-2" />
+                      {t('webcam.capture')}
                     </>
                   )}
                 </Button>
