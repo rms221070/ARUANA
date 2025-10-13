@@ -35,6 +35,19 @@ api_router = APIRouter(prefix="/api")
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', '')
 
 # Models
+class EmotionAnalysis(BaseModel):
+    sorrindo: int = 0
+    serio: int = 0
+    triste: int = 0
+    surpreso: int = 0
+    zangado: int = 0
+    neutro: int = 0
+
+class SentimentAnalysis(BaseModel):
+    positivo: int = 0
+    neutro: int = 0
+    negativo: int = 0
+
 class DetectedObject(BaseModel):
     label: str
     confidence: float
