@@ -19,8 +19,6 @@ const WebcamDetection = () => {
   const [lastDetection, setLastDetection] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [cameraFacing, setCameraFacing] = useState("environment"); // "user" for front, "environment" for rear
-  const [availableCameras, setAvailableCameras] = useState([]);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
