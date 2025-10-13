@@ -1474,12 +1474,12 @@ SUPERVISOR: Luiz Anastacio Alves
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `Documento_Tecnico_ARUANA_${new Date().toISOString().split('T')[0]}.txt`);
+    link.setAttribute('download', 'ARUANA_E-Book_Tecnico_Cientifico_v2.0.txt');
     document.body.appendChild(link);
     link.click();
     link.remove();
     window.URL.revokeObjectURL(url);
-    toast.success("Documento técnico baixado com sucesso!");
+    toast.success("E-book técnico científico exportado!");
   };
 
   return (
