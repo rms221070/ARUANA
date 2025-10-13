@@ -146,14 +146,28 @@ const WebcamDetection = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="relative aspect-video bg-slate-900 rounded-lg overflow-hidden" data-testid="video-container">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-              data-testid="webcam-video"
-            />
+            {showPreview && capturedImage ? (
+              <div className="relative w-full h-full">
+                <img 
+                  src={capturedImage} 
+                  alt={t('webcam.capturedImage')}
+                  className="w-full h-full object-cover"
+                  data-testid="captured-image"
+                />
+                <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                  {t('webcam.captured')}
+                </div>
+              </div>
+            ) : (
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover"
+                data-testid="webcam-video"
+              />
+            )}
           </div>
 
           <div className={`p-3 rounded-lg ${settings.highContrast ? 'bg-gray-800 border border-gray-600' : 'bg-blue-50 border border-blue-200'}`}>
