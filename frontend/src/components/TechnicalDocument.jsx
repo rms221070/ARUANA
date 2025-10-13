@@ -1490,24 +1490,26 @@ SUPERVISOR: Luiz Anastacio Alves
           : 'bg-gradient-to-br from-blue-950/90 via-slate-900/90 to-blue-950/90 backdrop-blur-xl border-orange-500/30 shadow-2xl'
       } animate-fade-in`}>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className={`text-2xl flex items-center gap-2 ${
-              settings.highContrast ? 'text-white' : 'text-orange-400'
-            }`}>
-              <FileText className="w-7 h-7" />
-              Documento Técnico Científico
-            </CardTitle>
-            <Button
+          <CardTitle className={`text-2xl font-bold ${settings.highContrast ? 'text-white' : 'text-slate-800'} flex items-center gap-2`}>
+            <FileText className="w-6 h-6" />
+            E-book Técnico Científico v2.0
+          </CardTitle>
+          <p className={`${settings.highContrast ? 'text-gray-300' : 'text-slate-600'} mt-2`}>
+            E-book completo sobre análise computacional de emoções e sentimentos, metodologias FACS, 
+            integração com IA generativa e fundamentação científica do Sistema ARUANÃ
+          </p>
+          <div className="mt-4 flex gap-3">
+            <Button 
               onClick={downloadDocument}
-              className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white"
+              className="bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 text-white"
             >
               <Download className="w-4 h-4 mr-2" />
-              Baixar Documento Completo
+              Exportar E-book
             </Button>
+            <div className={`px-3 py-2 rounded-md border ${settings.highContrast ? 'bg-gray-800 border-gray-600 text-gray-300' : 'bg-blue-50 border-blue-200 text-blue-800'}`}>
+              <span className="text-sm font-medium">Versão: 2.0 | Páginas: ~50 | Análise de Emoções ✓</span>
+            </div>
           </div>
-          <p className={`text-sm ${settings.highContrast ? 'text-gray-300' : 'text-gray-300'}`}>
-            Documentação técnica detalhada do Sistema ARUANÃ
-          </p>
         </CardHeader>
         <CardContent>
           <div className={`p-6 rounded-lg ${
