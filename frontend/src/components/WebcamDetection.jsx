@@ -32,16 +32,29 @@ const WebcamDetection = () => {
 
   const startWebcam = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 1280, height: 720 }
-      });
+      // Enhanced mobile camera configuration
+      const constraints = {
+        video: {
+          width: { ideal: 1280, max: 1920 },
+          height: { ideal: 720, max: 1080 },
+          facingMode: { ideal: "environment" }, // Use rear camera on mobile
+          frameRate: { ideal: 30, max: 60 }
+        }
+      };
+      
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
         setIsStreaming(true);
+        setCapturedImage(null);
+        setShowPreview(false);
+        narrate(t('webcam.cameraStarted'));
       }
     } catch (error) {
-      toast.error("Erro ao acessar webcam: " + error.message);
+      const errorMsg = t('webcam.cameraError') + ": " + error.message;
+      toast.error(errorMsg);
+      narrate(errorMsg);
     }
   };
 
