@@ -57,6 +57,43 @@ export const SettingsProvider = ({ children }) => {
     ttsService.speak(text);
   };
 
+  // Enhanced interface narration
+  const narrateInterface = (elementType, elementContent, additionalInfo = '') => {
+    if (!settings.autoNarrate) return;
+    
+    let message = '';
+    switch (elementType) {
+      case 'button':
+        message = `Botão: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'tab':
+        message = `Aba selecionada: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'card':
+        message = `Cartão: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'panel':
+        message = `Painel: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'warning':
+        message = `Aviso importante: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'notification':
+        message = `Notificação: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'form':
+        message = `Campo de formulário: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      case 'result':
+        message = `Resultado: ${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+        break;
+      default:
+        message = `${elementContent}${additionalInfo ? '. ' + additionalInfo : ''}`;
+    }
+    
+    narrate(message);
+  };
+
   return (
     <SettingsContext.Provider value={{ settings, updateSettings, narrate }}>
       {children}
