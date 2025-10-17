@@ -14,12 +14,14 @@ const API = `${BACKEND_URL}/api`;
 
 const AlertsManager = () => {
   const { t } = useTranslation();
-  const { settings, narrate } = useSettings();
+  const { settings, narrate, narrateInterface } = useSettings();
   const [alerts, setAlerts] = useState([]);
   const [newAlertName, setNewAlertName] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Narrate alerts section when loaded
+    narrateInterface('panel', t('alerts.title'), t('alerts.description'));
     fetchAlerts();
   }, []);
 
