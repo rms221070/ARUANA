@@ -61,7 +61,14 @@
     "usingCamera": "Usando",
     "switchingToCamera": "Alternando para",
     "multipleCamerasDetected": "Múltiplas câmeras detectadas. Você pode alternar entre elas.",
-    "detailedPersonAnalysis": "Análise detalhada de pessoas incluindo características físicas, roupas, marcas e acessórios"
+    "detailedPersonAnalysis": "Análise detalhada de pessoas incluindo características físicas, roupas, marcas e acessórios",
+    "noEmotionsDetected": "Nenhuma emoção específica detectada",
+    "noSentimentsDetected": "Nenhum sentimento específico detectado",
+    "interfaceElement": "Elemento da interface",
+    "buttonClicked": "Botão clicado",
+    "tabSelected": "Aba selecionada",
+    "cardExpanded": "Cartão expandido",
+    "formField": "Campo de formulário"
   },
   "upload": {
     "title": "Upload de Imagem",
