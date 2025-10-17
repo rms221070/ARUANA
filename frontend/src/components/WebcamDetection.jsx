@@ -103,21 +103,63 @@ const WebcamDetection = () => {
 
       setLastDetection(response.data);
       
-      // Enhanced narration with more details
+      // COMPLETE NARRATION - Read everything in full detail
+      let completeNarration = t('webcam.analysisComplete') + '. ';
+      
+      // 1. Main description (detailed scene analysis)
       if (response.data.description) {
-        const detailedNarration = t('webcam.analysisComplete') + '. ' + 
-                                  t('webcam.detectionResults') + ': ' + 
-                                  response.data.description;
-        narrate(detailedNarration);
+        completeNarration += t('webcam.detectionResults') + ': ' + response.data.description + '. ';
       }
       
+      // 2. Emotion analysis narration
+      if (response.data.emotion_analysis) {
+        completeNarration += t('emotions.title') + ': ';
+        const emotions = response.data.emotion_analysis;
+        const emotionParts = [];
+        
+        if (emotions.sorrindo > 0) emotionParts.push(`${emotions.sorrindo} ${emotions.sorrindo === 1 ? t('emotions.person') : t('emotions.people')} ${t('emotions.smiling')}`);
+        if (emotions.serio > 0) emotionParts.push(`${emotions.serio} ${emotions.serio === 1 ? t('emotions.person') : t('emotions.people')} ${t('emotions.serious')}`);
+        if (emotions.triste > 0) emotionParts.push(`${emotions.triste} ${emotions.triste === 1 ? t('emotions.person') : t('emotions.people')} ${t('emotions.sad')}`);
+        if (emotions.surpreso > 0) emotionParts.push(`${emotions.surpreso} ${emotions.surpreso === 1 ? t('emotions.person') : t('emotions.people')} ${t('emotions.surprised')}`);
+        if (emotions.zangado > 0) emotionParts.push(`${emotions.zangado} ${emotions.zangado === 1 ? t('emotions.person') : t('emotions.people')} ${t('emotions.angry')}`);
+        if (emotions.neutro > 0) emotionParts.push(`${emotions.neutro} ${emotions.neutro === 1 ? t('emotions.person') : t('emotions.people')} ${t('emotions.neutral')}`);
+        
+        if (emotionParts.length > 0) {
+          completeNarration += emotionParts.join(', ') + '. ';
+        } else {
+          completeNarration += t('webcam.noEmotionsDetected') + '. ';
+        }
+      }
+      
+      // 3. Sentiment analysis narration
+      if (response.data.sentiment_analysis) {
+        completeNarration += t('sentiments.title') + ': ';
+        const sentiments = response.data.sentiment_analysis;
+        const sentimentParts = [];
+        
+        if (sentiments.positivo > 0) sentimentParts.push(`${sentiments.positivo} ${sentiments.positivo === 1 ? t('sentiments.person') : t('sentiments.people')} ${t('sentiments.positive')}`);
+        if (sentiments.neutro > 0) sentimentParts.push(`${sentiments.neutro} ${sentiments.neutro === 1 ? t('sentiments.person') : t('sentiments.people')} ${t('sentiments.neutral')}`);
+        if (sentiments.negativo > 0) sentimentParts.push(`${sentiments.negativo} ${sentiments.negativo === 1 ? t('sentiments.person') : t('sentiments.people')} ${t('sentiments.negative')}`);
+        
+        if (sentimentParts.length > 0) {
+          completeNarration += sentimentParts.join(', ') + '. ';
+        } else {
+          completeNarration += t('webcam.noSentimentsDetected') + '. ';
+        }
+      }
+      
+      // 4. Alerts narration
       if (response.data.alerts_triggered && response.data.alerts_triggered.length > 0) {
         const alertMessage = `${t('toast.alertTriggered')} ${response.data.alerts_triggered.join(", ")} ${t('toast.detected')}`;
+        completeNarration += alertMessage + '. ';
         toast.warning(alertMessage);
-        narrate(alertMessage);
-      } else {
+      }
+      
+      // Narrate the complete analysis
+      narrate(completeNarration);
+      
+      if (!response.data.alerts_triggered || response.data.alerts_triggered.length === 0) {
         toast.success(t('toast.analyzeSuccess'));
-        narrate(t('toast.analyzeSuccess'));
       }
     } catch (error) {
       const errorMsg = t('toast.analyzeError') + ": " + error.message;
