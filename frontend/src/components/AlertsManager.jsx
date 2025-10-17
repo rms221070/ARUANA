@@ -62,11 +62,16 @@ const AlertsManager = () => {
 
   const deleteAlert = async (id) => {
     try {
+      const alertToDelete = alerts.find(a => a.id === id);
       await axios.delete(`${API}/alerts/${id}`);
       setAlerts(alerts.filter(a => a.id !== id));
-      toast.success(t('toast.alertDeleted'));
+      const successMsg = t('toast.alertDeleted');
+      toast.success(successMsg);
+      narrate(`${t('alerts.title')} ${alertToDelete?.object_name} ${successMsg}`);
     } catch (error) {
-      toast.error(t('toast.loadError'));
+      const errorMsg = t('toast.loadError');
+      toast.error(errorMsg);
+      narrate(errorMsg);
     }
   };
 
