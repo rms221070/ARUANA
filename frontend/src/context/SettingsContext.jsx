@@ -95,7 +95,7 @@ export const SettingsProvider = ({ children }) => {
   };
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings, narrate }}>
+    <SettingsContext.Provider value={{ settings, updateSettings, narrate, narrateInterface }}>
       {children}
     </SettingsContext.Provider>
   );
