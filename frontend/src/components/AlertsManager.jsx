@@ -77,13 +77,17 @@ const AlertsManager = () => {
 
   const toggleAlert = async (id, enabled) => {
     try {
+      const alert = alerts.find(a => a.id === id);
       await axios.patch(`${API}/alerts/${id}?enabled=${enabled}`);
       setAlerts(alerts.map(a => a.id === id ? { ...a, enabled } : a));
-      const msg = enabled ? t('alerts.active') : t('alerts.inactive');
-      toast.success(t('toast.alertUpdated'));
-      narrate(msg);
+      const status = enabled ? t('alerts.active') : t('alerts.inactive');
+      const successMsg = t('toast.alertUpdated');
+      toast.success(successMsg);
+      narrate(`${t('alerts.title')} ${alert?.object_name} ${status}. ${successMsg}`);
     } catch (error) {
-      toast.error(t('toast.loadError'));
+      const errorMsg = t('toast.loadError');
+      toast.error(errorMsg);
+      narrate(errorMsg);
     }
   };
 
