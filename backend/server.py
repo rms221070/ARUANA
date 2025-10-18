@@ -80,6 +80,7 @@ class Detection(BaseModel):
     alerts_triggered: List[str] = []
     emotion_analysis: Optional[EmotionAnalysis] = None
     sentiment_analysis: Optional[SentimentAnalysis] = None
+    nutritional_analysis: Optional[NutritionalAnalysis] = None
 
 class DetectionCreate(BaseModel):
     source: str
