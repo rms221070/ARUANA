@@ -48,6 +48,21 @@ class SentimentAnalysis(BaseModel):
     neutro: int = 0
     negativo: int = 0
 
+class FoodItem(BaseModel):
+    name: str
+    calories_per_100g: float
+    estimated_portion_grams: float
+    total_calories: float
+    macronutrients: Dict[str, float] = Field(default_factory=dict)  # protein, carbs, fat, fiber
+    confidence: float = 0.0
+
+class NutritionalAnalysis(BaseModel):
+    foods_detected: List[FoodItem] = []
+    total_calories: float = 0.0
+    total_weight_grams: float = 0.0
+    meal_type: Optional[str] = None  # breakfast, lunch, dinner, snack
+    nutritional_summary: Dict[str, float] = Field(default_factory=dict)
+
 class DetectedObject(BaseModel):
     label: str
     confidence: float
