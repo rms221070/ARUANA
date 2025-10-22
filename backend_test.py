@@ -517,6 +517,314 @@ class DetectionSystemTester:
         
         return success_json and success_csv
 
+    def create_food_test_image(self):
+        """Create a test image with food items for nutrition analysis"""
+        # Create a 300x300 image with food-like objects
+        img = Image.new('RGB', (300, 300), color='white')
+        
+        from PIL import ImageDraw
+        draw = ImageDraw.Draw(img)
+        
+        # Draw a plate
+        draw.ellipse([50, 50, 250, 250], fill='lightgray', outline='black', width=2)
+        
+        # Draw food items on the plate
+        # Apple (red circle)
+        draw.ellipse([80, 80, 120, 120], fill='red', outline='darkred')
+        
+        # Banana (yellow curved shape)
+        draw.ellipse([140, 90, 200, 130], fill='yellow', outline='orange')
+        
+        # Bread slice (brown rectangle)
+        draw.rectangle([90, 150, 140, 190], fill='#D2691E', outline='brown')
+        
+        # Lettuce (green)
+        draw.ellipse([160, 160, 200, 200], fill='green', outline='darkgreen')
+        
+        # Add some text to make it more realistic
+        draw.text((10, 10), "Healthy Meal", fill='black')
+        
+        buffer = BytesIO()
+        img.save(buffer, format='JPEG')
+        img_data = buffer.getvalue()
+        return base64.b64encode(img_data).decode('utf-8')
+
+    def test_nutrition_analysis_endpoint(self):
+        """Test POST /api/detect/analyze-nutrition endpoint"""
+        test_image = self.create_food_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        success, result = self.run_test(
+            "Nutrition Analysis Endpoint",
+            "POST",
+            "detect/analyze-nutrition",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": image_data
+            }
+        )
+        
+        if success:
+            # Check response structure
+            has_id = 'id' in result
+            has_description = 'description' in result
+            has_timestamp = 'timestamp' in result
+            has_nutritional_analysis = 'nutritional_analysis' in result
+            
+            self.log_test("Nutrition Analysis - Response Structure", 
+                         has_id and has_description and has_timestamp,
+                         f"ID: {has_id}, Description: {has_description}, Timestamp: {has_timestamp}, Nutrition: {has_nutritional_analysis}")
+            
+            return has_id and has_description and has_timestamp
+        
+        return False
+
+    def test_nutritional_data_models(self):
+        """Test FoodItem and NutritionalAnalysis models"""
+        test_image = self.create_food_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        success, result = self.run_test(
+            "Nutritional Data Models",
+            "POST",
+            "detect/analyze-nutrition",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": image_data
+            }
+        )
+        
+        if success and 'nutritional_analysis' in result:
+            nutrition_data = result['nutritional_analysis']
+            
+            # Test NutritionalAnalysis model fields
+            required_fields = ['foods_detected', 'total_calories', 'total_weight_grams', 'meal_type', 'nutritional_summary']
+            has_required_fields = all(field in nutrition_data for field in required_fields)
+            
+            self.log_test("NutritionalAnalysis Model Fields", 
+                         has_required_fields,
+                         f"Required fields present: {has_required_fields}")
+            
+            # Test FoodItem model structure if foods are detected
+            foods_detected = nutrition_data.get('foods_detected', [])
+            valid_food_items = True
+            
+            if foods_detected:
+                for food in foods_detected:
+                    food_fields = ['name', 'calories_per_100g', 'estimated_portion_grams', 'total_calories', 'macronutrients', 'confidence']
+                    if not all(field in food for field in food_fields):
+                        valid_food_items = False
+                        break
+                
+                self.log_test("FoodItem Model Structure", 
+                             valid_food_items,
+                             f"Foods detected: {len(foods_detected)}, Valid structure: {valid_food_items}")
+            else:
+                self.log_test("FoodItem Model Structure", 
+                             True,
+                             "No foods detected - model structure not testable")
+            
+            return has_required_fields and valid_food_items
+        
+        return False
+
+    def test_enhanced_nutrition_prompts(self):
+        """Test enhanced nutrition analysis prompts and Gemini 2.0 Flash integration"""
+        test_image = self.create_food_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        success, result = self.run_test(
+            "Enhanced Nutrition Prompts",
+            "POST",
+            "detect/analyze-nutrition",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": image_data
+            }
+        )
+        
+        if success:
+            description = result.get('description', '')
+            
+            # Test for enhanced prompt elements in description
+            nutrition_elements = [
+                'alimento',
+                'caloria',
+                'nutrição',
+                'porção',
+                'peso'
+            ]
+            
+            elements_found = sum(1 for element in nutrition_elements 
+                               if element.lower() in description.lower())
+            
+            self.log_test("Enhanced Nutrition Prompt Elements", 
+                         elements_found >= 2,
+                         f"Found {elements_found}/{len(nutrition_elements)} nutrition elements")
+            
+            # Test JSON parsing for nutritional data
+            has_nutrition_data = 'nutritional_analysis' in result
+            valid_json_structure = False
+            
+            if has_nutrition_data:
+                nutrition_data = result['nutritional_analysis']
+                valid_json_structure = isinstance(nutrition_data, dict)
+            
+            self.log_test("JSON Parsing for Nutritional Data", 
+                         has_nutrition_data and valid_json_structure,
+                         f"Nutrition data present: {has_nutrition_data}, Valid JSON: {valid_json_structure}")
+            
+            return elements_found >= 2 and has_nutrition_data and valid_json_structure
+        
+        return False
+
+    def test_nutrition_database_integration(self):
+        """Test that nutritional analysis data is saved to MongoDB"""
+        test_image = self.create_food_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        # Create a nutrition analysis
+        success, result = self.run_test(
+            "Nutrition Database Integration - Create",
+            "POST",
+            "detect/analyze-nutrition",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": image_data
+            }
+        )
+        
+        if success:
+            detection_id = result.get('id')
+            
+            # Retrieve detections to verify storage
+            success_retrieve, detections = self.run_test(
+                "Nutrition Database Integration - Retrieve",
+                "GET",
+                "detections?limit=5",
+                200
+            )
+            
+            if success_retrieve and detections:
+                # Find the nutrition detection
+                nutrition_detection = None
+                for detection in detections:
+                    if detection.get('id') == detection_id:
+                        nutrition_detection = detection
+                        break
+                
+                if nutrition_detection:
+                    has_nutrition_field = 'nutritional_analysis' in nutrition_detection
+                    detection_type_correct = nutrition_detection.get('detection_type') == 'nutrition'
+                    
+                    self.log_test("Nutrition Database Storage", 
+                                 has_nutrition_field and detection_type_correct,
+                                 f"Nutrition field saved: {has_nutrition_field}, Type correct: {detection_type_correct}")
+                    
+                    return has_nutrition_field and detection_type_correct
+                else:
+                    self.log_test("Nutrition Database Storage", 
+                                 False,
+                                 "Created detection not found in database")
+            
+        return False
+
+    def test_nutrition_api_response_quality(self):
+        """Test API response quality for nutrition analysis"""
+        test_image = self.create_food_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        success, result = self.run_test(
+            "Nutrition API Response Quality",
+            "POST",
+            "detect/analyze-nutrition",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": image_data
+            }
+        )
+        
+        if success:
+            # Test calorie calculations
+            nutrition_data = result.get('nutritional_analysis', {})
+            total_calories = nutrition_data.get('total_calories', 0)
+            foods_detected = nutrition_data.get('foods_detected', [])
+            
+            # Verify calorie calculations are reasonable
+            calorie_calculation_valid = isinstance(total_calories, (int, float)) and total_calories >= 0
+            
+            self.log_test("Calorie Calculations", 
+                         calorie_calculation_valid,
+                         f"Total calories: {total_calories}, Type: {type(total_calories)}")
+            
+            # Test macronutrient data
+            nutritional_summary = nutrition_data.get('nutritional_summary', {})
+            has_macronutrients = any(key in nutritional_summary for key in ['total_protein', 'total_carbs', 'total_fat'])
+            
+            self.log_test("Macronutrient Data", 
+                         has_macronutrients,
+                         f"Nutritional summary keys: {list(nutritional_summary.keys())}")
+            
+            # Test meal type classification
+            meal_type = nutrition_data.get('meal_type')
+            valid_meal_types = ['café da manhã', 'almoço', 'jantar', 'lanche', None]
+            meal_type_valid = meal_type in valid_meal_types or meal_type is None
+            
+            self.log_test("Meal Type Classification", 
+                         meal_type_valid,
+                         f"Meal type: {meal_type}")
+            
+            # Test portion estimation
+            portion_estimates_valid = True
+            for food in foods_detected:
+                portion_grams = food.get('estimated_portion_grams', 0)
+                if not isinstance(portion_grams, (int, float)) or portion_grams < 0:
+                    portion_estimates_valid = False
+                    break
+            
+            self.log_test("Portion Estimation", 
+                         portion_estimates_valid,
+                         f"Foods with valid portions: {len(foods_detected)}")
+            
+            return (calorie_calculation_valid and has_macronutrients and 
+                   meal_type_valid and portion_estimates_valid)
+        
+        return False
+
+    def test_nutrition_error_handling(self):
+        """Test nutrition analysis error handling"""
+        # Test with invalid image data
+        success, result = self.run_test(
+            "Nutrition Error Handling - Invalid Image",
+            "POST",
+            "detect/analyze-nutrition",
+            500,  # Expect error
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": "invalid_image_data"
+            }
+        )
+        
+        # For this test, we expect it to fail (status 500), so success means error handling works
+        error_handled = not success  # We expect this to fail
+        
+        self.log_test("Nutrition Error Handling", 
+                     error_handled,
+                     f"Error properly handled: {error_handled}")
+        
+        return error_handled
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Backend API Tests for Enhanced Person Analysis System")
