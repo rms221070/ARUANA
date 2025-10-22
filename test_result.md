@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the new emotion and sentiment analysis system with enhanced AI analysis models and database integration"
+user_problem_statement: "Test the new nutrition analysis system backend with enhanced AI analysis models and database integration"
 
 backend:
   - task: "Emotion Analysis Models Implementation"
