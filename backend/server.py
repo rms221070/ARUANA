@@ -40,6 +40,14 @@ api_router = APIRouter(prefix="/api")
 # Google API Key
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', '')
 
+# Authentication settings
+SECRET_KEY = os.environ.get('JWT_SECRET_KEY', secrets.token_urlsafe(32))
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 days
+
+# Password hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 # Models
 class EmotionAnalysis(BaseModel):
     sorrindo: int = 0
