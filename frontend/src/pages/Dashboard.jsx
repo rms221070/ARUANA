@@ -204,9 +204,7 @@ const Dashboard = () => {
             <IntelligentReports />
           </TabsContent>
 
-          <TabsContent value="collaboration" data-testid="collaboration-content">
-            <ScientificCollaboration />
-          </TabsContent>
+          {/* Collaboration moved to About section */}
 
           <TabsContent value="about" data-testid="about-content">
             <div className="space-y-6">
