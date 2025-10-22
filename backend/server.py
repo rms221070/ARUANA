@@ -402,6 +402,122 @@ IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na
         logging.error(f"Error analyzing frame: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/detect/analyze-nutrition", response_model=Detection)
+async def analyze_nutrition(input: DetectionCreate):
+    """Analyze food items and calculate nutritional information"""
+    try:
+        detection = Detection(
+            source=input.source,
+            detection_type="nutrition",
+            image_data=input.image_data
+        )
+        
+        # Extract base64 image data
+        image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
+        
+        # Enhanced nutrition analysis prompt
+        nutrition_prompt = f"""
+Você é um especialista em nutrição e análise de alimentos. Analise esta imagem e identifique TODOS os alimentos visíveis.
+
+INSTRUÇÕES DETALHADAS:
+1. Identifique cada alimento individual na imagem
+2. Estime o peso/porção de cada alimento em gramas
+3. Calcule as calorias de cada item baseado na porção estimada
+4. Forneça informações nutricionais (proteínas, carboidratos, gorduras, fibras)
+5. Classifique o tipo de refeição se possível
+
+PARA CADA ALIMENTO IDENTIFICADO:
+- Nome específico do alimento
+- Peso estimado da porção em gramas
+- Calorias por 100g (valor nutricional padrão)
+- Calorias totais da porção mostrada
+- Macronutrientes: proteínas, carboidratos, gorduras, fibras (em gramas)
+
+RETORNE JSON ESTRUTURADO:
+{{
+  "description": "descrição completa dos alimentos e do prato/refeição",
+  "nutritional_analysis": {{
+    "foods_detected": [
+      {{
+        "name": "nome do alimento",
+        "calories_per_100g": 0.0,
+        "estimated_portion_grams": 0.0,
+        "total_calories": 0.0,
+        "macronutrients": {{
+          "protein": 0.0,
+          "carbohydrates": 0.0,
+          "fat": 0.0,
+          "fiber": 0.0
+        }},
+        "confidence": 0.9
+      }}
+    ],
+    "total_calories": 0.0,
+    "total_weight_grams": 0.0,
+    "meal_type": "café da manhã/almoço/jantar/lanche",
+    "nutritional_summary": {{
+      "total_protein": 0.0,
+      "total_carbs": 0.0,
+      "total_fat": 0.0,
+      "total_fiber": 0.0
+    }}
+  }}
+}}
+
+IMPORTANTE: 
+- Se não houver alimentos visíveis, retorne arrays vazios
+- Use valores nutricionais precisos baseados em tabelas nutricionais brasileiras
+- Considere preparações e temperos quando visíveis
+- Seja preciso nas estimativas de peso/porção
+"""
+        
+        # Process via Gemini 2.0 Flash
+        chat = LlmChat(
+            api_key=GOOGLE_API_KEY,
+            session_id=f"nutrition_analysis_{uuid.uuid4()}",
+            system_message="Especialista em nutrição e análise de alimentos com conhecimento em tabelas nutricionais brasileiras"
+        ).with_model("gemini", "gemini-2.0-flash")
+        
+        response = await chat.send_message(
+            UserMessage(
+                text=nutrition_prompt,
+                file_contents=[ImageContent(image_base64=image_data)]
+            )
+        )
+        
+        # Parse response
+        try:
+            # Try to find JSON in response
+            response_text = response.message.strip()
+            if '```json' in response_text:
+                response_text = response_text.split('```json')[1].split('```')[0].strip()
+            elif '```' in response_text:
+                response_text = response_text.split('```')[1].split('```')[0].strip()
+            
+            result = json.loads(response_text)
+            detection.description = result.get('description', response)
+            
+            # Process nutritional analysis
+            if 'nutritional_analysis' in result:
+                nutrition_data = result['nutritional_analysis']
+                detection.nutritional_analysis = NutritionalAnalysis(**nutrition_data)
+                
+        except:
+            # If JSON parsing fails, use raw response
+            detection.description = response
+            detection.nutritional_analysis = NutritionalAnalysis()
+        
+        # Save to database
+        doc = detection.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        await db.detections.insert_one(doc)
+        
+        return detection
+        
+    except Exception as e:
+        logging.error(f"Error analyzing nutrition: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/detections", response_model=List[Detection])
 async def get_detections(
     limit: int = Query(50, ge=1, le=100),
