@@ -636,14 +636,127 @@ IMPORTANTE:
         logging.error(f"Error analyzing nutrition: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Authentication endpoints
+@api_router.post("/auth/register")
+async def register_user(user_data: UserRegister):
+    """Register a new user"""
+    try:
+        # Check if user already exists
+        existing_user = await db.users.find_one({"email": user_data.email})
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Email already registered")
+        
+        # Hash password
+        password_hash = get_password_hash(user_data.password)
+        
+        # Create user
+        user = User(
+            name=user_data.name,
+            email=user_data.email,
+            password_hash=password_hash,
+            user_type=user_data.user_type
+        )
+        
+        # Save to database
+        user_dict = user.model_dump()
+        user_dict['created_at'] = user_dict['created_at'].isoformat()
+        if user_dict.get('last_login'):
+            user_dict['last_login'] = user_dict['last_login'].isoformat()
+            
+        await db.users.insert_one(user_dict)
+        
+        return {"success": True, "message": "User created successfully"}
+        
+    except Exception as e:
+        logging.error(f"Registration error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Registration failed")
+
+@api_router.post("/auth/login")
+async def login_user(credentials: UserLogin):
+    """Login user and return JWT token"""
+    try:
+        # Find user
+        user = await db.users.find_one({"email": credentials.email})
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid email or password")
+        
+        # Verify password
+        if not verify_password(credentials.password, user["password_hash"]):
+            raise HTTPException(status_code=401, detail="Invalid email or password")
+        
+        # Check if user is active
+        if not user.get("is_active", True):
+            raise HTTPException(status_code=401, detail="Account is disabled")
+        
+        # Update last login
+        await db.users.update_one(
+            {"id": user["id"]},
+            {"$set": {"last_login": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        # Create access token
+        access_token = create_access_token(
+            data={"sub": user["id"], "email": user["email"], "user_type": user["user_type"]}
+        )
+        
+        return {
+            "success": True,
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user["id"],
+                "name": user["name"],
+                "email": user["email"],
+                "user_type": user["user_type"]
+            }
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Login error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Login failed")
+
+@api_router.get("/auth/me")
+async def get_current_user_info(request: Request):
+    """Get current user information"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return user
+
 @api_router.get("/detections", response_model=List[Detection])
 async def get_detections(
+    request: Request,
     limit: int = Query(50, ge=1, le=100),
     skip: int = Query(0, ge=0)
 ):
-    """Get detection history"""
+    """Get detection history - filtered by user unless admin"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    # Get user to check if admin
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+    
+    # Filter detections by user unless admin
+    filter_query = {}
+    if user.get("user_type") != "admin":
+        filter_query["user_id"] = user_id
+    
     detections = await db.detections.find(
-        {}, {"_id": 0}
+        filter_query, {"_id": 0}
     ).sort("timestamp", -1).skip(skip).limit(limit).to_list(limit)
     
     for det in detections:
