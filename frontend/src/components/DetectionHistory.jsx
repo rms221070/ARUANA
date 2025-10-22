@@ -12,11 +12,15 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const DetectionHistory = () => {
+  const { t } = useTranslation();
+  const { settings, narrate, narrateInterface } = useSettings();
   const [detections, setDetections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDetection, setSelectedDetection] = useState(null);
 
   useEffect(() => {
+    // Narrate history section when loaded
+    narrateInterface('panel', t('history.title'), t('history.description'));
     fetchDetections();
   }, []);
 
