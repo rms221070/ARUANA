@@ -159,17 +159,7 @@ const Dashboard = () => {
               <BarChart3 className="w-5 h-5" />
               <span className="hidden sm:inline">Relatórios</span>
             </TabsTrigger>
-            <TabsTrigger 
-              value="collaboration" 
-              className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
-              }`}
-              data-testid="collaboration-tab"
-              aria-label="Colaboração"
-            >
-              <Network className="w-5 h-5" />
-              <span className="hidden sm:inline">Colaboração</span>
-            </TabsTrigger>
+            {/* Collaboration moved to About section */}
             <TabsTrigger 
               value="about" 
               className={`flex items-center gap-2 ${
