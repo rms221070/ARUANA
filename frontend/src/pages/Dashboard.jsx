@@ -196,10 +196,6 @@ const Dashboard = () => {
             <DetectionHistory />
           </TabsContent>
 
-          <TabsContent value="alerts" data-testid="alerts-content">
-            <AlertsManager />
-          </TabsContent>
-
           <TabsContent value="nutrition" data-testid="nutrition-content">
             <NutritionAnalysis />
           </TabsContent>
