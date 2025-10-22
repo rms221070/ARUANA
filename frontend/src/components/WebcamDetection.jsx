@@ -37,6 +37,107 @@ const WebcamDetection = () => {
     };
   }, []);
 
+  const startAudioAnalysis = async () => {
+    try {
+      const audioStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          sampleRate: 44100,
+          channelCount: 1,
+          autoGainControl: true,
+          noiseSuppression: false,
+          echoCancellation: false
+        }
+      });
+      
+      audioStreamRef.current = audioStream;
+      
+      // Create audio context and analyser
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      analyserRef.current = audioContextRef.current.createAnalyser();
+      
+      const source = audioContextRef.current.createMediaStreamSource(audioStream);
+      source.connect(analyserRef.current);
+      
+      analyserRef.current.fftSize = 1024;
+      const bufferLength = analyserRef.current.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      
+      setIsListeningAudio(true);
+      
+      // Analyze audio continuously
+      const analyzeAudio = () => {
+        if (!analyserRef.current || !isListeningAudio) return;
+        
+        analyserRef.current.getByteFrequencyData(dataArray);
+        
+        // Calculate average volume
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const average = sum / bufferLength;
+        setAudioLevel(Math.round(average));
+        
+        // Analyze frequency patterns to detect sound types
+        const lowFreq = dataArray.slice(0, 50).reduce((a, b) => a + b, 0) / 50;
+        const midFreq = dataArray.slice(50, 200).reduce((a, b) => a + b, 0) / 150;
+        const highFreq = dataArray.slice(200, 400).reduce((a, b) => a + b, 0) / 200;
+        
+        let soundType = "silêncio";
+        if (average > 30) {
+          if (midFreq > highFreq && midFreq > lowFreq) {
+            soundType = "pessoas falando";
+          } else if (lowFreq > midFreq && lowFreq > highFreq) {
+            soundType = "ruído de veículos ou maquinário";
+          } else if (highFreq > midFreq && average > 50) {
+            soundType = "música ou sons agudos";
+          } else if (average > 60) {
+            soundType = "ambiente barulhento";
+          } else {
+            soundType = "ruído ambiente";
+          }
+        }
+        
+        setAudioAnalysis({
+          level: average,
+          type: soundType,
+          lowFreq: Math.round(lowFreq),
+          midFreq: Math.round(midFreq),
+          highFreq: Math.round(highFreq)
+        });
+        
+        if (isListeningAudio) {
+          requestAnimationFrame(analyzeAudio);
+        }
+      };
+      
+      analyzeAudio();
+      narrate(t('webcam.audioAnalysisStarted'));
+      
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+      toast.error(t('webcam.audioError') + ": " + error.message);
+    }
+  };
+
+  const stopAudioAnalysis = () => {
+    setIsListeningAudio(false);
+    
+    if (audioStreamRef.current) {
+      audioStreamRef.current.getTracks().forEach(track => track.stop());
+      audioStreamRef.current = null;
+    }
+    
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+    
+    analyserRef.current = null;
+    setAudioAnalysis(null);
+    setAudioLevel(0);
+  };
+
   const startWebcam = async () => {
     try {
       // Enhanced mobile camera configuration with preference for rear camera
@@ -56,6 +157,10 @@ const WebcamDetection = () => {
         setIsStreaming(true);
         setCapturedImage(null);
         setShowPreview(false);
+        
+        // Start audio analysis automatically
+        await startAudioAnalysis();
+        
         narrate(t('webcam.cameraStarted'));
       }
     } catch (error) {
