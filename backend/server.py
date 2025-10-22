@@ -48,6 +48,88 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 days
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# Authentication utilities
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+def verify_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            return None
+        return user_id
+    except jwt.PyJWTError:
+        return None
+
+# Authentication middleware
+def get_current_user(authorization: str = None):
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    
+    token = authorization.split("Bearer ")[1]
+    user_id = verify_token(token)
+    return user_id
+
+def require_auth(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        # Get request from args/kwargs (FastAPI dependency injection handles this)
+        request = kwargs.get('request') or (args[0] if args else None)
+        
+        if not request:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+        
+        # Add user_id to kwargs
+        kwargs['current_user_id'] = user_id
+        return await func(*args, **kwargs)
+    
+    return wrapper
+
+def require_admin(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        request = kwargs.get('request') or (args[0] if args else None)
+        
+        if not request:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+        
+        # Check if user is admin
+        user = await db.users.find_one({"id": user_id})
+        if not user or user.get("user_type") != "admin":
+            raise HTTPException(status_code=403, detail="Admin access required")
+        
+        kwargs['current_user_id'] = user_id
+        return await func(*args, **kwargs)
+    
+    return wrapper
+
 # Models
 class EmotionAnalysis(BaseModel):
     sorrindo: int = 0
