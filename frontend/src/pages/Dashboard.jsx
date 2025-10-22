@@ -99,7 +99,7 @@ const Dashboard = () => {
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full" data-testid="main-tabs">
-          <TabsList className={`grid w-full grid-cols-8 mb-8 ${
+          <TabsList className={`grid w-full grid-cols-6 mb-8 ${
             settings.highContrast 
               ? 'bg-gray-900 border-2 border-white' 
               : 'bg-gradient-to-r from-blue-950/90 via-slate-900/90 to-blue-950/90 backdrop-blur-md shadow-2xl border border-orange-500/30'
