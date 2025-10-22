@@ -221,6 +221,10 @@ const Dashboard = () => {
             <AlertsManager />
           </TabsContent>
 
+          <TabsContent value="nutrition" data-testid="nutrition-content">
+            <NutritionAnalysis />
+          </TabsContent>
+
           <TabsContent value="reports" data-testid="reports-content">
             <IntelligentReports />
           </TabsContent>
