@@ -19,8 +19,14 @@ const WebcamDetection = () => {
   const [lastDetection, setLastDetection] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [isListeningAudio, setIsListeningAudio] = useState(false);
+  const [audioAnalysis, setAudioAnalysis] = useState(null);
+  const [audioLevel, setAudioLevel] = useState(0);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
+  const audioContextRef = useRef(null);
+  const analyserRef = useRef(null);
+  const audioStreamRef = useRef(null);
 
   useEffect(() => {
     // Narrate component when loaded
