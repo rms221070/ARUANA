@@ -138,17 +138,6 @@ const Dashboard = () => {
               <span className="hidden sm:inline">{t('navigation.history')}</span>
             </TabsTrigger>
             <TabsTrigger 
-              value="alerts" 
-              className={`flex items-center gap-2 ${
-                settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
-              }`}
-              data-testid="alerts-tab"
-              aria-label={t('navigation.alerts')}
-            >
-              <Bell className="w-5 h-5" />
-              <span className="hidden sm:inline">{t('navigation.alerts')}</span>
-            </TabsTrigger>
-            <TabsTrigger 
               value="nutrition" 
               className={`flex items-center gap-2 ${
                 settings.highContrast ? '' : 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-orange-500 data-[state=active]:text-white'
