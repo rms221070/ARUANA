@@ -1,124 +1,124 @@
 {
   "summary": {
-    "total_tests": 30,
-    "passed_tests": 27,
-    "success_rate": 90.0,
-    "timestamp": "2025-10-13T18:06:58.188872"
+    "total_tests": 48,
+    "passed_tests": 45,
+    "success_rate": 93.75,
+    "timestamp": "2025-10-22T20:05:26.751766"
   },
   "detailed_results": [
     {
       "test_name": "Root API Endpoint",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:13.849599"
+      "timestamp": "2025-10-22T20:04:13.798701"
     },
     {
       "test_name": "Create Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:13.886980"
+      "timestamp": "2025-10-22T20:04:13.850614"
     },
     {
       "test_name": "Get Alerts",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:13.926746"
+      "timestamp": "2025-10-22T20:04:13.892977"
     },
     {
       "test_name": "Find Created Alert",
       "success": true,
-      "details": "Alert ID: 6e1c64e0-bb80-4780-8de8-581ac5c73bdf",
-      "timestamp": "2025-10-13T18:06:13.927339"
+      "details": "Alert ID: 78f03c1f-aa2e-454e-a36f-3d1d518cb038",
+      "timestamp": "2025-10-22T20:04:13.893640"
     },
     {
       "test_name": "Toggle Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:13.963466"
+      "timestamp": "2025-10-22T20:04:13.933148"
     },
     {
       "test_name": "Delete Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:14.048779"
+      "timestamp": "2025-10-22T20:04:13.971169"
     },
     {
       "test_name": "Get Detections",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:14.103382"
+      "timestamp": "2025-10-22T20:04:14.074209"
     },
     {
       "test_name": "Analyze Frame - Cloud",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:20.866613"
+      "timestamp": "2025-10-22T20:04:20.258329"
     },
     {
       "test_name": "Frame Analysis - Response Structure",
       "success": true,
       "details": "ID: True, Description: True, Timestamp: True",
-      "timestamp": "2025-10-13T18:06:20.867256"
+      "timestamp": "2025-10-22T20:04:20.259015"
     },
     {
       "test_name": "Analyze Frame - Local",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:20.922485"
+      "timestamp": "2025-10-22T20:04:20.313571"
     },
     {
       "test_name": "Enhanced AI Analysis - Emotion/Sentiment",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:30.369699"
+      "timestamp": "2025-10-22T20:04:26.217605"
     },
     {
       "test_name": "Emotion Analysis - Structure",
       "success": true,
       "details": "Present: True, Valid: True",
-      "timestamp": "2025-10-13T18:06:30.370347"
+      "timestamp": "2025-10-22T20:04:26.218383"
     },
     {
       "test_name": "Sentiment Analysis - Structure",
       "success": true,
       "details": "Present: True, Valid: True",
-      "timestamp": "2025-10-13T18:06:30.370366"
+      "timestamp": "2025-10-22T20:04:26.218405"
     },
     {
       "test_name": "Retrieve Detection with Emotion/Sentiment",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:30.428576"
+      "timestamp": "2025-10-22T20:04:26.285001"
     },
     {
       "test_name": "Database Integration - Emotion/Sentiment Storage",
       "success": true,
       "details": "Emotion saved: True, Sentiment saved: True",
-      "timestamp": "2025-10-13T18:06:30.429159"
+      "timestamp": "2025-10-22T20:04:26.285629"
     },
     {
       "test_name": "Ultra-Detailed Person Analysis",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:36.265823"
+      "timestamp": "2025-10-22T20:04:32.189065"
     },
     {
       "test_name": "Enhanced Description Length",
       "success": true,
-      "details": "Description length: 369 characters",
-      "timestamp": "2025-10-13T18:06:36.266493"
+      "details": "Description length: 854 characters",
+      "timestamp": "2025-10-22T20:04:32.189720"
     },
     {
       "test_name": "Enhanced Prompt Elements",
-      "success": false,
-      "details": "Found 0/7 detailed elements",
-      "timestamp": "2025-10-13T18:06:36.266691"
+      "success": true,
+      "details": "Found 3/7 detailed elements",
+      "timestamp": "2025-10-22T20:04:32.189914"
     },
     {
       "test_name": "Person Object Detection",
       "success": true,
       "details": "Objects detected: 1",
-      "timestamp": "2025-10-13T18:06:36.266706"
+      "timestamp": "2025-10-22T20:04:32.189927"
     },
     {
       "test_name": "Enhanced Analysis - Emotion/Sentiment Integration",
@@ -128,67 +128,175 @@
         "negativo": 0
       },
       "details": "Emotion: True, Sentiment: True",
-      "timestamp": "2025-10-13T18:06:36.266716"
+      "timestamp": "2025-10-22T20:04:32.189937"
     },
     {
       "test_name": "Prompt Enhancement Validation - Request 1",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': 'Failed to generate chat completion: litellm.InternalServerError: litellm.InternalServerError: geminiException - {\\n  \"error\": {\\n    \"code\": 503,\\n    \"message\": \"The model is overloaded. Please try again later.\",\\n    \"status\": \"UNAVAILABLE\"\\n  }\\n}\\n'}",
-      "timestamp": "2025-10-13T18:06:37.339959"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:04:37.060120"
     },
     {
       "test_name": "Prompt Enhancement Validation - Request 2",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:53.502264"
+      "timestamp": "2025-10-22T20:04:42.159563"
     },
     {
       "test_name": "Gemini 2.0 Flash Response Quality",
       "success": true,
       "details": "Quality indicators: 3/3",
-      "timestamp": "2025-10-13T18:06:53.503103"
+      "timestamp": "2025-10-22T20:04:42.160480"
     },
     {
       "test_name": "Enhanced Output - JSON Structure",
       "success": true,
       "details": "Required fields present: True",
-      "timestamp": "2025-10-13T18:06:53.503129"
-    },
-    {
-      "test_name": "Enhanced Processing - Response Time",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': 'Failed to generate chat completion: litellm.InternalServerError: litellm.InternalServerError: geminiException - {\\n  \"error\": {\\n    \"code\": 503,\\n    \"message\": \"The model is overloaded. Please try again later.\",\\n    \"status\": \"UNAVAILABLE\"\\n  }\\n}\\n'}",
-      "timestamp": "2025-10-13T18:06:54.671662"
+      "timestamp": "2025-10-22T20:04:42.160504"
     },
     {
       "test_name": "Enhanced Processing - Response Time",
       "success": true,
-      "details": "Response time: 1.17 seconds",
-      "timestamp": "2025-10-13T18:06:54.672474"
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:04:47.954364"
+    },
+    {
+      "test_name": "Enhanced Processing - Response Time",
+      "success": true,
+      "details": "Response time: 5.79 seconds",
+      "timestamp": "2025-10-22T20:04:47.955035"
     },
     {
       "test_name": "Deep Sentiment Analysis",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:58.051771"
+      "timestamp": "2025-10-22T20:04:52.662338"
     },
     {
       "test_name": "Deep Sentiment Analysis - Response Structure",
       "success": true,
       "details": "Sentiment: True, Methodology: True, People: True",
-      "timestamp": "2025-10-13T18:06:58.052506"
+      "timestamp": "2025-10-22T20:04:52.663148"
+    },
+    {
+      "test_name": "Nutrition Analysis Endpoint",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:05:01.426441"
+    },
+    {
+      "test_name": "Nutrition Analysis - Response Structure",
+      "success": true,
+      "details": "ID: True, Description: True, Timestamp: True, Nutrition: True",
+      "timestamp": "2025-10-22T20:05:01.427110"
+    },
+    {
+      "test_name": "Nutritional Data Models",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:05:08.477662"
+    },
+    {
+      "test_name": "NutritionalAnalysis Model Fields",
+      "success": true,
+      "details": "Required fields present: True",
+      "timestamp": "2025-10-22T20:05:08.478452"
+    },
+    {
+      "test_name": "FoodItem Model Structure",
+      "success": true,
+      "details": "No foods detected - model structure not testable",
+      "timestamp": "2025-10-22T20:05:08.478470"
+    },
+    {
+      "test_name": "Enhanced Nutrition Prompts",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:05:15.337923"
+    },
+    {
+      "test_name": "Enhanced Nutrition Prompt Elements",
+      "success": false,
+      "details": "Found 1/5 nutrition elements",
+      "timestamp": "2025-10-22T20:05:15.338845"
+    },
+    {
+      "test_name": "JSON Parsing for Nutritional Data",
+      "success": true,
+      "details": "Nutrition data present: True, Valid JSON: True",
+      "timestamp": "2025-10-22T20:05:15.338870"
+    },
+    {
+      "test_name": "Nutrition Database Integration - Create",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:05:20.892520"
+    },
+    {
+      "test_name": "Nutrition Database Integration - Retrieve",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:05:21.282946"
+    },
+    {
+      "test_name": "Nutrition Database Storage",
+      "success": true,
+      "details": "Nutrition field saved: True, Type correct: True",
+      "timestamp": "2025-10-22T20:05:21.283762"
+    },
+    {
+      "test_name": "Nutrition API Response Quality",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-22T20:05:26.510756"
+    },
+    {
+      "test_name": "Calorie Calculations",
+      "success": true,
+      "details": "Total calories: 0.0, Type: <class 'float'>",
+      "timestamp": "2025-10-22T20:05:26.511449"
+    },
+    {
+      "test_name": "Macronutrient Data",
+      "success": false,
+      "details": "Nutritional summary keys: []",
+      "timestamp": "2025-10-22T20:05:26.511471"
+    },
+    {
+      "test_name": "Meal Type Classification",
+      "success": true,
+      "details": "Meal type: None",
+      "timestamp": "2025-10-22T20:05:26.511480"
+    },
+    {
+      "test_name": "Portion Estimation",
+      "success": true,
+      "details": "Foods with valid portions: 0",
+      "timestamp": "2025-10-22T20:05:26.511488"
+    },
+    {
+      "test_name": "Nutrition Error Handling - Invalid Image",
+      "success": true,
+      "details": "Status: 500, Expected: 500",
+      "timestamp": "2025-10-22T20:05:26.604534"
+    },
+    {
+      "test_name": "Nutrition Error Handling",
+      "success": false,
+      "details": "Error properly handled: False",
+      "timestamp": "2025-10-22T20:05:26.605300"
     },
     {
       "test_name": "Export Report - JSON",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:58.132195"
+      "timestamp": "2025-10-22T20:05:26.700942"
     },
     {
       "test_name": "Export Report - CSV",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-13T18:06:58.187934"
+      "timestamp": "2025-10-22T20:05:26.750741"
     }
   ]
 }
