@@ -175,6 +175,10 @@ const WebcamDetection = () => {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
     }
+    
+    // Stop audio analysis too
+    stopAudioAnalysis();
+    
     setIsStreaming(false);
     narrate(t('webcam.cameraStopped'));
   };
