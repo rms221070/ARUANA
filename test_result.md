@@ -315,7 +315,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Enhanced Ultra-Detailed Person Analysis System"
+    - "Nutrition Analysis Endpoint Implementation"
+    - "Nutritional Data Models Implementation"
+    - "Enhanced Nutrition Analysis Prompts"
+    - "Nutrition Database Integration"
+    - "Nutrition API Response Quality Validation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
