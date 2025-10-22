@@ -272,6 +272,64 @@ const About = () => {
         </Card>
       </div>
 
+      {/* Extended Sections - Alertas, Colaboração, Documentação */}
+      <Card className={`${
+        settings.highContrast 
+          ? 'bg-gray-900 border-white border-2' 
+          : 'bg-gradient-to-br from-slate-950/90 via-indigo-950/90 to-purple-950/90 backdrop-blur-xl border-slate-700/30 shadow-2xl'
+      } animate-fade-in`}>
+        <CardHeader>
+          <CardTitle className={`text-2xl flex items-center gap-2 ${
+            settings.highContrast ? 'text-white' : 'text-slate-300'
+          }`}>
+            <Info className="w-6 h-6" />
+            Seções Adicionais
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="alerts" className="w-full">
+            <TabsList className={`grid w-full grid-cols-4 mb-6 ${
+              settings.highContrast 
+                ? 'bg-gray-800 border-2 border-gray-600' 
+                : 'bg-slate-900/50 backdrop-blur-md'
+            }`}>
+              <TabsTrigger value="alerts" className="flex items-center gap-2">
+                <Bell className="w-4 h-4" />
+                <span className="hidden sm:inline">Alertas</span>
+              </TabsTrigger>
+              <TabsTrigger value="collaboration" className="flex items-center gap-2">
+                <Network className="w-4 h-4" />
+                <span className="hidden sm:inline">Colaboração</span>
+              </TabsTrigger>
+              <TabsTrigger value="manual" className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4" />
+                <span className="hidden sm:inline">Manual</span>
+              </TabsTrigger>
+              <TabsTrigger value="technical" className="flex items-center gap-2">
+                <Beaker className="w-4 h-4" />
+                <span className="hidden sm:inline">Técnico</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="alerts">
+              <AlertsManager />
+            </TabsContent>
+
+            <TabsContent value="collaboration">
+              <ScientificCollaboration />
+            </TabsContent>
+
+            <TabsContent value="manual">
+              <SystemManual />
+            </TabsContent>
+
+            <TabsContent value="technical">
+              <TechnicalDocument />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+
       {/* Footer */}
       <Card className={`${
         settings.highContrast 
