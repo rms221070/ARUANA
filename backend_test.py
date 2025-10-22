@@ -855,6 +855,16 @@ class DetectionSystemTester:
         # Test deep sentiment analysis endpoint
         self.test_deep_sentiment_analysis()
         
+        # Test NEW NUTRITION ANALYSIS FEATURES
+        print("\n🍎 Testing Nutrition Analysis Features:")
+        print("-" * 50)
+        self.test_nutrition_analysis_endpoint()
+        self.test_nutritional_data_models()
+        self.test_enhanced_nutrition_prompts()
+        self.test_nutrition_database_integration()
+        self.test_nutrition_api_response_quality()
+        self.test_nutrition_error_handling()
+        
         # Test export functionality
         self.test_export_reports()
         
