@@ -1,6 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSettings } from "@/context/SettingsContext";
-import { Microscope, GraduationCap, Beaker, BookOpen, Users, Award } from "lucide-react";
+import { Microscope, GraduationCap, Beaker, BookOpen, Users, Award, Bell, Network, Info } from "lucide-react";
+import AlertsManager from "@/components/AlertsManager";
+import ScientificCollaboration from "@/components/ScientificCollaboration";
+import SystemManual from "@/components/SystemManual";
+import TechnicalDocument from "@/components/TechnicalDocumentNew";
 
 const About = () => {
   const { settings } = useSettings();
