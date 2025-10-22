@@ -68,7 +68,12 @@
     "buttonClicked": "Botão clicado",
     "tabSelected": "Aba selecionada",
     "cardExpanded": "Cartão expandido",
-    "formField": "Campo de formulário"
+    "formField": "Campo de formulário",
+    "audioAnalysis": "Análise de Áudio",
+    "audioAnalysisStarted": "Análise de áudio ambiente iniciada",
+    "audioError": "Erro ao acessar microfone",
+    "detectedSound": "Som detectado",
+    "volumeLevel": "Nível de volume"
   },
   "upload": {
     "title": "Upload de Imagem",
