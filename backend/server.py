@@ -11,6 +11,9 @@ from typing import List, Optional, Dict
 import uuid
 from datetime import datetime, timezone
 import base64
+import hashlib
+import secrets
+import jwt
 from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 import io
 import cv2
