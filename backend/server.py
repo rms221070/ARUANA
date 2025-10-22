@@ -66,6 +66,27 @@ class NutritionalAnalysis(BaseModel):
     meal_type: Optional[str] = None  # breakfast, lunch, dinner, snack
     nutritional_summary: Dict[str, float] = Field(default_factory=dict)
 
+class User(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: str
+    password_hash: str
+    user_type: str = "user"  # "user" or "admin"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    last_login: Optional[datetime] = None
+    is_active: bool = True
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+class UserRegister(BaseModel):
+    name: str
+    email: str
+    password: str
+    user_type: str = "user"
+
 class DetectedObject(BaseModel):
     label: str
     confidence: float
