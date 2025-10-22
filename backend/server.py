@@ -14,6 +14,9 @@ import base64
 import hashlib
 import secrets
 import jwt
+from passlib.context import CryptContext
+from datetime import timedelta
+from functools import wraps
 from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 import io
 import cv2
