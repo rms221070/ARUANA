@@ -338,6 +338,35 @@ const WebcamDetection = () => {
             </p>
           </div>
 
+          {/* Audio Analysis Display */}
+          {isListeningAudio && (
+            <div className={`p-3 rounded-lg border ${settings.highContrast ? 'bg-gray-800 border-gray-600' : 'bg-green-50 border-green-200'}`}>
+              <div className={`flex items-center gap-2 mb-2 ${settings.highContrast ? 'text-white' : 'text-green-800'}`}>
+                <Mic className="w-4 h-4" />
+                <span className="text-sm font-medium">{t('webcam.audioAnalysis')}</span>
+                <div className={`flex items-center gap-1 ${audioLevel > 30 ? 'text-green-600' : 'text-gray-400'}`}>
+                  <Volume2 className="w-3 h-3" />
+                  <div className="flex gap-1">
+                    {[1,2,3,4,5].map(i => (
+                      <div 
+                        key={i} 
+                        className={`w-1 h-3 rounded ${
+                          audioLevel > (i * 20) ? 'bg-green-500' : 'bg-gray-300'
+                        }`} 
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {audioAnalysis && (
+                <div className={`text-xs ${settings.highContrast ? 'text-gray-300' : 'text-green-700'}`}>
+                  <p className="font-medium">{t('webcam.detectedSound')}: {audioAnalysis.type}</p>
+                  <p>{t('webcam.volumeLevel')}: {Math.round(audioAnalysis.level)}%</p>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="flex gap-3 flex-wrap">
             {!isStreaming && !showPreview ? (
               <Button
