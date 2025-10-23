@@ -518,7 +518,9 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
   }
 }
 
-IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na imagem apresentam cada emoção/sentimento. Por exemplo, se há 3 pessoas sorrindo, coloque "sorrindo": 3. Se há 2 pessoas com sentimento positivo, coloque "positivo": 2."""
+IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na imagem apresentam cada emoção/sentimento. Por exemplo, se há 3 pessoas sorrindo, coloque "sorrindo": 3. Se há 2 pessoas com sentimento positivo, coloque "positivo": 2.
+
+🇧🇷 LEMBRE-SE: TODA A DESCRIÇÃO DEVE ESTAR EM PORTUGUÊS BRASILEIRO! NÃO USE INGLÊS! 🇧🇷"""
             
             user_message = UserMessage(
                 text=prompt,
