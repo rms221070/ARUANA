@@ -358,9 +358,11 @@ class AuthenticationTester:
         print("-" * 50)
         
         # Register a new user to test password security
+        import uuid
+        security_unique_id = str(uuid.uuid4())[:8]
         security_user_data = {
             "name": "Security Test User",
-            "email": "securitytest@example.com",
+            "email": f"securitytest{security_unique_id}@example.com",
             "password": "SecurityPass123!",
             "user_type": "user"
         }
