@@ -8,6 +8,7 @@ import { Upload, Loader2, X, Image as ImageIcon, Cloud } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
+import { useAuth } from "@/context/AuthContext";
 import EmotionAnalysis from "@/components/EmotionAnalysis";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -16,6 +17,7 @@ const API = `${BACKEND_URL}/api`;
 const UploadDetection = () => {
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
+  const { token } = useAuth();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
