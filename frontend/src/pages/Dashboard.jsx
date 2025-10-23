@@ -14,8 +14,9 @@ import IntelligentReports from "@/components/IntelligentReports";
 import ScientificCollaboration from "@/components/ScientificCollaboration";
 import SystemManual from "@/components/SystemManual";
 import TechnicalDocument from "@/components/TechnicalDocumentNew";
-import { Camera, Upload, History, Bell, Apple, Settings as SettingsIcon, Info, Shield, BarChart3, Network } from "lucide-react";
+import { Camera, Upload, History, Bell, Apple, Settings as SettingsIcon, Info, Shield, BarChart3, Network, LogOut, User } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
+import { useAuth } from "@/context/AuthContext";
 
 const Dashboard = () => {
   const { t } = useTranslation();
