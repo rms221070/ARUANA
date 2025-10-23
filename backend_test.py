@@ -1137,6 +1137,15 @@ class DetectionSystemTester:
         # Test basic connectivity
         self.test_root_endpoint()
         
+        # Test NEW AUTHENTICATION SYSTEM
+        print("\n🔐 Testing Authentication System:")
+        print("-" * 50)
+        self.test_user_registration()
+        login_success, access_token = self.test_user_login()
+        self.test_get_current_user()
+        self.test_jwt_token_validation()
+        self.test_password_security()
+        
         # Test alerts functionality
         self.test_alerts_crud()
         
