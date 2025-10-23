@@ -381,7 +381,7 @@ class AuthenticationTester:
             if registration_success:
                 # Login with the same user
                 login_data = {
-                    "email": "securitytest@example.com",
+                    "email": security_user_data["email"],
                     "password": "SecurityPass123!"
                 }
                 
