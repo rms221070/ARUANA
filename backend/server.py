@@ -688,6 +688,8 @@ async def register_user(user_data: UserRegister):
         
         return {"success": True, "message": "User created successfully"}
         
+    except HTTPException:
+        raise  # Re-raise HTTPException as-is (preserves status code)
     except Exception as e:
         logging.error(f"Registration error: {str(e)}")
         raise HTTPException(status_code=500, detail="Registration failed")
