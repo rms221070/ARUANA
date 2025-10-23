@@ -372,12 +372,16 @@ async def analyze_frame(input: DetectionCreate, request: Request):
             chat = LlmChat(
                 api_key=GOOGLE_API_KEY,
                 session_id=f"detection_{detection.id}",
-                system_message="Você é um sistema especialista em visão computacional e análise de emoções. Analise imagens e forneça descrições detalhadas em português brasileiro sobre pessoas, objetos, ambientes e estados emocionais."
+                system_message="🇧🇷 Você é um sistema especialista em visão computacional e análise de emoções BRASILEIRO. RESPONDA SEMPRE E EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO. Analise imagens e forneça descrições detalhadas em português do Brasil sobre pessoas, objetos, ambientes e estados emocionais. NUNCA responda em inglês ou outro idioma!"
             ).with_model("gemini", "gemini-2.0-flash")
             
             image_content = ImageContent(image_base64=image_data)
             
-            prompt = """Você é um assistente especialista em visão computacional para acessibilidade. Analise esta imagem em DETALHES EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição MUITO RICA para pessoas cegas ou com deficiência visual:
+            prompt = """🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+
+Você é um assistente especialista em visão computacional para acessibilidade. Analise esta imagem em DETALHES EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição MUITO RICA para pessoas cegas ou com deficiência visual:
+
+IMPORTANTE: TODA A DESCRIÇÃO DEVE SER EM PORTUGUÊS DO BRASIL!
 
 1. **PESSOAS DETECTADAS** - Para cada pessoa, descreva MINUCIOSAMENTE COM MÁXIMO DETALHAMENTO:
    
