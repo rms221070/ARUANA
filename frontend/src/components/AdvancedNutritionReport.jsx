@@ -195,26 +195,33 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* Dietary Compatibility */}
       {nutrition.dietary_compatibility && Object.keys(nutrition.dietary_compatibility).length > 0 && (
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-          <h3 className="text-lg font-bold text-white mb-4">Compatibilidade com Dietas</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-2xl border-4 border-gray-800">
+          <h3 className="text-xl font-bold text-gray-900 mb-6">🍽️ Compatibilidade com Dietas</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {Object.entries(nutrition.dietary_compatibility).map(([diet, compatible]) => (
               <div 
                 key={diet}
-                className={`p-3 rounded-xl border-2 ${
+                className={`p-4 rounded-xl border-3 ${
                   compatible 
-                    ? 'bg-green-500/10 border-green-500/30' 
-                    : 'bg-red-500/10 border-red-500/30'
+                    ? 'bg-green-50 border-green-600' 
+                    : 'bg-red-50 border-red-600'
                 }`}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-2 text-center">
                   {compatible ? (
-                    <CheckCircle size={16} className="text-green-400" />
+                    <CheckCircle size={24} className="text-green-600" />
                   ) : (
-                    <AlertTriangle size={16} className="text-red-400" />
+                    <AlertTriangle size={24} className="text-red-600" />
                   )}
-                  <span className="text-sm text-white capitalize">
+                  <span className={`text-sm font-bold capitalize ${
+                    compatible ? 'text-green-700' : 'text-red-700'
+                  }`}>
                     {diet.replace('_', ' ')}
+                  </span>
+                  <span className={`text-xs font-semibold ${
+                    compatible ? 'text-green-600' : 'text-red-600'
+                  }`}>
+                    {compatible ? '✓ Compatível' : '✗ Não Compatível'}
                   </span>
                 </div>
               </div>
