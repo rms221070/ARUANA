@@ -1,82 +1,82 @@
 {
   "summary": {
     "total_tests": 12,
-    "passed_tests": 8,
-    "success_rate": 66.66666666666666,
-    "timestamp": "2025-10-23T01:31:09.044089"
+    "passed_tests": 11,
+    "success_rate": 91.66666666666666,
+    "timestamp": "2025-10-23T01:32:27.787511"
   },
   "detailed_results": [
     {
       "test_name": "User Registration - Valid Data",
-      "success": false,
-      "details": "Status: 500, Response: {\"detail\":\"Registration failed\"}",
-      "timestamp": "2025-10-23T01:31:08.234751"
+      "success": true,
+      "details": "Status: 200, Success: True, Message: True",
+      "timestamp": "2025-10-23T01:32:26.240184"
     },
     {
       "test_name": "User Registration - Duplicate Email Rejection",
       "success": false,
       "details": "Status: 500, Expected: 400",
-      "timestamp": "2025-10-23T01:31:08.270698"
+      "timestamp": "2025-10-23T01:32:26.281955"
     },
     {
       "test_name": "Admin User Registration",
-      "success": false,
-      "details": "Status: 500",
-      "timestamp": "2025-10-23T01:31:08.305850"
+      "success": true,
+      "details": "Status: 200",
+      "timestamp": "2025-10-23T01:32:26.546425"
     },
     {
       "test_name": "User Login - Valid Credentials",
       "success": true,
       "details": "Status: 200, Token: True, Type: True, User: True",
-      "timestamp": "2025-10-23T01:31:08.564692"
+      "timestamp": "2025-10-23T01:32:26.810581"
     },
     {
       "test_name": "User Login - Wrong Password",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T01:31:08.824752"
+      "timestamp": "2025-10-23T01:32:27.070496"
     },
     {
       "test_name": "User Login - Non-existent Email",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T01:31:08.863515"
+      "timestamp": "2025-10-23T01:32:27.110149"
     },
     {
       "test_name": "Get Current User - Valid Token",
       "success": true,
       "details": "Status: 200, Required fields: True, Password excluded: True",
-      "timestamp": "2025-10-23T01:31:08.897845"
+      "timestamp": "2025-10-23T01:32:27.146166"
     },
     {
       "test_name": "Get Current User - No Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T01:31:08.932647"
+      "timestamp": "2025-10-23T01:32:27.183778"
     },
     {
       "test_name": "Get Current User - Invalid Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T01:31:08.971014"
+      "timestamp": "2025-10-23T01:32:27.223041"
     },
     {
       "test_name": "JWT Token Format",
       "success": true,
       "details": "Token parts: 3, Expected: 3",
-      "timestamp": "2025-10-23T01:31:08.971754"
+      "timestamp": "2025-10-23T01:32:27.223888"
     },
     {
       "test_name": "JWT Token Validity",
       "success": true,
       "details": "Token works for protected endpoint: True",
-      "timestamp": "2025-10-23T01:31:09.007436"
+      "timestamp": "2025-10-23T01:32:27.264948"
     },
     {
       "test_name": "Password Security - Bcrypt Hashing",
-      "success": false,
-      "details": "Registration failed",
-      "timestamp": "2025-10-23T01:31:09.043214"
+      "success": true,
+      "details": "Password excluded from all responses: True",
+      "timestamp": "2025-10-23T01:32:27.786685"
     }
   ]
 }
