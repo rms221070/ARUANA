@@ -743,6 +743,7 @@ RETORNE JSON ESTRUTURADO PhD-LEVEL COMPLETO:
 }}
 
 IMPORTANTE - DIRETRIZES PhD:
+- 🇧🇷 RESPONDA TUDO EM PORTUGUÊS BRASILEIRO - OBRIGATÓRIO!
 - Use SEMPRE valores baseados em TACO (Tabela Brasileira de Composição de Alimentos)
 - Considere método de preparo e impacto nutricional
 - Seja PRECISO e CIENTÍFICO nas recomendações
@@ -750,13 +751,16 @@ IMPORTANTE - DIRETRIZES PhD:
 - Compare com DRIs brasileiras (RDC 269/2005)
 - Calcule índices glicêmicos baseados em literatura científica
 - Se não houver alimentos, retorne arrays/listas vazios
+- TODAS as descrições, recomendações e textos devem estar em PORTUGUÊS!
+
+🇧🇷 LEMBRE-SE: RESPOSTA 100% EM PORTUGUÊS DO BRASIL! 🇧🇷
 """
         
         # Process via Gemini 2.0 Flash
         chat = LlmChat(
             api_key=GOOGLE_API_KEY,
             session_id=f"nutrition_analysis_{uuid.uuid4()}",
-            system_message="Especialista em nutrição e análise de alimentos com conhecimento em tabelas nutricionais brasileiras"
+            system_message="Você é um especialista PhD em nutrição e análise de alimentos brasileiro. RESPONDA SEMPRE EM PORTUGUÊS BRASILEIRO. Use a Tabela Brasileira de Composição de Alimentos (TACO) e as DRIs brasileiras (RDC 269/2005)."
         ).with_model("gemini", "gemini-2.0-flash")
         
         response = await chat.send_message(
