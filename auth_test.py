@@ -134,7 +134,7 @@ class AuthenticationTester:
         except Exception as e:
             self.log_test("Admin User Registration", False, f"Exception: {str(e)}")
         
-        return True
+        return registered_email
 
     def test_user_login(self, test_email=None):
         """Test POST /api/auth/login endpoint"""
