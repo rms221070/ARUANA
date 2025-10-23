@@ -198,6 +198,7 @@ class Detection(BaseModel):
     emotion_analysis: Optional[EmotionAnalysis] = None
     sentiment_analysis: Optional[SentimentAnalysis] = None
     nutritional_analysis: Optional[NutritionalAnalysis] = None
+    user_id: Optional[str] = None  # ID of the user who created this detection
 
 class DetectionCreate(BaseModel):
     source: str
