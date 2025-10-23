@@ -793,10 +793,15 @@ IMPORTANTE - DIRETRIZES PhD:
                 nutrition_data = result['nutritional_analysis']
                 detection.nutritional_analysis = NutritionalAnalysis(**nutrition_data)
                 
-        except Exception as e:
+        except json.JSONDecodeError as e:
             # If JSON parsing fails, use raw response
             logging.error(f"JSON parsing failed for nutrition analysis: {str(e)}")
-            detection.description = response_text if 'response_text' in locals() else response
+            logging.error(f"Raw response: {response_text if 'response_text' in locals() else response}")
+            detection.description = response_text if 'response_text' in locals() else str(response)
+            detection.nutritional_analysis = NutritionalAnalysis()
+        except Exception as e:
+            logging.error(f"Error processing nutrition data: {str(e)}")
+            detection.description = response_text if 'response_text' in locals() else str(response)
             detection.nutritional_analysis = NutritionalAnalysis()
         
         # Save to database
