@@ -78,14 +78,19 @@ class AuthenticationTester:
                 self.log_test("User Registration - Valid Data", 
                              success and has_success,
                              f"Status: {response.status_code}, Success: {has_success}, Message: {has_message}")
+                if success and has_success:
+                    registered_email = registration_data["email"]
+                else:
+                    registered_email = None
             else:
                 self.log_test("User Registration - Valid Data", 
                              False,
                              f"Status: {response.status_code}, Response: {response.text}")
+                registered_email = None
                 
         except Exception as e:
             self.log_test("User Registration - Valid Data", False, f"Exception: {str(e)}")
-            return False
+            return None
         
         # Test 2: Duplicate email registration (should fail)
         try:
