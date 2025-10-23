@@ -762,19 +762,54 @@ IMPORTANTE - DIRETRIZES PhD:
 🇧🇷 LEMBRE-SE: RESPOSTA 100% EM PORTUGUÊS DO BRASIL! 🇧🇷
 """
         
-        # Process via Gemini 2.0 Flash
-        chat = LlmChat(
-            api_key=GOOGLE_API_KEY,
-            session_id=f"nutrition_analysis_{uuid.uuid4()}",
-            system_message="Você é um especialista PhD em nutrição e análise de alimentos brasileiro. RESPONDA SEMPRE EM PORTUGUÊS BRASILEIRO. Use a Tabela Brasileira de Composição de Alimentos (TACO) e as DRIs brasileiras (RDC 269/2005)."
-        ).with_model("gemini", "gemini-2.0-flash")
+        # Process via Gemini 2.0 Flash with retry logic
+        max_retries = 3
+        retry_delay = 2
+        response = None
+        last_error = None
         
-        response = await chat.send_message(
-            UserMessage(
-                text=nutrition_prompt,
-                file_contents=[ImageContent(image_base64=image_data)]
-            )
-        )
+        for attempt in range(max_retries):
+            try:
+                chat = LlmChat(
+                    api_key=GOOGLE_API_KEY,
+                    session_id=f"nutrition_analysis_{uuid.uuid4()}",
+                    system_message="Você é um especialista PhD em nutrição e análise de alimentos brasileiro. RESPONDA SEMPRE EM PORTUGUÊS BRASILEIRO. Use a Tabela Brasileira de Composição de Alimentos (TACO) e as DRIs brasileiras (RDC 269/2005)."
+                ).with_model("gemini", "gemini-2.0-flash")
+                
+                response = await chat.send_message(
+                    UserMessage(
+                        text=nutrition_prompt,
+                        file_contents=[ImageContent(image_base64=image_data)]
+                    )
+                )
+                
+                # If we got here, request succeeded
+                break
+                
+            except Exception as e:
+                last_error = e
+                error_msg = str(e).lower()
+                
+                # Check if it's a retryable error (503, overloaded, rate limit)
+                if '503' in error_msg or 'overloaded' in error_msg or 'rate' in error_msg:
+                    if attempt < max_retries - 1:
+                        logging.warning(f"Gemini API overloaded, retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                        import asyncio
+                        await asyncio.sleep(retry_delay)
+                        retry_delay *= 2  # Exponential backoff
+                        continue
+                    else:
+                        logging.error(f"Max retries reached for nutrition analysis")
+                        raise HTTPException(
+                            status_code=503, 
+                            detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
+                        )
+                else:
+                    # Non-retryable error, raise immediately
+                    raise
+        
+        if response is None:
+            raise last_error or Exception("Failed to get response from Gemini")
         
         # Parse response
         try:
