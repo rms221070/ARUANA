@@ -1138,6 +1138,84 @@ class DetectionSystemTester:
             return password_not_in_response
         
         return False
+    def test_emotion_sentiment_analysis_with_auth(self, token):
+        """Test emotion and sentiment analysis with authentication"""
+        test_image = self.create_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+        
+        # Test enhanced AI analysis with emotion/sentiment detection
+        success, result = self.run_test(
+            "Enhanced AI Analysis - Emotion/Sentiment (Authenticated)",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        if success:
+            # Test emotion_analysis field presence and structure
+            has_emotion_analysis = 'emotion_analysis' in result
+            emotion_valid = False
+            
+            if has_emotion_analysis and result['emotion_analysis']:
+                emotion_data = result['emotion_analysis']
+                required_emotions = ['sorrindo', 'serio', 'triste', 'surpreso', 'zangado', 'neutro']
+                emotion_valid = all(
+                    emotion in emotion_data and isinstance(emotion_data[emotion], int) and emotion_data[emotion] >= 0
+                    for emotion in required_emotions
+                )
+                
+            self.log_test("Emotion Analysis - Structure (Authenticated)", 
+                         has_emotion_analysis and emotion_valid,
+                         f"Present: {has_emotion_analysis}, Valid: {emotion_valid}")
+        
+        return success
+
+    def test_nutrition_analysis_with_auth(self, token):
+        """Test nutrition analysis with authentication"""
+        test_image = self.create_food_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+        
+        success, result = self.run_test(
+            "Nutrition Analysis Endpoint (Authenticated)",
+            "POST",
+            "detect/analyze-nutrition",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "nutrition",
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        if success:
+            # Check response structure
+            has_id = 'id' in result
+            has_description = 'description' in result
+            has_timestamp = 'timestamp' in result
+            has_nutritional_analysis = 'nutritional_analysis' in result
+            
+            self.log_test("Nutrition Analysis - Response Structure (Authenticated)", 
+                         has_id and has_description and has_timestamp,
+                         f"ID: {has_id}, Description: {has_description}, Timestamp: {has_timestamp}, Nutrition: {has_nutritional_analysis}")
+        
+        return success
 
     def test_full_authentication_flow(self):
         """Test complete authentication system as requested in review"""
