@@ -1433,11 +1433,11 @@ class DetectionSystemTester:
             # Test frame analysis (already tested in auth flow)
             # self.test_analyze_frame()
             
-            # Test emotion and sentiment analysis features
-            self.test_emotion_sentiment_analysis()
+            # Test emotion and sentiment analysis features with auth
+            self.test_emotion_sentiment_analysis_with_auth(user_token)
             
-            # Test nutrition analysis
-            self.test_nutrition_analysis_endpoint()
+            # Test nutrition analysis with auth
+            self.test_nutrition_analysis_with_auth(user_token)
             
             # Test export functionality
             self.test_export_reports()
