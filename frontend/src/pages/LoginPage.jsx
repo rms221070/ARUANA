@@ -147,7 +147,13 @@ const LoginPage = () => {
             </form>
 
             {/* Register Link */}
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center space-y-3">
+              <Link
+                to="/forgot-password"
+                className="text-blue-300 hover:text-white transition-colors text-sm block"
+              >
+                Esqueceu sua senha?
+              </Link>
               <p className="text-white/70 text-sm">
                 Não tem uma conta?{' '}
                 <Link
