@@ -41,35 +41,37 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* Nutritional Balance */}
       {nutrition.nutritional_balance && (
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <Activity size={24} className="text-blue-400" />
-            <h3 className="text-lg font-bold text-white">Balanço de Macronutrientes</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-2xl border-4 border-blue-600">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-blue-600 p-2 rounded-xl">
+              <Activity size={24} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">Balanço de Macronutrientes</h3>
           </div>
           
           <div className="grid grid-cols-3 gap-4">
             {nutrition.nutritional_balance.protein_percent && (
-              <div className="text-center">
-                <div className="text-3xl font-bold text-red-400">
+              <div className="text-center bg-red-50 rounded-xl p-4 border-3 border-red-600">
+                <div className="text-4xl font-bold text-red-700">
                   {nutrition.nutritional_balance.protein_percent.toFixed(1)}%
                 </div>
-                <div className="text-sm text-white/70">Proteínas</div>
+                <div className="text-base font-bold text-gray-800 mt-2">Proteínas</div>
               </div>
             )}
             {nutrition.nutritional_balance.carbs_percent && (
-              <div className="text-center">
-                <div className="text-3xl font-bold text-yellow-400">
+              <div className="text-center bg-yellow-50 rounded-xl p-4 border-3 border-yellow-600">
+                <div className="text-4xl font-bold text-yellow-700">
                   {nutrition.nutritional_balance.carbs_percent.toFixed(1)}%
                 </div>
-                <div className="text-sm text-white/70">Carboidratos</div>
+                <div className="text-base font-bold text-gray-800 mt-2">Carboidratos</div>
               </div>
             )}
             {nutrition.nutritional_balance.fat_percent && (
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-400">
+              <div className="text-center bg-green-50 rounded-xl p-4 border-3 border-green-600">
+                <div className="text-4xl font-bold text-green-700">
                   {nutrition.nutritional_balance.fat_percent.toFixed(1)}%
                 </div>
-                <div className="text-sm text-white/70">Gorduras</div>
+                <div className="text-base font-bold text-gray-800 mt-2">Gorduras</div>
               </div>
             )}
           </div>
