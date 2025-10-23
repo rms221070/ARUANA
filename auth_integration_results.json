@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "total_tests": 14,
+    "passed_tests": 14,
+    "success_rate": 100.0,
+    "integration_success": true,
+    "timestamp": "2025-10-23T14:16:36.006350"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Analyze Frame - No Auth Blocked",
+      "success": true,
+      "details": "Status without auth: 401, Expected: 401",
+      "timestamp": "2025-10-23T14:16:07.106516"
+    },
+    {
+      "test_name": "Analyze Frame - With Auth Works",
+      "success": true,
+      "details": "Status with auth: 200",
+      "timestamp": "2025-10-23T14:16:21.321215"
+    },
+    {
+      "test_name": "Analyze Frame - User ID Set",
+      "success": true,
+      "details": "User ID in response: True",
+      "timestamp": "2025-10-23T14:16:21.321248"
+    },
+    {
+      "test_name": "Nutrition Analysis - No Auth Blocked",
+      "success": true,
+      "details": "Status without auth: 401, Expected: 401",
+      "timestamp": "2025-10-23T14:16:21.924468"
+    },
+    {
+      "test_name": "Nutrition Analysis - With Auth Works",
+      "success": true,
+      "details": "Status with auth: 503",
+      "timestamp": "2025-10-23T14:16:34.251324"
+    },
+    {
+      "test_name": "Detections - No Auth Blocked",
+      "success": true,
+      "details": "Status without auth: 401, Expected: 401",
+      "timestamp": "2025-10-23T14:16:34.836515"
+    },
+    {
+      "test_name": "Detections - With Auth Works",
+      "success": true,
+      "details": "Status with auth: 200",
+      "timestamp": "2025-10-23T14:16:34.875057"
+    },
+    {
+      "test_name": "Detections - User Access Control",
+      "success": true,
+      "details": "User sees only own detections: True",
+      "timestamp": "2025-10-23T14:16:34.875090"
+    },
+    {
+      "test_name": "Review Scenario - Exact Credentials Login",
+      "success": true,
+      "details": "Login with review credentials: 200",
+      "timestamp": "2025-10-23T14:16:35.399380"
+    },
+    {
+      "test_name": "Review Scenario - Response Structure",
+      "success": true,
+      "details": "Token: True, Bearer: True, User: True",
+      "timestamp": "2025-10-23T14:16:35.399416"
+    },
+    {
+      "test_name": "Review Scenario - GET /auth/me",
+      "success": true,
+      "details": "Status: 200, No password: True",
+      "timestamp": "2025-10-23T14:16:35.438370"
+    },
+    {
+      "test_name": "MongoDB Verification - User Registration",
+      "success": true,
+      "details": "Registration status: 200",
+      "timestamp": "2025-10-23T14:16:35.699084"
+    },
+    {
+      "test_name": "MongoDB Verification - Login After Registration",
+      "success": true,
+      "details": "Login status: 200",
+      "timestamp": "2025-10-23T14:16:35.963998"
+    },
+    {
+      "test_name": "MongoDB Verification - Duplicate Email Blocked",
+      "success": true,
+      "details": "Duplicate registration status: 400",
+      "timestamp": "2025-10-23T14:16:36.006154"
+    }
+  ]
+}
