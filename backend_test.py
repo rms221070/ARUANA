@@ -1347,7 +1347,7 @@ class DetectionSystemTester:
             }
         )
         
-        no_auth_blocked = not success_no_auth  # We expect this to fail
+        no_auth_blocked = success_no_auth  # We expect this to succeed (return 401)
         
         # Try to call detections WITHOUT token
         success_no_auth_det, result_no_auth_det = self.run_test(
@@ -1357,7 +1357,7 @@ class DetectionSystemTester:
             401,  # Should return 401
         )
         
-        no_auth_det_blocked = not success_no_auth_det  # We expect this to fail
+        no_auth_det_blocked = success_no_auth_det  # We expect this to succeed (return 401)
         
         # Try with invalid token
         invalid_headers = {
@@ -1378,7 +1378,7 @@ class DetectionSystemTester:
             headers=invalid_headers
         )
         
-        invalid_token_blocked = not success_invalid_token  # We expect this to fail
+        invalid_token_blocked = success_invalid_token  # We expect this to succeed (return 401)
         
         self.log_test("5.4 Unauthorized Access Summary", 
                      no_auth_blocked and no_auth_det_blocked and invalid_token_blocked,
