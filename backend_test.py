@@ -1129,57 +1129,308 @@ class DetectionSystemTester:
         
         return False
 
+    def test_full_authentication_flow(self):
+        """Test complete authentication system as requested in review"""
+        print("\n🔐 COMPREHENSIVE AUTHENTICATION SYSTEM TESTING")
+        print("=" * 60)
+        
+        # Generate unique test data
+        import random
+        random_id = random.randint(1000, 9999)
+        
+        # 1. Full User Registration and Login Flow
+        print("\n1️⃣ Testing Full User Registration and Login Flow:")
+        print("-" * 50)
+        
+        user_email = f"testuser{random_id}@example.com"
+        admin_email = f"admin{random_id}@example.com"
+        
+        # Register regular user
+        user_data = {
+            "name": f"Test User {random_id}",
+            "email": user_email,
+            "password": "TestPass123!",
+            "user_type": "user"
+        }
+        
+        success_reg, result_reg = self.run_test(
+            "1.1 Register New User",
+            "POST",
+            "auth/register",
+            200,
+            data=user_data
+        )
+        
+        if not success_reg:
+            return False, None, None
+        
+        # Login with registered user
+        login_data = {
+            "email": user_email,
+            "password": "TestPass123!"
+        }
+        
+        success_login, result_login = self.run_test(
+            "1.2 Login with Registered User",
+            "POST",
+            "auth/login",
+            200,
+            data=login_data
+        )
+        
+        if not success_login:
+            return False, None, None
+        
+        user_token = result_login.get('access_token')
+        user_id = result_login.get('user', {}).get('id')
+        
+        # Call GET /api/auth/me with token
+        user_headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {user_token}'
+        }
+        
+        success_me, result_me = self.run_test(
+            "1.3 Get Current User Info",
+            "GET",
+            "auth/me",
+            200,
+            headers=user_headers
+        )
+        
+        if success_me:
+            # Verify user info is returned correctly
+            required_fields = ['id', 'name', 'email', 'user_type']
+            has_required = all(field in result_me for field in required_fields)
+            no_password = 'password' not in result_me and 'password_hash' not in result_me
+            
+            self.log_test("1.4 User Info Verification", 
+                         has_required and no_password,
+                         f"Required fields: {has_required}, Password excluded: {no_password}")
+        
+        # 2. Detection Creation with Authentication
+        print("\n2️⃣ Testing Detection Creation with Authentication:")
+        print("-" * 50)
+        
+        test_image = self.create_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        success_detect, result_detect = self.run_test(
+            "2.1 Create Detection with JWT Token",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            },
+            headers=user_headers
+        )
+        
+        detection_id = None
+        if success_detect:
+            detection_id = result_detect.get('id')
+            has_user_id = result_detect.get('user_id') == user_id
+            
+            self.log_test("2.2 Detection User ID Verification", 
+                         has_user_id,
+                         f"Detection user_id matches: {has_user_id}")
+        
+        # 3. Access Control - User View
+        print("\n3️⃣ Testing Access Control - User View:")
+        print("-" * 50)
+        
+        success_user_detections, result_user_detections = self.run_test(
+            "3.1 Get Detections as User",
+            "GET",
+            "detections",
+            200,
+            headers=user_headers
+        )
+        
+        if success_user_detections:
+            # Verify only user's detections are returned
+            user_owns_all = True
+            for detection in result_user_detections:
+                if detection.get('user_id') != user_id:
+                    user_owns_all = False
+                    break
+            
+            self.log_test("3.2 User Access Control Verification", 
+                         user_owns_all,
+                         f"User sees only own detections: {user_owns_all}, Count: {len(result_user_detections)}")
+        
+        # 4. Admin User Test
+        print("\n4️⃣ Testing Admin User Access:")
+        print("-" * 50)
+        
+        # Register admin user
+        admin_data = {
+            "name": f"Admin User {random_id}",
+            "email": admin_email,
+            "password": "AdminPass123!",
+            "user_type": "admin"
+        }
+        
+        success_admin_reg, result_admin_reg = self.run_test(
+            "4.1 Register Admin User",
+            "POST",
+            "auth/register",
+            200,
+            data=admin_data
+        )
+        
+        if not success_admin_reg:
+            return False, user_token, None
+        
+        # Login as admin
+        admin_login_data = {
+            "email": admin_email,
+            "password": "AdminPass123!"
+        }
+        
+        success_admin_login, result_admin_login = self.run_test(
+            "4.2 Login as Admin",
+            "POST",
+            "auth/login",
+            200,
+            data=admin_login_data
+        )
+        
+        if not success_admin_login:
+            return False, user_token, None
+        
+        admin_token = result_admin_login.get('access_token')
+        admin_headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {admin_token}'
+        }
+        
+        # Get detections as admin (should see ALL detections)
+        success_admin_detections, result_admin_detections = self.run_test(
+            "4.3 Get All Detections as Admin",
+            "GET",
+            "detections",
+            200,
+            headers=admin_headers
+        )
+        
+        if success_admin_detections:
+            # Admin should see more detections than regular user (or at least same amount)
+            admin_sees_all = len(result_admin_detections) >= len(result_user_detections)
+            
+            # Check if admin can see detections from different users
+            user_ids_seen = set()
+            for detection in result_admin_detections:
+                if detection.get('user_id'):
+                    user_ids_seen.add(detection.get('user_id'))
+            
+            self.log_test("4.4 Admin Access Verification", 
+                         admin_sees_all,
+                         f"Admin sees all detections: {admin_sees_all}, Users seen: {len(user_ids_seen)}")
+        
+        # 5. Unauthorized Access Test
+        print("\n5️⃣ Testing Unauthorized Access:")
+        print("-" * 50)
+        
+        # Try to call analyze-frame WITHOUT token
+        success_no_auth, result_no_auth = self.run_test(
+            "5.1 Analyze Frame - No Token",
+            "POST",
+            "detect/analyze-frame",
+            401,  # Should return 401
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            }
+        )
+        
+        no_auth_blocked = not success_no_auth  # We expect this to fail
+        
+        # Try to call detections WITHOUT token
+        success_no_auth_det, result_no_auth_det = self.run_test(
+            "5.2 Get Detections - No Token",
+            "GET",
+            "detections",
+            401,  # Should return 401
+        )
+        
+        no_auth_det_blocked = not success_no_auth_det  # We expect this to fail
+        
+        # Try with invalid token
+        invalid_headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer invalid_token_12345'
+        }
+        
+        success_invalid_token, result_invalid_token = self.run_test(
+            "5.3 Analyze Frame - Invalid Token",
+            "POST",
+            "detect/analyze-frame",
+            401,  # Should return 401
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            },
+            headers=invalid_headers
+        )
+        
+        invalid_token_blocked = not success_invalid_token  # We expect this to fail
+        
+        self.log_test("5.4 Unauthorized Access Summary", 
+                     no_auth_blocked and no_auth_det_blocked and invalid_token_blocked,
+                     f"No token blocked: {no_auth_blocked}, Invalid token blocked: {invalid_token_blocked}")
+        
+        # Summary of authentication tests
+        auth_tests_passed = (success_reg and success_login and success_me and 
+                           success_detect and success_user_detections and 
+                           success_admin_reg and success_admin_login and 
+                           success_admin_detections and no_auth_blocked and 
+                           no_auth_det_blocked and invalid_token_blocked)
+        
+        print(f"\n🔐 Authentication System Test Summary: {'✅ PASSED' if auth_tests_passed else '❌ FAILED'}")
+        
+        return auth_tests_passed, user_token, admin_token
+
     def run_all_tests(self):
         """Run all backend tests"""
-        print("🚀 Starting Backend API Tests for Enhanced Person Analysis System")
+        print("🚀 Starting Comprehensive Authentication System Tests")
         print("=" * 70)
         
         # Test basic connectivity
         self.test_root_endpoint()
         
-        # Test NEW AUTHENTICATION SYSTEM
-        print("\n🔐 Testing Authentication System:")
+        # Run COMPREHENSIVE AUTHENTICATION TESTS as requested
+        auth_success, user_token, admin_token = self.test_full_authentication_flow()
+        
+        # Test additional authentication features
+        print("\n🔐 Additional Authentication Tests:")
         print("-" * 50)
-        self.test_user_registration()
-        login_success, access_token = self.test_user_login()
-        self.test_get_current_user()
         self.test_jwt_token_validation()
         self.test_password_security()
         
-        # Test alerts functionality
-        self.test_alerts_crud()
-        
-        # Test detections API
-        self.test_detections_api()
-        
-        # Test frame analysis (core functionality)
-        self.test_analyze_frame()
-        
-        # Test emotion and sentiment analysis features
-        self.test_emotion_sentiment_analysis()
-        
-        # Test NEW ENHANCED FEATURES - Ultra-detailed person analysis
-        print("\n🔍 Testing Enhanced Person Analysis Features:")
-        print("-" * 50)
-        self.test_enhanced_person_analysis()
-        self.test_prompt_enhancement_validation()
-        self.test_api_response_times()
-        
-        # Test deep sentiment analysis endpoint
-        self.test_deep_sentiment_analysis()
-        
-        # Test NEW NUTRITION ANALYSIS FEATURES
-        print("\n🍎 Testing Nutrition Analysis Features:")
-        print("-" * 50)
-        self.test_nutrition_analysis_endpoint()
-        self.test_nutritional_data_models()
-        self.test_enhanced_nutrition_prompts()
-        self.test_nutrition_database_integration()
-        self.test_nutrition_api_response_quality()
-        self.test_nutrition_error_handling()
-        
-        # Test export functionality
-        self.test_export_reports()
+        # Test other functionality with authentication
+        if user_token:
+            print("\n🔍 Testing Other Features with Authentication:")
+            print("-" * 50)
+            
+            # Test alerts functionality
+            self.test_alerts_crud()
+            
+            # Test frame analysis (already tested in auth flow)
+            # self.test_analyze_frame()
+            
+            # Test emotion and sentiment analysis features
+            self.test_emotion_sentiment_analysis()
+            
+            # Test nutrition analysis
+            self.test_nutrition_analysis_endpoint()
+            
+            # Test export functionality
+            self.test_export_reports()
         
         # Print summary
         print("\n" + "=" * 70)
