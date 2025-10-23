@@ -1114,7 +1114,7 @@ class DetectionSystemTester:
         
         # Login with the same user
         login_data = {
-            "email": "securitytest@example.com",
+            "email": f"securitytest{random_id}@example.com",
             "password": "SecurityPass123!"
         }
         
