@@ -24,6 +24,7 @@ import numpy as np
 from PIL import Image
 import json
 import csv
+import asyncio
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
