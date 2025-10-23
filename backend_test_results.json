@@ -1,214 +1,238 @@
 {
   "summary": {
-    "total_tests": 34,
-    "passed_tests": 27,
-    "success_rate": 79.41176470588235,
-    "timestamp": "2025-10-23T02:09:53.764204"
+    "total_tests": 38,
+    "passed_tests": 36,
+    "success_rate": 94.73684210526315,
+    "timestamp": "2025-10-23T02:11:46.783242"
   },
   "detailed_results": [
     {
       "test_name": "Root API Endpoint",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:46.631417"
+      "timestamp": "2025-10-23T02:11:28.996723"
     },
     {
       "test_name": "1.1 Register New User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:46.921758"
+      "timestamp": "2025-10-23T02:11:29.268407"
     },
     {
       "test_name": "1.2 Login with Registered User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:47.225056"
+      "timestamp": "2025-10-23T02:11:29.529167"
     },
     {
       "test_name": "1.3 Get Current User Info",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:47.265834"
+      "timestamp": "2025-10-23T02:11:29.572862"
     },
     {
       "test_name": "1.4 User Info Verification",
       "success": true,
       "details": "Required fields: True, Password excluded: True",
-      "timestamp": "2025-10-23T02:09:47.266506"
+      "timestamp": "2025-10-23T02:11:29.573495"
     },
     {
       "test_name": "2.1 Create Detection with JWT Token",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:51.910277"
+      "timestamp": "2025-10-23T02:11:34.905111"
     },
     {
       "test_name": "2.2 Detection User ID Verification",
       "success": true,
       "details": "Detection user_id matches: True",
-      "timestamp": "2025-10-23T02:09:51.910943"
+      "timestamp": "2025-10-23T02:11:34.905758"
     },
     {
       "test_name": "3.1 Get Detections as User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:51.972284"
+      "timestamp": "2025-10-23T02:11:34.982400"
     },
     {
       "test_name": "3.2 User Access Control Verification",
       "success": true,
       "details": "User sees only own detections: True, Count: 1",
-      "timestamp": "2025-10-23T02:09:51.972885"
+      "timestamp": "2025-10-23T02:11:34.983075"
     },
     {
       "test_name": "4.1 Register Admin User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:52.234083"
+      "timestamp": "2025-10-23T02:11:35.244635"
     },
     {
       "test_name": "4.2 Login as Admin",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:52.491590"
+      "timestamp": "2025-10-23T02:11:35.503474"
     },
     {
       "test_name": "4.3 Get All Detections as Admin",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:52.589258"
+      "timestamp": "2025-10-23T02:11:35.589375"
     },
     {
       "test_name": "4.4 Admin Access Verification",
       "success": true,
-      "details": "Admin sees all detections: True, Users seen: 2",
-      "timestamp": "2025-10-23T02:09:52.594799"
+      "details": "Admin sees all detections: True, Users seen: 3",
+      "timestamp": "2025-10-23T02:11:35.594846"
     },
     {
       "test_name": "5.1 Analyze Frame - No Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T02:09:52.626783"
+      "timestamp": "2025-10-23T02:11:35.627729"
     },
     {
       "test_name": "5.2 Get Detections - No Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T02:09:52.664779"
+      "timestamp": "2025-10-23T02:11:35.660740"
     },
     {
       "test_name": "5.3 Analyze Frame - Invalid Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T02:09:52.699832"
+      "timestamp": "2025-10-23T02:11:35.696613"
     },
     {
       "test_name": "5.4 Unauthorized Access Summary",
-      "success": false,
-      "details": "No token blocked: False, Invalid token blocked: False",
-      "timestamp": "2025-10-23T02:09:52.700516"
+      "success": true,
+      "details": "No token blocked: True, Invalid token blocked: True",
+      "timestamp": "2025-10-23T02:11:35.697235"
     },
     {
       "test_name": "Login Test - User Setup",
-      "success": false,
-      "details": "Status: 400, Expected: 200, Response: {'detail': 'Email already registered'}",
-      "timestamp": "2025-10-23T02:09:52.739882"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-23T02:11:35.954753"
     },
     {
       "test_name": "User Login - Valid Credentials",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:52.997340"
+      "timestamp": "2025-10-23T02:11:36.214313"
     },
     {
       "test_name": "User Login - Response Structure",
       "success": true,
       "details": "Success: True, Token: True, Type: True, User: True",
-      "timestamp": "2025-10-23T02:09:52.998064"
+      "timestamp": "2025-10-23T02:11:36.215142"
     },
     {
       "test_name": "User Login - Wrong Password",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T02:09:53.257328"
+      "timestamp": "2025-10-23T02:11:36.470276"
     },
     {
       "test_name": "User Login - Non-existent Email",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-10-23T02:09:53.293138"
+      "timestamp": "2025-10-23T02:11:36.508135"
     },
     {
       "test_name": "User Login - Error Handling",
       "success": false,
       "details": "Wrong password: False, Non-existent: False",
-      "timestamp": "2025-10-23T02:09:53.293761"
+      "timestamp": "2025-10-23T02:11:36.508867"
     },
     {
       "test_name": "JWT Token Validation - Setup Failed",
       "success": false,
       "details": "Could not obtain access token",
-      "timestamp": "2025-10-23T02:09:53.293779"
+      "timestamp": "2025-10-23T02:11:36.508890"
     },
     {
       "test_name": "Password Security - Registration",
-      "success": false,
-      "details": "Status: 400, Expected: 200, Response: {'detail': 'Email already registered'}",
-      "timestamp": "2025-10-23T02:09:53.331224"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-23T02:11:36.765870"
+    },
+    {
+      "test_name": "Password Security - Login",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-23T02:11:37.022015"
+    },
+    {
+      "test_name": "Password Security - Not in Response",
+      "success": true,
+      "details": "Password excluded from response: True",
+      "timestamp": "2025-10-23T02:11:37.022726"
     },
     {
       "test_name": "Create Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:53.365665"
+      "timestamp": "2025-10-23T02:11:37.056032"
     },
     {
       "test_name": "Get Alerts",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:53.400088"
+      "timestamp": "2025-10-23T02:11:37.089527"
     },
     {
       "test_name": "Find Created Alert",
       "success": true,
-      "details": "Alert ID: fe80c5c6-1cf4-4568-9baf-6a94437b1724",
-      "timestamp": "2025-10-23T02:09:53.400795"
+      "details": "Alert ID: ddd1b1fb-025d-46cc-b596-039323563cc0",
+      "timestamp": "2025-10-23T02:11:37.090147"
     },
     {
       "test_name": "Toggle Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:53.437577"
+      "timestamp": "2025-10-23T02:11:37.127071"
     },
     {
       "test_name": "Delete Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:53.469389"
+      "timestamp": "2025-10-23T02:11:37.204601"
     },
     {
-      "test_name": "Enhanced AI Analysis - Emotion/Sentiment",
-      "success": false,
-      "details": "Status: 401, Expected: 200, Response: {'detail': 'Authentication required'}",
-      "timestamp": "2025-10-23T02:09:53.542247"
+      "test_name": "Enhanced AI Analysis - Emotion/Sentiment (Authenticated)",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-23T02:11:41.878963"
     },
     {
-      "test_name": "Nutrition Analysis Endpoint",
-      "success": false,
-      "details": "Status: 401, Expected: 200, Response: {'detail': 'Authentication required'}",
-      "timestamp": "2025-10-23T02:09:53.583908"
+      "test_name": "Emotion Analysis - Structure (Authenticated)",
+      "success": true,
+      "details": "Present: True, Valid: True",
+      "timestamp": "2025-10-23T02:11:41.879840"
+    },
+    {
+      "test_name": "Nutrition Analysis Endpoint (Authenticated)",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-23T02:11:46.619453"
+    },
+    {
+      "test_name": "Nutrition Analysis - Response Structure (Authenticated)",
+      "success": true,
+      "details": "ID: True, Description: True, Timestamp: True, Nutrition: True",
+      "timestamp": "2025-10-23T02:11:46.620125"
     },
     {
       "test_name": "Export Report - JSON",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:53.707409"
+      "timestamp": "2025-10-23T02:11:46.736100"
     },
     {
       "test_name": "Export Report - CSV",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-10-23T02:09:53.763186"
+      "timestamp": "2025-10-23T02:11:46.782169"
     }
   ]
 }
