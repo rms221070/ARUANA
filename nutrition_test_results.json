@@ -3,111 +3,111 @@
     "total_tests": 17,
     "passed_tests": 17,
     "success_rate": 100.0,
-    "timestamp": "2025-10-23T12:56:38.154795",
-    "all_criteria_met": false
+    "timestamp": "2025-10-23T12:58:32.897441",
+    "all_criteria_met": true
   },
   "detailed_results": [
     {
       "test_name": "Authentication Setup - User Registration",
       "success": true,
-      "details": "User registered successfully: nutritiontest79197@example.com",
-      "timestamp": "2025-10-23T12:54:46.109059"
+      "details": "User registered successfully: nutritiontest45475@example.com",
+      "timestamp": "2025-10-23T12:57:02.044331"
     },
     {
       "test_name": "Authentication Setup - Login",
       "success": true,
       "details": "JWT token obtained successfully",
-      "timestamp": "2025-10-23T12:54:46.377680"
+      "timestamp": "2025-10-23T12:57:02.311127"
     },
     {
       "test_name": "Authentication Setup - Token Validation",
       "success": true,
       "details": "Token is valid and working",
-      "timestamp": "2025-10-23T12:54:46.419450"
+      "timestamp": "2025-10-23T12:57:02.352563"
     },
     {
       "test_name": "Nutrition Analysis - Normal Response",
       "success": true,
-      "details": "Status: 200 OK, ID: True, Description: True, Nutrition: True, Portuguese: True, Response time: 5.25s",
-      "timestamp": "2025-10-23T12:54:51.727741"
+      "details": "Status: 200 OK, ID: True, Description: True, Nutrition: True, Portuguese: True, Response time: 1.35s",
+      "timestamp": "2025-10-23T12:57:03.708108"
     },
     {
       "test_name": "Nutrition Analysis - No 500 Error",
       "success": true,
       "details": "Endpoint responded without 500 error",
-      "timestamp": "2025-10-23T12:54:51.727767"
+      "timestamp": "2025-10-23T12:57:03.708133"
     },
     {
       "test_name": "Nutrition Analysis - Timeout Respected",
       "success": true,
-      "details": "Response time 5.25s < 60s timeout",
-      "timestamp": "2025-10-23T12:54:51.727778"
+      "details": "Response time 1.35s < 60s timeout",
+      "timestamp": "2025-10-23T12:57:03.708141"
     },
     {
       "test_name": "Authentication Failure - No Token",
       "success": true,
       "details": "Correctly returned 401 Unauthorized without token",
-      "timestamp": "2025-10-23T12:54:51.787897"
+      "timestamp": "2025-10-23T12:57:03.750583"
     },
     {
       "test_name": "Retry Logic - Request 1",
       "success": true,
-      "details": "Status: 200 OK, Time: 33.17s",
-      "timestamp": "2025-10-23T12:55:24.963467"
+      "details": "Status: 200 OK, Time: 17.52s",
+      "timestamp": "2025-10-23T12:57:21.277300"
     },
     {
       "test_name": "Retry Logic - Request 2",
       "success": true,
-      "details": "Status: 200 OK, Time: 19.94s",
-      "timestamp": "2025-10-23T12:55:45.902664"
+      "details": "Status: 200 OK, Time: 24.24s",
+      "timestamp": "2025-10-23T12:57:46.521398"
     },
     {
       "test_name": "Retry Logic - Request 3",
       "success": true,
-      "details": "Status: 200 OK, Time: 15.43s",
-      "timestamp": "2025-10-23T12:56:02.328776"
+      "details": "Status: 200 OK, Time: 20.40s",
+      "timestamp": "2025-10-23T12:58:07.923440"
     },
     {
       "test_name": "Retry Logic - Overall Results",
       "success": true,
       "details": "Completed: 3/3, Successful: 3/3, No 500 errors: True",
-      "timestamp": "2025-10-23T12:56:03.328905"
+      "timestamp": "2025-10-23T12:58:08.923556"
     },
     {
       "test_name": "Response Validation - Required Fields",
       "success": true,
       "details": "Required fields present: True",
-      "timestamp": "2025-10-23T12:56:31.933452"
+      "timestamp": "2025-10-23T12:58:26.653951"
     },
     {
       "test_name": "Response Validation - Portuguese Description",
       "success": true,
-      "details": "Description in Portuguese: True, Length: 660",
-      "timestamp": "2025-10-23T12:56:31.933477"
+      "details": "Description in Portuguese: True, Length: 248",
+      "timestamp": "2025-10-23T12:58:26.653982"
     },
     {
       "test_name": "Response Validation - Nutrition Structure",
       "success": true,
       "details": "Nutrition structure valid: True",
-      "timestamp": "2025-10-23T12:56:31.933482"
+      "timestamp": "2025-10-23T12:58:26.653988"
     },
     {
       "test_name": "Response Validation - Optional Fields",
       "success": true,
       "details": "Optional fields don't cause errors: True",
-      "timestamp": "2025-10-23T12:56:31.933486"
+      "timestamp": "2025-10-23T12:58:26.653994"
     },
     {
       "test_name": "Error Handling - Invalid Image",
       "success": true,
       "details": "Invalid image handled gracefully: 503",
-      "timestamp": "2025-10-23T12:56:38.082874"
+      "timestamp": "2025-10-23T12:58:32.829483"
     },
     {
       "test_name": "Error Handling - Missing Fields",
       "success": true,
       "details": "Missing fields handled properly: 422",
-      "timestamp": "2025-10-23T12:56:38.153782"
+      "timestamp": "2025-10-23T12:58:32.896434"
     }
   ]
 }
