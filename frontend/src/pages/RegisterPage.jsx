@@ -56,7 +56,7 @@ const RegisterPage = () => {
         formData.name,
         formData.email,
         formData.password,
-        formData.userType
+        'user'  // Sempre registrar como usuário normal
       );
       
       if (result.success) {
