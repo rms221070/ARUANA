@@ -43,8 +43,10 @@ class AuthenticationTester:
         print("-" * 50)
         
         # Test 1: Valid user registration
+        import uuid
+        unique_id = str(uuid.uuid4())[:8]
         test_user_data = {
-            "email": "testuser@example.com",
+            "email": f"testuser{unique_id}@example.com",
             "password": "TestPass123!",
             "full_name": "Test User",
             "role": "user"
