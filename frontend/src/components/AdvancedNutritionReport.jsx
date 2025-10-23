@@ -173,18 +173,20 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* Health Recommendations */}
       {nutrition.health_recommendations && nutrition.health_recommendations.length > 0 && (
-        <div className="bg-blue-500/10 backdrop-blur-sm border border-blue-500/30 rounded-2xl p-6">
+        <div className="bg-blue-50 rounded-2xl p-6 shadow-2xl border-4 border-blue-600">
           <div className="flex items-center gap-3 mb-4">
-            <Info size={24} className="text-blue-400" />
-            <h3 className="text-lg font-bold text-white">Recomendações PhD</h3>
+            <div className="bg-blue-600 p-2 rounded-xl">
+              <Info size={24} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">💡 Recomendações PhD</h3>
           </div>
           <ul className="space-y-3">
             {nutrition.health_recommendations.map((recommendation, index) => (
-              <li key={index} className="flex items-start gap-2">
-                <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-blue-400 text-sm font-semibold">{index + 1}</span>
+              <li key={index} className="flex items-start gap-3 bg-white p-4 rounded-lg border-2 border-blue-600">
+                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <span className="text-white text-base font-bold">{index + 1}</span>
                 </div>
-                <span className="text-white/90">{recommendation}</span>
+                <span className="text-gray-900 font-medium flex-1">{recommendation}</span>
               </li>
             ))}
           </ul>
