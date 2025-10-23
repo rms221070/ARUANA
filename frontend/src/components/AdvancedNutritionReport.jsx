@@ -133,16 +133,18 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* Improvement Areas */}
       {nutrition.improvement_areas && nutrition.improvement_areas.length > 0 && (
-        <div className="bg-yellow-500/10 backdrop-blur-sm border border-yellow-500/30 rounded-2xl p-6">
+        <div className="bg-yellow-50 rounded-2xl p-6 shadow-2xl border-4 border-yellow-600">
           <div className="flex items-center gap-3 mb-4">
-            <TrendingUp size={24} className="text-yellow-400" />
-            <h3 className="text-lg font-bold text-white">Áreas de Melhoria</h3>
+            <div className="bg-yellow-600 p-2 rounded-xl">
+              <TrendingUp size={24} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">Áreas de Melhoria</h3>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {nutrition.improvement_areas.map((area, index) => (
-              <li key={index} className="flex items-start gap-2">
-                <Info size={16} className="text-yellow-400 mt-1 flex-shrink-0" />
-                <span className="text-white/90">{area}</span>
+              <li key={index} className="flex items-start gap-3 bg-white p-3 rounded-lg border-2 border-yellow-600">
+                <Info size={20} className="text-yellow-600 mt-0.5 flex-shrink-0" />
+                <span className="text-gray-900 font-medium">{area}</span>
               </li>
             ))}
           </ul>
