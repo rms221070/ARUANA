@@ -7,6 +7,7 @@ import { Download, Trash2, RefreshCw, FileJson, FileText } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
+import { useAuth } from "@/context/AuthContext";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -14,6 +15,7 @@ const API = `${BACKEND_URL}/api`;
 const DetectionHistory = () => {
   const { t } = useTranslation();
   const { settings, narrate, narrateInterface } = useSettings();
+  const { token } = useAuth();
   const [detections, setDetections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDetection, setSelectedDetection] = useState(null);
@@ -24,10 +26,16 @@ const DetectionHistory = () => {
     fetchDetections();
   }, []);
 
+  const getAuthHeaders = () => ({
+    'Authorization': `Bearer ${token}`
+  });
+
   const fetchDetections = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API}/detections?limit=50`);
+      const response = await axios.get(`${API}/detections?limit=50`, {
+        headers: getAuthHeaders()
+      });
       setDetections(response.data);
     } catch (error) {
       toast.error("Erro ao carregar histórico");
