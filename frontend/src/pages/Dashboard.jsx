@@ -54,6 +54,44 @@ const Dashboard = () => {
           
           <div className="flex items-center justify-between">
             <div className="flex-1">
+              {/* User Info and Logout */}
+              <div className="flex items-center justify-end gap-3 mb-3">
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${
+                  settings.highContrast 
+                    ? 'bg-white/10 border border-white' 
+                    : 'bg-white/10 backdrop-blur-sm border border-white/20'
+                }`}>
+                  <User size={16} className={settings.highContrast ? 'text-white' : 'text-blue-200'} />
+                  <span className={`text-sm font-medium ${
+                    settings.highContrast ? 'text-white' : 'text-white'
+                  }`}>
+                    {user?.name}
+                  </span>
+                  {isAdmin() && (
+                    <span className="px-2 py-0.5 text-xs font-bold bg-orange-500 text-white rounded-full">
+                      ADMIN
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={() => {
+                    narrate('Saindo do sistema');
+                    logout();
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                    settings.highContrast
+                      ? 'bg-white text-black hover:bg-gray-200'
+                      : 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg'
+                  }`}
+                  onMouseEnter={() => narrate('Botão sair')}
+                  style={!settings.highContrast ? {
+                    boxShadow: '0 4px 15px -3px rgba(239, 68, 68, 0.4)'
+                  } : {}}
+                >
+                  <LogOut size={16} />
+                  <span className="text-sm font-medium">Sair</span>
+                </button>
+              </div>
               <div className="flex items-center gap-3 mb-2">
                 <div className={`p-2 rounded-xl ${
                   settings.highContrast ? 'bg-white' : 'bg-gradient-to-br from-orange-500 to-orange-600'
