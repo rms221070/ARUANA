@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
 import { useAuth } from "@/context/AuthContext";
 import EmotionAnalysis from "@/components/EmotionAnalysis";
+import AdvancedNutritionReport from "@/components/AdvancedNutritionReport";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
