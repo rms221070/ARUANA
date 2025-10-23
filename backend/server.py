@@ -1598,6 +1598,9 @@ async def delete_comment(comment_id: str):
 # Include router
 app.include_router(api_router)
 
+# Add Session Middleware (must be before CORS)
+app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
