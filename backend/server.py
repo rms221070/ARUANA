@@ -187,6 +187,13 @@ class User(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     last_login: Optional[datetime] = None
     is_active: bool = True
+    # Profile fields
+    profile_photo: Optional[str] = None  # base64 encoded image
+    bio: Optional[str] = None
+    phone: Optional[str] = None
+    birth_date: Optional[str] = None
+    reset_token: Optional[str] = None
+    reset_token_expiry: Optional[datetime] = None
 
 class UserLogin(BaseModel):
     email: str
