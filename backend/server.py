@@ -640,13 +640,15 @@ Como especialista PhD, realize uma análise COMPLETA e CIENTÍFICA desta refeiç
    - Compatibilidade com dietas especiais (vegetariana, low-carb, mediterrânea)
    - Momento ideal de consumo (café da manhã, pré-treino, pós-treino, etc)
 
-RETORNE JSON ESTRUTURADO DETALHADO:
+RETORNE JSON ESTRUTURADO PhD-LEVEL COMPLETO:
 {{
-  "description": "descrição completa dos alimentos e do prato/refeição",
+  "description": "descrição científica completa e detalhada da refeição",
   "nutritional_analysis": {{
     "foods_detected": [
       {{
         "name": "nome do alimento",
+        "scientific_name": "nome científico quando aplicável",
+        "preparation_method": "método de preparo",
         "calories_per_100g": 0.0,
         "estimated_portion_grams": 0.0,
         "total_calories": 0.0,
@@ -656,26 +658,94 @@ RETORNE JSON ESTRUTURADO DETALHADO:
           "fat": 0.0,
           "fiber": 0.0
         }},
+        "detailed_fats": {{
+          "saturated": 0.0,
+          "monounsaturated": 0.0,
+          "polyunsaturated": 0.0,
+          "trans": 0.0
+        }},
+        "carb_types": {{
+          "simple": 0.0,
+          "complex": 0.0
+        }},
+        "glycemic_index": 55,
+        "micronutrients": {{
+          "vitamin_a": 0.0,
+          "vitamin_c": 0.0,
+          "vitamin_d": 0.0,
+          "calcium": 0.0,
+          "iron": 0.0,
+          "magnesium": 0.0,
+          "potassium": 0.0,
+          "sodium": 0.0
+        }},
         "confidence": 0.9
       }}
     ],
     "total_calories": 0.0,
     "total_weight_grams": 0.0,
-    "meal_type": "café da manhã/almoço/jantar/lanche",
+    "meal_type": "café da manhã/almoço/jantar/lanche/pré-treino/pós-treino",
     "nutritional_summary": {{
       "total_protein": 0.0,
       "total_carbs": 0.0,
       "total_fat": 0.0,
-      "total_fiber": 0.0
+      "total_fiber": 0.0,
+      "total_saturated_fat": 0.0,
+      "total_sodium": 0.0
+    }},
+    "quality_score": 75,
+    "nutritional_balance": {{
+      "protein_percent": 20.0,
+      "carbs_percent": 50.0,
+      "fat_percent": 30.0
+    }},
+    "glycemic_load": 15.5,
+    "nutritional_quality_index": 7.8,
+    "health_recommendations": [
+      "Recomendação 1",
+      "Recomendação 2",
+      "Recomendação 3"
+    ],
+    "positive_aspects": [
+      "Aspecto positivo 1",
+      "Aspecto positivo 2"
+    ],
+    "improvement_areas": [
+      "Área de melhoria 1",
+      "Área de melhoria 2"
+    ],
+    "health_alerts": [
+      "Alerta de saúde se aplicável"
+    ],
+    "dietary_compatibility": {{
+      "vegetarian": true/false,
+      "vegan": true/false,
+      "low_carb": true/false,
+      "keto": true/false,
+      "mediterranean": true/false,
+      "gluten_free": true/false,
+      "lactose_free": true/false,
+      "diabetic_friendly": true/false
+    }},
+    "ideal_consumption_time": "descrição do melhor momento",
+    "dri_adequacy": {{
+      "protein": 35.5,
+      "fiber": 20.0,
+      "vitamin_c": 45.0,
+      "calcium": 15.0,
+      "iron": 25.0
     }}
   }}
 }}
 
-IMPORTANTE: 
-- Se não houver alimentos visíveis, retorne arrays vazios
-- Use valores nutricionais precisos baseados em tabelas nutricionais brasileiras
-- Considere preparações e temperos quando visíveis
-- Seja preciso nas estimativas de peso/porção
+IMPORTANTE - DIRETRIZES PhD:
+- Use SEMPRE valores baseados em TACO (Tabela Brasileira de Composição de Alimentos)
+- Considere método de preparo e impacto nutricional
+- Seja PRECISO e CIENTÍFICO nas recomendações
+- Identifique riscos nutricionais para grupos vulneráveis
+- Compare com DRIs brasileiras (RDC 269/2005)
+- Calcule índices glicêmicos baseados em literatura científica
+- Se não houver alimentos, retorne arrays/listas vazios
 """
         
         # Process via Gemini 2.0 Flash
