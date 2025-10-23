@@ -190,7 +190,7 @@ class AuthenticationTester:
         
         # Test 2: Wrong password (should return 401)
         wrong_password_data = {
-            "email": test_user_data["email"],  # Use the email from registration
+            "email": test_email,
             "password": "WrongPassword123!"
         }
         
