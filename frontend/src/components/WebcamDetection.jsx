@@ -216,6 +216,10 @@ const WebcamDetection = () => {
         source: "webcam",
         detection_type: "cloud",
         image_data: imageData
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       setLastDetection(response.data);
