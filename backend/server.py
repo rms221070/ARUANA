@@ -890,11 +890,125 @@ async def get_current_user_info(request: Request):
     if not user_id:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
-    user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0})
+    user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0, "reset_token": 0, "reset_token_expiry": 0})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
     return user
+
+@api_router.put("/auth/profile")
+async def update_profile(request: Request, profile_data: UserProfileUpdate):
+    """Update user profile"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Build update document
+    update_doc = {}
+    if profile_data.name:
+        update_doc["name"] = profile_data.name
+    if profile_data.bio is not None:
+        update_doc["bio"] = profile_data.bio
+    if profile_data.phone is not None:
+        update_doc["phone"] = profile_data.phone
+    if profile_data.birth_date is not None:
+        update_doc["birth_date"] = profile_data.birth_date
+    if profile_data.profile_photo is not None:
+        update_doc["profile_photo"] = profile_data.profile_photo
+    
+    if not update_doc:
+        raise HTTPException(status_code=400, detail="No fields to update")
+    
+    # Update user
+    result = await db.users.update_one(
+        {"id": user_id},
+        {"$set": update_doc}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Return updated user
+    updated_user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0, "reset_token": 0, "reset_token_expiry": 0})
+    return {"success": True, "user": updated_user}
+
+@api_router.post("/auth/forgot-password")
+async def forgot_password(request_data: PasswordResetRequest):
+    """Request password reset - generates token"""
+    try:
+        user = await db.users.find_one({"email": request_data.email})
+        
+        if not user:
+            # Don't reveal if email exists for security
+            return {"success": True, "message": "If email exists, reset instructions have been sent"}
+        
+        # Generate reset token
+        reset_token = secrets.token_urlsafe(32)
+        reset_expiry = datetime.now(timezone.utc) + timedelta(hours=1)  # 1 hour expiry
+        
+        # Save token to user
+        await db.users.update_one(
+            {"email": request_data.email},
+            {"$set": {
+                "reset_token": reset_token,
+                "reset_token_expiry": reset_expiry.isoformat()
+            }}
+        )
+        
+        # In production, send email with token
+        # For now, return token in response (ONLY FOR DEVELOPMENT)
+        logging.info(f"Password reset token for {request_data.email}: {reset_token}")
+        
+        return {
+            "success": True, 
+            "message": "If email exists, reset instructions have been sent",
+            "token": reset_token  # REMOVE IN PRODUCTION - should be sent via email
+        }
+        
+    except Exception as e:
+        logging.error(f"Forgot password error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to process request")
+
+@api_router.post("/auth/reset-password")
+async def reset_password(reset_data: PasswordReset):
+    """Reset password with token"""
+    try:
+        # Find user with valid token
+        user = await db.users.find_one({
+            "reset_token": reset_data.token
+        })
+        
+        if not user:
+            raise HTTPException(status_code=400, detail="Invalid or expired token")
+        
+        # Check if token expired
+        if user.get("reset_token_expiry"):
+            expiry = datetime.fromisoformat(user["reset_token_expiry"])
+            if expiry < datetime.now(timezone.utc):
+                raise HTTPException(status_code=400, detail="Token has expired")
+        
+        # Hash new password
+        new_password_hash = pwd_context.hash(reset_data.new_password)
+        
+        # Update password and clear token
+        await db.users.update_one(
+            {"id": user["id"]},
+            {"$set": {
+                "password_hash": new_password_hash,
+                "reset_token": None,
+                "reset_token_expiry": None
+            }}
+        )
+        
+        return {"success": True, "message": "Password reset successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Reset password error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to reset password")
 
 @api_router.get("/detections", response_model=List[Detection])
 async def get_detections(
