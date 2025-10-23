@@ -889,21 +889,28 @@ class DetectionSystemTester:
     def test_user_login(self):
         """Test POST /api/auth/login endpoint"""
         # First ensure we have a test user (register if needed)
+        import random
+        random_id = random.randint(10000, 99999)
+        
         test_user_data = {
-            "name": "Login Test User",
-            "email": "logintest@example.com",
+            "name": f"Login Test User {random_id}",
+            "email": f"logintest{random_id}@example.com",
             "password": "LoginPass123!",
             "user_type": "user"
         }
         
         # Register user (ignore if already exists)
-        self.run_test(
+        success_setup, _ = self.run_test(
             "Login Test - User Setup",
             "POST", 
             "auth/register",
             200,
             data=test_user_data
         )
+        
+        if not success_setup:
+            # If registration failed, try to login anyway (user might already exist)
+            pass
         
         # Test valid login
         login_data = {
