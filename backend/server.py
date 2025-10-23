@@ -651,6 +651,8 @@ IMPORTANTE:
         
         return detection
         
+    except HTTPException:
+        raise  # Re-raise HTTPException as-is (preserves status code)
     except Exception as e:
         logging.error(f"Error analyzing nutrition: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
