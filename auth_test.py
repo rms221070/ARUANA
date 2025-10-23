@@ -186,7 +186,7 @@ class AuthenticationTester:
         
         # Test 2: Wrong password (should return 401)
         wrong_password_data = {
-            "email": "testuser@example.com",
+            "email": test_user_data["email"],  # Use the email from registration
             "password": "WrongPassword123!"
         }
         
