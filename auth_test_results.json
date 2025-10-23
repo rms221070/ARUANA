@@ -1,0 +1,82 @@
+{
+  "summary": {
+    "total_tests": 12,
+    "passed_tests": 8,
+    "success_rate": 66.66666666666666,
+    "timestamp": "2025-10-23T01:31:09.044089"
+  },
+  "detailed_results": [
+    {
+      "test_name": "User Registration - Valid Data",
+      "success": false,
+      "details": "Status: 500, Response: {\"detail\":\"Registration failed\"}",
+      "timestamp": "2025-10-23T01:31:08.234751"
+    },
+    {
+      "test_name": "User Registration - Duplicate Email Rejection",
+      "success": false,
+      "details": "Status: 500, Expected: 400",
+      "timestamp": "2025-10-23T01:31:08.270698"
+    },
+    {
+      "test_name": "Admin User Registration",
+      "success": false,
+      "details": "Status: 500",
+      "timestamp": "2025-10-23T01:31:08.305850"
+    },
+    {
+      "test_name": "User Login - Valid Credentials",
+      "success": true,
+      "details": "Status: 200, Token: True, Type: True, User: True",
+      "timestamp": "2025-10-23T01:31:08.564692"
+    },
+    {
+      "test_name": "User Login - Wrong Password",
+      "success": true,
+      "details": "Status: 401, Expected: 401",
+      "timestamp": "2025-10-23T01:31:08.824752"
+    },
+    {
+      "test_name": "User Login - Non-existent Email",
+      "success": true,
+      "details": "Status: 401, Expected: 401",
+      "timestamp": "2025-10-23T01:31:08.863515"
+    },
+    {
+      "test_name": "Get Current User - Valid Token",
+      "success": true,
+      "details": "Status: 200, Required fields: True, Password excluded: True",
+      "timestamp": "2025-10-23T01:31:08.897845"
+    },
+    {
+      "test_name": "Get Current User - No Token",
+      "success": true,
+      "details": "Status: 401, Expected: 401",
+      "timestamp": "2025-10-23T01:31:08.932647"
+    },
+    {
+      "test_name": "Get Current User - Invalid Token",
+      "success": true,
+      "details": "Status: 401, Expected: 401",
+      "timestamp": "2025-10-23T01:31:08.971014"
+    },
+    {
+      "test_name": "JWT Token Format",
+      "success": true,
+      "details": "Token parts: 3, Expected: 3",
+      "timestamp": "2025-10-23T01:31:08.971754"
+    },
+    {
+      "test_name": "JWT Token Validity",
+      "success": true,
+      "details": "Token works for protected endpoint: True",
+      "timestamp": "2025-10-23T01:31:09.007436"
+    },
+    {
+      "test_name": "Password Security - Bcrypt Hashing",
+      "success": false,
+      "details": "Registration failed",
+      "timestamp": "2025-10-23T01:31:09.043214"
+    }
+  ]
+}
