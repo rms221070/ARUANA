@@ -129,6 +129,10 @@ const NutritionAnalysis = () => {
         source: analysisMode,
         detection_type: "nutrition",
         image_data: imageData
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       setLastAnalysis(response.data);
