@@ -22,6 +22,39 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated on mount
   useEffect(() => {
     const checkAuth = async () => {
+      // Check for OAuth token in URL (from redirect)
+      const urlParams = new URLSearchParams(window.location.search);
+      const oauthToken = urlParams.get('token');
+      
+      if (oauthToken) {
+        // Store OAuth token
+        localStorage.setItem('auth_token', oauthToken);
+        setToken(oauthToken);
+        
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Fetch user data with OAuth token
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/auth/me`, {
+            headers: {
+              'Authorization': `Bearer ${oauthToken}`
+            }
+          });
+          
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          }
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+        }
+        
+        setLoading(false);
+        return;
+      }
+      
+      // Check for stored token
       const storedToken = localStorage.getItem('auth_token');
       if (storedToken) {
         try {
