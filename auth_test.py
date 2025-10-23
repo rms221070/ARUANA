@@ -428,8 +428,8 @@ class AuthenticationTester:
         print("=" * 70)
         
         # Run all authentication tests
-        self.test_user_registration()
-        login_success = self.test_user_login()
+        registered_email = self.test_user_registration()
+        login_success = self.test_user_login(registered_email)
         self.test_get_current_user()
         self.test_jwt_token_properties()
         self.test_password_security()
