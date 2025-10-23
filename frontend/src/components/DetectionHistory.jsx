@@ -46,7 +46,9 @@ const DetectionHistory = () => {
 
   const deleteDetection = async (id) => {
     try {
-      await axios.delete(`${API}/detections/${id}`);
+      await axios.delete(`${API}/detections/${id}`, {
+        headers: getAuthHeaders()
+      });
       setDetections(detections.filter(d => d.id !== id));
       if (selectedDetection?.id === id) {
         setSelectedDetection(null);
@@ -60,7 +62,8 @@ const DetectionHistory = () => {
   const exportReport = async (format) => {
     try {
       const response = await axios.get(`${API}/reports/export?format=${format}`, {
-        responseType: format === "csv" ? "blob" : "json"
+        responseType: format === "csv" ? "blob" : "json",
+        headers: getAuthHeaders()
       });
 
       if (format === "csv") {
