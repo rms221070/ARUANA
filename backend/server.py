@@ -307,17 +307,25 @@ async def root():
     return {"message": "Sistema de Detecção em Tempo Real"}
 
 @api_router.post("/detect/analyze-frame", response_model=Detection)
-async def analyze_frame(input: DetectionCreate):
+async def analyze_frame(input: DetectionCreate, request: Request):
     """Analisa um frame da webcam ou imagem carregada usando Gemini Vision"""
     try:
+        # Get authenticated user
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
         # Decode base64 image
         image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
         
-        # Create detection object
+        # Create detection object with user_id
         detection = Detection(
             source=input.source,
             detection_type=input.detection_type,
-            image_data=input.image_data
+            image_data=input.image_data,
+            user_id=user_id
         )
         
         if input.detection_type == "cloud":
