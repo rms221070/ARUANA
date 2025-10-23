@@ -953,7 +953,7 @@ class DetectionSystemTester:
         
         # Test login with wrong password
         wrong_password_data = {
-            "email": "logintest@example.com",
+            "email": f"logintest{random_id}@example.com",
             "password": "WrongPassword123!"
         }
         
