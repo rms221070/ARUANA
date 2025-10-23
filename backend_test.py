@@ -1091,9 +1091,12 @@ class DetectionSystemTester:
     def test_password_security(self):
         """Test password hashing and security"""
         # Register a user and verify password is hashed
+        import random
+        random_id = random.randint(10000, 99999)
+        
         test_user_data = {
-            "name": "Security Test User",
-            "email": "securitytest@example.com",
+            "name": f"Security Test User {random_id}",
+            "email": f"securitytest{random_id}@example.com",
             "password": "SecurityPass123!",
             "user_type": "user"
         }
