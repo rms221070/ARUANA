@@ -266,9 +266,16 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* Ideal Consumption Time */}
       {nutrition.ideal_consumption_time && (
-        <div className="bg-purple-500/10 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6">
-          <h3 className="text-lg font-bold text-white mb-2">Momento Ideal de Consumo</h3>
-          <p className="text-white/90">{nutrition.ideal_consumption_time}</p>
+        <div className="bg-purple-50 rounded-2xl p-6 shadow-2xl border-4 border-purple-600">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="bg-purple-600 p-2 rounded-xl">
+              <Activity size={24} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">⏰ Momento Ideal de Consumo</h3>
+          </div>
+          <p className="text-gray-900 font-medium text-lg leading-relaxed bg-white p-4 rounded-lg border-2 border-purple-600">
+            {nutrition.ideal_consumption_time}
+          </p>
         </div>
       )}
     </div>
