@@ -205,6 +205,20 @@ class UserRegister(BaseModel):
     password: str
     user_type: str = "user"
 
+class UserProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    bio: Optional[str] = None
+    phone: Optional[str] = None
+    birth_date: Optional[str] = None
+    profile_photo: Optional[str] = None
+
+class PasswordResetRequest(BaseModel):
+    email: str
+
+class PasswordReset(BaseModel):
+    token: str
+    new_password: str
+
 class DetectedObject(BaseModel):
     label: str
     confidence: float
