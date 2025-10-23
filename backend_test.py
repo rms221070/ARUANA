@@ -825,6 +825,310 @@ class DetectionSystemTester:
         
         return error_handled
 
+    def test_user_registration(self):
+        """Test POST /api/auth/register endpoint"""
+        # Test valid user registration
+        test_user_data = {
+            "name": "Test User",
+            "email": "testuser@example.com",
+            "password": "TestPass123!",
+            "user_type": "user"
+        }
+        
+        success, result = self.run_test(
+            "User Registration - Valid Data",
+            "POST",
+            "auth/register",
+            200,
+            data=test_user_data
+        )
+        
+        if success:
+            # Check response structure
+            has_success = result.get('success') == True
+            has_message = 'message' in result
+            
+            self.log_test("User Registration - Response Structure", 
+                         has_success and has_message,
+                         f"Success: {has_success}, Message: {has_message}")
+        
+        # Test duplicate email registration (should fail)
+        success_duplicate, result_duplicate = self.run_test(
+            "User Registration - Duplicate Email",
+            "POST",
+            "auth/register",
+            400,  # Should return 400 for duplicate email
+            data=test_user_data
+        )
+        
+        # For duplicate test, we expect it to fail (status 400)
+        duplicate_handled = not success_duplicate
+        
+        self.log_test("User Registration - Duplicate Email Handling", 
+                     duplicate_handled,
+                     f"Duplicate properly rejected: {duplicate_handled}")
+        
+        # Test admin user registration
+        admin_user_data = {
+            "name": "Admin User",
+            "email": "admin@example.com", 
+            "password": "AdminPass123!",
+            "user_type": "admin"
+        }
+        
+        success_admin, result_admin = self.run_test(
+            "User Registration - Admin Role",
+            "POST",
+            "auth/register",
+            200,
+            data=admin_user_data
+        )
+        
+        return success and duplicate_handled and success_admin
+
+    def test_user_login(self):
+        """Test POST /api/auth/login endpoint"""
+        # First ensure we have a test user (register if needed)
+        test_user_data = {
+            "name": "Login Test User",
+            "email": "logintest@example.com",
+            "password": "LoginPass123!",
+            "user_type": "user"
+        }
+        
+        # Register user (ignore if already exists)
+        self.run_test(
+            "Login Test - User Setup",
+            "POST", 
+            "auth/register",
+            200,
+            data=test_user_data
+        )
+        
+        # Test valid login
+        login_data = {
+            "email": "logintest@example.com",
+            "password": "LoginPass123!"
+        }
+        
+        success, result = self.run_test(
+            "User Login - Valid Credentials",
+            "POST",
+            "auth/login", 
+            200,
+            data=login_data
+        )
+        
+        access_token = None
+        if success:
+            # Check response structure
+            has_success = result.get('success') == True
+            has_access_token = 'access_token' in result
+            has_token_type = result.get('token_type') == 'bearer'
+            has_user_info = 'user' in result
+            
+            if has_access_token:
+                access_token = result['access_token']
+            
+            # Verify user info structure
+            user_info_valid = False
+            if has_user_info:
+                user = result['user']
+                required_fields = ['id', 'name', 'email', 'user_type']
+                user_info_valid = all(field in user for field in required_fields)
+                # Verify password is not returned
+                password_not_returned = 'password' not in user and 'password_hash' not in user
+                user_info_valid = user_info_valid and password_not_returned
+            
+            self.log_test("User Login - Response Structure", 
+                         has_success and has_access_token and has_token_type and user_info_valid,
+                         f"Success: {has_success}, Token: {has_access_token}, Type: {has_token_type}, User: {user_info_valid}")
+        
+        # Test login with wrong password
+        wrong_password_data = {
+            "email": "logintest@example.com",
+            "password": "WrongPassword123!"
+        }
+        
+        success_wrong, result_wrong = self.run_test(
+            "User Login - Wrong Password",
+            "POST",
+            "auth/login",
+            401,  # Should return 401 for wrong password
+            data=wrong_password_data
+        )
+        
+        wrong_password_handled = not success_wrong
+        
+        # Test login with non-existent email
+        nonexistent_data = {
+            "email": "nonexistent@example.com",
+            "password": "SomePassword123!"
+        }
+        
+        success_nonexistent, result_nonexistent = self.run_test(
+            "User Login - Non-existent Email",
+            "POST",
+            "auth/login",
+            401,  # Should return 401 for non-existent email
+            data=nonexistent_data
+        )
+        
+        nonexistent_handled = not success_nonexistent
+        
+        self.log_test("User Login - Error Handling", 
+                     wrong_password_handled and nonexistent_handled,
+                     f"Wrong password: {wrong_password_handled}, Non-existent: {nonexistent_handled}")
+        
+        return success and wrong_password_handled and nonexistent_handled, access_token
+
+    def test_get_current_user(self):
+        """Test GET /api/auth/me endpoint"""
+        # First login to get a valid token
+        login_success, access_token = self.test_user_login()
+        
+        if not login_success or not access_token:
+            self.log_test("Get Current User - Setup Failed", False, "Could not obtain access token")
+            return False
+        
+        # Test with valid token
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {access_token}'
+        }
+        
+        success, result = self.run_test(
+            "Get Current User - Valid Token",
+            "GET",
+            "auth/me",
+            200,
+            headers=headers
+        )
+        
+        if success:
+            # Verify user information is returned without password
+            required_fields = ['id', 'name', 'email', 'user_type', 'created_at']
+            has_required_fields = all(field in result for field in required_fields)
+            password_not_returned = 'password' not in result and 'password_hash' not in result
+            
+            self.log_test("Get Current User - Response Structure", 
+                         has_required_fields and password_not_returned,
+                         f"Required fields: {has_required_fields}, Password excluded: {password_not_returned}")
+        
+        # Test without token (should return 401)
+        success_no_token, result_no_token = self.run_test(
+            "Get Current User - No Token",
+            "GET",
+            "auth/me",
+            401  # Should return 401 without token
+        )
+        
+        no_token_handled = not success_no_token
+        
+        # Test with invalid token (should return 401)
+        invalid_headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer invalid_token_here'
+        }
+        
+        success_invalid, result_invalid = self.run_test(
+            "Get Current User - Invalid Token",
+            "GET",
+            "auth/me",
+            401,  # Should return 401 with invalid token
+            headers=invalid_headers
+        )
+        
+        invalid_token_handled = not success_invalid
+        
+        self.log_test("Get Current User - Error Handling", 
+                     no_token_handled and invalid_token_handled,
+                     f"No token: {no_token_handled}, Invalid token: {invalid_token_handled}")
+        
+        return success and no_token_handled and invalid_token_handled
+
+    def test_jwt_token_validation(self):
+        """Test JWT token validation and expiry"""
+        # Login to get a token
+        login_success, access_token = self.test_user_login()
+        
+        if not login_success or not access_token:
+            self.log_test("JWT Token Validation - Setup Failed", False, "Could not obtain access token")
+            return False
+        
+        # Verify token format (should be JWT with 3 parts separated by dots)
+        token_parts = access_token.split('.')
+        valid_jwt_format = len(token_parts) == 3
+        
+        self.log_test("JWT Token Format", 
+                     valid_jwt_format,
+                     f"Token parts: {len(token_parts)}, Expected: 3")
+        
+        # Test that token works for protected endpoints
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {access_token}'
+        }
+        
+        # Test token with /api/auth/me endpoint
+        success_protected, result_protected = self.run_test(
+            "JWT Token - Protected Endpoint Access",
+            "GET",
+            "auth/me",
+            200,
+            headers=headers
+        )
+        
+        return valid_jwt_format and success_protected
+
+    def test_password_security(self):
+        """Test password hashing and security"""
+        # Register a user and verify password is hashed
+        test_user_data = {
+            "name": "Security Test User",
+            "email": "securitytest@example.com",
+            "password": "SecurityPass123!",
+            "user_type": "user"
+        }
+        
+        success, result = self.run_test(
+            "Password Security - Registration",
+            "POST",
+            "auth/register",
+            200,
+            data=test_user_data
+        )
+        
+        if not success:
+            return False
+        
+        # Login with the same user
+        login_data = {
+            "email": "securitytest@example.com",
+            "password": "SecurityPass123!"
+        }
+        
+        success_login, result_login = self.run_test(
+            "Password Security - Login",
+            "POST",
+            "auth/login",
+            200,
+            data=login_data
+        )
+        
+        if success_login:
+            # Verify password is not returned in login response
+            user_info = result_login.get('user', {})
+            password_not_in_response = 'password' not in user_info and 'password_hash' not in user_info
+            
+            self.log_test("Password Security - Not in Response", 
+                         password_not_in_response,
+                         f"Password excluded from response: {password_not_in_response}")
+            
+            return password_not_in_response
+        
+        return False
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Backend API Tests for Enhanced Person Analysis System")
