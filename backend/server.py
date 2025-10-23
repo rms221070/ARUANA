@@ -551,25 +551,57 @@ async def analyze_nutrition(input: DetectionCreate, request: Request):
         # Extract base64 image data
         image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
         
-        # Enhanced nutrition analysis prompt
+        # PhD-Level Nutrition Analysis Prompt
         nutrition_prompt = f"""
-Você é um especialista em nutrição e análise de alimentos. Analise esta imagem e identifique TODOS os alimentos visíveis.
+Você é um PhD em Nutrição com especialização em Nutrição Clínica, Bioquímica Nutricional e Dietética Aplicada. 
+Possui 20 anos de experiência em análise nutricional, avaliação de adequação alimentar e prescrição dietética.
 
-INSTRUÇÕES DETALHADAS:
-1. Identifique cada alimento individual na imagem
-2. Estime o peso/porção de cada alimento em gramas
-3. Calcule as calorias de cada item baseado na porção estimada
-4. Forneça informações nutricionais (proteínas, carboidratos, gorduras, fibras)
-5. Classifique o tipo de refeição se possível
+ANÁLISE ULTRA-DETALHADA DE COMPOSIÇÃO NUTRICIONAL:
 
-PARA CADA ALIMENTO IDENTIFICADO:
-- Nome específico do alimento
-- Peso estimado da porção em gramas
-- Calorias por 100g (valor nutricional padrão)
-- Calorias totais da porção mostrada
-- Macronutrientes: proteínas, carboidratos, gorduras, fibras (em gramas)
+Como especialista PhD, realize uma análise COMPLETA e CIENTÍFICA desta refeição, incluindo:
 
-RETORNE JSON ESTRUTURADO:
+1. **IDENTIFICAÇÃO PRECISA DOS ALIMENTOS**:
+   - Nome científico quando aplicável
+   - Método de preparo (cru, cozido, frito, grelhado, assado)
+   - Presença de temperos e condimentos visíveis
+   - Estado de cocção e processamento
+
+2. **ANÁLISE QUANTITATIVA PRECISA**:
+   - Peso estimado em gramas com margem de erro
+   - Densidade calórica por 100g
+   - Volume aparente e conversão peso-volume
+
+3. **PERFIL NUTRICIONAL COMPLETO** (por alimento):
+   - Macronutrientes: Proteínas (g), Carboidratos (g), Gorduras totais (g), Fibras (g)
+   - Gorduras: Saturadas, Monoinsaturadas, Poliinsaturadas, Trans
+   - Carboidratos: Simples, Complexos, Índice Glicêmico estimado
+   - Micronutrientes principais: Vitaminas (A, C, D, E, K, B-complex) e Minerais (Ca, Fe, Mg, Zn, K, Na)
+   
+4. **AVALIAÇÃO NUTRICIONAL PROFISSIONAL**:
+   - Adequação em relação às DRIs brasileiras
+   - Qualidade nutricional da refeição (score 0-100)
+   - Densidade nutricional vs densidade calórica
+   - Equilíbrio de macronutrientes (% proteína, % carboidrato, % gordura)
+
+5. **ÍNDICES NUTRICIONAIS**:
+   - Índice Glicêmico estimado da refeição
+   - Carga Glicêmica total
+   - Relação Ômega-6/Ômega-3 (quando aplicável)
+   - Índice de Qualidade Nutricional (IQN)
+
+6. **RECOMENDAÇÕES CIENTÍFICAS**:
+   - Pontos positivos nutricionais
+   - Áreas de melhoria
+   - Sugestões de complementação
+   - Alertas para grupos específicos (diabéticos, hipertensos, etc)
+   - Possíveis deficiências nutricionais
+
+7. **CONTEXTO DIETÉTICO**:
+   - Adequação para diferentes perfis (atletas, sedentários, idosos)
+   - Compatibilidade com dietas especiais (vegetariana, low-carb, mediterrânea)
+   - Momento ideal de consumo (café da manhã, pré-treino, pós-treino, etc)
+
+RETORNE JSON ESTRUTURADO DETALHADO:
 {{
   "description": "descrição completa dos alimentos e do prato/refeição",
   "nutritional_analysis": {{
