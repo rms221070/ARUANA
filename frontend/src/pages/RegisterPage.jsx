@@ -208,26 +208,6 @@ const RegisterPage = () => {
                 </div>
               </div>
 
-              {/* User Type Selection */}
-              <div className="space-y-2">
-                <label className="text-white text-sm font-medium block">
-                  Tipo de Conta
-                </label>
-                <select
-                  name="userType"
-                  value={formData.userType}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-                  style={{
-                    boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.3)'
-                  }}
-                  onFocus={() => narrate('Seleção de tipo de conta')}
-                >
-                  <option value="user" className="bg-slate-800">Usuário</option>
-                  <option value="admin" className="bg-slate-800">Administrador</option>
-                </select>
-              </div>
-
               {/* Submit Button */}
               <button
                 type="submit"
