@@ -55,6 +55,10 @@ const UploadDetection = () => {
         source: "upload",
         detection_type: "cloud",
         image_data: previewUrl
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       setResult(response.data);
