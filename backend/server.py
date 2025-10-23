@@ -146,18 +146,36 @@ class SentimentAnalysis(BaseModel):
 
 class FoodItem(BaseModel):
     name: str
+    scientific_name: Optional[str] = None
+    preparation_method: Optional[str] = None
     calories_per_100g: float
     estimated_portion_grams: float
     total_calories: float
     macronutrients: Dict[str, float] = Field(default_factory=dict)  # protein, carbs, fat, fiber
+    detailed_fats: Dict[str, float] = Field(default_factory=dict)  # saturated, monounsaturated, polyunsaturated, trans
+    carb_types: Dict[str, float] = Field(default_factory=dict)  # simple, complex
+    glycemic_index: Optional[int] = None
+    micronutrients: Dict[str, float] = Field(default_factory=dict)  # vitamins and minerals
     confidence: float = 0.0
 
 class NutritionalAnalysis(BaseModel):
     foods_detected: List[FoodItem] = []
     total_calories: float = 0.0
     total_weight_grams: float = 0.0
-    meal_type: Optional[str] = None  # breakfast, lunch, dinner, snack
+    meal_type: Optional[str] = None
     nutritional_summary: Dict[str, float] = Field(default_factory=dict)
+    # PhD-level additions
+    quality_score: Optional[int] = None  # 0-100
+    nutritional_balance: Dict[str, float] = Field(default_factory=dict)  # % protein, % carbs, % fat
+    glycemic_load: Optional[float] = None
+    nutritional_quality_index: Optional[float] = None
+    health_recommendations: List[str] = []
+    positive_aspects: List[str] = []
+    improvement_areas: List[str] = []
+    health_alerts: List[str] = []
+    dietary_compatibility: Dict[str, bool] = Field(default_factory=dict)  # vegetarian, low-carb, etc
+    ideal_consumption_time: Optional[str] = None
+    dri_adequacy: Dict[str, float] = Field(default_factory=dict)  # % of daily recommended intake
 
 class User(BaseModel):
     model_config = ConfigDict(extra="ignore")
