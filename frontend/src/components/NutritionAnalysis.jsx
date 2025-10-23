@@ -189,7 +189,23 @@ const NutritionAnalysis = () => {
       toast.success(t('nutrition.analysisSuccess'));
       
     } catch (error) {
-      const errorMsg = t('nutrition.analysisError') + ": " + error.message;
+      console.error('Nutrition analysis error:', error);
+      let errorMsg = t('nutrition.analysisError');
+      
+      if (error.response) {
+        // Server responded with error
+        errorMsg += `: ${error.response.data?.detail || error.response.statusText}`;
+        if (error.response.status === 401) {
+          errorMsg = 'Sessão expirada. Faça login novamente.';
+        }
+      } else if (error.request) {
+        // Request made but no response
+        errorMsg += ': Sem resposta do servidor. Verifique sua conexão.';
+      } else {
+        // Error setting up request
+        errorMsg += `: ${error.message}`;
+      }
+      
       toast.error(errorMsg);
       narrate(errorMsg);
     } finally {
