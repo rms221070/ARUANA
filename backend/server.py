@@ -592,8 +592,12 @@ async def analyze_nutrition(input: DetectionCreate, request: Request):
         
         # PhD-Level Nutrition Analysis Prompt
         nutrition_prompt = f"""
+🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+
 Você é um PhD em Nutrição com especialização em Nutrição Clínica, Bioquímica Nutricional e Dietética Aplicada. 
 Possui 20 anos de experiência em análise nutricional, avaliação de adequação alimentar e prescrição dietética.
+
+IMPORTANTE: TODA A RESPOSTA DEVE SER EM PORTUGUÊS DO BRASIL!
 
 ANÁLISE ULTRA-DETALHADA DE COMPOSIÇÃO NUTRICIONAL:
 
