@@ -138,7 +138,7 @@ class AuthenticationTester:
         
         # Test 1: Valid login
         login_data = {
-            "email": "testuser@example.com",
+            "email": test_user_data["email"],  # Use the email from registration
             "password": "TestPass123!"
         }
         
