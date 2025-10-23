@@ -82,26 +82,30 @@ const AdvancedNutritionReport = ({ analysis }) => {
       {(nutrition.glycemic_load || nutrition.nutritional_quality_index) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {nutrition.glycemic_load && (
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Zap size={20} className="text-yellow-400" />
-                <h4 className="font-semibold text-white">Carga Glicêmica</h4>
+            <div className="bg-yellow-50 rounded-xl p-6 shadow-lg border-3 border-yellow-600">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="bg-yellow-600 p-2 rounded-lg">
+                  <Zap size={20} className="text-white" />
+                </div>
+                <h4 className="font-bold text-gray-900 text-lg">Carga Glicêmica</h4>
               </div>
-              <div className="text-2xl font-bold text-yellow-400">{nutrition.glycemic_load.toFixed(1)}</div>
-              <p className="text-xs text-white/60 mt-1">
-                {nutrition.glycemic_load < 10 ? 'Baixa' : nutrition.glycemic_load < 20 ? 'Média' : 'Alta'}
+              <div className="text-4xl font-bold text-yellow-700">{nutrition.glycemic_load.toFixed(1)}</div>
+              <p className="text-base font-semibold text-gray-800 mt-2">
+                {nutrition.glycemic_load < 10 ? 'Baixa ✓' : nutrition.glycemic_load < 20 ? 'Média' : 'Alta ⚠'}
               </p>
             </div>
           )}
           
           {nutrition.nutritional_quality_index && (
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Target size={20} className="text-purple-400" />
-                <h4 className="font-semibold text-white">Índice de Qualidade</h4>
+            <div className="bg-purple-50 rounded-xl p-6 shadow-lg border-3 border-purple-600">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="bg-purple-600 p-2 rounded-lg">
+                  <Target size={20} className="text-white" />
+                </div>
+                <h4 className="font-bold text-gray-900 text-lg">Índice de Qualidade</h4>
               </div>
-              <div className="text-2xl font-bold text-purple-400">{nutrition.nutritional_quality_index.toFixed(1)}</div>
-              <p className="text-xs text-white/60 mt-1">de 10</p>
+              <div className="text-4xl font-bold text-purple-700">{nutrition.nutritional_quality_index.toFixed(1)}</div>
+              <p className="text-base font-semibold text-gray-800 mt-2">de 10</p>
             </div>
           )}
         </div>
