@@ -10,27 +10,31 @@ const AdvancedNutritionReport = ({ analysis }) => {
     <div className="space-y-6 mt-6">
       {/* Quality Score */}
       {nutrition.quality_score && (
-        <div className="bg-gradient-to-br from-orange-500/20 to-orange-600/20 backdrop-blur-sm border border-orange-500/30 rounded-2xl p-6">
+        <div className="bg-white rounded-2xl p-6 shadow-2xl border-4 border-orange-500">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <Award size={32} className="text-orange-400" />
+              <div className="bg-orange-500 p-2 rounded-xl">
+                <Award size={32} className="text-white" />
+              </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Score de Qualidade Nutricional</h3>
-                <p className="text-orange-200 text-sm">Avaliação PhD em Nutrição</p>
+                <h3 className="text-2xl font-bold text-gray-900">Score de Qualidade Nutricional</h3>
+                <p className="text-gray-700 text-sm font-semibold">Avaliação PhD em Nutrição</p>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-5xl font-bold text-orange-400">{nutrition.quality_score}</div>
-              <div className="text-sm text-orange-200">de 100</div>
+              <div className="text-6xl font-bold text-orange-600">{nutrition.quality_score}</div>
+              <div className="text-lg font-bold text-gray-700">de 100</div>
             </div>
           </div>
           
           {/* Score Bar */}
-          <div className="w-full bg-white/10 rounded-full h-4 overflow-hidden">
+          <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden border-2 border-gray-300">
             <div 
-              className="h-full bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-1000"
+              className="h-full bg-gradient-to-r from-orange-500 to-orange-600 transition-all duration-1000 flex items-center justify-center"
               style={{ width: `${nutrition.quality_score}%` }}
-            ></div>
+            >
+              <span className="text-white font-bold text-sm">{nutrition.quality_score}%</span>
+            </div>
           </div>
         </div>
       )}
