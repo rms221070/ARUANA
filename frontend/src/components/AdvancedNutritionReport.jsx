@@ -232,24 +232,31 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* DRI Adequacy */}
       {nutrition.dri_adequacy && Object.keys(nutrition.dri_adequacy).length > 0 && (
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-          <h3 className="text-lg font-bold text-white mb-4">Adequação às DRIs Brasileiras</h3>
-          <div className="space-y-3">
+        <div className="bg-white rounded-2xl p-6 shadow-2xl border-4 border-gray-800">
+          <h3 className="text-xl font-bold text-gray-900 mb-6">📊 Adequação às DRIs Brasileiras</h3>
+          <div className="space-y-4">
             {Object.entries(nutrition.dri_adequacy).map(([nutrient, percentage]) => (
-              <div key={nutrient}>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm text-white/90 capitalize">{nutrient.replace('_', ' ')}</span>
-                  <span className="text-sm font-semibold text-white">{percentage.toFixed(1)}%</span>
+              <div key={nutrient} className="bg-gray-50 p-4 rounded-xl border-2 border-gray-300">
+                <div className="flex justify-between mb-2">
+                  <span className="text-base font-bold text-gray-900 capitalize">{nutrient.replace('_', ' ')}</span>
+                  <span className="text-lg font-bold text-gray-900">{percentage.toFixed(1)}%</span>
                 </div>
-                <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden border-2 border-gray-300">
                   <div 
-                    className={`h-full transition-all duration-1000 ${
-                      percentage >= 100 ? 'bg-green-500' : 
-                      percentage >= 70 ? 'bg-yellow-500' : 
-                      'bg-red-500'
+                    className={`h-full transition-all duration-1000 flex items-center justify-center ${
+                      percentage >= 100 ? 'bg-green-600' : 
+                      percentage >= 70 ? 'bg-yellow-600' : 
+                      'bg-red-600'
                     }`}
                     style={{ width: `${Math.min(percentage, 100)}%` }}
-                  ></div>
+                  >
+                    {percentage >= 30 && (
+                      <span className="text-white text-xs font-bold">{percentage.toFixed(0)}%</span>
+                    )}
+                  </div>
+                </div>
+                <div className="mt-1 text-xs font-semibold text-gray-700">
+                  {percentage >= 100 ? '✓ Adequado' : percentage >= 70 ? '⚠ Atenção' : '✗ Insuficiente'}
                 </div>
               </div>
             ))}
