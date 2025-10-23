@@ -965,7 +965,7 @@ class DetectionSystemTester:
             data=wrong_password_data
         )
         
-        wrong_password_handled = not success_wrong
+        wrong_password_handled = success_wrong  # We expect this to succeed (return 401)
         
         # Test login with non-existent email
         nonexistent_data = {
@@ -981,7 +981,7 @@ class DetectionSystemTester:
             data=nonexistent_data
         )
         
-        nonexistent_handled = not success_nonexistent
+        nonexistent_handled = success_nonexistent  # We expect this to succeed (return 401)
         
         self.log_test("User Login - Error Handling", 
                      wrong_password_handled and nonexistent_handled,
