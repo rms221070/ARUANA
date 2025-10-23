@@ -914,7 +914,7 @@ class DetectionSystemTester:
         
         # Test valid login
         login_data = {
-            "email": "logintest@example.com",
+            "email": f"logintest{random_id}@example.com",
             "password": "LoginPass123!"
         }
         
