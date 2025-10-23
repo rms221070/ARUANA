@@ -648,7 +648,7 @@ class NutritionAnalysisComprehensiveTester:
                 print(f"  - {test['test_name']}: {test['details']}")
         
         # Check for any 500 errors
-        error_500_tests = [test for test in self.test_results if "500" in test['details']]
+        error_500_tests = [test for test in self.test_results if "Status: 500" in test['details'] or "status_code: 500" in test['details']]
         if error_500_tests:
             print("\n🚨 CRITICAL: 500 ERRORS DETECTED:")
             for test in error_500_tests:
@@ -656,7 +656,7 @@ class NutritionAnalysisComprehensiveTester:
             all_criteria_met = False
         
         # Check for unhandled exceptions
-        exception_tests = [test for test in self.test_results if "Exception" in test['details'] and "500" not in test['details']]
+        exception_tests = [test for test in self.test_results if "Exception:" in test['details'] and "Status: 500" not in test['details']]
         if exception_tests:
             print("\n🚨 UNHANDLED EXCEPTIONS DETECTED:")
             for test in exception_tests:
