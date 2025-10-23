@@ -21,6 +21,7 @@ import { useAuth } from "@/context/AuthContext";
 const Dashboard = () => {
   const { t } = useTranslation();
   const { narrate, settings } = useSettings();
+  const { user, logout, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState("webcam");
 
   useEffect(() => {
