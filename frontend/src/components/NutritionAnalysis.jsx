@@ -6,6 +6,7 @@ import { Camera, Square, Loader2, Upload, Apple, Calculator, Target } from "luci
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
+import { useAuth } from "@/context/AuthContext";
 import EmotionAnalysis from "@/components/EmotionAnalysis";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -14,6 +15,7 @@ const API = `${BACKEND_URL}/api`;
 const NutritionAnalysis = () => {
   const { t } = useTranslation();
   const { settings, narrate, narrateInterface } = useSettings();
+  const { token } = useAuth();
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastAnalysis, setLastAnalysis] = useState(null);
