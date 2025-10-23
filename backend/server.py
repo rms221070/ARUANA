@@ -1131,6 +1131,137 @@ async def reset_password(reset_data: PasswordReset):
         logging.error(f"Reset password error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to reset password")
 
+# ==================== OAUTH SOCIAL LOGIN ENDPOINTS ====================
+
+@api_router.get("/auth/google/login")
+async def google_login(request: Request):
+    """Initiate Google OAuth login"""
+    if not GOOGLE_OAUTH_CLIENT_ID:
+        raise HTTPException(status_code=501, detail="Google OAuth not configured")
+    
+    redirect_uri = str(request.url_for('google_callback'))
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+@api_router.get("/auth/google/callback")
+async def google_callback(request: Request):
+    """Google OAuth callback"""
+    try:
+        if not GOOGLE_OAUTH_CLIENT_ID:
+            raise HTTPException(status_code=501, detail="Google OAuth not configured")
+        
+        token = await oauth.google.authorize_access_token(request)
+        user_info = token.get('userinfo')
+        
+        if not user_info:
+            raise HTTPException(status_code=400, detail="Failed to get user info")
+        
+        # Get or create user
+        email = user_info.get('email')
+        name = user_info.get('name', email.split('@')[0])
+        profile_photo = user_info.get('picture')
+        
+        user = await db.users.find_one({"email": email})
+        
+        if not user:
+            # Create new user
+            user_id = str(uuid.uuid4())
+            user = {
+                "id": user_id,
+                "name": name,
+                "email": email,
+                "user_type": "user",
+                "profile_photo": profile_photo,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "is_active": True,
+                "oauth_provider": "google",
+                "oauth_id": user_info.get('sub')
+            }
+            await db.users.insert_one(user)
+        else:
+            # Update user info
+            await db.users.update_one(
+                {"email": email},
+                {"$set": {
+                    "name": name,
+                    "profile_photo": profile_photo,
+                    "last_login": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+        
+        # Create JWT token
+        access_token = create_access_token(data={"sub": user["id"], "email": email})
+        
+        # Redirect to frontend with token
+        frontend_url = os.environ.get('FRONTEND_URL', 'https://assis-vision.preview.emergentagent.com')
+        return RedirectResponse(url=f"{frontend_url}/?token={access_token}")
+        
+    except Exception as e:
+        logging.error(f"Google OAuth error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Authentication failed: {str(e)}")
+
+@api_router.get("/auth/microsoft/login")
+async def microsoft_login(request: Request):
+    """Initiate Microsoft OAuth login"""
+    if not MICROSOFT_CLIENT_ID:
+        raise HTTPException(status_code=501, detail="Microsoft OAuth not configured")
+    
+    redirect_uri = str(request.url_for('microsoft_callback'))
+    return await oauth.microsoft.authorize_redirect(request, redirect_uri)
+
+@api_router.get("/auth/microsoft/callback")
+async def microsoft_callback(request: Request):
+    """Microsoft OAuth callback"""
+    try:
+        if not MICROSOFT_CLIENT_ID:
+            raise HTTPException(status_code=501, detail="Microsoft OAuth not configured")
+        
+        token = await oauth.microsoft.authorize_access_token(request)
+        user_info = token.get('userinfo')
+        
+        if not user_info:
+            raise HTTPException(status_code=400, detail="Failed to get user info")
+        
+        # Get or create user
+        email = user_info.get('email') or user_info.get('preferred_username')
+        name = user_info.get('name', email.split('@')[0] if email else 'User')
+        
+        user = await db.users.find_one({"email": email})
+        
+        if not user:
+            # Create new user
+            user_id = str(uuid.uuid4())
+            user = {
+                "id": user_id,
+                "name": name,
+                "email": email,
+                "user_type": "user",
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "is_active": True,
+                "oauth_provider": "microsoft",
+                "oauth_id": user_info.get('oid') or user_info.get('sub')
+            }
+            await db.users.insert_one(user)
+        else:
+            # Update user info
+            await db.users.update_one(
+                {"email": email},
+                {"$set": {
+                    "name": name,
+                    "last_login": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+        
+        # Create JWT token
+        access_token = create_access_token(data={"sub": user["id"], "email": email})
+        
+        # Redirect to frontend with token
+        frontend_url = os.environ.get('FRONTEND_URL', 'https://assis-vision.preview.emergentagent.com')
+        return RedirectResponse(url=f"{frontend_url}/?token={access_token}")
+        
+    except Exception as e:
+        logging.error(f"Microsoft OAuth error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Authentication failed: {str(e)}")
+
 @api_router.get("/detections", response_model=List[Detection])
 async def get_detections(
     request: Request,
