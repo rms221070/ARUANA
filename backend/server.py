@@ -49,39 +49,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 days
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# OAuth Configuration
-oauth = OAuth()
-
-# Google OAuth
-GOOGLE_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH_CLIENT_ID', '')
-GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', '')
-
-if GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET:
-    oauth.register(
-        name='google',
-        client_id=GOOGLE_OAUTH_CLIENT_ID,
-        client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
-        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-        client_kwargs={'scope': 'openid email profile'}
-    )
-
-# Microsoft OAuth
-MICROSOFT_CLIENT_ID = os.environ.get('MICROSOFT_CLIENT_ID', '')
-MICROSOFT_CLIENT_SECRET = os.environ.get('MICROSOFT_CLIENT_SECRET', '')
-MICROSOFT_TENANT_ID = os.environ.get('MICROSOFT_TENANT_ID', 'common')
-
-if MICROSOFT_CLIENT_ID and MICROSOFT_CLIENT_SECRET:
-    oauth.register(
-        name='microsoft',
-        client_id=MICROSOFT_CLIENT_ID,
-        client_secret=MICROSOFT_CLIENT_SECRET,
-        server_metadata_url=f'https://login.microsoftonline.com/{MICROSOFT_TENANT_ID}/v2.0/.well-known/openid-configuration',
-        client_kwargs={'scope': 'openid email profile'}
-    )
-
-# Session Secret
-SESSION_SECRET = os.environ.get('SESSION_SECRET_KEY', secrets.token_urlsafe(32))
-
 # Authentication utilities
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
