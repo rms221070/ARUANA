@@ -124,6 +124,12 @@ const NutritionAnalysis = () => {
 
   const analyzeNutrition = async (imageData) => {
     try {
+      if (!token) {
+        toast.error('Você precisa estar autenticado');
+        setIsAnalyzing(false);
+        return;
+      }
+
       narrate(t('nutrition.analyzingFood'));
 
       const response = await axios.post(`${API}/detect/analyze-nutrition`, {
@@ -132,8 +138,10 @@ const NutritionAnalysis = () => {
         image_data: imageData
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 60000 // 60 seconds timeout
       });
 
       setLastAnalysis(response.data);
