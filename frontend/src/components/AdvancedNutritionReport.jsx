@@ -113,16 +113,18 @@ const AdvancedNutritionReport = ({ analysis }) => {
 
       {/* Positive Aspects */}
       {nutrition.positive_aspects && nutrition.positive_aspects.length > 0 && (
-        <div className="bg-green-500/10 backdrop-blur-sm border border-green-500/30 rounded-2xl p-6">
+        <div className="bg-green-50 rounded-2xl p-6 shadow-2xl border-4 border-green-600">
           <div className="flex items-center gap-3 mb-4">
-            <CheckCircle size={24} className="text-green-400" />
-            <h3 className="text-lg font-bold text-white">Aspectos Positivos</h3>
+            <div className="bg-green-600 p-2 rounded-xl">
+              <CheckCircle size={24} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">Aspectos Positivos</h3>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {nutrition.positive_aspects.map((aspect, index) => (
-              <li key={index} className="flex items-start gap-2">
-                <CheckCircle size={16} className="text-green-400 mt-1 flex-shrink-0" />
-                <span className="text-white/90">{aspect}</span>
+              <li key={index} className="flex items-start gap-3 bg-white p-3 rounded-lg border-2 border-green-600">
+                <CheckCircle size={20} className="text-green-600 mt-0.5 flex-shrink-0" />
+                <span className="text-gray-900 font-medium">{aspect}</span>
               </li>
             ))}
           </ul>
