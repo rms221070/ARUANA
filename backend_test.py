@@ -1056,11 +1056,51 @@ class DetectionSystemTester:
 
     def test_jwt_token_validation(self):
         """Test JWT token validation and expiry"""
-        # Login to get a token
-        login_success, access_token = self.test_user_login()
+        # Create a new user and login to get a token
+        import random
+        random_id = random.randint(10000, 99999)
         
-        if not login_success or not access_token:
-            self.log_test("JWT Token Validation - Setup Failed", False, "Could not obtain access token")
+        test_user_data = {
+            "name": f"JWT Test User {random_id}",
+            "email": f"jwttest{random_id}@example.com",
+            "password": "JWTPass123!",
+            "user_type": "user"
+        }
+        
+        # Register user
+        success_reg, _ = self.run_test(
+            "JWT Test - User Registration",
+            "POST",
+            "auth/register",
+            200,
+            data=test_user_data
+        )
+        
+        if not success_reg:
+            self.log_test("JWT Token Validation - Setup Failed", False, "Could not register user")
+            return False
+        
+        # Login to get token
+        login_data = {
+            "email": f"jwttest{random_id}@example.com",
+            "password": "JWTPass123!"
+        }
+        
+        success_login, result_login = self.run_test(
+            "JWT Test - User Login",
+            "POST",
+            "auth/login",
+            200,
+            data=login_data
+        )
+        
+        if not success_login:
+            self.log_test("JWT Token Validation - Setup Failed", False, "Could not login user")
+            return False
+        
+        access_token = result_login.get('access_token')
+        if not access_token:
+            self.log_test("JWT Token Validation - Setup Failed", False, "No access token returned")
             return False
         
         # Verify token format (should be JWT with 3 parts separated by dots)
