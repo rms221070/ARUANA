@@ -131,14 +131,18 @@ class AuthenticationTester:
         
         return True
 
-    def test_user_login(self):
+    def test_user_login(self, test_email=None):
         """Test POST /api/auth/login endpoint"""
         print("\n🔑 Testing User Login Endpoint")
         print("-" * 50)
         
+        # Use provided email or default
+        if not test_email:
+            test_email = "testuser@example.com"  # Fallback for existing users
+        
         # Test 1: Valid login
         login_data = {
-            "email": test_user_data["email"],  # Use the email from registration
+            "email": test_email,
             "password": "TestPass123!"
         }
         
