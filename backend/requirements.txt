@@ -122,7 +122,3 @@ watchfiles==1.1.0
 websockets==15.0.1
 yarl==1.22.0
 zipp==3.23.0
-httpx==0.28.1
-itsdangerous==2.2.0
-oauthlib==3.3.1
-requests-oauthlib==2.0.0
