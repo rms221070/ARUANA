@@ -529,13 +529,21 @@ IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/detect/analyze-nutrition", response_model=Detection)
-async def analyze_nutrition(input: DetectionCreate):
+async def analyze_nutrition(input: DetectionCreate, request: Request):
     """Analyze food items and calculate nutritional information"""
     try:
+        # Get authenticated user
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
         detection = Detection(
             source=input.source,
             detection_type="nutrition",
-            image_data=input.image_data
+            image_data=input.image_data,
+            user_id=user_id
         )
         
         # Extract base64 image data
