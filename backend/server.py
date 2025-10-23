@@ -527,7 +527,37 @@ IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na
                 file_contents=[image_content]
             )
             
-            response = await chat.send_message(user_message)
+            # Retry logic for Gemini API
+            max_retries = 3
+            retry_delay = 2
+            response = None
+            last_error = None
+            
+            for attempt in range(max_retries):
+                try:
+                    response = await chat.send_message(user_message)
+                    break  # Success, exit retry loop
+                except Exception as e:
+                    last_error = e
+                    error_msg = str(e).lower()
+                    
+                    if '503' in error_msg or 'overloaded' in error_msg or 'rate' in error_msg:
+                        if attempt < max_retries - 1:
+                            logging.warning(f"Gemini API overloaded, retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                            import asyncio
+                            await asyncio.sleep(retry_delay)
+                            retry_delay *= 2
+                            continue
+                        else:
+                            raise HTTPException(
+                                status_code=503,
+                                detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
+                            )
+                    else:
+                        raise
+            
+            if response is None:
+                raise last_error or Exception("Failed to get response from Gemini")
             
             # Parse response
             try:
