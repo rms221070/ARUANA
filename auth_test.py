@@ -108,7 +108,7 @@ class AuthenticationTester:
         # Test 3: Admin user registration
         admin_data = {
             "name": "Admin User",
-            "email": "admin@example.com",
+            "email": f"admin{unique_id}@example.com",
             "password": "AdminPass123!",
             "user_type": "admin"
         }
