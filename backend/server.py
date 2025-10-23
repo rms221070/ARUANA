@@ -524,6 +524,8 @@ IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na
         
         return detection
         
+    except HTTPException:
+        raise  # Re-raise HTTPException as-is (preserves status code)
     except Exception as e:
         logging.error(f"Error analyzing frame: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
