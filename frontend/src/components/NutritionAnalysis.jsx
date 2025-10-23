@@ -495,6 +495,9 @@ const NutritionAnalysis = () => {
                   </div>
                 )}
               </div>
+
+              {/* Advanced PhD-Level Nutrition Report */}
+              <AdvancedNutritionReport analysis={lastAnalysis} />
             </div>
           ) : (
             <div className={`text-center py-12 ${settings.highContrast ? 'text-gray-400' : 'text-slate-400'}`}>
