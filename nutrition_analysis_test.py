@@ -57,11 +57,11 @@ class NutritionAnalysisComprehensiveTester:
             print(f"   Details: {details}")
         
         # Log any 500 errors as requested
-        if "500" in details:
+        if "Status: 500" in details or "status_code: 500" in details:
             print(f"🚨 ERROR 500 DETECTED: {name} - {details}")
         
         # Log any unhandled exceptions as requested
-        if "Exception" in details and "500" not in details:
+        if "Exception:" in details and "Status: 500" not in details:
             print(f"🚨 UNHANDLED EXCEPTION: {name} - {details}")
 
     def create_simple_test_image(self):
