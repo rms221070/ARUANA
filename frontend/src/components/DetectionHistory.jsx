@@ -398,6 +398,79 @@ const DetectionHistory = () => {
               <p>Selecione uma detecção para ver os detalhes</p>
             </div>
           )}
+
+          {/* Share URL Card */}
+          {shareUrl && (
+            <div className="mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-lg">
+              <h4 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+                <Share2 className="w-4 h-4" />
+                Link de Compartilhamento Gerado
+              </h4>
+              <p className="text-xs text-green-700 mb-3">
+                Compartilhe este link em qualquer rede social. Qualquer pessoa poderá visualizar a imagem e descrição.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={shareUrl}
+                  readOnly
+                  className="flex-1 px-3 py-2 text-sm border border-green-300 rounded bg-white"
+                />
+                <Button
+                  onClick={copyShareUrl}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 text-green-600" />
+                      Copiado!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      Copiar
+                    </>
+                  )}
+                </Button>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent('Veja esta detecção: ' + shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 text-xs bg-green-500 hover:bg-green-600 text-white rounded flex items-center gap-1"
+                >
+                  📱 WhatsApp
+                </a>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded flex items-center gap-1"
+                >
+                  📘 Facebook
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Veja esta detecção')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 text-xs bg-blue-400 hover:bg-blue-500 text-white rounded flex items-center gap-1"
+                >
+                  🐦 Twitter
+                </a>
+                <a
+                  href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent('Veja esta detecção')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded flex items-center gap-1"
+                >
+                  ✈️ Telegram
+                </a>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
