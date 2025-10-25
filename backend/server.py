@@ -2303,6 +2303,93 @@ async def delete_comment(comment_id: str):
     
     return {"message": "Comment deleted"}
 
+# Sharing endpoints
+@api_router.post("/detections/{detection_id}/share")
+async def create_share_link(detection_id: str, request: Request):
+    """Generate a public share link for a detection"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Get detection
+    detection = await db.detections.find_one({"id": detection_id, "user_id": user_id})
+    if not detection:
+        raise HTTPException(status_code=404, detail="Detection not found")
+    
+    # Generate unique share token
+    share_token = str(uuid.uuid4())
+    
+    # Create share entry
+    share_data = {
+        "id": str(uuid.uuid4()),
+        "detection_id": detection_id,
+        "share_token": share_token,
+        "user_id": user_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "views": 0,
+        "expires_at": None  # Never expires by default
+    }
+    
+    await db.shares.insert_one(share_data)
+    
+    # Generate share URL
+    base_url = os.environ.get('BACKEND_URL', 'https://aruana-vision-1.preview.emergentagent.com')
+    share_url = f"{base_url}/share/{share_token}"
+    
+    return {
+        "share_url": share_url,
+        "share_token": share_token,
+        "created_at": share_data["created_at"]
+    }
+
+@api_router.get("/share/{share_token}")
+async def view_shared_detection(share_token: str):
+    """View a shared detection (public - no auth required)"""
+    # Find share
+    share = await db.shares.find_one({"share_token": share_token})
+    if not share:
+        raise HTTPException(status_code=404, detail="Share link not found or expired")
+    
+    # Increment views
+    await db.shares.update_one(
+        {"share_token": share_token},
+        {"$inc": {"views": 1}}
+    )
+    
+    # Get detection
+    detection = await db.detections.find_one(
+        {"id": share['detection_id']},
+        {"_id": 0, "user_id": 0}  # Hide sensitive fields
+    )
+    
+    if not detection:
+        raise HTTPException(status_code=404, detail="Detection not found")
+    
+    return {
+        "detection": detection,
+        "views": share.get('views', 0) + 1,
+        "shared_at": share.get('created_at')
+    }
+
+@api_router.delete("/detections/{detection_id}/share")
+async def delete_share_link(detection_id: str, request: Request):
+    """Delete share link for a detection"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Delete share
+    result = await db.shares.delete_many({
+        "detection_id": detection_id,
+        "user_id": user_id
+    })
+    
+    return {"message": f"Share link deleted", "deleted_count": result.deleted_count}
+
 # Include router
 app.include_router(api_router)
 
