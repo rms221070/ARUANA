@@ -51,14 +51,26 @@ const UploadDetection = () => {
     narrate(t('webcam.analyzing'));
     
     try {
+      const authToken = getToken();
+      
+      if (!authToken) {
+        const errorMsg = 'Você precisa fazer login para usar esta funcionalidade';
+        toast.error(errorMsg);
+        narrate(errorMsg);
+        setIsAnalyzing(false);
+        return;
+      }
+
       const response = await axios.post(`${API}/detect/analyze-frame`, {
         source: "upload",
         detection_type: "cloud",
         image_data: previewUrl
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 60000
       });
 
       setResult(response.data);
