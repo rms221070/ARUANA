@@ -25,6 +25,8 @@ const NutritionAnalysis = () => {
   const [analysisMode, setAnalysisMode] = useState("camera"); // "camera" or "upload"
   const [uploadFile, setUploadFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [nutritionHistory, setNutritionHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const fileInputRef = useRef(null);
