@@ -384,7 +384,12 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
             </div>
           )}
 
-          <div className="flex gap-3 flex-wrap">
+          {/* Controls - Floating in fullscreen */}
+          <div className={`flex gap-3 flex-wrap ${
+            isFullscreen 
+              ? 'fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[60] bg-black/80 backdrop-blur-xl px-6 py-4 rounded-2xl shadow-2xl border-2 border-white/20' 
+              : ''
+          }`}>
             {!isStreaming && !showPreview ? (
               <Button
                 onClick={startWebcam}
