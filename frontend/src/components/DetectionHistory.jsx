@@ -19,6 +19,7 @@ const DetectionHistory = () => {
   const [detections, setDetections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDetection, setSelectedDetection] = useState(null);
+  const [filterCategory, setFilterCategory] = useState("all"); // Filter state
 
   useEffect(() => {
     // Narrate history section when loaded
