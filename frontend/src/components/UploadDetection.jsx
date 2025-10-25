@@ -48,7 +48,7 @@ const UploadDetection = () => {
     if (!selectedFile || !previewUrl) return;
 
     setIsAnalyzing(true);
-    narrate(t('webcam.analyzing'));
+    narrate(detectionMode === "ocr" ? "Iniciando leitura de texto..." : t('webcam.analyzing'));
     
     try {
       const authToken = getToken();
@@ -61,9 +61,16 @@ const UploadDetection = () => {
         return;
       }
 
-      const response = await axios.post(`${API}/detect/analyze-frame`, {
+      // Choose endpoint based on mode
+      const endpoint = detectionMode === "ocr" 
+        ? `${API}/detect/read-text`
+        : `${API}/detect/analyze-frame`;
+      
+      const detectionType = detectionMode === "ocr" ? "text_reading" : "cloud";
+
+      const response = await axios.post(endpoint, {
         source: "upload",
-        detection_type: "cloud",
+        detection_type: detectionType,
         image_data: previewUrl
       }, {
         headers: {
