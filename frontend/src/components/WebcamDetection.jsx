@@ -357,6 +357,12 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
         return;
       }
 
+      // Capture geolocation
+      const geoLocation = await getCurrentLocation();
+      if (geoLocation) {
+        toast.success('📍 Localização capturada', { duration: 2000 });
+      }
+
       // Choose endpoint based on mode
       const endpoint = detectionMode === "ocr" 
         ? `${API}/detect/read-text`
@@ -371,7 +377,8 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
       const response = await axios.post(endpoint, {
         source: "webcam",
         detection_type: detectionType,
-        image_data: imageData
+        image_data: imageData,
+        geo_location: geoLocation  // Include geolocation
       }, {
         headers: {
           'Authorization': `Bearer ${authToken}`,
