@@ -655,21 +655,42 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
 {
   "objects": [
     {
-      "label": "pessoa/objeto", 
+      "label": "pessoa/objeto específico", 
       "confidence": 0.95, 
-      "description": "descrição extremamente detalhada em português",
+      "description": "descrição ULTRA-DETALHADA em português com todos os detalhes possíveis (mínimo 100 palavras por objeto importante)",
+      "position": "localização exata na cena (canto superior esquerdo, centro, primeiro plano à direita)",
+      "colors": ["cor1 exata", "cor2 exata", "cor3 exata"],
+      "materials": ["material1", "material2"],
+      "size": "tamanho aproximado (pequeno, médio, grande, dimensões se possível)",
       "emotions": {
-        "expression": "descrição completa da expressão",
-        "emotional_state": "estado emocional detalhado",
+        "expression": "descrição microscópica da expressão",
+        "emotional_state": "estado emocional profundamente detalhado",
         "is_smiling": true/false,
-        "sentiment": "análise completa do sentimento",
-        "energy_level": "nível de energia com explicação"
+        "sentiment": "análise psicológica completa do sentimento",
+        "energy_level": "nível de energia com justificativa detalhada",
+        "body_language": "linguagem corporal completa"
       }
     }
   ],
-  "description": "DESCRIÇÃO NARRATIVA EXTREMAMENTE RICA E DETALHADA da cena completa em português brasileiro, como se estivesse contando para uma pessoa cega com todos os detalhes visuais possíveis",
-  "overall_sentiment": "análise profunda do sentimento e atmosfera geral da cena",
-  "accessibility_notes": "informações específicas para acessibilidade e navegação",
+  "environment": {
+    "type": "tipo específico do local",
+    "dimensions": "tamanho aproximado do espaço",
+    "lighting": {
+      "type": "natural/artificial/mista",
+      "intensity": "nível de intensidade",
+      "temperature": "quente/neutra/fria",
+      "time_of_day": "hora aparente do dia"
+    },
+    "colors": {
+      "dominant": ["cor1", "cor2", "cor3"],
+      "accents": ["cor4", "cor5"]
+    },
+    "atmosphere": "descrição completa da atmosfera e sensação",
+    "sounds_implied": ["som1 provável", "som2 provável"]
+  },
+  "description": "DESCRIÇÃO NARRATIVA ULTRA-RICA, EXTREMAMENTE DETALHADA E COMPLETA da cena em português brasileiro. Imagine que você está descrevendo para uma pessoa TOTALMENTE CEGA e precisa transmitir ABSOLUTAMENTE TUDO que você vê com o máximo de detalhes possível. Inclua cores exatas, texturas, materiais, posições espaciais, distâncias, tamanhos, estados emocionais, expressões faciais, roupas com todos os detalhes, acessórios, ambiente completo, iluminação, atmosfera, o que está acontecendo, relações entre elementos. Mínimo 300 palavras. Esta descrição deve ser tão rica que a pessoa cega consiga formar uma imagem mental completa e precisa da cena.",
+  "overall_sentiment": "análise psicológica profunda do sentimento, atmosfera geral, emoções transmitidas pela cena completa",
+  "accessibility_notes": "informações críticas para acessibilidade, navegação, segurança, obstáculos, pontos de referência, texto visível transcrito",
   "emotion_analysis": {
     "sorrindo": 0,
     "serio": 0,
@@ -682,12 +703,29 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
     "positivo": 0,
     "neutro": 0,
     "negativo": 0
+  },
+  "visual_details": {
+    "dominant_colors": ["lista de cores dominantes com nomes exatos"],
+    "textures": ["lista de texturas visíveis"],
+    "patterns": ["lista de padrões identificados"],
+    "text_visible": "TODO texto visível na imagem transcrito aqui",
+    "brands_logos": ["marcas e logos identificados"]
+  },
+  "spatial_analysis": {
+    "depth": "análise de profundidade (primeiro plano, meio, fundo)",
+    "perspective": "tipo de perspectiva e ângulo da câmera",
+    "distances": "distâncias aproximadas entre elementos principais"
   }
 }
 
-IMPORTANTE: Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na imagem apresentam cada emoção/sentimento. Por exemplo, se há 3 pessoas sorrindo, coloque "sorrindo": 3. Se há 2 pessoas com sentimento positivo, coloque "positivo": 2.
+IMPORTANTE: 
+- Para emotion_analysis e sentiment_analysis, conte QUANTAS PESSOAS na imagem apresentam cada emoção/sentimento. 
+- Por exemplo, se há 3 pessoas sorrindo, coloque "sorrindo": 3. Se há 2 pessoas com sentimento positivo, coloque "positivo": 2.
+- A "description" deve ser EXTREMAMENTE detalhada, mínimo 300 palavras, descrevendo TUDO que você vê.
+- Transcreva TODO texto visível em "text_visible".
+- Seja incrivelmente específico em cores (não apenas "azul", mas "azul marinho profundo"), texturas, materiais, posições.
 
-🇧🇷 LEMBRE-SE: TODA A DESCRIÇÃO DEVE ESTAR EM PORTUGUÊS BRASILEIRO! NÃO USE INGLÊS! 🇧🇷"""
+🇧🇷 LEMBRE-SE: TODA A DESCRIÇÃO DEVE ESTAR EM PORTUGUÊS BRASILEIRO COM MÁXIMO DETALHAMENTO! NÃO USE INGLÊS! 🇧🇷"""
             
             user_message = UserMessage(
                 text=prompt,
