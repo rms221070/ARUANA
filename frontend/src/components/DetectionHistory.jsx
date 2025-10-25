@@ -15,7 +15,7 @@ const API = `${BACKEND_URL}/api`;
 const DetectionHistory = () => {
   const { t } = useTranslation();
   const { settings, narrate, narrateInterface } = useSettings();
-  const { token } = useAuth();
+  const { token, getToken } = useAuth();
   const [detections, setDetections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDetection, setSelectedDetection] = useState(null);
@@ -26,19 +26,40 @@ const DetectionHistory = () => {
     fetchDetections();
   }, []);
 
-  const getAuthHeaders = () => ({
-    'Authorization': `Bearer ${token}`
-  });
+  const getAuthHeaders = () => {
+    const authToken = getToken();
+    if (!authToken) {
+      console.warn('No auth token available');
+      return {};
+    }
+    return {
+      'Authorization': `Bearer ${authToken}`
+    };
+  };
 
   const fetchDetections = async () => {
     setLoading(true);
     try {
+      const authToken = getToken();
+      if (!authToken) {
+        console.warn('No auth token available for fetching detections');
+        setLoading(false);
+        return;
+      }
+      
       const response = await axios.get(`${API}/detections?limit=50`, {
-        headers: getAuthHeaders()
+        headers: {
+          'Authorization': `Bearer ${authToken}`
+        }
       });
       setDetections(response.data);
     } catch (error) {
-      toast.error("Erro ao carregar histórico");
+      console.error('Error fetching detections:', error);
+      if (error.response?.status === 401) {
+        toast.error("Sessão expirada. Faça login novamente.");
+      } else {
+        toast.error("Erro ao carregar histórico");
+      }
     } finally {
       setLoading(false);
     }
