@@ -24,6 +24,7 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
   const [isListeningAudio, setIsListeningAudio] = useState(false);
   const [audioAnalysis, setAudioAnalysis] = useState(null);
   const [audioLevel, setAudioLevel] = useState(0);
+  const [detectionMode, setDetectionMode] = useState("normal"); // "normal" or "ocr"
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const audioContextRef = useRef(null);
