@@ -380,37 +380,48 @@ async def analyze_frame(input: DetectionCreate, request: Request):
             
             prompt = """🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
 
-Você é um assistente especialista em visão computacional para acessibilidade. Analise esta imagem em DETALHES EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição MUITO RICA para pessoas cegas ou com deficiência visual:
+Você é um assistente especialista em visão computacional para acessibilidade MÁXIMA. Analise esta imagem em DETALHES ULTRA-EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição INCRIVELMENTE RICA E COMPLETA para pessoas cegas ou com deficiência visual.
 
-IMPORTANTE: TODA A DESCRIÇÃO DEVE SER EM PORTUGUÊS DO BRASIL!
+IMPORTANTE: TODA A DESCRIÇÃO DEVE SER EM PORTUGUÊS DO BRASIL COM O MÁXIMO DE DETALHES POSSÍVEL!
+
+🎯 **NÍVEL DE DETALHAMENTO: MÁXIMO ABSOLUTO**
 
 1. **PESSOAS DETECTADAS** - Para cada pessoa, descreva MINUCIOSAMENTE COM MÁXIMO DETALHAMENTO:
    
-   **CARACTERÍSTICAS FÍSICAS DETALHADAS:**
-   - Idade aproximada e gênero aparente
-   - Tipo físico, altura e estrutura corporal
-   - Tom de pele (claro, médio, escuro, bronzeado, etc.)
-   - Formato do rosto (redondo, oval, quadrado, triangular)
+   **CARACTERÍSTICAS FÍSICAS ULTRA-DETALHADAS:**
+   - Idade aproximada (faixa etária específica: 5-10 anos, 20-25 anos, 60-70 anos)
+   - Gênero aparente e expressão de identidade
+   - Tipo físico completo: altura estimada em metros, estrutura (magro, médio, robusto), postura
+   - Tonalidade de pele EXATA (claro rosado, moreno claro, pardo médio, negro retinto, bronze dourado, etc.)
+   - Formato do rosto PRECISO (redondo, oval, quadrado, triangular, losango, coração)
+   - Traços faciais: testa (ampla/estreita), nariz (formato, tamanho), boca (lábios finos/carnudos), queixo (proeminente/retraído)
    
-   **OLHOS E EXPRESSÃO FACIAL:**
-   - Cor dos olhos (castanhos, azuis, verdes, mel, pretos, etc.)
-   - Formato e tamanho dos olhos
-   - Sobrancelhas (cor, formato, espessura)
-   - Expressão do olhar (direto, desviado, concentrado, etc.)
+   **OLHOS E EXPRESSÃO FACIAL COMPLETA:**
+   - Cor dos olhos ESPECÍFICA (castanhos escuros, mel dourado, azuis claros, verdes acinzentados, âmbar, pretos profundos)
+   - Formato dos olhos (amendoados, redondos, puxados, caídos)
+   - Tamanho relativo dos olhos
+   - Sobrancelhas: cor exata, formato (arqueadas, retas, angulares), espessura, separação
+   - Cílios: comprimento, densidade
+   - Expressão do olhar (direto, desviado, concentrado, pensativo, alegre, triste, neutro)
+   - Presença de óculos ou lentes de contato
+   - Rugas de expressão, linhas de sorriso, marcas faciais
    
-   **CABELOS DETALHADOS:**
-   - Cor exata (loiro platinado, castanho escuro, ruivo, grisalho, etc.)
-   - Comprimento (curtíssimo, curto, médio, longo, muito longo)
-   - Textura (liso, ondulado, cacheado, crespo)
-   - Penteado ou corte específico
-   - Produtos ou acessórios no cabelo
+   **CABELOS EM DETALHES MICROSCÓPICOS:**
+   - Cor EXATA e nuances (loiro platinado, loiro mel, castanho claro acobreado, castanho escuro chocolate, preto azulado, ruivo ardente, grisalho prateado, grisalho pepper and salt)
+   - Comprimento PRECISO (raspado, curtíssimo 2-3cm, curto até orelhas, médio até ombros, longo até metade das costas, muito longo até cintura)
+   - Textura DETALHADA (liso brilhante, liso opaco, ondulado tipo 2A/2B/2C, cacheado tipo 3A/3B/3C, crespo tipo 4A/4B/4C)
+   - Penteado ou corte ESPECÍFICO (bob, pixie, undercut, moicano, tranças, coque, rabo de cavalo, mechas soltas)
+   - Condição do cabelo (saudável brilhante, ressecado, oleoso, com split ends, volumoso, liso)
+   - Produtos visíveis (gel, pomada, spray)
+   - Acessórios no cabelo (presilhas, tiaras, lenços, flores, cor e estilo)
+   - Tratamento visível (coloração, luzes, alisamento, permanente)
    
-   **VESTIMENTA ULTRA DETALHADA:**
-   - Peças de roupa específicas (camiseta, camisa social, blusa, etc.)
-   - Cores exatas e combinações de cores
-   - Padrões e estampas (listras, xadrez, floral, geométrico, etc.)
-   - Tecidos aparentes (algodão, jeans, seda, lã, etc.)
-   - MARCAS VISÍVEIS: identifique logos, marcas ou escritos em roupas
+   **VESTIMENTA ULTRA-DETALHADA COM ANÁLISE DE MODA:**
+   - CADA PEÇA DE ROUPA: nome específico (camiseta básica, camisa social slim fit, blusa de seda, moletom com capuz, jaqueta jeans, blazer estruturado)
+   - CORES EXATAS com código de cor (vermelho carmesim, azul marinho profundo, verde musgo, amarelo mostarda, rosa millennial, preto ônix)
+   - PADRÕES E ESTAMPAS detalhados (listras horizontais azuis e brancas de 2cm, xadrez vichy vermelho, floral vintage com rosas, estampa de onça, tie-dye degradê, geométrico art déco)
+   - TECIDOS APARENTES (algodão leve, jeans denim pesado, seda fluida, lã grossa, poliéster acetinado, linho natural, veludo cotelê)
+   - MARCAS VISÍVEIS: identifique TODOS os logos, tags, escritos, patches em roupas (Nike, Adidas, Gucci, Supreme, logos universitários, bandeiras, frases)
    - Estado da roupa (nova, usada, amarrotada, bem cuidada)
    - Estilo (casual, formal, esportivo, alternativo, etc.)
    
