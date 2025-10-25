@@ -23,6 +23,7 @@ const Dashboard = () => {
   const { narrate, settings } = useSettings();
   const { user, logout, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState("webcam");
+  const [isFullscreenMode, setIsFullscreenMode] = useState(false);
 
   useEffect(() => {
     // Detailed welcome message with navigation info
