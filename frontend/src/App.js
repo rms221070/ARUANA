@@ -10,6 +10,7 @@ import RegisterPage from "@/pages/RegisterPage";
 import ProfilePage from "@/pages/ProfilePage";
 import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
+import SharedDetectionView from "@/pages/SharedDetectionView";
 import { Toaster } from "sonner";
 
 // Protected Route Component
@@ -39,6 +40,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/share/:shareToken" element={<SharedDetectionView />} />
               <Route 
                 path="/profile" 
                 element={
