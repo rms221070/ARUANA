@@ -507,6 +507,23 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
               📖 Modo de leitura ativo: otimizado para capturar e ler textos de livros, quadros de aula, placas e documentos
             </p>
           )}
+          {/* Geolocation Display */}
+          {currentLocation && (
+            <div className={`mt-2 p-2 rounded-lg flex items-center gap-2 ${settings.highContrast ? 'bg-green-900 border border-green-400' : 'bg-green-50 border border-green-200'}`}>
+              <span className="text-green-600 text-xl">📍</span>
+              <div className="flex-1">
+                <p className={`text-xs font-semibold ${settings.highContrast ? 'text-green-300' : 'text-green-700'}`}>
+                  Localização Capturada
+                </p>
+                <p className={`text-[10px] ${settings.highContrast ? 'text-green-400' : 'text-green-600'}`}>
+                  Lat: {currentLocation.latitude.toFixed(6)}, Long: {currentLocation.longitude.toFixed(6)}
+                </p>
+                <p className={`text-[10px] ${settings.highContrast ? 'text-green-400' : 'text-green-600'}`}>
+                  Precisão: ±{currentLocation.accuracy.toFixed(0)}m
+                </p>
+              </div>
+            </div>
+          )}
         </CardHeader>
         <CardContent className={isFullscreen ? "p-0 m-0" : "space-y-4"}>
           {/* Video/Image Container - Fullscreen Optimized */}
