@@ -14,7 +14,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem('auth_token'));
+  const [token, setToken] = useState(null); // Initialize as null, load from storage in useEffect
   const navigate = useNavigate();
 
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
@@ -22,31 +22,47 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated on mount
   useEffect(() => {
     const checkAuth = async () => {
-      const storedToken = localStorage.getItem('auth_token');
-      if (storedToken) {
-        try {
-          const response = await fetch(`${BACKEND_URL}/api/auth/me`, {
-            headers: {
-              'Authorization': `Bearer ${storedToken}`
-            }
-          });
-          
-          if (response.ok) {
-            const userData = await response.json();
-            setUser(userData);
-            setToken(storedToken);
-          } else {
-            // Token invalid, clear it
-            localStorage.removeItem('auth_token');
-            setToken(null);
-          }
-        } catch (error) {
-          console.error('Auth check failed:', error);
-          localStorage.removeItem('auth_token');
-          setToken(null);
+      try {
+        // Get token from localStorage with retry logic for mobile
+        let storedToken = localStorage.getItem('auth_token');
+        
+        // If no token found, wait a bit and try again (mobile can be slow)
+        if (!storedToken) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          storedToken = localStorage.getItem('auth_token');
         }
+        
+        if (storedToken) {
+          setToken(storedToken); // Set token immediately
+          
+          try {
+            const response = await fetch(`${BACKEND_URL}/api/auth/me`, {
+              headers: {
+                'Authorization': `Bearer ${storedToken}`
+              }
+            });
+            
+            if (response.ok) {
+              const userData = await response.json();
+              setUser(userData);
+            } else {
+              // Token invalid, clear it
+              console.warn('Token validation failed, clearing auth');
+              localStorage.removeItem('auth_token');
+              setToken(null);
+              setUser(null);
+            }
+          } catch (error) {
+            console.error('Auth check failed:', error);
+            // Don't clear token on network error, might be temporary
+            console.warn('Network error during auth check, keeping token for retry');
+          }
+        }
+      } catch (error) {
+        console.error('Error reading auth token:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();
