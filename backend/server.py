@@ -1099,6 +1099,110 @@ async def reset_password(reset_data: PasswordReset):
         logging.error(f"Reset password error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to reset password")
 
+# ==================== ADMIN ENDPOINTS ====================
+
+@api_router.get("/admin/users")
+async def get_all_users(request: Request):
+    """Admin: Get all users"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Check if user is admin
+    current_user = await db.users.find_one({"id": user_id})
+    if not current_user or current_user.get("user_type") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Get all users
+    users = await db.users.find(
+        {},
+        {"_id": 0, "password_hash": 0, "reset_token": 0, "reset_token_expiry": 0}
+    ).to_list(1000)
+    
+    return users
+
+@api_router.put("/admin/users/{user_id}")
+async def update_user(request: Request, user_id: str, update_data: dict):
+    """Admin: Update any user"""
+    auth_header = request.headers.get("Authorization")
+    current_user_id = get_current_user(auth_header)
+    
+    if not current_user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Check if user is admin
+    current_user = await db.users.find_one({"id": current_user_id})
+    if not current_user or current_user.get("user_type") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Remove sensitive fields from update
+    update_data.pop('password_hash', None)
+    update_data.pop('id', None)
+    
+    # Update user
+    result = await db.users.update_one(
+        {"id": user_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {"success": True, "message": "User updated"}
+
+@api_router.delete("/admin/users/{user_id}")
+async def delete_user(request: Request, user_id: str):
+    """Admin: Delete user"""
+    auth_header = request.headers.get("Authorization")
+    current_user_id = get_current_user(auth_header)
+    
+    if not current_user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Check if user is admin
+    current_user = await db.users.find_one({"id": current_user_id})
+    if not current_user or current_user.get("user_type") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Prevent deleting self
+    if user_id == current_user_id:
+        raise HTTPException(status_code=400, detail="Cannot delete yourself")
+    
+    # Delete user
+    result = await db.users.delete_one({"id": user_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {"success": True, "message": "User deleted"}
+
+@api_router.get("/admin/stats")
+async def get_admin_stats(request: Request):
+    """Admin: Get system statistics"""
+    auth_header = request.headers.get("Authorization")
+    user_id = get_current_user(auth_header)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Check if user is admin
+    current_user = await db.users.find_one({"id": user_id})
+    if not current_user or current_user.get("user_type") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Get statistics
+    total_users = await db.users.count_documents({})
+    total_detections = await db.detections.count_documents({})
+    total_alerts = await db.alerts.count_documents({})
+    
+    return {
+        "total_users": total_users,
+        "total_detections": total_detections,
+        "total_alerts": total_alerts
+    }
+
 @api_router.get("/detections", response_model=List[Detection])
 async def get_detections(
     request: Request,
