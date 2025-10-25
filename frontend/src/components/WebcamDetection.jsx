@@ -280,9 +280,20 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
         return;
       }
 
-      const response = await axios.post(`${API}/detect/analyze-frame`, {
+      // Choose endpoint based on mode
+      const endpoint = detectionMode === "ocr" 
+        ? `${API}/detect/read-text`
+        : `${API}/detect/analyze-frame`;
+      
+      const detectionType = detectionMode === "ocr" ? "text_reading" : "cloud";
+      
+      narrate(detectionMode === "ocr" 
+        ? "Iniciando leitura de texto..." 
+        : "Analisando imagem...");
+
+      const response = await axios.post(endpoint, {
         source: "webcam",
-        detection_type: "cloud",
+        detection_type: detectionType,
         image_data: imageData
       }, {
         headers: {
