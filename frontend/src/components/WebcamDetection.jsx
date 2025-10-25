@@ -15,7 +15,7 @@ const API = `${BACKEND_URL}/api`;
 const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
-  const { token } = useAuth();
+  const { token, getToken } = useAuth();
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastDetection, setLastDetection] = useState(null);
