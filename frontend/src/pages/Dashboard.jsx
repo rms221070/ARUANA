@@ -51,17 +51,17 @@ const Dashboard = () => {
       <div className={`border-b ${
         settings.highContrast ? 'border-white bg-black' : 'border-orange-500/30 bg-gradient-to-r from-blue-950/95 via-slate-900/95 to-blue-950/95 backdrop-blur-xl'
       } sticky top-0 z-50 shadow-2xl`}>
-        <div className="container mx-auto px-4 py-2">
+        <div className="container mx-auto px-4 py-1">
           {/* Banner Image - Removed to improve visibility */}
           
           <div className="flex items-center justify-between">
             <div className="flex-1">
               {/* User Info and Logout */}
-              <div className="flex items-center justify-end gap-3 mb-3">
+              <div className="flex items-center justify-end gap-2 mb-1">
                 {/* User Profile Card with Photo */}
                 <button
                   onClick={() => window.location.href = '/profile'}
-                  className={`flex items-center gap-3 px-4 py-2 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 ${
+                  className={`flex items-center gap-2 px-2 py-1 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 ${
                     settings.highContrast 
                       ? 'bg-white/10 border border-white hover:bg-white/20' 
                       : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20'
@@ -71,21 +71,21 @@ const Dashboard = () => {
                     <img
                       src={user.profile_photo}
                       alt={user.name}
-                      className="w-8 h-8 rounded-full object-cover border-2 border-orange-500"
+                      className="w-6 h-6 rounded-full object-cover border-2 border-orange-500"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
-                      <User size={16} className="text-white" />
+                    <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
+                      <User size={14} className="text-white" />
                     </div>
                   )}
                   <div className="text-left">
-                    <span className={`text-sm font-medium block ${
+                    <span className={`text-xs font-medium block ${
                       settings.highContrast ? 'text-white' : 'text-white'
                     }`}>
                       {user?.name}
                     </span>
                     {isAdmin() && (
-                      <span className="text-xs text-orange-400 font-semibold">
+                      <span className="text-[10px] text-orange-400 font-semibold">
                         Administrador
                       </span>
                     )}
@@ -96,7 +96,7 @@ const Dashboard = () => {
                     narrate('Saindo do sistema');
                     logout();
                   }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                  className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                     settings.highContrast
                       ? 'bg-white text-black hover:bg-gray-200'
                       : 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg'
@@ -106,32 +106,32 @@ const Dashboard = () => {
                     boxShadow: '0 4px 15px -3px rgba(239, 68, 68, 0.4)'
                   } : {}}
                 >
-                  <LogOut size={16} />
-                  <span className="text-sm font-medium">Sair</span>
+                  <LogOut size={14} />
+                  <span className="text-xs font-medium">Sair</span>
                 </button>
               </div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className={`p-2 rounded-xl ${
+              <div className="flex items-center gap-2 mb-1">
+                <div className={`p-1 rounded-lg ${
                   settings.highContrast ? 'bg-white' : 'bg-gradient-to-br from-orange-500 to-orange-600'
-                } shadow-2xl animate-pulse-slow`}>
-                  <svg className={`w-8 h-8 ${settings.highContrast ? 'text-black' : 'text-white'}`} fill="currentColor" viewBox="0 0 24 24">
+                } shadow-xl animate-pulse-slow`}>
+                  <svg className={`w-5 h-5 ${settings.highContrast ? 'text-black' : 'text-white'}`} fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                   </svg>
                 </div>
                 <div>
-                  <h1 className={`text-2xl md:text-3xl font-bold ${
+                  <h1 className={`text-lg md:text-xl font-bold ${
                     settings.highContrast 
                       ? 'text-white' 
                       : 'bg-gradient-to-r from-orange-400 via-white to-blue-400 bg-clip-text text-transparent'
-                  } mb-0.5 tracking-tight`}>
+                  } mb-0 tracking-tight`}>
                     {t('app.title')}
                   </h1>
-                  <h2 className={`text-sm md:text-base font-semibold ${
+                  <h2 className={`text-xs md:text-sm font-semibold ${
                     settings.highContrast ? 'text-gray-300' : 'text-blue-200'
-                  } mb-1 tracking-wide`}>
+                  } mb-0.5 tracking-wide`}>
                     Laboratório de Comunicação Celular (LCC)
                   </h2>
-                  <div className={`text-xs space-y-0.5 ${
+                  <div className={`text-[10px] space-y-0 ${
                     settings.highContrast ? 'text-gray-300' : 'text-blue-200/90'
                   } font-medium`}>
                     <div>Aluno Pós-Doc: Ricardo Marciano dos Santos</div>
@@ -139,10 +139,10 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className={`flex items-center gap-2 text-xs ${
+              <div className={`flex items-center gap-1 text-[10px] ${
                 settings.highContrast ? 'text-gray-400' : 'text-indigo-300/80'
               }`}>
-                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
                 <span className="font-light italic">{t('app.description')}</span>
               </div>
             </div>
