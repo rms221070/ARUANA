@@ -1243,9 +1243,21 @@ IMPORTANTE - DIRETRIZES PhD:
             detection.description = response_text if 'response_text' in locals() else str(response)
             detection.nutritional_analysis = NutritionalAnalysis()
         
+        # Process geolocation if provided
+        if input.geo_location:
+            detection.geo_location = GeoLocation(**input.geo_location)
+        
+        # Auto-categorize detection
+        detection.category = auto_categorize_detection(detection)
+        
+        # Generate smart tags
+        detection.tags = generate_tags(detection)
+        
         # Save to database
         doc = detection.model_dump()
         doc['timestamp'] = doc['timestamp'].isoformat()
+        if doc.get('geo_location') and doc['geo_location'].get('timestamp'):
+            doc['geo_location']['timestamp'] = doc['geo_location']['timestamp'].isoformat()
         await db.detections.insert_one(doc)
         
         return detection
