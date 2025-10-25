@@ -240,7 +240,7 @@ class Detection(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     source: str  # "webcam" or "upload"
-    detection_type: str  # "local" or "cloud"
+    detection_type: str  # "local", "cloud", "nutrition", "text_reading"
     objects_detected: List[DetectedObject] = []
     description: str = ""
     image_data: Optional[str] = None  # base64 encoded
@@ -249,11 +249,17 @@ class Detection(BaseModel):
     sentiment_analysis: Optional[SentimentAnalysis] = None
     nutritional_analysis: Optional[NutritionalAnalysis] = None
     user_id: Optional[str] = None  # ID of the user who created this detection
+    # New fields for enhanced functionality
+    geo_location: Optional[GeoLocation] = None  # Geographic location
+    category: Optional[str] = None  # Auto-categorized: "pessoas", "objetos", "alimentos", "texto", "ambiente", etc
+    tags: List[str] = []  # Auto-generated tags for better search
 
 class DetectionCreate(BaseModel):
     source: str
     detection_type: str
     image_data: str
+    # Optional geolocation data from frontend
+    geo_location: Optional[Dict[str, Any]] = None
 
 class Alert(BaseModel):
     model_config = ConfigDict(extra="ignore")
