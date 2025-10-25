@@ -160,6 +160,11 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
         setCapturedImage(null);
         setShowPreview(false);
         
+        // Activate fullscreen mode
+        if (onFullscreenChange) {
+          onFullscreenChange(true);
+        }
+        
         // Start audio analysis automatically
         await startAudioAnalysis();
         
