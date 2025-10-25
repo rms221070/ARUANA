@@ -94,6 +94,12 @@ const UploadDetection = () => {
         return;
       }
 
+      // Capture geolocation
+      const geoLocation = await getCurrentLocation();
+      if (geoLocation) {
+        toast.success('📍 Localização capturada', { duration: 2000 });
+      }
+
       // Choose endpoint based on mode
       const endpoint = detectionMode === "ocr" 
         ? `${API}/detect/read-text`
@@ -104,7 +110,8 @@ const UploadDetection = () => {
       const response = await axios.post(endpoint, {
         source: "upload",
         detection_type: detectionType,
-        image_data: previewUrl
+        image_data: previewUrl,
+        geo_location: geoLocation  // Include geolocation
       }, {
         headers: {
           'Authorization': `Bearer ${authToken}`,
