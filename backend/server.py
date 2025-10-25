@@ -883,6 +883,245 @@ IMPORTANTE - DIRETRIZES PhD:
         logging.error(f"Error analyzing nutrition: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/detect/read-text", response_model=Detection)
+async def read_text_ocr(input: DetectionCreate, request: Request):
+    """OCR especializado para leitura de textos - livros, quadros, documentos"""
+    try:
+        # Get authenticated user
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
+        detection = Detection(
+            source=input.source,
+            detection_type="text_reading",  # Novo tipo
+            image_data=input.image_data,
+            user_id=user_id
+        )
+        
+        # Extract base64 image data
+        image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
+        
+        # OCR Ultra-Detailed Prompt
+        ocr_prompt = """🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+
+Você é um especialista em OCR (Optical Character Recognition) e análise de documentos para ACESSIBILIDADE.
+Sua missão é extrair e descrever TODO O TEXTO visível na imagem de forma EXTREMAMENTE DETALHADA.
+
+IMPORTANTE: TODA A RESPOSTA DEVE SER EM PORTUGUÊS DO BRASIL!
+
+**TIPOS DE CONTEÚDO QUE VOCÊ DEVE ANALISAR:**
+1. 📖 Páginas de livros (capítulos, parágrafos, notas de rodapé)
+2. 📝 Quadros de aula (anotações, diagramas, fórmulas)
+3. 📄 Documentos (contratos, formulários, cartas)
+4. 📰 Jornais e revistas
+5. 🏷️ Placas, avisos e sinalizações
+6. 💳 Cartões, tickets e recibos
+7. 📱 Telas de dispositivos
+
+**ANÁLISE COMPLETA E ESTRUTURADA:**
+
+1. **TIPO DE DOCUMENTO/CONTEÚDO:**
+   - Identifique o que é (livro, quadro, placa, etc.)
+   - Idioma do texto
+   - Estado de conservação
+   - Qualidade da imagem
+
+2. **ESTRUTURA DO DOCUMENTO:**
+   - Título principal (se houver)
+   - Subtítulos e seções
+   - Hierarquia da informação
+   - Layout e organização visual
+
+3. **EXTRAÇÃO COMPLETA DO TEXTO:**
+   - Transcreva TODO o texto visível, palavra por palavra
+   - Preserve quebras de linha e parágrafos
+   - Mantenha a ordem de leitura natural
+   - Indique formatação especial (negrito, itálico, sublinhado)
+   - Transcreva números, fórmulas matemáticas, símbolos
+
+4. **ELEMENTOS VISUAIS:**
+   - Diagramas, gráficos, tabelas (descreva estrutura e conteúdo)
+   - Imagens ou ilustrações (descreva brevemente)
+   - Linhas, setas, destaque visual
+   - Cores usadas para destacar informação
+
+5. **ANOTAÇÕES E MARCAÇÕES:**
+   - Texto manuscrito ou anotações à mão
+   - Sublinhados, marcações, post-its
+   - Correções ou rasuras
+
+6. **CONTEXTO ADICIONAL:**
+   - Número de página (se visível)
+   - Data ou referências temporais
+   - Autor ou fonte (se identificável)
+   - Qualquer informação contextual relevante
+
+7. **LEGIBILIDADE E QUALIDADE:**
+   - Partes do texto ilegíveis ou borradas
+   - Dificuldades de leitura
+   - Sugestões para melhor captura
+
+Forneça uma resposta JSON COMPLETA em português com esta estrutura:
+{
+  "document_type": "tipo do documento (livro, quadro, placa, etc.)",
+  "language": "idioma do texto",
+  "title": "título principal se houver",
+  "full_text": "TEXTO COMPLETO extraído preservando formatação e ordem",
+  "structured_content": {
+    "sections": [
+      {
+        "heading": "título da seção",
+        "content": "conteúdo da seção",
+        "subsections": []
+      }
+    ],
+    "lists": [
+      {
+        "type": "ordered/unordered",
+        "items": ["item 1", "item 2"]
+      }
+    ],
+    "tables": [
+      {
+        "description": "descrição da tabela",
+        "rows": 5,
+        "columns": 3,
+        "content": "conteúdo textual da tabela"
+      }
+    ],
+    "formulas": [
+      {
+        "formula": "fórmula matemática",
+        "description": "explicação da fórmula"
+      }
+    ]
+  },
+  "visual_elements": [
+    {
+      "type": "diagram/image/chart",
+      "description": "descrição detalhada",
+      "position": "localização na página"
+    }
+  ],
+  "handwritten_notes": [
+    "anotação manuscrita 1",
+    "anotação manuscrita 2"
+  ],
+  "metadata": {
+    "page_number": "número da página se visível",
+    "author": "autor se identificável",
+    "date": "data se presente",
+    "quality": "excelente/boa/regular/ruim"
+  },
+  "accessibility_notes": "informações adicionais para pessoas com deficiência visual",
+  "reading_order": "ordem recomendada de leitura do conteúdo",
+  "description": "DESCRIÇÃO NARRATIVA COMPLETA: Um resumo de TUDO que foi lido, como se estivesse narrando para uma pessoa cega, incluindo TODO o texto, estrutura, elementos visuais e contexto"
+}
+
+**DIRETRIZES CRÍTICAS:**
+- 🇧🇷 TODA A RESPOSTA DEVE SER EM PORTUGUÊS BRASILEIRO
+- Transcreva TUDO que conseguir ler, não omita nada
+- Se uma palavra estiver ilegível, indique: [palavra ilegível]
+- Se faltar uma seção, indique: [conteúdo não visível]
+- Seja EXTREMAMENTE detalhado na descrição narrativa
+- Pense em acessibilidade: uma pessoa cega precisa entender TUDO
+- Preserve a estrutura e hierarquia do texto original
+
+🇧🇷 LEMBRE-SE: RESPOSTA 100% EM PORTUGUÊS DO BRASIL! 🇧🇷"""
+        
+        # Process via Gemini 2.0 Flash with retry logic
+        max_retries = 3
+        retry_delay = 2
+        response = None
+        last_error = None
+        
+        for attempt in range(max_retries):
+            try:
+                chat = LlmChat(
+                    api_key=GOOGLE_API_KEY,
+                    session_id=f"ocr_analysis_{uuid.uuid4()}",
+                    system_message="Você é um especialista em OCR e análise de documentos para acessibilidade. RESPONDA SEMPRE EM PORTUGUÊS BRASILEIRO. Extraia e descreva TODO o texto visível nas imagens com máximo detalhamento."
+                ).with_model("gemini", "gemini-2.0-flash")
+                
+                response = await chat.send_message(
+                    UserMessage(
+                        text=ocr_prompt,
+                        file_contents=[ImageContent(image_base64=image_data)]
+                    )
+                )
+                
+                # If we got here, request succeeded
+                break
+                
+            except Exception as e:
+                last_error = e
+                error_msg = str(e).lower()
+                
+                # Check if it's a retryable error
+                if '503' in error_msg or 'overloaded' in error_msg or 'rate' in error_msg:
+                    if attempt < max_retries - 1:
+                        logging.warning(f"Gemini API overloaded, retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                        await asyncio.sleep(retry_delay)
+                        retry_delay *= 2
+                        continue
+                    else:
+                        raise HTTPException(
+                            status_code=503,
+                            detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
+                        )
+                else:
+                    raise
+        
+        if response is None:
+            raise last_error or Exception("Failed to get response from Gemini")
+        
+        # Parse response
+        try:
+            response_text = response.strip()
+            if '```json' in response_text:
+                response_text = response_text.split('```json')[1].split('```')[0].strip()
+            elif '```' in response_text:
+                response_text = response_text.split('```')[1].split('```')[0].strip()
+            
+            result = json.loads(response_text)
+            
+            # Store the full OCR result in description
+            detection.description = result.get('description', '')
+            
+            # Store full text and structured content in objects_detected for easier access
+            if result.get('full_text'):
+                detection.objects_detected = [
+                    DetectedObject(
+                        label="Texto Completo",
+                        confidence=0.95,
+                        description=result.get('full_text', '')
+                    )
+                ]
+            
+        except json.JSONDecodeError as e:
+            logging.error(f"JSON parsing failed for OCR: {str(e)}")
+            # Use raw response as description
+            detection.description = response_text if 'response_text' in locals() else str(response)
+        except Exception as e:
+            logging.error(f"Error processing OCR data: {str(e)}")
+            detection.description = response_text if 'response_text' in locals() else str(response)
+        
+        # Save to database
+        doc = detection.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        await db.detections.insert_one(doc)
+        
+        return detection
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in OCR text reading: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Authentication endpoints
 @api_router.post("/auth/register")
 async def register_user(user_data: UserRegister):
