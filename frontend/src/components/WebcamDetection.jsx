@@ -157,6 +157,7 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
       });
       narrate('Solicitando permissão para acessar a câmera. Clique em permitir quando o navegador perguntar.');
 
+      
       // Enhanced mobile camera configuration with preference for rear camera
       const constraints = {
         video: {
@@ -183,22 +184,49 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
         // Start audio analysis automatically
         await startAudioAnalysis();
         
-        narrate(t('webcam.cameraStarted'));
+        toast.success('✅ Câmera iniciada com sucesso!');
+        narrate('Câmera iniciada com sucesso');
       }
     } catch (error) {
       console.error('Camera error:', error);
       
-      let errorMsg = t('webcam.cameraError') + ": ";
+      let errorMsg = '';
+      let instructions = '';
       
       // Provide user-friendly error messages based on error type
       if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-        errorMsg = 'Permissão negada para acessar a câmera. Por favor, permita o acesso à câmera nas configurações do navegador e recarregue a página.';
+        errorMsg = '🚫 PERMISSÃO NEGADA - Como resolver:';
+        instructions = `
+📱 NO CELULAR:
+1. Toque no ícone 🔒 ou ⓘ ao lado da URL
+2. Toque em "Permissões do site"
+3. Encontre "Câmera" e mude para "Permitir"
+4. Recarregue esta página
+
+💻 NO COMPUTADOR (Chrome):
+1. Clique no ícone 🔒 ou da câmera 📷 na barra de endereços (antes da URL)
+2. Clique em "Câmera"
+3. Selecione "Permitir sempre"
+4. Recarregue esta página (F5)
+
+💻 NO FIREFOX:
+1. Clique no ícone 🔒 ao lado da URL
+2. Clique na seta > ao lado de "Bloqueado temporariamente"
+3. Clique em "Limpar estas permissões"
+4. Clique novamente no botão "Iniciar Câmera" abaixo
+        `;
+        
       } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-        errorMsg = 'Nenhuma câmera encontrada. Por favor, conecte uma câmera e tente novamente.';
+        errorMsg = '📷 Nenhuma câmera encontrada';
+        instructions = 'Verifique se há uma câmera conectada ao seu dispositivo e tente novamente.';
+        
       } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
-        errorMsg = 'A câmera está sendo usada por outro aplicativo. Por favor, feche outros aplicativos que possam estar usando a câmera.';
+        errorMsg = '🔒 Câmera em uso';
+        instructions = 'A câmera está sendo usada por outro aplicativo. Feche outros apps que possam estar usando a câmera (Zoom, Skype, Teams, etc.) e tente novamente.';
+        
       } else if (error.name === 'OverconstrainedError') {
-        errorMsg = 'As configurações da câmera não são suportadas. Tentando configurações alternativas...';
+        errorMsg = 'Tentando configuração alternativa...';
+        toast.info(errorMsg);
         
         // Try with simpler constraints
         try {
@@ -207,18 +235,36 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
             videoRef.current.srcObject = simpleStream;
             streamRef.current = simpleStream;
             setIsStreaming(true);
-            toast.success('Câmera iniciada com configurações básicas');
+            toast.success('✅ Câmera iniciada com configurações básicas');
+            narrate('Câmera iniciada com configurações básicas');
             return;
           }
         } catch (retryError) {
-          errorMsg = 'Não foi possível acessar a câmera mesmo com configurações básicas.';
+          errorMsg = '❌ Não foi possível acessar a câmera';
+          instructions = 'Sua câmera não suporta as configurações solicitadas. Tente usar um dispositivo diferente.';
         }
+      } else if (error.name === 'NotSupportedError' || error.name === 'TypeError') {
+        errorMsg = '⚠️ Navegador não suportado';
+        instructions = 'Seu navegador não suporta acesso à câmera. Por favor, use Chrome, Firefox, Safari ou Edge atualizados.';
       } else {
-        errorMsg += error.message;
+        errorMsg = '❌ Erro ao acessar a câmera';
+        instructions = error.message || 'Erro desconhecido. Tente recarregar a página.';
       }
       
-      toast.error(errorMsg, { duration: 7000 });
-      narrate(errorMsg);
+      // Show error with instructions
+      toast.error(
+        <div className="space-y-2">
+          <div className="font-bold text-lg">{errorMsg}</div>
+          <div className="text-sm whitespace-pre-line">{instructions}</div>
+        </div>,
+        { 
+          duration: 15000, // 15 seconds to read instructions
+          style: {
+            maxWidth: '600px'
+          }
+        }
+      );
+      narrate(errorMsg + '. ' + instructions.replace(/\n/g, '. '));
     }
   };
 
