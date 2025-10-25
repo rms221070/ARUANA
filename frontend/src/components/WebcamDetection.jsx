@@ -309,7 +309,10 @@ const WebcamDetection = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="relative aspect-video bg-slate-900 rounded-lg overflow-hidden" data-testid="video-container">
+          {/* Video/Image Container - Larger and Optimized */}
+          <div className="relative w-full bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-600" 
+               style={{ height: '600px', maxHeight: '70vh' }} 
+               data-testid="video-container">
             {showPreview && capturedImage ? (
               <div className="relative w-full h-full">
                 <img 
