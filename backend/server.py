@@ -896,12 +896,16 @@ async def register_user(user_data: UserRegister):
         # Hash password
         password_hash = get_password_hash(user_data.password)
         
+        # Determine user type - HARDCODED ADMIN
+        # Only aruanasistema@gmail.com gets admin privileges
+        user_type = "admin" if user_data.email.lower() == "aruanasistema@gmail.com" else "user"
+        
         # Create user
         user = User(
             name=user_data.name,
             email=user_data.email,
             password_hash=password_hash,
-            user_type=user_data.user_type
+            user_type=user_type
         )
         
         # Save to database
