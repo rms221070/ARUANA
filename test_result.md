@@ -542,7 +542,45 @@ test_plan:
           agent: "testing"
           comment: "FINAL COMPREHENSIVE AUTHENTICATION REVIEW TESTING: All 7 specific authentication scenarios from review request validated with 100% success. ✅ EXACT REVIEW SCENARIOS TESTED: 1) User Registration (POST /api/auth/register) - 200 response, user data returned, password not exposed, bcrypt hashing ✅ 2) Email/Password Login (POST /api/auth/login) - access_token returned, JWT valid format, user data without password_hash ✅ 3) Current User Verification (GET /api/auth/me) - complete user data returned, no password_hash ✅ 4) Authentication Errors - wrong password→401, nonexistent email→401, no token→401, invalid token→401 ✅ 5) Password Recovery (POST /api/auth/forgot-password) - success response with token (dev mode) ✅ 6) Password Reset (POST /api/auth/reset-password) - successful reset, login with new password works ✅ 7) Profile Update (PUT /api/auth/profile) - profile updated successfully ✅ ALL SUCCESS CRITERIA MET: Endpoints functioning, JWT tokens valid, bcrypt password hashing, appropriate errors (401/400), correct data returned, no password_hash in responses ✅ INTEGRATION VERIFIED: Authentication working with all protected endpoints, proper 401 blocking, user access control, MongoDB user creation ✅ 22/22 authentication tests passed (100% success rate) ✅ Authentication system confirmed 100% functional and production-ready"
 
+  - task: "Mobile 401 Authentication Error Fix"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/context/AuthContext.jsx, /app/frontend/src/components/WebcamDetection.jsx, /app/frontend/src/components/NutritionAnalysis.jsx, /app/frontend/src/components/UploadDetection.jsx, /app/frontend/src/components/DetectionHistory.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "main"
+          comment: "USER REPORTED: Mobile API requests failing with 401 error. IMPLEMENTED FIX: Enhanced AuthContext with retry logic for localStorage on mobile, added getToken() helper function with fallback to localStorage, updated all components (WebcamDetection, NutritionAnalysis, UploadDetection, DetectionHistory) to use getToken() with proper validation and error messages. Added comprehensive error handling for expired sessions. Ready for mobile testing."
+
+  - task: "Desktop Camera Permission Error Fix"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/WebcamDetection.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "main"
+          comment: "USER REPORTED: Desktop users unable to access camera with permission denied error. IMPLEMENTED FIX: Added comprehensive error handling for camera access including: HTTPS check, getUserMedia support check, detailed user-friendly error messages for NotAllowedError, NotFoundError, NotReadableError, OverconstrainedError. Added automatic retry with simpler constraints if overconstrained. Added 7-second error duration for better user visibility. Ready for desktop camera testing."
+
+  - task: "Dashboard Header Height Reduction"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/pages/Dashboard.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: false
+          agent: "main"
+          comment: "USER REQUESTED: Reduce header height by 40%. IMPLEMENTED: Reduced all header spacing, padding, font sizes, and icon sizes by approximately 40%. Changed py-2 to py-1, gap-3 to gap-2, gap-2 to gap-1, mb-3 to mb-1, text-2xl/3xl to text-lg/xl, text-sm/base to text-xs/sm, text-xs to text-[10px], w-8 h-8 to w-6 h-6, size-16 to size-14, p-2 to p-1, rounded-xl to rounded-lg. Overall header is now significantly more compact. Ready for visual verification."
+
 agent_communication:
+    - agent: "main"
+      message: "CRITICAL AUTHENTICATION AND CAMERA FIXES IMPLEMENTED: ✅ Mobile 401 Error Fix: Enhanced AuthContext with retry logic for mobile localStorage, added getToken() helper with fallback, updated all components to use getToken() with validation and proper error messages ✅ Desktop Camera Permission Fix: Added comprehensive error handling with HTTPS check, browser support check, user-friendly messages for all error types (NotAllowedError, NotFoundError, NotReadableError, OverconstrainedError), automatic retry with simpler constraints ✅ Header Height Reduction: Reduced header height by 40% (all padding, spacing, fonts, icons scaled down). All changes implemented and ready for testing. Frontend restarted successfully."
     - agent: "main"
       message: "Completed UI cleanup tasks: removed Emergent branding, added LCC subtitle, removed banner image. Screenshot confirms successful implementation. Ready for testing validation."
     - agent: "main"
