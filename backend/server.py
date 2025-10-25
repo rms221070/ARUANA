@@ -989,7 +989,7 @@ async def analyze_nutrition(input: DetectionCreate, request: Request):
         image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
         
         # PhD-Level Nutrition Analysis Prompt
-        nutrition_prompt = f"""
+        nutrition_prompt = """
 🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
 
 Você é um PhD em Nutrição com especialização em Nutrição Clínica, Bioquímica Nutricional e Dietética Aplicada. 
@@ -1043,35 +1043,35 @@ Como especialista PhD, realize uma análise COMPLETA e CIENTÍFICA desta refeiç
    - Momento ideal de consumo (café da manhã, pré-treino, pós-treino, etc)
 
 RETORNE JSON ESTRUTURADO PhD-LEVEL COMPLETO:
-{{
+{
   "description": "descrição científica completa e detalhada da refeição",
-  "nutritional_analysis": {{
+  "nutritional_analysis": {
     "foods_detected": [
-      {{
+      {
         "name": "nome do alimento",
         "scientific_name": "nome científico quando aplicável",
         "preparation_method": "método de preparo",
         "calories_per_100g": 0.0,
         "estimated_portion_grams": 0.0,
         "total_calories": 0.0,
-        "macronutrients": {{
+        "macronutrients": {
           "protein": 0.0,
           "carbohydrates": 0.0,
           "fat": 0.0,
           "fiber": 0.0
-        }},
-        "detailed_fats": {{
+        },
+        "detailed_fats": {
           "saturated": 0.0,
           "monounsaturated": 0.0,
           "polyunsaturated": 0.0,
           "trans": 0.0
-        }},
-        "carb_types": {{
+        },
+        "carb_types": {
           "simple": 0.0,
           "complex": 0.0
-        }},
+        },
         "glycemic_index": 55,
-        "micronutrients": {{
+        "micronutrients": {
           "vitamin_a": 0.0,
           "vitamin_c": 0.0,
           "vitamin_d": 0.0,
@@ -1080,27 +1080,27 @@ RETORNE JSON ESTRUTURADO PhD-LEVEL COMPLETO:
           "magnesium": 0.0,
           "potassium": 0.0,
           "sodium": 0.0
-        }},
+        },
         "confidence": 0.9
-      }}
+      }
     ],
     "total_calories": 0.0,
     "total_weight_grams": 0.0,
     "meal_type": "café da manhã/almoço/jantar/lanche/pré-treino/pós-treino",
-    "nutritional_summary": {{
+    "nutritional_summary": {
       "total_protein": 0.0,
       "total_carbs": 0.0,
       "total_fat": 0.0,
       "total_fiber": 0.0,
       "total_saturated_fat": 0.0,
       "total_sodium": 0.0
-    }},
+    },
     "quality_score": 75,
-    "nutritional_balance": {{
+    "nutritional_balance": {
       "protein_percent": 20.0,
       "carbs_percent": 50.0,
       "fat_percent": 30.0
-    }},
+    },
     "glycemic_load": 15.5,
     "nutritional_quality_index": 7.8,
     "health_recommendations": [
@@ -1119,7 +1119,7 @@ RETORNE JSON ESTRUTURADO PhD-LEVEL COMPLETO:
     "health_alerts": [
       "Alerta de saúde se aplicável"
     ],
-    "dietary_compatibility": {{
+    "dietary_compatibility": {
       "vegetarian": true/false,
       "vegan": true/false,
       "low_carb": true/false,
@@ -1128,17 +1128,17 @@ RETORNE JSON ESTRUTURADO PhD-LEVEL COMPLETO:
       "gluten_free": true/false,
       "lactose_free": true/false,
       "diabetic_friendly": true/false
-    }},
+    },
     "ideal_consumption_time": "descrição do melhor momento",
-    "dri_adequacy": {{
+    "dri_adequacy": {
       "protein": 35.5,
       "fiber": 20.0,
       "vitamin_c": 45.0,
       "calcium": 15.0,
       "iron": 25.0
-    }}
-  }}
-}}
+    }
+  }
+}
 
 IMPORTANTE - DIRETRIZES PhD:
 - 🇧🇷 RESPONDA TUDO EM PORTUGUÊS BRASILEIRO - OBRIGATÓRIO!
@@ -1191,7 +1191,7 @@ IMPORTANTE - DIRETRIZES PhD:
                         retry_delay *= 2  # Exponential backoff
                         continue
                     else:
-                        logging.error(f"Max retries reached for nutrition analysis")
+                        logging.error("Max retries reached for nutrition analysis")
                         raise HTTPException(
                             status_code=503, 
                             detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
