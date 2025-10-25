@@ -422,62 +422,116 @@ IMPORTANTE: TODA A DESCRIÇÃO DEVE SER EM PORTUGUÊS DO BRASIL COM O MÁXIMO DE
    - PADRÕES E ESTAMPAS detalhados (listras horizontais azuis e brancas de 2cm, xadrez vichy vermelho, floral vintage com rosas, estampa de onça, tie-dye degradê, geométrico art déco)
    - TECIDOS APARENTES (algodão leve, jeans denim pesado, seda fluida, lã grossa, poliéster acetinado, linho natural, veludo cotelê)
    - MARCAS VISÍVEIS: identifique TODOS os logos, tags, escritos, patches em roupas (Nike, Adidas, Gucci, Supreme, logos universitários, bandeiras, frases)
-   - Estado da roupa (nova, usada, amarrotada, bem cuidada)
-   - Estilo (casual, formal, esportivo, alternativo, etc.)
+   - Estado da roupa COMPLETO (nova com etiquetas, usada bem cuidada, amarrotada, manchada, rasgada, desbotada, vintage)
+   - Estilo ESPECÍFICO (casual street, formal executivo, esportivo fitness, business casual, boêmio, minimalista, vintage retrô)
+   - Camadas de roupa e sobreposições
+   - Detalhes de costura, botões, zíperes, fechamentos
    
-   **BIJUTERIAS E ACESSÓRIOS COMPLETOS:**
-   - Brincos: tipo, tamanho, material aparente (ouro, prata, etc.)
-   - Colares: correntes, pingentes, materiais
-   - Pulseiras: quantidade, estilo, material
-   - Anéis: dedo, tipo, pedras ou detalhes
-   - Relógios: tipo, cor da pulseira, tamanho
-   - Óculos: formato, cor da armação, tipo de lente
-   - Piercings visíveis
-   - Tatuagens aparentes: localização e descrição
+   **BIJUTERIAS E ACESSÓRIOS EM DETALHES MÁXIMOS:**
+   - Brincos: tipo EXATO (argola, botão, chandelier, ear cuff), tamanho em cm, material (ouro 18k, prata 925, aço, bijuteria), brilho ou pedras
+   - Colares: comprimento (gargantilha, princesa, ópera), tipo de corrente, pingentes (formato, significado), camadas múltiplas
+   - Pulseiras: quantidade exata, posição (pulso direito/esquerdo), estilo (riviera, charm, couro, tecido), fechos
+   - Anéis: dedo específico (indicador, médio, anelar, mínimo), tipo (solitário, aliança, anel de formatura), pedras identificáveis
+   - Relógios: marca se visível, tipo (analógico/digital/smartwatch), cor da pulseira, tamanho da caixa, funcionalidades visíveis
+   - Óculos: formato PRECISO (aviador, wayfarer, gatinho, redondo), cor e material da armação, tipo de lente (transparente, escura, espelhada, graduada)
+   - Piercings: localização exata (septo, lábio, sobrancelha, língua), tipo, material
+   - Tatuagens: localização precisa, tamanho aproximado, estilo (tradicional, realista, aquarela, minimalista), tema ou desenho, cores
    
-   **CALÇADOS E DETALHES:**
-   - Tipo de calçado (tênis, sapato social, sandália, etc.)
-   - Marca quando visível
-   - Cor e material
-   - Estado (novo, usado, limpo, sujo)
-   - Meias ou meia-calça visível
+   **CALÇADOS ULTRA-DETALHADOS:**
+   - Tipo ESPECÍFICO (tênis running, tênis casual, oxford, scarpin, sandália gladiadora, chinelo slide, bota cano longo)
+   - Marca quando visível (Nike, Adidas, Vans, Converse, Havaianas)
+   - Modelo quando identificável
+   - Cor EXATA e detalhes de design
+   - Material (couro legítimo, sintético, lona, borracha, camurça)
+   - Estado COMPLETO (novo sem uso, levemente usado, muito usado, manchado, desgastado na sola)
+   - Altura do salto se aplicável (rasteiro, salto baixo 2-4cm, médio 5-7cm, alto 8-12cm, plataforma)
+   - Cadarços: cor, tipo, como estão amarrados
+   - Meias ou meia-calça: cor, transparência, padrão, altura
    
-   **OUTROS ACESSÓRIOS:**
-   - Bolsas: tipo, tamanho, cor, marca se visível
-   - Chapéus ou bonés: estilo, cor, logos
-   - Lenços ou echarpes
-   - Cintos: cor, fivela, estilo
-   - Qualquer objeto que a pessoa está segurando
+   **OUTROS ACESSÓRIOS DETALHADOS:**
+   - Bolsas: tipo ESPECÍFICO (mochila, shoulder bag, clutch, tote, crossbody), tamanho em litros ou cm, cor e texturas, marca se visível, estado de conservação, alças/correntes
+   - Chapéus ou bonés: estilo EXATO (boné aba reta, aba curva, bucket hat, fedora, panama), cor, material, logos ou bordados, ajuste
+   - Lenços ou echarpes: tamanho, tecido, padrão, como está amarrado/usado
+   - Cintos: largura, cor, material, tipo de fivela (metálica, automática), marcas/logos
+   - Mochilas: tamanho, número de compartimentos visíveis, marca, estado
+   - Luvas: tipo, material, cor, comprimento
+   - Qualquer objeto que a pessoa está segurando: descrição completa (smartphone, garrafa d'água, livro, chaves, etc.)
    
-   **POSTURA E LINGUAGEM CORPORAL:**
-   - Posição do corpo (em pé, sentado, deitado, caminhando)
-   - Direção do olhar e para onde está olhando
-   - Posição dos braços e mãos
-   - Expressão facial completa
-   - Gestos que está fazendo
+   **POSTURA E LINGUAGEM CORPORAL ULTRA-DETALHADA:**
+   - Posição do corpo PRECISA (em pé ereto, sentado relaxado, deitado de costas, caminhando em direção à câmera, agachado, inclinado)
+   - Distribuição de peso corporal
+   - Alinhamento postural (ereta, curvada, torta)
+   - Direção do olhar E FOCO: para onde EXATAMENTE está olhando (câmera, horizonte, chão, outra pessoa, objeto específico)
+   - Posição dos braços: EXATA (ao longo do corpo, cruzados no peito, mãos nos quadris, um braço levantado)
+   - Posição das mãos: DETALHADA (abertas, fechadas, dedos entrelaçados, segurando algo, gesticulando)
+   - Posição das pernas (cruzadas, abertas, uma à frente, apoiadas)
+   - Expressão facial COMPLETA (músculos faciais ativos, linha da boca, rugas visíveis)
+   - Gestos específicos que está fazendo (apontando, acenando, polegar para cima, sinal de paz)
+   - Distância aproximada em relação à câmera
    
-   **ANÁLISE EMOCIONAL AVANÇADA:**
-   - Expressão facial detalhada (sorriso, franzir de testa, etc.)
-   - Estado emocional aparente (feliz, triste, ansioso, relaxado, etc.)
-   - Microexpressões observáveis
-   - Linguagem corporal emocional
-   - Sinais de cansaço, energia, estresse, etc.
+   **ANÁLISE EMOCIONAL E PSICOLÓGICA AVANÇADA:**
+   - Expressão facial MICROSCÓPICA (sorriso genuíno com olhos, sorriso forçado, testa franzida, sobrancelhas levantadas, lábios apertados)
+   - Estado emocional COMPLETO (feliz radiante, tristeza profunda, ansiedade moderada, relaxado tranquilo, excitado animado, entediado, surpreso)
+   - Microexpressões observáveis (piscar frequente, movimentos sutis da boca, tensão facial)
+   - Linguagem corporal emocional (ombros caídos=tristeza, peito aberto=confiança, braços cruzados=defesa)
+   - Sinais de estado físico: cansaço (olhos pesados, postura curvada), energia (movimentos vívidos), estresse (tensão visível), dor, desconforto
+   - Nível de conforto com a situação
+   - Sinais de interação social (conectado/desconectado com outros)
    
-   **ATIVIDADES E CONTEXTO:**
-   - O que a pessoa está fazendo no momento
-   - Interações com outras pessoas
-   - Interação com objetos do ambiente
-   - Localização na cena
+   **ATIVIDADES E CONTEXTO COMPORTAMENTAL:**
+   - O que EXATAMENTE a pessoa está fazendo (lendo um livro de capa azul, digitando no notebook, tomando café, conversando ao telefone, exercitando-se)
+   - Interações com outras pessoas: DETALHADAS (conversando olhando nos olhos, ignorando, rindo juntos, discutindo, colaborando em tarefa)
+   - Interação com objetos: ESPECÍFICA (segurando smartphone com mão direita, apoiado em mesa, sentado em cadeira giratória)
+   - Localização na cena: PRECISA (canto inferior esquerdo, centro da imagem, ao fundo à direita, plano principal)
+   - Movimento implícito (parado, andando, correndo, movimento de braço)
 
-2. **OBJETOS E ELEMENTOS** - Identifique TODOS os elementos visíveis:
-   - Móveis: tipo, material aparente, cor, condição
-   - Eletrônicos: dispositivos, estado (ligado/desligado), marcas visíveis
-   - Decoração: quadros, plantas, ornamentos
-   - Utensílios: ferramentas, livros, documentos, comida, bebida
-   - Arquitetura: portas, janelas, paredes, piso, teto
-   - Localização espacial: onde estão posicionados na cena
+2. **OBJETOS E ELEMENTOS VISÍVEIS** - Identifique ABSOLUTAMENTE TUDO com detalhes extremos:
+   
+   **MÓVEIS E MOBILIÁRIO:**
+   - Tipo ESPECÍFICO (sofá de 3 lugares, cadeira office ergonômica, mesa de jantar retangular, estante modular, rack para TV)
+   - Material DETALHADO (madeira maciça de carvalho, MDF laqueado, metal cromado, vime natural, plástico injetado, vidro temperado)
+   - Cor EXATA e acabamento (branco brilhante, cinza fosco, madeira natural vernizada, preto matte)
+   - Dimensões aproximadas (largura x profundidade x altura em cm)
+   - Estilo (moderno minimalista, clássico colonial, industrial, escandinavo, rústico)
+   - Condição COMPLETA (novo sem marcas, usado bem conservado, desgastado com arranhões, manchado, quebrado)
+   - Posição e orientação no espaço
+   - Funcionalidade atual (em uso, vazio, coberto com objetos)
+   
+   **ELETRÔNICOS E TECNOLOGIA:**
+   - Dispositivos ESPECÍFICOS (notebook Dell 15", smartphone iPhone 14 Pro, TV Samsung 55" QLED, tablet iPad, fones Bluetooth)
+   - Estado: ligado com tela acesa, desligado, em modo standby, carregando
+   - Marcas visíveis e modelos identificáveis
+   - Cabos, carregadores, acessórios conectados
+   - Conteúdo da tela se visível
+   - Idade aparente do dispositivo
+   - Posição e distância de outros objetos
+   
+   **DECORAÇÃO E ARTE:**
+   - Quadros: tamanho, tipo de moldura, tema da imagem (paisagem, retrato, abstrato), cores dominantes, estilo artístico
+   - Plantas: tipo (suculenta, samambaia, espada-de-são-jorge), tamanho, vaso (material, cor, formato), estado de saúde
+   - Ornamentos: descrição completa (vaso decorativo, escultura, bibelô), material, cor, estilo
+   - Cortinas: tecido, cor, padrão, estado (abertas, fechadas, semi-abertas)
+   - Almofadas: quantidade, cores, padrões, disposição
+   - Tapetes: tamanho, padrão, cores, textura aparente
+   
+   **UTENSÍLIOS E OBJETOS DO DIA-A-DIA:**
+   - Ferramentas: tipo específico, marca, estado
+   - Livros: títulos se visíveis, cores das capas, tamanho, posição (aberto, fechado, empilhado)
+   - Documentos: tipo (folhas avulsas, caderno, revista), quantidade visível
+   - Comida: tipo ESPECÍFICO, quantidade, estado (fresco, meio consumido), apresentação
+   - Bebida: tipo (água, café, refrigerante), recipiente, nível do líquido
+   - Utensílios de cozinha, escrita, higiene pessoal (descreva cada item)
+   
+   **ARQUITETURA E ESTRUTURA:**
+   - Portas: material (madeira, vidro, metal), cor, tipo (convencional, deslizante), estado (aberta, fechada, entreaberta), maçanetas
+   - Janelas: tamanho, quantidade, tipo (correr, basculante, guilhotina), vidro (transparente, fosco), presença de grades ou redes
+   - Paredes: material aparente (gesso, tijolo aparente, madeira, azulejo), cor, textura, decorações/quadros, tomadas e interruptores visíveis
+   - Piso: material (madeira, cerâmica, porcelanato, carpete, vinílico), cor, padrão, estado de conservação, reflexo de luz
+   - Teto: altura aproximada, cor, tipo (laje, gesso, madeira), iluminação embutida, ventiladores ou ar-condicionado
+   - Rodapés, molduras, detalhes arquitetônicos
+   - Localização espacial PRECISA: disposição tridimensional, profundidade, planos (primeiro plano, plano médio, fundo)
 
-3. **AMBIENTE COMPLETO**:
+3. **AMBIENTE COMPLETO E ATMOSFERA**:
    - Tipo específico de local (cozinha, sala, escritório, rua, parque, etc)
    - Dimensões aparentes e layout espacial
    - Iluminação: natural/artificial, intensa/suave, fonte de luz
