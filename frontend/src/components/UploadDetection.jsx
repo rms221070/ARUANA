@@ -107,10 +107,43 @@ const UploadDetection = () => {
     <div className="grid lg:grid-cols-2 gap-6" data-testid="upload-detection-container">
       <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/90 backdrop-blur-sm border-indigo-200 shadow-xl'}`}>
         <CardHeader>
-          <CardTitle className={`flex items-center gap-2 text-2xl ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>
-            <Upload className={`w-6 h-6 ${settings.highContrast ? 'text-white' : 'text-indigo-600'}`} />
-            {t('upload.title')}
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className={`flex items-center gap-2 text-2xl ${settings.highContrast ? 'text-white' : 'text-slate-800'}`}>
+              <Upload className={`w-6 h-6 ${settings.highContrast ? 'text-white' : 'text-indigo-600'}`} />
+              {t('upload.title')}
+            </CardTitle>
+            {/* Mode Toggle */}
+            <div className="flex gap-2">
+              <Button
+                onClick={() => {
+                  setDetectionMode("normal");
+                  narrate("Modo normal de detecção ativado");
+                }}
+                variant={detectionMode === "normal" ? "default" : "outline"}
+                size="sm"
+                className={detectionMode === "normal" ? "bg-indigo-600 hover:bg-indigo-700" : ""}
+              >
+                🔍 Normal
+              </Button>
+              <Button
+                onClick={() => {
+                  setDetectionMode("ocr");
+                  narrate("Modo leitura de texto ativado para livros e quadros");
+                }}
+                variant={detectionMode === "ocr" ? "default" : "outline"}
+                size="sm"
+                className={detectionMode === "ocr" ? "bg-orange-600 hover:bg-orange-700" : ""}
+              >
+                📚 Ler Texto
+              </Button>
+            </div>
+          </div>
+          {/* Mode Description */}
+          {detectionMode === "ocr" && (
+            <p className={`text-sm mt-2 ${settings.highContrast ? 'text-gray-300' : 'text-slate-600'}`}>
+              📖 Modo de leitura ativo: otimizado para capturar e ler textos de livros, quadros de aula, placas e documentos
+            </p>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           {!previewUrl ? (
