@@ -531,24 +531,125 @@ IMPORTANTE: TODA A DESCRIÇÃO DEVE SER EM PORTUGUÊS DO BRASIL COM O MÁXIMO DE
    - Rodapés, molduras, detalhes arquitetônicos
    - Localização espacial PRECISA: disposição tridimensional, profundidade, planos (primeiro plano, plano médio, fundo)
 
-3. **AMBIENTE COMPLETO E ATMOSFERA**:
-   - Tipo específico de local (cozinha, sala, escritório, rua, parque, etc)
-   - Dimensões aparentes e layout espacial
-   - Iluminação: natural/artificial, intensa/suave, fonte de luz
-   - Clima e atmosfera: formal/informal, limpo/bagunçado, moderno/tradicional
-   - Sons que podem estar presentes (implícitos pela cena)
-   - Texturas visíveis: materiais, superfícies
+3. **AMBIENTE COMPLETO E ATMOSFERA EM DETALHES MÁXIMOS**:
+   
+   **IDENTIFICAÇÃO E CLASSIFICAÇÃO DO LOCAL:**
+   - Tipo ESPECÍFICO de local (cozinha planejada moderna, sala de estar familiar, escritório corporativo, rua comercial urbana, parque público, praia, montanha, ambiente interno/externo)
+   - Sub-classificação (se cozinha: gourmet, compacta, industrial; se sala: TV, jantar, estar; se escritório: home office, corporativo aberto, sala de reunião)
+   - Propósito aparente do espaço
+   
+   **DIMENSÕES E LAYOUT ESPACIAL:**
+   - Tamanho aproximado do ambiente (pequeno 10-15m², médio 20-40m², grande 50m²+)
+   - Pé-direito (altura do teto): baixo 2,4m, médio 2,7m, alto 3m+, pé-direito duplo
+   - Formato do espaço (quadrado, retangular, L, aberto integrado)
+   - Distribuição dos móveis e objetos
+   - Circulação e espaços vazios
+   - Profundidade de campo (primeiro plano, médio, fundo)
+   
+   **ILUMINAÇÃO ULTRA-DETALHADA:**
+   - Tipo principal: Natural (luz do dia, sol direto, luz difusa) OU Artificial (LED, incandescente, fluorescente, mista)
+   - Intensidade PRECISA: muito escuro, penumbra, iluminado moderado, bem iluminado, muito brilhante, ofuscante
+   - Direção da luz: frontal, lateral, superior, contraluz, difusa de várias direções
+   - Temperatura de cor: luz fria azulada (6500K+), neutra (4000K), quente amarelada (2700-3000K)
+   - Fontes de luz visíveis: janelas (quantidade, tamanho, orientação), luminárias (pendentes, spots, abajures, arandelas), lâmpadas expostas
+   - Sombras: duras e definidas, suaves e difusas, ausência de sombras, direção das sombras
+   - Reflexos: em superfícies metálicas, vidros, pisos brilhantes, espelhos
+   - Contraste: alto contraste com áreas muito escuras e muito claras, baixo contraste suave
+   - Hora do dia aparente pela luz: amanhecer dourado, meio-dia intenso, tarde suave, entardecer alaranjado, noite artificial
+   
+   **CORES E PALETA CROMÁTICA:**
+   - Paleta de cores DOMINANTE: monocromática, complementar, análoga, triádica
+   - Cores principais do ambiente com percentuais (70% branco, 20% cinza, 10% azul)
+   - Cores de destaque e acentos
+   - Saturação geral: cores vivas e saturadas, tons pastéis suaves, neutros dessaturados, preto e branco
+   - Harmonia cromática: equilibrada, contrastante, caótica
+   - Códigos aproximados (branco gelo, cinza chumbo, azul marinho, verde oliva, terracota, bege areia)
+   
+   **TEXTURAS E MATERIAIS VISÍVEIS:**
+   - Texturas TÁTEIS aparentes: liso brilhante (vidro, acrílico), liso fosco (gesso, MDF pintado), áspero (concreto, pedra), macio (tecidos, carpete), granulado (porcelanato, granito)
+   - Superfícies: polidas e reflexivas, foscas e absorventes, rugosas, estriadas
+   - Materiais identificados: madeira (tipo se possível), metal (inox, ferro, alumínio), vidro, plástico, tecido (algodão, linho, veludo), couro, cerâmica, pedra natural
+   - Acabamentos: verniz, laca, pintura, natural sem tratamento
+   
+   **CLIMA, ATMOSFERA E SENSAÇÃO:**
+   - Estilo GERAL: minimalista moderno, clássico tradicional, rústico aconchegante, industrial urbano, boêmio eclético, luxuoso sofisticado, casual despojado
+   - Formalidade: muito formal executivo, semi-formal, casual relaxado, informal bagunçado
+   - Limpeza e organização: impecável arrumado, organizado funcional, levemente bagunçado, muito desorganizado, sujo
+   - Conservação: novo recém-construído, bem mantido, desgaste leve, necessitando reformas, deteriorado
+   - Sensação térmica aparente: ambiente fresco/frio, neutro confortável, quente/abafado (por elementos visuais como ventiladores ligados, pessoas com roupas leves)
+   - Ventilação: janelas abertas, ar condicionado visível, ventiladores, ambiente fechado
+   - Umidade aparente: seco, normal, úmido (condensação, mofo, plantas)
+   
+   **SONS IMPLÍCITOS (inferidos pela cena visual):**
+   - Sons ambientes prováveis: silêncio total, ruído urbano de fundo, trânsito, conversas distantes, música tocando (se há caixas de som), TV ligada, natureza (pássaros, vento, água)
+   - Sons de atividades: digitação, passos, objetos sendo manipulados, máquinas funcionando
+   - Nível de ruído estimado: ambiente silencioso, moderado, barulhento
+   
+   **CLIMA METEOROLÓGICO (se ambiente externo ou visível pela janela):**
+   - Condições: céu claro ensolarado, parcialmente nublado, nublado fechado, chuvoso, tempestade
+   - Fenômenos: sol forte, sombras longas, neblina, chuva, vento (árvores balançando), neve
+   - Visibilidade: excelente, boa, reduzida
 
-4. **CONTEXTO E NARRATIVA**:
-   - O que está acontecendo na cena
-   - Possível história ou situação
-   - Relações entre pessoas e objetos
-   - Tempo provável (manhã, tarde, noite)
+4. **CONTEXTO, NARRATIVA E HISTÓRIA DA CENA**:
+   
+   **AÇÃO PRINCIPAL:**
+   - O que está acontecendo AGORA na cena: descrição completa da ação central
+   - Momento no tempo: antes, durante ou depois de uma ação
+   - Movimento: estático parado, movimentos lentos, ação rápida, congelamento de movimento
+   
+   **HISTÓRIA E SITUAÇÃO:**
+   - Possível narrativa completa: qual história esta cena conta?
+   - Contexto social: reunião de trabalho, encontro familiar, momento solitário, evento público, situação casual
+   - Propósito da cena: fotografia posada, momento espontâneo, documentação, artística
+   - O que pode ter acontecido antes e o que pode acontecer depois
+   
+   **RELAÇÕES E INTERAÇÕES:**
+   - Relações entre pessoas visíveis: familiares, amigos, colegas, estranhos, distantes, próximos
+   - Dinâmica social: colaborativa, competitiva, harmoniosa, tensa
+   - Relações pessoa-objeto: interação ativa (usando), posse (segurando), proximidade
+   - Relações pessoa-ambiente: confortável, deslocada, integrada, dominante na cena
+   - Hierarquia visual: quem/o que é o foco principal, secundário, fundo
+   
+   **TEMPORALIDADE:**
+   - Hora do dia ESPECÍFICA (inferida pela luz e atividades): 06h-09h manhã, 09h-12h meio da manhã, 12h-14h meio-dia, 14h-17h tarde, 17h-20h fim de tarde/noite, 20h+ noite
+   - Estação do ano aparente (roupas, decoração, luz): primavera, verão, outono, inverno
+   - Época: contemporânea, recente, passado (indicadores temporais)
+   - Momento do ciclo: início (chegando), meio (acontecendo), fim (saindo)
+   
+   **CONTEXTO CULTURAL E SOCIAL:**
+   - Indicadores culturais: bandeiras, símbolos, idiomas visíveis, objetos típicos
+   - Classe social aparente: indicadores de poder aquisitivo
+   - Contexto geográfico: urbano/rural, país/região (se identificável)
 
-5. **DETALHES DE ACESSIBILIDADE**:
-   - Obstáculos ou facilidades de mobilidade
-   - Elementos de segurança visíveis
-   - Pontos de referência importantes
+5. **DETALHES CRÍTICOS DE ACESSIBILIDADE PARA PESSOAS COM DEFICIÊNCIA VISUAL**:
+   
+   **MOBILIDADE E NAVEGAÇÃO:**
+   - Obstáculos físicos ESPECÍFICOS: móveis baixos que podem causar tropeço, objetos no chão, degraus, desníveis, portas estreitas, passagens bloqueadas
+   - Facilidades de mobilidade: corredores amplos (largura em metros), espaço livre para circulação, rampas, elevadores, corrimãos
+   - Superfícies do piso: lisa fácil de andar, irregular com risco de tropeço, escorregadia (molhada, encerada), com textura de alerta
+   - Mudanças de nível: degraus (quantidade, altura), rampas (inclinação), elevações
+   
+   **ELEMENTOS DE SEGURANÇA:**
+   - Sinalizações de segurança visíveis: saída de emergência, extintor, placas de atenção/perigo
+   - Iluminação de segurança: boa visibilidade geral, áreas escuras perigosas
+   - Riscos identificados: objetos pontiagudos, bordas afiadas, superfícies quentes, áreas de risco de queda
+   - Elementos de proteção: grades em janelas, proteções em escadas, tapetes antiderrapantes
+   
+   **PONTOS DE REFERÊNCIA IMPORTANTES:**
+   - Marcos visuais principais para orientação: porta de entrada (posição), janelas grandes, móveis dominantes, paredes coloridas
+   - Elementos fixos que servem de referência: colunas, pilares, divisórias, bancadas fixas
+   - Características únicas do ambiente: qualquer elemento distintivo para ajudar na orientação espacial
+   - Sinalização tátil se visível: piso tátil, braile, texturas de alerta
+   
+   **INFORMAÇÕES TEXTUAIS E VISUAIS:**
+   - Texto visível: placas, avisos, etiquetas, letreiros (transcrever tudo)
+   - Símbolos e ícones: banheiro, acessibilidade, proibido, atenção (descrever cada um)
+   - Cores codificadas: verde=seguro, vermelho=perigo, azul=informação
+   
+   **CONFORTO E USABILIDADE:**
+   - Ergonomia aparente: móveis adaptados, altura acessível
+   - Espaço pessoal: densidade de objetos/pessoas, sensação de aperto ou amplitude
+   - Conforto ambiental: temperatura aparente, ventilação, nível de ruído estimado
 
 Forneça uma resposta JSON COMPLETA em português com esta estrutura:
 {
