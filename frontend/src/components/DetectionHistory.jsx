@@ -164,16 +164,47 @@ const DetectionHistory = () => {
             </Button>
           </div>
 
+          {/* Category Filter */}
+          <div className="mb-4">
+            <label className="text-xs font-medium text-slate-600 mb-2 block">
+              Filtrar por Categoria:
+            </label>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">🔍 Todas as Categorias</option>
+              {uniqueCategories.filter(c => c !== "all").map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            {filterCategory !== "all" && (
+              <Button
+                onClick={() => setFilterCategory("all")}
+                variant="ghost"
+                size="sm"
+                className="w-full mt-2 text-xs"
+              >
+                Limpar Filtro
+              </Button>
+            )}
+          </div>
+
           <ScrollArea className="h-[500px]" data-testid="detections-list">
             {loading ? (
               <div className="text-center py-8 text-slate-400">Carregando...</div>
-            ) : detections.length === 0 ? (
+            ) : filteredDetections.length === 0 ? (
               <div className="text-center py-8 text-slate-400" data-testid="no-detections-message">
-                Nenhuma detecção encontrada
+                {filterCategory === "all" 
+                  ? "Nenhuma detecção encontrada" 
+                  : `Nenhuma detecção na categoria ${filterCategory}`}
               </div>
             ) : (
               <div className="space-y-2">
-                {detections.map((detection) => (
+                {filteredDetections.map((detection) => (
                   <div
                     key={detection.id}
                     onClick={() => setSelectedDetection(detection)}
