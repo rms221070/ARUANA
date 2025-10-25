@@ -145,6 +145,16 @@ class SentimentAnalysis(BaseModel):
     neutro: int = 0
     negativo: int = 0
 
+class GeoLocation(BaseModel):
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    accuracy: Optional[float] = None  # in meters
+    address: Optional[str] = None  # formatted address
+    city: Optional[str] = None
+    state: Optional[str] = None
+    country: Optional[str] = None
+    timestamp: Optional[datetime] = None
+
 class FoodItem(BaseModel):
     name: str
     scientific_name: Optional[str] = None
