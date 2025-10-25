@@ -129,8 +129,12 @@ const NutritionAnalysis = () => {
 
   const analyzeNutrition = async (imageData) => {
     try {
-      if (!token) {
-        toast.error('Você precisa estar autenticado');
+      // Get the current token
+      const authToken = getToken();
+      
+      if (!authToken) {
+        toast.error('Você precisa fazer login para usar esta funcionalidade');
+        narrate('Você precisa fazer login para usar esta funcionalidade');
         setIsAnalyzing(false);
         return;
       }
@@ -143,7 +147,7 @@ const NutritionAnalysis = () => {
         image_data: imageData
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'application/json'
         },
         timeout: 60000 // 60 seconds timeout
