@@ -17,7 +17,7 @@ const API = `${BACKEND_URL}/api`;
 const UploadDetection = () => {
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
-  const { token } = useAuth();
+  const { token, getToken } = useAuth();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
