@@ -24,6 +24,39 @@ const UploadDetection = () => {
   const [detectionMode, setDetectionMode] = useState("normal"); // "normal" or "ocr"
   const [result, setResult] = useState(null);
 
+  // Function to get geolocation
+  const getCurrentLocation = () => {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) {
+        console.warn('Geolocation not supported');
+        resolve(null);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const geoData = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy,
+            timestamp: new Date().toISOString()
+          };
+          console.log('Geolocation captured:', geoData);
+          resolve(geoData);
+        },
+        (error) => {
+          console.warn('Geolocation error:', error);
+          resolve(null); // Don't fail if geolocation fails
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    });
+  };
+
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file) {
