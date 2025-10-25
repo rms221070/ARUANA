@@ -118,6 +118,14 @@ const DetectionHistory = () => {
     return new Date(dateString).toLocaleString("pt-BR");
   };
 
+  // Get unique categories
+  const uniqueCategories = ["all", ...new Set(detections.map(d => d.category).filter(Boolean))];
+
+  // Filter detections by category
+  const filteredDetections = filterCategory === "all" 
+    ? detections 
+    : detections.filter(d => d.category === filterCategory);
+
   return (
     <div className="grid lg:grid-cols-3 gap-6" data-testid="history-container">
       <Card className="lg:col-span-1 bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
