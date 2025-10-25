@@ -218,6 +218,22 @@ const NutritionAnalysis = () => {
     }
   };
 
+  const loadNutritionHistory = async () => {
+    try {
+      const response = await axios.get(`${API}/detections?limit=20`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      // Filter only nutrition detections
+      const nutritionDetections = response.data.filter(d => d.detection_type === 'nutrition');
+      setNutritionHistory(nutritionDetections);
+    } catch (error) {
+      console.error('Error loading nutrition history:', error);
+    }
+  };
+
   const retakePhoto = () => {
     setCapturedImage(null);
     setShowPreview(false);
