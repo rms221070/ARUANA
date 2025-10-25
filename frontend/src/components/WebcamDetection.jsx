@@ -142,6 +142,22 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
 
   const startWebcam = async () => {
     try {
+      // Check if getUserMedia is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        const errorMsg = 'Seu navegador não suporta acesso à câmera. Por favor, use um navegador mais recente.';
+        toast.error(errorMsg);
+        narrate(errorMsg);
+        return;
+      }
+
+      // Check if we're on HTTPS (required for camera access on most browsers)
+      if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+        const errorMsg = 'Acesso à câmera requer conexão segura (HTTPS). Por favor, acesse via HTTPS.';
+        toast.error(errorMsg);
+        narrate(errorMsg);
+        return;
+      }
+
       // Enhanced mobile camera configuration with preference for rear camera
       const constraints = {
         video: {
@@ -171,8 +187,38 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
         narrate(t('webcam.cameraStarted'));
       }
     } catch (error) {
-      const errorMsg = t('webcam.cameraError') + ": " + error.message;
-      toast.error(errorMsg);
+      console.error('Camera error:', error);
+      
+      let errorMsg = t('webcam.cameraError') + ": ";
+      
+      // Provide user-friendly error messages based on error type
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        errorMsg = 'Permissão negada para acessar a câmera. Por favor, permita o acesso à câmera nas configurações do navegador e recarregue a página.';
+      } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+        errorMsg = 'Nenhuma câmera encontrada. Por favor, conecte uma câmera e tente novamente.';
+      } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+        errorMsg = 'A câmera está sendo usada por outro aplicativo. Por favor, feche outros aplicativos que possam estar usando a câmera.';
+      } else if (error.name === 'OverconstrainedError') {
+        errorMsg = 'As configurações da câmera não são suportadas. Tentando configurações alternativas...';
+        
+        // Try with simpler constraints
+        try {
+          const simpleStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          if (videoRef.current) {
+            videoRef.current.srcObject = simpleStream;
+            streamRef.current = simpleStream;
+            setIsStreaming(true);
+            toast.success('Câmera iniciada com configurações básicas');
+            return;
+          }
+        } catch (retryError) {
+          errorMsg = 'Não foi possível acessar a câmera mesmo com configurações básicas.';
+        }
+      } else {
+        errorMsg += error.message;
+      }
+      
+      toast.error(errorMsg, { duration: 7000 });
       narrate(errorMsg);
     }
   };
