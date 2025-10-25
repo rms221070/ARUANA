@@ -117,29 +117,24 @@ const Dashboard = () => {
                   </svg>
                 </div>
                 <div>
-                  <h1 className={`text-3xl md:text-4xl font-bold ${
+                  <h1 className={`text-2xl md:text-3xl font-bold ${
                     settings.highContrast 
                       ? 'text-white' 
                       : 'bg-gradient-to-r from-orange-400 via-white to-blue-400 bg-clip-text text-transparent'
-                  } mb-1 tracking-tight`}>
+                  } mb-0.5 tracking-tight`}>
                     {t('app.title')}
                   </h1>
-                  <h2 className={`text-lg md:text-xl font-semibold ${
+                  <h2 className={`text-sm md:text-base font-semibold ${
                     settings.highContrast ? 'text-gray-300' : 'text-blue-200'
-                  } mb-2 tracking-wide`}>
+                  } mb-1 tracking-wide`}>
                     Laboratório de Comunicação Celular (LCC)
                   </h2>
-                  <div className={`text-xs md:text-sm mt-3 space-y-1 ${
+                  <div className={`text-xs space-y-0.5 ${
                     settings.highContrast ? 'text-gray-300' : 'text-blue-200/90'
                   } font-medium`}>
                     <div>Aluno Pós-Doc: Ricardo Marciano dos Santos</div>
                     <div>Supervisor Pós-Doc: Luiz Anastacio Alves</div>
                   </div>
-                  <p className={`text-sm md:text-base mt-3 ${
-                    settings.highContrast ? 'text-gray-400' : 'text-orange-300/90'
-                  } font-light italic tracking-wide`}>
-                    "ARUANÃ": INTELIGÊNCIA ARTIFICIAL E VISÃO COMPUTACIONAL NA CONSTRUÇÃO DE EXPERIÊNCIAS INTERATIVAS
-                  </p>
                 </div>
               </div>
               <div className={`flex items-center gap-2 text-xs ${
