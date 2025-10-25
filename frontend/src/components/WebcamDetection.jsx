@@ -318,11 +318,19 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
             {t('webcam.title')}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Video/Image Container - Larger and Optimized */}
-          <div className="relative w-full bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border-4 border-blue-600" 
-               style={{ height: '600px', maxHeight: '70vh' }} 
-               data-testid="video-container">
+        <CardContent className={isFullscreen ? "p-0 m-0" : "space-y-4"}>
+          {/* Video/Image Container - Fullscreen Optimized */}
+          <div 
+            className={`relative w-full bg-slate-900 overflow-hidden shadow-2xl ${
+              isFullscreen 
+                ? 'fixed inset-0 z-50 rounded-none border-0' 
+                : 'rounded-2xl border-4 border-blue-600'
+            }`}
+            style={{ 
+              height: isFullscreen ? '100vh' : '600px',
+              maxHeight: isFullscreen ? '100vh' : '70vh'
+            }} 
+            data-testid="video-container">
             {showPreview && capturedImage ? (
               <div className="relative w-full h-full">
                 <img 
