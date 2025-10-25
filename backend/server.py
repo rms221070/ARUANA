@@ -131,6 +131,123 @@ def require_admin(func):
     
     return wrapper
 
+def auto_categorize_detection(detection: Detection) -> str:
+    """Automatically categorize detection based on content analysis"""
+    
+    # Category priority system
+    if detection.detection_type == "nutrition":
+        return "🍽️ Alimentos e Nutrição"
+    
+    if detection.detection_type == "text_reading":
+        return "📚 Textos e Documentos"
+    
+    # Analyze description and objects for smart categorization
+    description_lower = detection.description.lower()
+    objects_labels = [obj.label.lower() for obj in detection.objects_detected]
+    all_text = description_lower + " " + " ".join(objects_labels)
+    
+    # Define category keywords
+    categories = {
+        "👥 Pessoas e Rostos": [
+            "pessoa", "pessoas", "homem", "mulher", "criança", "rosto", "facial",
+            "sorrindo", "expressão", "emoção", "retrato", "grupo", "família"
+        ],
+        "🏠 Ambientes e Lugares": [
+            "ambiente", "sala", "quarto", "cozinha", "escritório", "rua", "parque",
+            "prédio", "casa", "loja", "restaurante", "local", "espaço", "interior", "exterior"
+        ],
+        "🐾 Animais e Natureza": [
+            "animal", "cachorro", "gato", "pássaro", "planta", "árvore", "flor",
+            "natureza", "jardim", "pet", "bicho"
+        ],
+        "🚗 Veículos e Transporte": [
+            "carro", "ônibus", "moto", "bicicleta", "caminhão", "veículo",
+            "transporte", "avião", "trem", "barco"
+        ],
+        "📱 Eletrônicos e Tecnologia": [
+            "computador", "notebook", "celular", "telefone", "tablet", "tela",
+            "teclado", "mouse", "eletrônico", "tecnologia", "digital", "smartphone"
+        ],
+        "👕 Roupas e Acessórios": [
+            "roupa", "camisa", "calça", "vestido", "sapato", "tênis", "bolsa",
+            "acessório", "óculos", "relógio", "joia", "bijuteria", "moda"
+        ],
+        "🎨 Arte e Cultura": [
+            "arte", "pintura", "quadro", "escultura", "cultural", "artístico",
+            "museu", "exposição", "obra"
+        ],
+        "🏃 Esportes e Atividades": [
+            "esporte", "atividade", "exercício", "academia", "jogo", "bola",
+            "corrida", "treino", "fitness"
+        ],
+        "🛍️ Compras e Produtos": [
+            "produto", "compra", "mercado", "loja", "shopping", "item",
+            "embalagem", "marca", "comercial"
+        ],
+        "📋 Documentos e Papéis": [
+            "documento", "papel", "formulário", "carta", "nota", "recibo",
+            "certificado", "contrato", "escrito"
+        ],
+        "🍴 Utensílios e Objetos": [
+            "objeto", "ferramenta", "utensílio", "instrumento", "equipamento",
+            "material", "item", "coisa"
+        ],
+    }
+    
+    # Score each category
+    category_scores = {}
+    for category, keywords in categories.items():
+        score = sum(1 for keyword in keywords if keyword in all_text)
+        if score > 0:
+            category_scores[category] = score
+    
+    # Return highest scoring category or default
+    if category_scores:
+        return max(category_scores, key=category_scores.get)
+    
+    return "🔍 Outros"
+
+def generate_tags(detection: Detection) -> List[str]:
+    """Generate smart tags for detection"""
+    tags = []
+    
+    # Add detection type
+    if detection.detection_type == "nutrition":
+        tags.append("nutrição")
+        tags.append("alimentos")
+    elif detection.detection_type == "text_reading":
+        tags.append("texto")
+        tags.append("leitura")
+    else:
+        tags.append("análise-visual")
+    
+    # Add source
+    tags.append(f"fonte-{detection.source}")
+    
+    # Extract key objects
+    for obj in detection.objects_detected[:5]:  # Top 5 objects
+        tags.append(obj.label.lower())
+    
+    # Add emotion tags if present
+    if detection.emotion_analysis:
+        emotions = detection.emotion_analysis.model_dump()
+        for emotion, count in emotions.items():
+            if count > 0:
+                tags.append(f"emoção-{emotion}")
+    
+    # Add sentiment tags
+    if detection.sentiment_analysis:
+        sentiments = detection.sentiment_analysis.model_dump()
+        for sentiment, count in sentiments.items():
+            if count > 0:
+                tags.append(f"sentimento-{sentiment}")
+    
+    # Add location tag if present
+    if detection.geo_location and detection.geo_location.city:
+        tags.append(f"local-{detection.geo_location.city.lower()}")
+    
+    # Remove duplicates and return
+    return list(set(tags))
 # Models
 class EmotionAnalysis(BaseModel):
     sorrindo: int = 0
