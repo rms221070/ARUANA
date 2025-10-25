@@ -149,8 +149,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      )}
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className={`${isFullscreenMode ? 'p-0 m-0 w-full' : 'container mx-auto px-4 py-8 max-w-7xl'}`}>
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full" data-testid="main-tabs">
           <TabsList className={`grid w-full grid-cols-6 mb-8 ${
             settings.highContrast 
