@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Download, Trash2, RefreshCw, FileJson, FileText } from "lucide-react";
+import { Download, Trash2, RefreshCw, FileJson, FileText, Share2, Copy, Check } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
@@ -20,6 +20,8 @@ const DetectionHistory = () => {
   const [loading, setLoading] = useState(true);
   const [selectedDetection, setSelectedDetection] = useState(null);
   const [filterCategory, setFilterCategory] = useState("all"); // Filter state
+  const [shareUrl, setShareUrl] = useState(null); // Share URL state
+  const [copied, setCopied] = useState(false); // Copy state
 
   useEffect(() => {
     // Narrate history section when loaded
