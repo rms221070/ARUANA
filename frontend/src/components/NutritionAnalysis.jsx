@@ -174,10 +174,17 @@ const NutritionAnalysis = () => {
 
       narrate(t('nutrition.analyzingFood'));
 
+      // Capture geolocation
+      const geoLocation = await getCurrentLocation();
+      if (geoLocation) {
+        toast.success('📍 Localização capturada', { duration: 2000 });
+      }
+
       const response = await axios.post(`${API}/detect/analyze-nutrition`, {
         source: analysisMode,
         detection_type: "nutrition",
-        image_data: imageData
+        image_data: imageData,
+        geo_location: geoLocation  // Include geolocation
       }, {
         headers: {
           'Authorization': `Bearer ${authToken}`,
