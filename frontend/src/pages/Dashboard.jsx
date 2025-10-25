@@ -46,7 +46,8 @@ const Dashboard = () => {
           : 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-800'
       }`}
     >
-      {/* Sophisticated Scientific Header */}
+      {/* Sophisticated Scientific Header - Hidden in fullscreen mode */}
+      {!isFullscreenMode && (
       <div className={`border-b ${
         settings.highContrast ? 'border-white bg-black' : 'border-orange-500/30 bg-gradient-to-r from-blue-950/95 via-slate-900/95 to-blue-950/95 backdrop-blur-xl'
       } sticky top-0 z-50 shadow-2xl`}>
