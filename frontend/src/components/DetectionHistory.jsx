@@ -177,14 +177,49 @@ const DetectionHistory = () => {
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
+                        {/* Category Badge */}
+                        {detection.category && (
+                          <div className="mb-2">
+                            <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white">
+                              {detection.category}
+                            </span>
+                          </div>
+                        )}
+                        
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs font-medium text-blue-600">
-                            {detection.source === "webcam" ? "Webcam" : "Upload"}
+                            {detection.source === "webcam" ? "📷 Webcam" : "📁 Upload"}
                           </span>
                           <span className="text-xs text-slate-500">
-                            {detection.detection_type === "cloud" ? "Nuvem" : "Local"}
+                            {detection.detection_type === "nutrition" ? "🍽️ Nutrição" : 
+                             detection.detection_type === "text_reading" ? "📚 Texto" : 
+                             "🔍 Análise"}
                           </span>
                         </div>
+                        
+                        {/* Geolocation */}
+                        {detection.geo_location && (
+                          <div className="flex items-center gap-1 mb-1">
+                            <span className="text-xs text-green-600">
+                              📍 {detection.geo_location.city || `${detection.geo_location.latitude.toFixed(4)}, ${detection.geo_location.longitude.toFixed(4)}`}
+                            </span>
+                          </div>
+                        )}
+                        
+                        {/* Tags */}
+                        {detection.tags && detection.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-1">
+                            {detection.tags.slice(0, 3).map((tag, idx) => (
+                              <span key={idx} className="inline-block px-1.5 py-0.5 text-[10px] rounded bg-blue-100 text-blue-700">
+                                {tag}
+                              </span>
+                            ))}
+                            {detection.tags.length > 3 && (
+                              <span className="text-[10px] text-slate-400">+{detection.tags.length - 3}</span>
+                            )}
+                          </div>
+                        )}
+                        
                         <p className="text-xs text-slate-500">
                           {formatDate(detection.timestamp)}
                         </p>
