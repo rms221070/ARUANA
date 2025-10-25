@@ -287,7 +287,20 @@ const DetectionHistory = () => {
 
       <Card className="lg:col-span-2 bg-white/90 backdrop-blur-sm border-slate-200 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-xl text-slate-800">Detalhes da Detecção</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-xl text-slate-800">Detalhes da Detecção</CardTitle>
+            {selectedDetection && (
+              <Button
+                onClick={() => shareDetection(selectedDetection.id)}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Share2 className="w-4 h-4" />
+                Compartilhar
+              </Button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           {selectedDetection ? (
