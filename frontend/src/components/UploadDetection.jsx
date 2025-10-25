@@ -21,7 +21,7 @@ const UploadDetection = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [detectionType, setDetectionType] = useState("cloud");
+  const [detectionMode, setDetectionMode] = useState("normal"); // "normal" or "ocr"
   const [result, setResult] = useState(null);
 
   const handleFileSelect = (event) => {
