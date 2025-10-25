@@ -6,7 +6,7 @@ COMPREHENSIVE NUTRITION ANALYSIS ENDPOINT TESTING
 This script performs detailed testing of the nutrition analysis endpoint
 as requested in the review, with focus on ensuring NO ERRORS occur.
 
-Backend URL: https://assis-vision.preview.emergentagent.com
+Backend URL: https://aruana-vision-1.preview.emergentagent.com
 Target Endpoint: POST /api/detect/analyze-nutrition
 
 Test Objectives:
@@ -28,7 +28,7 @@ from io import BytesIO
 from PIL import Image
 
 class NutritionAnalysisComprehensiveTester:
-    def __init__(self, base_url="https://assis-vision.preview.emergentagent.com"):
+    def __init__(self, base_url="https://aruana-vision-1.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
