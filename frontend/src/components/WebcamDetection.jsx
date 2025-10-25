@@ -24,7 +24,6 @@ const WebcamDetection = () => {
   const [isListeningAudio, setIsListeningAudio] = useState(false);
   const [audioAnalysis, setAudioAnalysis] = useState(null);
   const [audioLevel, setAudioLevel] = useState(0);
-  const [isCapture Mode, setIsCapture Mode] = useState(false); // For hiding header
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const audioContextRef = useRef(null);
