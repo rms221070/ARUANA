@@ -257,13 +257,28 @@ const NutritionAnalysis = () => {
       {/* Camera/Upload Section */}
       <Card className={`${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/95 backdrop-blur-sm border-green-200 shadow-lg'}`}>
         <CardHeader>
-          <CardTitle className={`text-xl font-bold ${settings.highContrast ? 'text-white' : 'text-slate-800'} flex items-center gap-2`}>
-            <Apple className="w-5 h-5 text-green-600" />
-            {t('nutrition.title')}
-          </CardTitle>
-          <p className={`text-sm ${settings.highContrast ? 'text-gray-300' : 'text-slate-600'}`}>
-            {t('nutrition.description')}
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className={`text-xl font-bold ${settings.highContrast ? 'text-white' : 'text-slate-800'} flex items-center gap-2`}>
+                <Apple className="w-5 h-5 text-green-600" />
+                {t('nutrition.title')}
+              </CardTitle>
+              <p className={`text-sm ${settings.highContrast ? 'text-gray-300' : 'text-slate-600'}`}>
+                {t('nutrition.description')}
+              </p>
+            </div>
+            <Button
+              onClick={() => {
+                setShowHistory(!showHistory);
+                narrate(showHistory ? 'Fechando histórico' : 'Abrindo histórico nutricional');
+              }}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <History className="w-4 h-4" />
+              {showHistory ? 'Ocultar' : 'Histórico'}
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Mode Selection */}
