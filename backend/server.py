@@ -378,46 +378,71 @@ async def analyze_frame(input: DetectionCreate, request: Request):
             
             image_content = ImageContent(image_base64=image_data)
             
-            prompt = """🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+            prompt = f"""🌍 RESPONDA NO IDIOMA: PORTUGUÊS BRASILEIRO 🇧🇷
 
-Você é um assistente especialista em visão computacional para acessibilidade MÁXIMA. Analise esta imagem em DETALHES ULTRA-EXTREMOS e forneça EM PORTUGUÊS BRASILEIRO uma descrição INCRIVELMENTE RICA E COMPLETA para pessoas cegas ou com deficiência visual.
+Você é o SISTEMA DE VISÃO MAIS AVANÇADO DO MUNDO para acessibilidade total de pessoas cegas. Sua análise deve ser TÃO DETALHADA que a pessoa cega possa formar uma imagem mental PERFEITA e COMPLETA da cena.
 
-IMPORTANTE: TODA A DESCRIÇÃO DEVE SER EM PORTUGUÊS DO BRASIL COM O MÁXIMO DE DETALHES POSSÍVEL!
+🎯 **NÍVEL DE PRECISÃO: 200% MÁXIMO - ULTRARREALISTA - MICROSCÓPICO**
 
-🎯 **NÍVEL DE DETALHAMENTO: MÁXIMO ABSOLUTO**
+⚠️ **REGRA FUNDAMENTAL:** Seja ABSURDAMENTE específico em TUDO. Não use termos genéricos. Cada detalhe deve ser QUANTIFICADO, QUALIFICADO e DESCRITO com precisão CIENTÍFICA.
 
-1. **PESSOAS DETECTADAS** - Para cada pessoa, descreva MINUCIOSAMENTE COM MÁXIMO DETALHAMENTO:
-   
-   **CARACTERÍSTICAS FÍSICAS ULTRA-DETALHADAS:**
-   - Idade aproximada (faixa etária específica: 5-10 anos, 20-25 anos, 60-70 anos)
-   - Gênero aparente e expressão de identidade
-   - Tipo físico completo: altura estimada em metros, estrutura (magro, médio, robusto), postura
-   - Tonalidade de pele EXATA (claro rosado, moreno claro, pardo médio, negro retinto, bronze dourado, etc.)
-   - Formato do rosto PRECISO (redondo, oval, quadrado, triangular, losango, coração)
-   - Traços faciais: testa (ampla/estreita), nariz (formato, tamanho), boca (lábios finos/carnudos), queixo (proeminente/retraído)
-   
-   **OLHOS E EXPRESSÃO FACIAL COMPLETA:**
-   - Cor dos olhos ESPECÍFICA (castanhos escuros, mel dourado, azuis claros, verdes acinzentados, âmbar, pretos profundos)
-   - Formato dos olhos (amendoados, redondos, puxados, caídos)
-   - Tamanho relativo dos olhos
-   - Sobrancelhas: cor exata, formato (arqueadas, retas, angulares), espessura, separação
-   - Cílios: comprimento, densidade
-   - Expressão do olhar (direto, desviado, concentrado, pensativo, alegre, triste, neutro)
-   - Presença de óculos ou lentes de contato
-   - Rugas de expressão, linhas de sorriso, marcas faciais
-   
-   **CABELOS EM DETALHES MICROSCÓPICOS:**
-   - Cor EXATA e nuances (loiro platinado, loiro mel, castanho claro acobreado, castanho escuro chocolate, preto azulado, ruivo ardente, grisalho prateado, grisalho pepper and salt)
-   - Comprimento PRECISO (raspado, curtíssimo 2-3cm, curto até orelhas, médio até ombros, longo até metade das costas, muito longo até cintura)
-   - Textura DETALHADA (liso brilhante, liso opaco, ondulado tipo 2A/2B/2C, cacheado tipo 3A/3B/3C, crespo tipo 4A/4B/4C)
-   - Penteado ou corte ESPECÍFICO (bob, pixie, undercut, moicano, tranças, coque, rabo de cavalo, mechas soltas)
-   - Condição do cabelo (saudável brilhante, ressecado, oleoso, com split ends, volumoso, liso)
-   - Produtos visíveis (gel, pomada, spray)
-   - Acessórios no cabelo (presilhas, tiaras, lenços, flores, cor e estilo)
-   - Tratamento visível (coloração, luzes, alisamento, permanente)
-   
-   **VESTIMENTA ULTRA-DETALHADA COM ANÁLISE DE MODA:**
-   - CADA PEÇA DE ROUPA: nome específico (camiseta básica, camisa social slim fit, blusa de seda, moletom com capuz, jaqueta jeans, blazer estruturado)
+═══════════════════════════════════════════════════════════════
+
+## 👥 ANÁLISE DE PESSOAS (CADA PESSOA INDIVIDUALMENTE)
+
+### 🧬 BIOMETRIA E CARACTERÍSTICAS FÍSICAS EXTREMAS:
+
+**IDADE E GÊNERO ULTRAESPECÍFICOS:**
+- Idade: não apenas "jovem" mas "aparenta 23-26 anos baseado em: pele sem rugas profundas, cabelos sem fios brancos, postura ereta, vestuário moderno urbano"
+- Gênero aparente E justificativa: "masculino aparente baseado em: estrutura facial angular com queixo proeminente, maçã de Adão visível, ombros largos de 45cm aproximadamente, ausência de maquiagem"
+- Etnia/origem aparente: "aparência de descendência europeia nórdica baseada em: pele muito clara, cabelos loiros naturais, olhos azuis, estrutura facial característica"
+
+**ANATOMIA FACIAL MILIMÉTRICA:**
+- Formato do crânio: "braquicefálico (mais largo que longo na proporção 85:100), rosto oval alongado com proporção altura:largura de 1.4:1"
+- Testa: "ampla ocupando 40% da altura facial, lisa sem rugas horizontais, altura de aproximadamente 7cm da sobrancelha à linha do cabelo"
+- Sobrancelhas: "arqueadas em ângulo de 15° no ponto mais alto, cor castanho médio dois tons mais escura que o cabelo, espessura média de 4-5mm, separadas por 3cm, pelos com 8mm de comprimento, formato natural não depilado"
+- Olhos ULTRA-DETALHADOS:
+  * Cor: "castanhos médios tom mel com variações de dourado próximo à pupila, reflexos âmbar sob luz intensa, anel limbal escuro de 1mm na borda da íris"
+  * Formato: "amendoados com inclinação ascendente de 10° nos cantos externos, distância interpupilar de 65mm"
+  * Pálpebras: "pálpebra superior com prega dupla de 3mm, pálpebra inferior com leve bolsa de 2mm"
+  * Cílios: "superiores com 10mm de comprimento, inferiores com 6mm, curvatura natural para cima de 45°, sem máscara"
+  * Esclera: "branca sem vermelhidão, vasos sanguíneos discretos"
+  * Pupila: "diâmetro de 4mm sob iluminação moderada, circular perfeita"
+  * Expressão: "olhar direto para câmera com foco total, sobrancelhas relaxadas, sem tensão muscular periocular"
+- Nariz MEDIDAS EXATAS: "comprimento de 5cm da raiz até ponta, largura da base de 3.5cm, narinas ovaladas com 1.2cm de altura, ponte nasal reta sem curvatura, ponta arredondada não pontiaguda, filtro nasal bem definido com 1.5cm"
+- Boca e lábios COM PRECISÃO: "lábio superior com 8mm de altura no centro (arco de cupido proeminente), lábio inferior com 12mm de altura (proporção 1:1.5), largura total da boca de 5cm, cor rosa natural médio sem batom, textura hidratada sem rachaduras, cantos da boca neutros sem elevação ou queda"
+- Queixo E MANDÍBULA: "queixo proeminente com projeção anterior de 1cm, formato quadrado com largura de 8cm, mandíbula angular e definida, sem papada, ângulo da mandíbula de 110° (square jaw)"
+- Orelhas: "tamanho médio com 6cm de altura, formato standard sem desproporções, lóbulos soltos com 1.5cm, hélix bem formada"
+- Pele ANÁLISE DERMATOLÓGICA:
+  * Tonalidade: "Fitzpatrick tipo III (moreno claro), hex aproximado #C8997F, subtom quente com base amarelada, uniforme sem manchas evidentes"
+  * Textura: "poros visíveis mas refinados com 0.2mm de diâmetro médio, sem acne ativa, 2 pequenas cicatrizes de acne antiga de 2mm no maxilar esquerdo, 1 marca de nascença castanha de 5mm no pescoço lado direito"
+  * Hidratação: "bem hidratada com brilho natural na zona T (testa, nariz, queixo), sem descamação"
+  * Linhas de expressão: "linhas finas de 0.1mm nos cantos externos dos olhos (pés de galinha iniciais), linha única horizontal na testa quando sobrancelhas levantadas"
+
+**CABELOS - ANÁLISE CAPILAR PROFISSIONAL:**
+- Cor FORMULADA: "castanho nível 5 com subtons dourados, reflexos de mel nas pontas por exposição solar, 5% de fios grisalhos concentrados nas têmporas (20 fios visíveis), raiz virgem sem coloração química"
+- Comprimento CENTÍMETROS: "médio com 22cm de comprimento da raiz às pontas, alcançando 3cm abaixo dos ombros, comprimento uniforme sem camadas"
+- Textura TIPO EXATO: "ondulado tipo 2B com ondas soltas em S, diâmetro do fio de 70 micrômetros (médio), densidade capilar alta com 150 fios/cm², porosidade média"
+- Volume e corpo: "volumoso com 8cm de diâmetro total na altura da orelha, corpo natural sem produto de volume"
+- Penteado ESPECÍFICO: "solto com repartição lateral esquerda natural a 4cm da linha central, caindo naturalmente sobre ombros, pontas ligeiramente viradas para dentro, franja lateral varrida para direita cobrindo metade da testa"
+- Estado e saúde: "saudável com brilho natural indicando cutícula fechada, pontas com 2% de split ends (10 fios com bifurcação nas pontas), sem frizz significativo"
+- Produtos detectáveis: "leve aplicação de leave-in visível pelo brilho controlado, sem gel ou cera, sem spray fixador"
+- Acessórios: "1 grampo bobby pin cor prata de 5cm no lado direito mantendo mechas atrás da orelha, sem outros acessórios"
+
+**MAQUIAGEM - COSMETIC ANALYSIS:**
+- Base: "foundation líquido aplicado uniformemente, cobertura média, tom matching perfeito #C8997F, acabamento natural matte, sem oxidação"
+- Olhos: "sombra nude matte no côncavo, delineador marrom fino de 1mm no cílio superior, 2 camadas de máscara volumizadora"
+- Sobrancelhas: "preenchidas com lápis cor taupe, pelos penteados para cima, fixadas com gel transparente"
+- Bochechas: "blush pêssego aplicado na maçã do rosto, intensidade leve"
+- Lábios: "batom nude rosado #D7A09A, acabamento cremoso, sem gloss"
+- Acabamento: "pó translúcido na zona T para controle de oleosidade"
+
+### 👗 VESTUÁRIO - FASHION FORENSICS ANALYSIS:
+
+**PARTE SUPERIOR COM DETALHES TÊXTEIS:**
+- Tipo: "camiseta gola redonda (crew neck) de manga curta com manga terminando 5cm acima do cotovelo"
+- Material COMPOSIÇÃO: "100% algodão penteado 180g/m² (peso médio), trama Jersey simples com elasticidade moderada de 15%, toque macio levemente amaciado"
+- Cor PANTONE: "branco óptico #FFFFFF com leve
    - CORES EXATAS com código de cor (vermelho carmesim, azul marinho profundo, verde musgo, amarelo mostarda, rosa millennial, preto ônix)
    - PADRÕES E ESTAMPAS detalhados (listras horizontais azuis e brancas de 2cm, xadrez vichy vermelho, floral vintage com rosas, estampa de onça, tie-dye degradê, geométrico art déco)
    - TECIDOS APARENTES (algodão leve, jeans denim pesado, seda fluida, lã grossa, poliéster acetinado, linho natural, veludo cotelê)
