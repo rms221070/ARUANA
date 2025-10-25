@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Camera, Square, Loader2, Upload, Apple, Calculator, Target } from "lucide-react";
+import { Camera, Square, Loader2, Upload, Apple, Calculator, Target, History } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
