@@ -224,9 +224,15 @@ const NutritionAnalysis = () => {
 
   const loadNutritionHistory = async () => {
     try {
+      const authToken = getToken();
+      if (!authToken) {
+        console.warn('No auth token available for loading history');
+        return;
+      }
+      
       const response = await axios.get(`${API}/detections?limit=20`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${authToken}`
         }
       });
       
