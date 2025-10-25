@@ -140,6 +140,13 @@ export const AuthProvider = ({ children }) => {
     return user?.user_type === 'admin';
   };
 
+  // Helper function to get current token (with fallback to localStorage)
+  const getToken = () => {
+    if (token) return token;
+    // Fallback: try to get from localStorage directly (for cases where state hasn't updated yet)
+    return localStorage.getItem('auth_token');
+  };
+
   const value = {
     user,
     token,
@@ -148,7 +155,8 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     isAdmin,
-    isAuthenticated: !!user
+    getToken, // Expose helper function
+    isAuthenticated: !!user || !!token // Consider authenticated if we have a token, even if user data hasn't loaded yet
   };
 
   return (
