@@ -49,7 +49,7 @@ const Dashboard = () => {
       <div className={`border-b ${
         settings.highContrast ? 'border-white bg-black' : 'border-orange-500/30 bg-gradient-to-r from-blue-950/95 via-slate-900/95 to-blue-950/95 backdrop-blur-xl'
       } sticky top-0 z-50 shadow-2xl`}>
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-2">
           {/* Banner Image - Removed to improve visibility */}
           
           <div className="flex items-center justify-between">
