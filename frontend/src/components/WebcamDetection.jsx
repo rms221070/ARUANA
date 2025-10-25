@@ -145,19 +145,17 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
     try {
       // Check if getUserMedia is supported
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        const errorMsg = 'Seu navegador não suporta acesso à câmera. Por favor, use um navegador mais recente.';
-        toast.error(errorMsg);
+        const errorMsg = 'Seu navegador não suporta acesso à câmera. Por favor, use um navegador mais recente como Chrome, Firefox ou Edge.';
+        toast.error(errorMsg, { duration: 10000 });
         narrate(errorMsg);
         return;
       }
 
-      // Check if we're on HTTPS (required for camera access on most browsers)
-      if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
-        const errorMsg = 'Acesso à câmera requer conexão segura (HTTPS). Por favor, acesse via HTTPS.';
-        toast.error(errorMsg);
-        narrate(errorMsg);
-        return;
-      }
+      // Show instructions toast BEFORE requesting permission
+      toast.info('📷 Vamos solicitar permissão para acessar sua câmera. Clique em "Permitir" quando o navegador perguntar.', {
+        duration: 5000
+      });
+      narrate('Solicitando permissão para acessar a câmera. Clique em permitir quando o navegador perguntar.');
 
       // Enhanced mobile camera configuration with preference for rear camera
       const constraints = {
