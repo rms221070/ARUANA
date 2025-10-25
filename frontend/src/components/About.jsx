@@ -288,7 +288,7 @@ const About = () => {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="alerts" className="w-full">
-            <TabsList className={`grid w-full grid-cols-4 mb-6 ${
+            <TabsList className={`grid w-full grid-cols-5 mb-6 ${
               settings.highContrast 
                 ? 'bg-gray-800 border-2 border-gray-600' 
                 : 'bg-slate-900/50 backdrop-blur-md'
@@ -308,6 +308,10 @@ const About = () => {
               <TabsTrigger value="technical" className="flex items-center gap-2">
                 <Beaker className="w-4 h-4" />
                 <span className="hidden sm:inline">Técnico</span>
+              </TabsTrigger>
+              <TabsTrigger value="report" className="flex items-center gap-2">
+                <Award className="w-4 h-4" />
+                <span className="hidden sm:inline">Relatório</span>
               </TabsTrigger>
             </TabsList>
 
