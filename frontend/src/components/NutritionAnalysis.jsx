@@ -35,6 +35,9 @@ const NutritionAnalysis = () => {
     // Narrate component when loaded
     narrateInterface('panel', t('nutrition.title'), t('nutrition.description'));
     
+    // Load nutrition history
+    loadNutritionHistory();
+    
     return () => {
       stopWebcam();
     };
