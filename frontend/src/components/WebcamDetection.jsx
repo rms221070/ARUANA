@@ -222,14 +222,27 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
     narrate(t('webcam.imageCapturedd') + '. ' + t('webcam.analyzingImage'));
 
     try {
+      // Get the current token
+      const authToken = getToken();
+      
+      if (!authToken) {
+        const errorMsg = 'Você precisa fazer login para usar esta funcionalidade';
+        toast.error(errorMsg);
+        narrate(errorMsg);
+        setIsAnalyzing(false);
+        return;
+      }
+
       const response = await axios.post(`${API}/detect/analyze-frame`, {
         source: "webcam",
         detection_type: "cloud",
         image_data: imageData
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 60000 // 60 seconds timeout
       });
 
       setLastDetection(response.data);
