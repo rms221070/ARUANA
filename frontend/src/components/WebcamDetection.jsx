@@ -186,6 +186,11 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
     // Stop audio analysis too
     stopAudioAnalysis();
     
+    // Deactivate fullscreen mode
+    if (onFullscreenChange) {
+      onFullscreenChange(false);
+    }
+    
     setIsStreaming(false);
     narrate(t('webcam.cameraStopped'));
   };
