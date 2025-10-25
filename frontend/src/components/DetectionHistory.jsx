@@ -83,6 +83,54 @@ const DetectionHistory = () => {
     }
   };
 
+  const shareDetection = async (detectionId) => {
+    try {
+      const authToken = getToken();
+      if (!authToken) {
+        toast.error('Você precisa fazer login');
+        return;
+      }
+
+      toast.loading('Gerando link de compartilhamento...');
+
+      const response = await axios.post(
+        `${API}/detections/${detectionId}/share`,
+        {},
+        {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        }
+      );
+
+      const shareUrl = response.data.share_url;
+      setShareUrl(shareUrl);
+      
+      toast.success('Link gerado!', { duration: 3000 });
+      narrate('Link de compartilhamento gerado com sucesso');
+      
+      // Auto copy to clipboard
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 3000);
+      });
+
+    } catch (error) {
+      console.error('Error sharing:', error);
+      toast.error('Erro ao gerar link de compartilhamento');
+    }
+  };
+
+  const copyShareUrl = () => {
+    if (shareUrl) {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        setCopied(true);
+        toast.success('Link copiado!');
+        setTimeout(() => setCopied(false), 3000);
+      });
+    }
+  };
+
   const exportReport = async (format) => {
     try {
       const response = await axios.get(`${API}/reports/export?format=${format}`, {
