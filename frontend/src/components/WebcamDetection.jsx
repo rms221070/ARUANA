@@ -361,6 +361,7 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
       // Capture geolocation
       const geoLocation = await getCurrentLocation();
       if (geoLocation) {
+        setCurrentLocation(geoLocation); // Save location to state
         toast.success('📍 Localização capturada', { duration: 2000 });
       }
 
