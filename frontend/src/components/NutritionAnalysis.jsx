@@ -567,6 +567,80 @@ const NutritionAnalysis = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Nutrition History Panel */}
+      {showHistory && (
+        <Card className={`lg:col-span-2 ${settings.highContrast ? 'bg-gray-900 border-white border-2' : 'bg-white/95 backdrop-blur-sm border-green-200 shadow-lg'}`}>
+          <CardHeader>
+            <CardTitle className={`text-xl font-bold ${settings.highContrast ? 'text-white' : 'text-slate-800'} flex items-center gap-2`}>
+              <History className="w-5 h-5 text-green-600" />
+              Histórico de Análises Nutricionais
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {nutritionHistory.length > 0 ? (
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {nutritionHistory.map((detection) => (
+                  <div 
+                    key={detection.id}
+                    className={`p-4 rounded-xl border-2 ${
+                      settings.highContrast 
+                        ? 'bg-gray-800 border-white' 
+                        : 'bg-gradient-to-r from-green-50 to-orange-50 border-green-300'
+                    } cursor-pointer hover:scale-[1.02] transition-transform`}
+                    onClick={() => {
+                      setLastAnalysis(detection);
+                      setShowHistory(false);
+                      narrate('Análise carregada do histórico');
+                    }}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
+                            settings.highContrast 
+                              ? 'bg-green-500 text-black' 
+                              : 'bg-green-600 text-white'
+                          }`}>
+                            {new Date(detection.timestamp).toLocaleDateString('pt-BR')}
+                          </span>
+                          <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
+                            settings.highContrast 
+                              ? 'bg-orange-500 text-black' 
+                              : 'bg-orange-600 text-white'
+                          }`}>
+                            {new Date(detection.timestamp).toLocaleTimeString('pt-BR')}
+                          </span>
+                        </div>
+                        <p className={`text-sm ${settings.highContrast ? 'text-gray-300' : 'text-gray-700'} line-clamp-2`}>
+                          {detection.description}
+                        </p>
+                      </div>
+                      {detection.nutritional_analysis && (
+                        <div className="ml-4 text-right">
+                          <div className={`text-2xl font-bold ${settings.highContrast ? 'text-orange-400' : 'text-orange-600'}`}>
+                            {Math.round(detection.nutritional_analysis.total_calories)}
+                          </div>
+                          <div className={`text-xs ${settings.highContrast ? 'text-gray-400' : 'text-gray-600'}`}>
+                            calorias
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <Apple className="w-16 h-16 mx-auto mb-4 opacity-50 text-green-600" />
+                <p className={settings.highContrast ? 'text-gray-400' : 'text-slate-400'}>
+                  Nenhuma análise nutricional no histórico
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
