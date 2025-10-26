@@ -27,7 +27,7 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   useEffect(() => {
     // Set page title
-    document.title = "ARUANÃ - Visão Assistiva";
+    document.title = "Aruanã – Sistema de IA para Inclusão e Acessibilidade | UNIG / IOC-FIOCRUZ";
   }, []);
 
   return (
