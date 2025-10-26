@@ -1,0 +1,43 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg-gradient)"/>
+  
+  <!-- White overlay for better readability -->
+  <rect x="40" y="40" width="1120" height="550" fill="white" opacity="0.95" rx="20"/>
+  
+  <!-- Logo/Icon -->
+  <circle cx="120" cy="120" r="50" fill="#f97316"/>
+  <text x="120" y="135" font-family="Arial, sans-serif" font-size="48" fill="white" text-anchor="middle" font-weight="bold">👁</text>
+  
+  <!-- Title -->
+  <text x="200" y="100" font-family="Arial, sans-serif" font-size="56" fill="#1e3a8a" font-weight="bold">ARUANÃ</text>
+  <text x="200" y="150" font-family="Arial, sans-serif" font-size="32" fill="#3b82f6" font-weight="600">Sistema de IA para Inclusão e Acessibilidade</text>
+  
+  <!-- Separator Line -->
+  <line x1="80" y1="200" x2="1120" y2="200" stroke="#3b82f6" stroke-width="3"/>
+  
+  <!-- Institution Info -->
+  <text x="80" y="260" font-family="Arial, sans-serif" font-size="28" fill="#1e40af" font-weight="bold">Instituição Proponente:</text>
+  <text x="80" y="300" font-family="Arial, sans-serif" font-size="24" fill="#475569">Universidade Iguaçu (UNIG) / Instituto Oswaldo Cruz (IOC-FIOCRUZ)</text>
+  
+  <!-- Lab Info -->
+  <text x="80" y="350" font-family="Arial, sans-serif" font-size="28" fill="#1e40af" font-weight="bold">Laboratório:</text>
+  <text x="80" y="390" font-family="Arial, sans-serif" font-size="24" fill="#475569">Laboratório de Comunicação Celular (LCC)</text>
+  
+  <!-- Researcher Info -->
+  <text x="80" y="440" font-family="Arial, sans-serif" font-size="28" fill="#1e40af" font-weight="bold">Pesquisador Responsável:</text>
+  <text x="80" y="480" font-family="Arial, sans-serif" font-size="24" fill="#475569">Dr. Ricardo Marciano dos Santos (Pós-Doutorando)</text>
+  
+  <!-- Supervisor Info -->
+  <text x="80" y="530" font-family="Arial, sans-serif" font-size="28" fill="#1e40af" font-weight="bold">Supervisor:</text>
+  <text x="80" y="570" font-family="Arial, sans-serif" font-size="24" fill="#475569">Dr. Luiz Anastacio Alves (Pesquisador LCC/IOC)</text>
+</svg>
