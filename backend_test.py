@@ -1523,9 +1523,146 @@ class DetectionSystemTester:
         
         return auth_tests_passed, user_token, admin_token
 
+    def test_analyze_frame_without_ambient_sound(self, token):
+        """Test /api/detect/analyze-frame endpoint after disabling ambient sound classification"""
+        print("\n🔊 Testing Analyze Frame WITHOUT Ambient Sound Classification:")
+        print("-" * 60)
+        
+        test_image = self.create_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+        
+        # Test the analyze-frame endpoint with cloud detection
+        success, result = self.run_test(
+            "Analyze Frame - No Ambient Sound (Cloud Detection)",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        if success:
+            # 1. Verify basic response structure
+            has_id = 'id' in result
+            has_description = 'description' in result
+            has_timestamp = 'timestamp' in result
+            
+            self.log_test("Response Structure Validation", 
+                         has_id and has_description and has_timestamp,
+                         f"ID: {has_id}, Description: {has_description}, Timestamp: {has_timestamp}")
+            
+            # 2. Verify emotion analysis is present and working
+            has_emotion_analysis = 'emotion_analysis' in result and result['emotion_analysis'] is not None
+            emotion_valid = False
+            
+            if has_emotion_analysis:
+                emotion_data = result['emotion_analysis']
+                required_emotions = ['sorrindo', 'serio', 'triste', 'surpreso', 'zangado', 'neutro']
+                emotion_valid = all(
+                    emotion in emotion_data and isinstance(emotion_data[emotion], int) and emotion_data[emotion] >= 0
+                    for emotion in required_emotions
+                )
+            
+            self.log_test("Emotion Analysis Working", 
+                         has_emotion_analysis and emotion_valid,
+                         f"Present: {has_emotion_analysis}, Valid structure: {emotion_valid}")
+            
+            # 3. Verify sentiment analysis is present and working
+            has_sentiment_analysis = 'sentiment_analysis' in result and result['sentiment_analysis'] is not None
+            sentiment_valid = False
+            
+            if has_sentiment_analysis:
+                sentiment_data = result['sentiment_analysis']
+                required_sentiments = ['positivo', 'neutro', 'negativo']
+                sentiment_valid = all(
+                    sentiment in sentiment_data and isinstance(sentiment_data[sentiment], int) and sentiment_data[sentiment] >= 0
+                    for sentiment in required_sentiments
+                )
+            
+            self.log_test("Sentiment Analysis Working", 
+                         has_sentiment_analysis and sentiment_valid,
+                         f"Present: {has_sentiment_analysis}, Valid structure: {sentiment_valid}")
+            
+            # 4. Verify description does NOT contain sound-related information
+            description = result.get('description', '').lower()
+            
+            # Check for Portuguese sound-related terms that should NOT be present
+            sound_terms = [
+                'sons ambientes',
+                'nível de ruído', 
+                'sons de atividades',
+                'ruído urbano',
+                'som ambiente',
+                'barulho',
+                'música tocando',
+                'conversas distantes',
+                'silêncio total',
+                'ambiente silencioso',
+                'ambiente barulhento'
+            ]
+            
+            sound_references_found = []
+            for term in sound_terms:
+                if term in description:
+                    sound_references_found.append(term)
+            
+            no_sound_references = len(sound_references_found) == 0
+            
+            self.log_test("No Sound References in Description", 
+                         no_sound_references,
+                         f"Sound terms found: {sound_references_found if sound_references_found else 'None'}")
+            
+            # 5. Verify description is still detailed (should be rich without sound info)
+            description_detailed = len(result.get('description', '')) > 100
+            
+            self.log_test("Description Still Detailed", 
+                         description_detailed,
+                         f"Description length: {len(result.get('description', ''))} characters")
+            
+            # 6. Test that no errors or crashes occurred
+            no_errors = 'error' not in result and 'exception' not in str(result).lower()
+            
+            self.log_test("No Errors or Crashes", 
+                         no_errors,
+                         f"Clean response without errors: {no_errors}")
+            
+            # 7. Verify all other analysis features work normally
+            has_objects = 'objects_detected' in result
+            objects_valid = isinstance(result.get('objects_detected', []), list)
+            
+            self.log_test("Object Detection Still Working", 
+                         has_objects and objects_valid,
+                         f"Objects field present: {has_objects}, Valid list: {objects_valid}")
+            
+            # Overall success criteria
+            overall_success = (
+                has_id and has_description and has_timestamp and
+                has_emotion_analysis and emotion_valid and
+                has_sentiment_analysis and sentiment_valid and
+                no_sound_references and description_detailed and
+                no_errors and has_objects and objects_valid
+            )
+            
+            self.log_test("OVERALL: Analyze Frame Without Ambient Sound", 
+                         overall_success,
+                         f"All criteria met: {overall_success}")
+            
+            return overall_success
+        
+        return False
+
     def run_all_tests(self):
         """Run all backend tests"""
-        print("🚀 Starting Comprehensive Authentication System Tests")
+        print("🚀 Starting Comprehensive Backend Testing")
         print("=" * 70)
         
         # Test basic connectivity
@@ -1548,8 +1685,8 @@ class DetectionSystemTester:
             # Test alerts functionality
             self.test_alerts_crud()
             
-            # Test frame analysis (already tested in auth flow)
-            # self.test_analyze_frame()
+            # SPECIFIC TEST FOR REVIEW REQUEST: Test analyze-frame without ambient sound
+            self.test_analyze_frame_without_ambient_sound(user_token)
             
             # Test emotion and sentiment analysis features with auth
             self.test_emotion_sentiment_analysis_with_auth(user_token)
