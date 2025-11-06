@@ -377,11 +377,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Nutrition Analysis Endpoint Implementation"
-    - "Nutritional Data Models Implementation"
-    - "Enhanced Nutrition Analysis Prompts"
-    - "Nutrition Database Integration"
-    - "Nutrition API Response Quality Validation"
+    - "Ambient Sound Classification Disable Validation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
