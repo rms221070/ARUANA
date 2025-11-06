@@ -41,6 +41,9 @@ api_router = APIRouter(prefix="/api")
 # Google API Key
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', '')
 
+# Feature Flags - Controle de recursos
+ENABLE_AMBIENT_SOUND_INFERENCE = False  # Set to True to re-enable ambient sound classification in descriptions
+
 # Authentication settings
 SECRET_KEY = os.environ.get('JWT_SECRET_KEY', secrets.token_urlsafe(32))
 ALGORITHM = "HS256"
