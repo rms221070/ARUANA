@@ -740,10 +740,7 @@ Você é o SISTEMA DE VISÃO MAIS AVANÇADO DO MUNDO para acessibilidade total d
    - Ventilação: janelas abertas, ar condicionado visível, ventiladores, ambiente fechado
    - Umidade aparente: seco, normal, úmido (condensação, mofo, plantas)
    
-   **SONS IMPLÍCITOS (inferidos pela cena visual):**
-   - Sons ambientes prováveis: silêncio total, ruído urbano de fundo, trânsito, conversas distantes, música tocando (se há caixas de som), TV ligada, natureza (pássaros, vento, água)
-   - Sons de atividades: digitação, passos, objetos sendo manipulados, máquinas funcionando
-   - Nível de ruído estimado: ambiente silencioso, moderado, barulhento
+   {sound_section}
    
    **CLIMA METEOROLÓGICO (se ambiente externo ou visível pela janela):**
    - Condições: céu claro ensolarado, parcialmente nublado, nublado fechado, chuvoso, tempestade
