@@ -893,6 +893,9 @@ IMPORTANTE:
 
 🇧🇷 LEMBRE-SE: TODA A DESCRIÇÃO DEVE ESTAR EM PORTUGUÊS BRASILEIRO COM MÁXIMO DETALHAMENTO! NÃO USE INGLÊS! 🇧🇷"""
             
+            # Replace the sound_section placeholder with actual content
+            prompt = prompt.replace("{sound_section}", sound_section)
+            
             user_message = UserMessage(
                 text=prompt,
                 file_contents=[image_content]
