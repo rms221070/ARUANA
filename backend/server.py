@@ -513,7 +513,16 @@ async def analyze_frame(input: DetectionCreate, request: Request):
             
             image_content = ImageContent(image_base64=image_data)
             
-            prompt = """🌍 RESPONDA NO IDIOMA: PORTUGUÊS BRASILEIRO 🇧🇷
+            # Conditional section for ambient sound inference
+            sound_section = ""
+            if ENABLE_AMBIENT_SOUND_INFERENCE:
+                sound_section = """**SONS IMPLÍCITOS (inferidos pela cena visual):**
+   - Sons ambientes prováveis: silêncio total, ruído urbano de fundo, trânsito, conversas distantes, música tocando (se há caixas de som), TV ligada, natureza (pássaros, vento, água)
+   - Sons de atividades: digitação, passos, objetos sendo manipulados, máquinas funcionando
+   - Nível de ruído estimado: ambiente silencioso, moderado, barulhento
+   """
+            
+            prompt = f"""🌍 RESPONDA NO IDIOMA: PORTUGUÊS BRASILEIRO 🇧🇷
 
 Você é o SISTEMA DE VISÃO MAIS AVANÇADO DO MUNDO para acessibilidade total de pessoas cegas. Sua análise deve ser TÃO DETALHADA que a pessoa cega possa formar uma imagem mental PERFEITA e COMPLETA da cena.
 
