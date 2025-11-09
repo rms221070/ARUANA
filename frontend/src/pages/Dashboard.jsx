@@ -51,18 +51,28 @@ const Dashboard = () => {
       role="main"
       aria-label="Aplicação ARUANÃ - Visão Assistiva"
     >
-      {currentView === 'modes' ? (
+      {/* Mode Selector - always rendered but hidden when not active */}
+      <div className={currentView === 'modes' ? 'block' : 'hidden'}>
         <ModeSelector 
           onSelectMode={handleModeSelect}
           currentMode={selectedMode}
           onNavigate={handleNavigation}
         />
-      ) : currentView === 'camera' ? (
-        <CameraView 
-          mode={selectedMode}
-          onBack={handleBackToModeSelector}
-        />
-      ) : (
+      </div>
+
+      {/* Camera View - always rendered but hidden when not active */}
+      <div className={currentView === 'camera' ? 'block' : 'hidden'}>
+        {selectedMode && (
+          <CameraView 
+            mode={selectedMode}
+            onBack={handleBackToModeSelector}
+            isActive={currentView === 'camera'}
+          />
+        )}
+      </div>
+
+      {/* Other Views */}
+      {currentView !== 'modes' && currentView !== 'camera' && (
         <div className="min-h-screen p-6">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
