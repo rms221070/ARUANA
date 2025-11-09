@@ -16,10 +16,10 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [selectedMode, setSelectedMode] = useState(null);
   const [showModeSelector, setShowModeSelector] = useState(true);
-  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'history', 'reports', 'about'
+  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'history', 'reports', 'about', 'more'
 
   useEffect(() => {
-    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Use os botões para selecionar um modo de detecção ou acessar outras funcionalidades.`;
+    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Selecione Leitura para leitura em tempo real, Descrição para descrição contínua, ou MAIS para outras opções.`;
     narrate(welcomeMessage);
   }, []);
 
@@ -33,12 +33,17 @@ const Dashboard = () => {
     setShowModeSelector(true);
     setSelectedMode(null);
     setCurrentView('modes');
-    narrate("Voltando ao seletor de modos");
+    narrate("Voltando ao menu principal");
   };
 
   const handleNavigation = (nav) => {
-    setCurrentView(nav);
-    setShowModeSelector(false);
+    if (nav === 'more') {
+      setCurrentView('more');
+      setShowModeSelector(false);
+    } else {
+      setCurrentView(nav);
+      setShowModeSelector(false);
+    }
   };
 
   return (
