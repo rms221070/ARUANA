@@ -113,7 +113,7 @@ const CameraView = ({ mode, onBack }) => {
 
     try {
       setIsAnalyzing(true);
-      announceStatus("Capturando imagem. Mantenha a câmera estável...");
+      announceStatus("Capturando imagem. Por favor, aguarde.");
 
       // Capture frame from video
       const canvas = document.createElement('canvas');
@@ -123,10 +123,7 @@ const CameraView = ({ mode, onBack }) => {
       ctx.drawImage(videoRef.current, 0, 0);
       const imageData = canvas.toDataURL('image/jpeg', 0.8);
 
-      announceStatus("Analisando imagem com inteligência artificial...");
-
-      // Get location
-      const location = await getCurrentLocation();
+      announceStatus("Analisando imagem com inteligência artificial. Aguarde o resultado.");
 
       // Determine detection type based on mode
       let endpoint = `${API}/detect/analyze-frame`;
@@ -142,11 +139,7 @@ const CameraView = ({ mode, onBack }) => {
         {
           image_data: imageData,
           detection_type: "cloud",
-          source: "webcam",
-          ...(location && {
-            latitude: location.latitude,
-            longitude: location.longitude
-          })
+          source: "webcam"
         },
         {
           headers: {
@@ -160,7 +153,7 @@ const CameraView = ({ mode, onBack }) => {
       
       // Narrate result
       if (response.data.description) {
-        announceStatus("Análise concluída. " + response.data.description);
+        announceStatus("Análise concluída. Resultado: " + response.data.description);
       }
 
       toast.success("Detecção realizada com sucesso!");
@@ -168,7 +161,7 @@ const CameraView = ({ mode, onBack }) => {
     } catch (error) {
       console.error("Analysis error:", error);
       const errorMessage = error.response?.data?.detail || "Erro ao analisar imagem. Tente novamente.";
-      announceStatus(errorMessage);
+      announceStatus("Erro na análise. " + errorMessage);
       toast.error(errorMessage);
     } finally {
       setIsAnalyzing(false);
