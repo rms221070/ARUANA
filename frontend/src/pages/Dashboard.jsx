@@ -2,29 +2,43 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ModeSelector from "@/components/ModeSelector";
 import CameraView from "@/components/CameraView";
+import DetectionHistory from "@/components/DetectionHistory";
+import IntelligentReports from "@/components/IntelligentReports";
+import About from "@/components/About";
 import { useSettings } from "@/context/SettingsContext";
 import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const { narrate, settings } = useSettings();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [selectedMode, setSelectedMode] = useState(null);
   const [showModeSelector, setShowModeSelector] = useState(true);
+  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'history', 'reports', 'about'
 
   useEffect(() => {
-    const welcomeMessage = `${t('app.title')}. ${t('app.subtitle')}. Bem-vindo ${user?.name || 'usuário'}`;
+    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Use os botões para selecionar um modo de detecção ou acessar outras funcionalidades.`;
     narrate(welcomeMessage);
   }, []);
 
   const handleModeSelect = (mode) => {
     setSelectedMode(mode);
     setShowModeSelector(false);
+    setCurrentView('camera');
   };
 
   const handleBackToModeSelector = () => {
     setShowModeSelector(true);
     setSelectedMode(null);
+    setCurrentView('modes');
+    narrate("Voltando ao seletor de modos");
+  };
+
+  const handleNavigation = (nav) => {
+    setCurrentView(nav);
+    setShowModeSelector(false);
   };
 
   return (
@@ -34,17 +48,46 @@ const Dashboard = () => {
           ? 'bg-black text-white' 
           : 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-800'
       }`}
+      role="main"
+      aria-label="Aplicação ARUANÃ - Visão Assistiva"
     >
-      {showModeSelector ? (
+      {currentView === 'modes' ? (
         <ModeSelector 
           onSelectMode={handleModeSelect}
           currentMode={selectedMode}
+          onNavigate={handleNavigation}
         />
-      ) : (
+      ) : currentView === 'camera' ? (
         <CameraView 
           mode={selectedMode}
           onBack={handleBackToModeSelector}
         />
+      ) : (
+        <div className="min-h-screen p-6">
+          {/* Back Button */}
+          <div className="max-w-7xl mx-auto mb-6">
+            <Button
+              onClick={handleBackToModeSelector}
+              size="lg"
+              className={`${
+                settings.highContrast
+                  ? 'bg-white text-black hover:bg-gray-200'
+                  : 'bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white'
+              }`}
+              aria-label="Voltar ao menu principal"
+            >
+              <ArrowLeft className="w-6 h-6 mr-2" aria-hidden="true" />
+              Voltar
+            </Button>
+          </div>
+
+          {/* Content */}
+          <div className="max-w-7xl mx-auto">
+            {currentView === 'history' && <DetectionHistory />}
+            {currentView === 'reports' && <IntelligentReports />}
+            {currentView === 'about' && <About />}
+          </div>
+        </div>
       )}
     </div>
   );
