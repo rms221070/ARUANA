@@ -169,13 +169,33 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
     } p-6`}>
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center items-center gap-4 mb-4">
           <div className={`p-4 rounded-2xl ${settings.highContrast ? 'bg-white' : 'bg-orange-500'}`}>
             <svg className={`w-12 h-12 ${settings.highContrast ? 'text-black' : 'text-white'}`} fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
             </svg>
           </div>
+          
+          {/* Language Button - Only show in main menu */}
+          {!showMoreMenu && (
+            <button
+              onClick={() => {
+                setShowLanguageMenu(!showLanguageMenu);
+                narrate(`Seletor de idioma. Idioma atual: ${getCurrentLanguage().name}`);
+              }}
+              className={`p-3 rounded-xl flex items-center gap-2 transition-all ${
+                settings.highContrast
+                  ? 'bg-white text-black border-2 border-black hover:bg-gray-200'
+                  : 'bg-blue-900/50 text-white hover:bg-blue-800/60 backdrop-blur-xl border border-blue-500/30'
+              }`}
+              aria-label={`Idioma atual: ${getCurrentLanguage().name}. Clique para alterar`}
+            >
+              <Globe className="w-6 h-6" aria-hidden="true" />
+              <span className="text-lg font-bold">{getCurrentLanguage().flag} {getCurrentLanguage().name}</span>
+            </button>
+          )}
         </div>
+        
         <h1 className={`text-4xl font-bold mb-2 ${settings.highContrast ? 'text-white' : 'text-white'}`}>
           ARUANÃ
         </h1>
@@ -183,9 +203,51 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
           Visão Assistiva
         </p>
         <p className={`mt-4 text-sm ${settings.highContrast ? 'text-gray-500' : 'text-blue-300/80'}`}>
-          Selecione o modo de detecção
+          {showMoreMenu ? 'Selecione um modo ou funcionalidade' : 'Selecione uma função principal'}
         </p>
       </div>
+
+      {/* Language Selection Menu */}
+      {showLanguageMenu && !showMoreMenu && (
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className={`p-6 rounded-2xl ${
+            settings.highContrast
+              ? 'bg-gray-900 border-2 border-white'
+              : 'bg-blue-900/80 backdrop-blur-xl border border-blue-500/30'
+          }`}>
+            <h3 className={`text-xl font-bold mb-4 ${settings.highContrast ? 'text-white' : 'text-white'}`}>
+              Selecione o Idioma
+            </h3>
+            <div className="grid grid-cols-1 gap-3">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => handleLanguageChange(lang.code)}
+                  onFocus={() => narrate(`${lang.name}`)}
+                  className={`p-4 rounded-xl text-left transition-all ${
+                    i18n.language === lang.code
+                      ? settings.highContrast
+                        ? 'bg-white text-black border-2 border-white'
+                        : 'bg-orange-500 text-white'
+                      : settings.highContrast
+                        ? 'bg-gray-800 text-white border border-white hover:bg-gray-700'
+                        : 'bg-blue-800/50 text-white hover:bg-blue-700/60'
+                  }`}
+                  aria-label={`Selecionar idioma ${lang.name}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{lang.flag}</span>
+                    <span className="text-lg font-bold">{lang.name}</span>
+                    {i18n.language === lang.code && (
+                      <span className="ml-auto text-sm">(Atual)</span>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mode Cards */}
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
