@@ -1883,6 +1883,9 @@ class DetectionSystemTester:
             # Test nutrition analysis with auth
             self.test_nutrition_analysis_with_auth(user_token)
             
+            # SPECIFIC TEST FOR REVIEW REQUEST: Test search functionality with search_query
+            self.test_search_functionality_with_query(user_token)
+            
             # Test export functionality
             self.test_export_reports()
         
