@@ -37,8 +37,25 @@ const Dashboard = () => {
 
   const handleTabChange = (value) => {
     setActiveTab(value);
+    
+    // Reset mode selector when changing to webcam tab
+    if (value === "webcam") {
+      setShowModeSelector(true);
+      setSelectedMode(null);
+    }
+    
     const tabMessage = `${t('navigation.navigatingTo')} ${t(`navigation.${value}`)}. ${t(`navigation.${value}Description`)}`;
     narrate(tabMessage);
+  };
+
+  const handleModeSelect = (mode) => {
+    setSelectedMode(mode);
+    setShowModeSelector(false);
+  };
+
+  const handleBackToModeSelector = () => {
+    setShowModeSelector(true);
+    setSelectedMode(null);
   };
 
   return (
