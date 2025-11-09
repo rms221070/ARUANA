@@ -53,41 +53,6 @@ const CameraView = ({ mode, onBack }) => {
     narrate(message);
   };
 
-  const getCurrentLocation = () => {
-    return new Promise((resolve) => {
-      if (!navigator.geolocation) {
-        console.warn('Geolocation not supported');
-        resolve(null);
-        return;
-      }
-
-      setIsLocating(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const geoData = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy,
-            timestamp: new Date().toISOString()
-          };
-          setCurrentLocation(geoData);
-          setIsLocating(false);
-          resolve(geoData);
-        },
-        (error) => {
-          console.warn('Geolocation error:', error);
-          setIsLocating(false);
-          resolve(null);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0
-        }
-      );
-    });
-  };
-
   const startWebcam = async () => {
     try {
       announceStatus("Iniciando câmera...");
