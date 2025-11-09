@@ -56,6 +56,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       shadow: "shadow-[0_10px_30px_rgba(99,102,241,0.5)]"
     },
     {
+      id: "colors",
+      icon: Palette,
+      title: "Cores",
+      description: "Identificação de cores",
+      color: "from-rose-500 to-rose-700",
+      shadow: "shadow-[0_10px_30px_rgba(244,63,94,0.5)]"
+    },
+    {
       id: "document",
       icon: Camera,
       title: "Documento",
