@@ -253,43 +253,16 @@ const CameraView = ({ mode, onBack }) => {
 
       {/* Camera Feed */}
       <div className="relative w-full h-[70vh] bg-black">
-        {!isStreaming ? (
-          // Show big "Activate Camera" button when not streaming
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-            <div className="text-center mb-8">
-              <Camera className="w-32 h-32 mx-auto mb-6 text-orange-500" />
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Câmera Não Ativada
-              </h3>
-              <p className="text-blue-200 mb-2">
-                Toque no botão abaixo para ativar a câmera
-              </p>
-              <p className="text-sm text-blue-300">
-                Você precisará permitir o acesso quando solicitado
-              </p>
-            </div>
-            
-            <Button
-              onClick={startWebcam}
-              size="lg"
-              className="py-8 px-12 text-2xl font-bold rounded-2xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white shadow-2xl"
-            >
-              <Camera className="w-8 h-8 mr-4" />
-              Ativar Câmera
-            </Button>
-          </div>
-        ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full h-full object-cover"
-            aria-label="Visualização da câmera"
-          />
-        )}
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="w-full h-full object-cover"
+          aria-label="Visualização da câmera"
+        />
 
-        {/* Status Overlay - only show when streaming or has message */}
+        {/* Status Overlay */}
         {statusMessage && (
           <div className="absolute top-4 left-4 right-4">
             <div className={`p-4 rounded-xl backdrop-blur-xl ${
@@ -299,9 +272,9 @@ const CameraView = ({ mode, onBack }) => {
                 {isAnalyzing ? (
                   <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
                 ) : isStreaming ? (
-                  <Volume2 className="w-6 h-6 text-orange-500" />
+                  <Volume2 className="w-6 h-6 text-green-500 animate-pulse" />
                 ) : (
-                  <Camera className="w-6 h-6 text-orange-500" />
+                  <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
                 )}
                 <p className={`text-sm font-medium ${settings.highContrast ? 'text-white' : 'text-white'}`}>
                   {statusMessage}
