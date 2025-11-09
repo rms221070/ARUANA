@@ -97,9 +97,10 @@ const CameraView = ({ mode, onBack }) => {
       const constraints = {
         video: {
           facingMode: "environment", // Prefer back camera
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        }
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: false
       };
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -107,9 +108,10 @@ const CameraView = ({ mode, onBack }) => {
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play();
+        await videoRef.current.play();
         setIsStreaming(true);
         announceStatus("Câmera pronta. Posicione o objeto na frente da câmera.");
+        toast.success("Câmera ativada com sucesso!");
         
         // Get location in background
         getCurrentLocation();
@@ -119,15 +121,17 @@ const CameraView = ({ mode, onBack }) => {
       let errorMessage = "Erro ao acessar câmera. ";
       
       if (error.name === 'NotAllowedError') {
-        errorMessage += "Permissão negada. Por favor, permita o acesso à câmera nas configurações do navegador.";
+        errorMessage = "Permissão de câmera negada. Clique no ícone de câmera na barra de endereço e permita o acesso.";
       } else if (error.name === 'NotFoundError') {
-        errorMessage += "Nenhuma câmera encontrada no dispositivo.";
+        errorMessage = "Nenhuma câmera encontrada no dispositivo.";
+      } else if (error.name === 'NotReadableError') {
+        errorMessage = "Câmera está sendo usada por outro aplicativo. Feche outros apps e tente novamente.";
       } else {
         errorMessage += error.message;
       }
       
       announceStatus(errorMessage);
-      toast.error(errorMessage);
+      toast.error(errorMessage, { duration: 5000 });
     }
   };
 
