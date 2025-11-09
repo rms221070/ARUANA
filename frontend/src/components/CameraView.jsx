@@ -24,14 +24,21 @@ const CameraView = ({ mode, onBack, isActive }) => {
   const autoDetectTimerRef = useRef(null);
   const hasPermissionRef = useRef(false); // Track if permission was already granted
 
-  // Start camera automatically on mount
+  // Start camera only once when component first becomes active
   useEffect(() => {
-    startWebcam();
-    
-    return () => {
-      stopWebcam();
-    };
-  }, []);
+    if (isActive && !hasPermissionRef.current) {
+      startWebcam();
+      hasPermissionRef.current = true;
+    }
+  }, [isActive]);
+
+  // Handle mode changes without restarting camera
+  useEffect(() => {
+    if (isStreaming && mode) {
+      const modeTitle = getModeTitle();
+      announceStatus(`Modo alterado para ${modeTitle}. Câmera continua ativa.`);
+    }
+  }, [mode]);
 
   // Auto-detect based on mode
   useEffect(() => {
