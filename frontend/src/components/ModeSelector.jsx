@@ -106,6 +106,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   const modes = showMoreMenu ? subModes : mainModes;
 
   const handleModeSelect = (mode) => {
+    // Check if it's a navigation button (like MAIS)
+    if (mode.isNavigation) {
+      const message = `${mode.title} selecionado. ${mode.description}`;
+      narrate(message);
+      if (onNavigate) onNavigate(mode.id);
+      return;
+    }
+    
     const message = `Modo selecionado: ${mode.title}. ${mode.description}. Câmera será ativada automaticamente.`;
     narrate(message);
     onSelectMode(mode.id);
