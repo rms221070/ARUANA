@@ -2377,7 +2377,12 @@ async def create_share_link(detection_id: str, request: Request):
     await db.shares.insert_one(share_data)
     
     # Generate share URL
-    base_url = os.environ.get('BACKEND_URL', 'https://aruana-vision-2.preview.emergentagent.com')
+    base_url = os.environ.get('BACKEND_URL')
+    if not base_url:
+        raise HTTPException(
+            status_code=500, 
+            detail="BACKEND_URL environment variable not configured. Please set it for share functionality."
+        )
     share_url = f"{base_url}/share/{share_token}"
     
     return {
