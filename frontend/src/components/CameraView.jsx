@@ -40,6 +40,20 @@ const CameraView = ({ mode, onBack, isActive }) => {
     }
   }, [mode]);
 
+  // Auto-detect for real-time modes (reading and description)
+  useEffect(() => {
+    if (isStreaming && isActive && (mode === "reading" || mode === "description")) {
+      // Start continuous detection
+      const interval = setInterval(() => {
+        if (!isAnalyzing) {
+          captureAndAnalyze();
+        }
+      }, 3000); // Capture every 3 seconds
+      
+      return () => clearInterval(interval);
+    }
+  }, [isStreaming, isActive, mode, isAnalyzing]);
+
   // Auto-detect based on mode
   useEffect(() => {
     if (isStreaming && (mode === "text-short" || mode === "general")) {
