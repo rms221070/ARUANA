@@ -25,9 +25,9 @@ const CameraView = ({ mode, onBack }) => {
   const streamRef = useRef(null);
   const autoDetectTimerRef = useRef(null);
 
-  // Cleanup on unmount
+  // Start camera automatically on mount
   useEffect(() => {
-    announceStatus(`Modo ${getModeTitle()} selecionado. Toque no botão para ativar a câmera.`);
+    startWebcam();
     
     return () => {
       stopWebcam();
