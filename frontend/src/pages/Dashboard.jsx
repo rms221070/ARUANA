@@ -91,7 +91,7 @@ const Dashboard = () => {
       </div>
 
       {/* Other Views */}
-      {currentView !== 'modes' && currentView !== 'camera' && (
+      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && (
         <div className="min-h-screen p-6">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
