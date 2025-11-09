@@ -1660,6 +1660,195 @@ class DetectionSystemTester:
         
         return False
 
+    def test_search_functionality_with_query(self, token):
+        """Test search functionality with search_query parameter"""
+        print("\n🔍 Testing Search Functionality with search_query Parameter:")
+        print("-" * 60)
+        
+        # Create test image with a person (common object to search for)
+        test_image = self.create_detailed_person_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+        
+        # Test 1: Search for object that should exist (pessoa)
+        success_found, result_found = self.run_test(
+            "Search Query - Object Found (pessoa)",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "search",
+                "detection_type": "cloud",
+                "image_data": image_data,
+                "search_query": "pessoa"
+            },
+            headers=headers
+        )
+        
+        if success_found:
+            description = result_found.get('description', '')
+            
+            # Verify "OBJETO ENCONTRADO" response format
+            has_found_marker = description.startswith("OBJETO ENCONTRADO:")
+            has_location_info = any(loc in description.lower() for loc in 
+                                  ['esquerda', 'direita', 'centro', 'superior', 'inferior'])
+            
+            self.log_test("Search Response - Object Found Format", 
+                         has_found_marker and has_location_info,
+                         f"Found marker: {has_found_marker}, Location info: {has_location_info}")
+            
+            # Verify Portuguese response
+            is_portuguese = any(word in description.lower() for word in 
+                              ['localização', 'próximo', 'imagem', 'pessoa'])
+            
+            self.log_test("Search Response - Portuguese Language", 
+                         is_portuguese,
+                         f"Portuguese detected: {is_portuguese}")
+        
+        # Test 2: Search for object that doesn't exist
+        success_not_found, result_not_found = self.run_test(
+            "Search Query - Object Not Found (elefante)",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "search",
+                "detection_type": "cloud",
+                "image_data": image_data,
+                "search_query": "elefante"
+            },
+            headers=headers
+        )
+        
+        if success_not_found:
+            description_not_found = result_not_found.get('description', '')
+            
+            # Verify "OBJETO NÃO ENCONTRADO" response format
+            has_not_found_marker = "OBJETO NÃO ENCONTRADO" in description_not_found
+            
+            self.log_test("Search Response - Object Not Found Format", 
+                         has_not_found_marker,
+                         f"Not found marker present: {has_not_found_marker}")
+        
+        # Test 3: Search for common objects (phone, book, etc.)
+        common_objects = ["telefone", "livro", "cadeira"]
+        
+        for obj in common_objects:
+            success_obj, result_obj = self.run_test(
+                f"Search Query - Common Object ({obj})",
+                "POST",
+                "detect/analyze-frame",
+                200,
+                data={
+                    "source": "search",
+                    "detection_type": "cloud",
+                    "image_data": image_data,
+                    "search_query": obj
+                },
+                headers=headers
+            )
+            
+            if success_obj:
+                obj_description = result_obj.get('description', '')
+                has_search_response = ("OBJETO ENCONTRADO" in obj_description or 
+                                     "OBJETO NÃO ENCONTRADO" in obj_description)
+                
+                self.log_test(f"Search Response Format - {obj}", 
+                             has_search_response,
+                             f"Valid search response format: {has_search_response}")
+        
+        # Test 4: Verify search_query parameter is processed
+        success_param, result_param = self.run_test(
+            "Search Query - Parameter Processing",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "search",
+                "detection_type": "cloud",
+                "image_data": image_data,
+                "search_query": "rosto"
+            },
+            headers=headers
+        )
+        
+        if success_param:
+            param_description = result_param.get('description', '')
+            
+            # Verify special search prompt is being used
+            has_search_format = ("OBJETO ENCONTRADO" in param_description or 
+                               "OBJETO NÃO ENCONTRADO" in param_description)
+            
+            self.log_test("Search Query - Special Prompt Usage", 
+                         has_search_format,
+                         f"Special search prompt detected: {has_search_format}")
+        
+        # Test 5: Verify location detection words are present when object found
+        success_location, result_location = self.run_test(
+            "Search Query - Location Detection (pessoa)",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "search",
+                "detection_type": "cloud",
+                "image_data": image_data,
+                "search_query": "pessoa"
+            },
+            headers=headers
+        )
+        
+        if success_location:
+            location_description = result_location.get('description', '').lower()
+            
+            # Check for location words in Portuguese
+            location_words = ['esquerda', 'direita', 'centro', 'superior', 'inferior', 
+                            'localização', 'próximo', 'borda', 'canto']
+            location_words_found = [word for word in location_words if word in location_description]
+            
+            has_location_details = len(location_words_found) > 0
+            
+            self.log_test("Search Response - Location Details", 
+                         has_location_details,
+                         f"Location words found: {location_words_found}")
+        
+        # Test 6: Test without search_query (should use normal prompt)
+        success_normal, result_normal = self.run_test(
+            "Normal Analysis - No Search Query",
+            "POST",
+            "detect/analyze-frame",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "cloud",
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        if success_normal:
+            normal_description = result_normal.get('description', '')
+            
+            # Verify normal analysis doesn't use search format
+            no_search_format = ("OBJETO ENCONTRADO" not in normal_description and 
+                              "OBJETO NÃO ENCONTRADO" not in normal_description)
+            
+            self.log_test("Normal Analysis - No Search Format", 
+                         no_search_format,
+                         f"Normal analysis format confirmed: {no_search_format}")
+        
+        # Overall search functionality test success
+        search_tests_passed = (success_found and success_not_found and 
+                             success_param and success_location and success_normal)
+        
+        print(f"\n🔍 Search Functionality Test Summary: {'✅ PASSED' if search_tests_passed else '❌ FAILED'}")
+        
+        return search_tests_passed
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Comprehensive Backend Testing")
