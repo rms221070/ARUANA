@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info } from "lucide-react";
+import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info, BookOpen, MoreHorizontal } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 
-const ModeSelector = ({ onSelectMode, currentMode, onNavigate }) => {
+const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = false }) => {
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
 
