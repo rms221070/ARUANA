@@ -18,8 +18,6 @@ const CameraView = ({ mode, onBack }) => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastDetection, setLastDetection] = useState(null);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [isLocating, setIsLocating] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Iniciando câmera...");
   const videoRef = useRef(null);
   const streamRef = useRef(null);
