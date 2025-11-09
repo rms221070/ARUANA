@@ -66,9 +66,20 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate }) => {
   ];
 
   const handleModeSelect = (mode) => {
-    const message = `Modo selecionado: ${mode.title}. ${mode.description}`;
+    const message = `Modo selecionado: ${mode.title}. ${mode.description}. Câmera será ativada automaticamente.`;
     narrate(message);
     onSelectMode(mode.id);
+  };
+
+  const handleNavigation = (nav) => {
+    const navTitles = {
+      history: "Histórico de Detecções",
+      reports: "Relatórios Inteligentes",
+      about: "Sobre o Sistema"
+    };
+    const message = `Navegando para ${navTitles[nav]}`;
+    narrate(message);
+    if (onNavigate) onNavigate(nav);
   };
 
   return (
