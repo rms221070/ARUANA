@@ -207,6 +207,8 @@ const CameraView = ({ mode, onBack, isActive }) => {
 
   const getModeTitle = () => {
     const titles = {
+      "reading": "Leitura",
+      "description": "Descrição",
       "text-short": "Texto Curto",
       "document": "Documento",
       "scene": "Cena",
