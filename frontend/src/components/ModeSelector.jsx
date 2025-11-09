@@ -6,7 +6,37 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
 
-  const modes = [
+  // Main menu modes - only 3 buttons
+  const mainModes = [
+    {
+      id: "reading",
+      icon: BookOpen,
+      title: "Leitura",
+      description: "Leitura em tempo real",
+      color: "from-blue-500 to-blue-700",
+      shadow: "shadow-[0_10px_30px_rgba(59,130,246,0.5)]"
+    },
+    {
+      id: "description",
+      icon: Eye,
+      title: "Descrição",
+      description: "Descrição contínua do ambiente",
+      color: "from-green-500 to-green-700",
+      shadow: "shadow-[0_10px_30px_rgba(34,197,94,0.5)]"
+    },
+    {
+      id: "more",
+      icon: MoreHorizontal,
+      title: "MAIS",
+      description: "Mais opções e funcionalidades",
+      color: "from-purple-500 to-purple-700",
+      shadow: "shadow-[0_10px_30px_rgba(168,85,247,0.5)]",
+      isNavigation: true
+    }
+  ];
+
+  // Submenu modes - shown when in "more" menu
+  const subModes = [
     {
       id: "scene",
       icon: Eye,
@@ -72,6 +102,8 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       shadow: "shadow-[0_10px_30px_rgba(234,179,8,0.5)]"
     }
   ];
+
+  const modes = showMoreMenu ? subModes : mainModes;
 
   const handleModeSelect = (mode) => {
     const message = `Modo selecionado: ${mode.title}. ${mode.description}. Câmera será ativada automaticamente.`;
