@@ -175,7 +175,9 @@ const CameraView = ({ mode, onBack }) => {
       "scene": "Cena",
       "food": "Alimentos",
       "people": "Pessoas",
-      "general": "Geral"
+      "general": "Geral",
+      "selfie": "Selfie",
+      "currency": "Moedas"
     };
     return titles[mode] || "Detecção";
   };
