@@ -118,7 +118,7 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate }) => {
             <button
               key={mode.id}
               onClick={() => handleModeSelect(mode)}
-              onFocus={() => narrate(`${mode.title}. ${mode.description}`)}
+              onFocus={() => narrate(`${mode.title}. ${mode.description}. Pressione Enter para selecionar.`)}
               className={`group relative p-8 rounded-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:scale-95 ${
                 settings.highContrast
                   ? isActive
@@ -134,7 +134,10 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate }) => {
                   : '0 20px 40px -12px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2)',
                 transform: isActive ? 'translateY(-4px)' : 'translateY(0)'
               } : {}}
-              aria-label={`${mode.title}: ${mode.description}`}
+              aria-label={`Modo ${mode.title}. ${mode.description}. Botão`}
+              role="button"
+              tabIndex={0}
+              aria-pressed={isActive}
             >
               {/* Icon */}
               <div className="flex justify-center mb-4">
