@@ -115,6 +115,27 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
 
   const modes = showMoreMenu ? subModes : mainModes;
 
+  // Available languages
+  const languages = [
+    { code: 'pt', name: 'Português', flag: '🇧🇷' },
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'zh', name: '中文', flag: '🇨🇳' }
+  ];
+
+  const getCurrentLanguage = () => {
+    const currentLang = i18n.language || 'pt';
+    return languages.find(lang => lang.code === currentLang) || languages[0];
+  };
+
+  const handleLanguageChange = (langCode) => {
+    i18n.changeLanguage(langCode);
+    const lang = languages.find(l => l.code === langCode);
+    narrate(`Idioma alterado para ${lang.name}`);
+    setShowLanguageMenu(false);
+  };
+
   const handleModeSelect = (mode) => {
     // Check if it's a navigation button (like MAIS)
     if (mode.isNavigation) {
