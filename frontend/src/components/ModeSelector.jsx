@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info, BookOpen, MoreHorizontal } from "lucide-react";
+import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info, BookOpen, MoreHorizontal, Globe, Palette } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
+import { useState } from "react";
 
 const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = false }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { settings, narrate } = useSettings();
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   // Main menu modes - only 3 buttons
   const mainModes = [
