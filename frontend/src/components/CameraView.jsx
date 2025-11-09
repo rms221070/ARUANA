@@ -11,17 +11,18 @@ import EmotionAnalysis from "@/components/EmotionAnalysis";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const CameraView = ({ mode, onBack }) => {
+const CameraView = ({ mode, onBack, isActive }) => {
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
   const { getToken } = useAuth();
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastDetection, setLastDetection] = useState(null);
-  const [statusMessage, setStatusMessage] = useState("Iniciando câmera...");
+  const [statusMessage, setStatusMessage] = useState("Aguarde. Preparando câmera...");
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const autoDetectTimerRef = useRef(null);
+  const hasPermissionRef = useRef(false); // Track if permission was already granted
 
   // Start camera automatically on mount
   useEffect(() => {
