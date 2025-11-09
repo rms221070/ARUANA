@@ -223,6 +223,7 @@ const CameraView = ({ mode, onBack, isActive }) => {
     const titles = {
       "reading": "Leitura",
       "description": "Descrição",
+      "colors": "Cores",
       "text-short": "Texto Curto",
       "document": "Documento",
       "scene": "Cena",
