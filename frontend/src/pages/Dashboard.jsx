@@ -300,10 +300,17 @@ const Dashboard = () => {
           </TabsList>
 
           <TabsContent value="webcam" data-testid="webcam-content">
-            <WebcamDetection 
-              onFullscreenChange={setIsFullscreenMode}
-              isFullscreen={isFullscreenMode}
-            />
+            {showModeSelector ? (
+              <ModeSelector 
+                onSelectMode={handleModeSelect}
+                currentMode={selectedMode}
+              />
+            ) : (
+              <CameraView 
+                mode={selectedMode}
+                onBack={handleBackToModeSelector}
+              />
+            )}
           </TabsContent>
 
           <TabsContent value="upload" data-testid="upload-content">
