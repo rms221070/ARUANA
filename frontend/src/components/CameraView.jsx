@@ -220,26 +220,22 @@ const CameraView = ({ mode, onBack }) => {
           <div className="absolute top-4 left-4 right-4">
             <div className={`p-4 rounded-xl backdrop-blur-xl ${
               settings.highContrast ? 'bg-black/90 border-2 border-white' : 'bg-blue-950/80 border border-blue-500/30'
-            }`}>
+            }`}
+            role="status"
+            aria-live="polite"
+            aria-atomic="true">
               <div className="flex items-center gap-3">
                 {isAnalyzing ? (
-                  <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
+                  <Loader2 className="w-6 h-6 text-orange-500 animate-spin" aria-hidden="true" />
                 ) : isStreaming ? (
-                  <Volume2 className="w-6 h-6 text-green-500 animate-pulse" />
+                  <Volume2 className="w-6 h-6 text-green-500 animate-pulse" aria-hidden="true" />
                 ) : (
-                  <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
+                  <Loader2 className="w-6 h-6 text-orange-500 animate-spin" aria-hidden="true" />
                 )}
                 <p className={`text-sm font-medium ${settings.highContrast ? 'text-white' : 'text-white'}`}>
                   {statusMessage}
                 </p>
               </div>
-              
-              {currentLocation && (
-                <div className="flex items-center gap-2 mt-2 text-xs text-green-400">
-                  <MapPin className="w-4 h-4" />
-                  <span>Localização capturada</span>
-                </div>
-              )}
             </div>
           </div>
         )}
