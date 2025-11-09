@@ -12,42 +12,56 @@ const ModeSelector = ({ onSelectMode, currentMode }) => {
       icon: FileText,
       title: "Texto Curto",
       description: "Leitura instantânea de texto",
-      color: "from-blue-500 to-blue-600"
+      color: "from-blue-500 to-blue-700",
+      shadow: "shadow-[0_10px_30px_rgba(59,130,246,0.5)]"
     },
     {
       id: "document",
       icon: Camera,
       title: "Documento",
       description: "Captura de página completa",
-      color: "from-purple-500 to-purple-600"
+      color: "from-purple-500 to-purple-700",
+      shadow: "shadow-[0_10px_30px_rgba(168,85,247,0.5)]"
     },
     {
       id: "scene",
       icon: Eye,
       title: "Cena",
       description: "Descrição detalhada do ambiente",
-      color: "from-green-500 to-green-600"
+      color: "from-green-500 to-green-700",
+      shadow: "shadow-[0_10px_30px_rgba(34,197,94,0.5)]"
     },
     {
       id: "food",
       icon: Apple,
       title: "Alimentos",
       description: "Análise nutricional",
-      color: "from-orange-500 to-orange-600"
+      color: "from-orange-500 to-orange-700",
+      shadow: "shadow-[0_10px_30px_rgba(249,115,22,0.5)]"
     },
     {
       id: "people",
       icon: Users,
       title: "Pessoas",
       description: "Detecção e emoções",
-      color: "from-pink-500 to-pink-600"
+      color: "from-pink-500 to-pink-700",
+      shadow: "shadow-[0_10px_30px_rgba(236,72,153,0.5)]"
+    },
+    {
+      id: "selfie",
+      icon: Camera,
+      title: "Selfie",
+      description: "Câmera frontal",
+      color: "from-cyan-500 to-cyan-700",
+      shadow: "shadow-[0_10px_30px_rgba(6,182,212,0.5)]"
     },
     {
       id: "general",
       icon: Sparkles,
       title: "Geral",
       description: "Detecção completa",
-      color: "from-indigo-500 to-indigo-600"
+      color: "from-indigo-500 to-indigo-700",
+      shadow: "shadow-[0_10px_30px_rgba(99,102,241,0.5)]"
     }
   ];
 
