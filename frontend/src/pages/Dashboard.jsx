@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import ModeSelector from "@/components/ModeSelector";
+import CameraView from "@/components/CameraView";
 import WebcamDetection from "@/components/WebcamDetection";
 import UploadDetection from "@/components/UploadDetection";
 import DetectionHistory from "@/components/DetectionHistory";
