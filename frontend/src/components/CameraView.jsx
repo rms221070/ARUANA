@@ -40,10 +40,10 @@ const CameraView = ({ mode, onBack, isActive }) => {
     }
   }, [mode]);
 
-  // Auto-detect for real-time modes (reading and description)
+  // Auto-detect only for description mode (NOT reading)
   useEffect(() => {
-    if (isStreaming && isActive && (mode === "reading" || mode === "description")) {
-      // Start continuous detection
+    if (isStreaming && isActive && mode === "description") {
+      // Start continuous detection only for description
       const interval = setInterval(() => {
         if (!isAnalyzing) {
           captureAndAnalyze();
