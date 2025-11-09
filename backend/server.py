@@ -539,7 +539,7 @@ Objeto procurado: {input.search_query}
 
 Analise a imagem e responda:"""
 
-                user_message = UserMessage(text=search_prompt, image=image_content)
+                user_message = UserMessage(text=search_prompt, file_contents=[image_content])
                 
             else:
                 # Original detailed prompt
