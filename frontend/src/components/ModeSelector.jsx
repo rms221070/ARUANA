@@ -8,7 +8,7 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   const { settings, narrate } = useSettings();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
-  // Main menu modes - only 3 buttons
+  // Main menu modes - 4 buttons now
   const mainModes = [
     {
       id: "reading",
@@ -25,6 +25,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       description: "Descrição contínua do ambiente",
       color: "from-green-500 to-green-700",
       shadow: "shadow-[0_10px_30px_rgba(34,197,94,0.5)]"
+    },
+    {
+      id: "search",
+      icon: Search,
+      title: "Buscar",
+      description: "Localizar objetos específicos",
+      color: "from-amber-500 to-amber-700",
+      shadow: "shadow-[0_10px_30px_rgba(245,158,11,0.5)]"
     },
     {
       id: "more",
