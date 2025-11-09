@@ -26,6 +26,8 @@ const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState("webcam");
   const [isFullscreenMode, setIsFullscreenMode] = useState(false);
+  const [selectedMode, setSelectedMode] = useState(null); // Track selected detection mode
+  const [showModeSelector, setShowModeSelector] = useState(true); // Show mode selector by default
 
   useEffect(() => {
     // Detailed welcome message with navigation info
