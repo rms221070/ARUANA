@@ -63,7 +63,7 @@ const CameraView = ({ mode, onBack, isActive }) => {
 
   const startWebcam = async () => {
     try {
-      announceStatus("Aguarde. Ativando câmera.");
+      announceStatus("Ativando câmera. Por favor, aguarde.");
       
       // Determine facing mode based on selected mode
       const facingMode = mode === "selfie" ? "user" : "environment";
@@ -84,27 +84,32 @@ const CameraView = ({ mode, onBack, isActive }) => {
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
         setIsStreaming(true);
+        
         const cameraType = facingMode === "user" ? "frontal" : "traseira";
-        announceStatus(`Câmera ${cameraType} ativada. Posicione o objeto e pressione Capturar.`);
-        toast.success(`Câmera ${cameraType} pronta!`, { duration: 2000 });
+        announceStatus(`Câmera ${cameraType} pronta. Posicione o objeto e pressione Capturar.`);
+        
+        // Short success toast
+        toast.success("Câmera ativada!", { duration: 1500 });
       }
     } catch (error) {
       console.error("Webcam error:", error);
       setIsStreaming(false);
+      hasPermissionRef.current = false; // Reset so user can try again
+      
       let errorMessage = "";
       
       if (error.name === 'NotAllowedError') {
-        errorMessage = "IMPORTANTE: Você precisa permitir o acesso à câmera. Essa permissão é solicitada apenas UMA VEZ. Após permitir, a câmera ficará sempre disponível neste navegador. Por favor, clique em PERMITIR quando solicitado.";
+        errorMessage = "Você precisa permitir o acesso à câmera. Clique em PERMITIR quando o navegador solicitar. Esta permissão é necessária apenas uma vez.";
       } else if (error.name === 'NotFoundError') {
-        errorMessage = "Nenhuma câmera foi encontrada no seu dispositivo. Verifique se há uma câmera conectada.";
+        errorMessage = "Nenhuma câmera encontrada no dispositivo.";
       } else if (error.name === 'NotReadableError') {
-        errorMessage = "A câmera está sendo usada por outro aplicativo. Feche outros apps que estejam usando a câmera e recarregue esta página.";
+        errorMessage = "Câmera em uso por outro aplicativo. Feche outros apps e recarregue a página.";
       } else {
         errorMessage = "Erro ao acessar câmera: " + error.message;
       }
       
       announceStatus(errorMessage);
-      toast.error(errorMessage, { duration: 8000 });
+      toast.error(errorMessage, { duration: 6000 });
     }
   };
 
