@@ -552,7 +552,7 @@ Analise a imagem e responda:"""
    - Nível de ruído estimado: ambiente silencioso, moderado, barulhento
    """
             
-            prompt = """🌍 RESPONDA NO IDIOMA: PORTUGUÊS BRASILEIRO 🇧🇷
+                prompt = """🌍 RESPONDA NO IDIOMA: PORTUGUÊS BRASILEIRO 🇧🇷
 
 Você é o SISTEMA DE VISÃO MAIS AVANÇADO DO MUNDO para acessibilidade total de pessoas cegas. Sua análise deve ser TÃO DETALHADA que a pessoa cega possa formar uma imagem mental PERFEITA e COMPLETA da cena.
 
