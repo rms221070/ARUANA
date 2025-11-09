@@ -183,33 +183,40 @@ const SearchMode = ({ onBack, isActive }) => {
       );
 
       if (response.data && response.data.description) {
-        const description = response.data.description.toLowerCase();
-        const query = searchQuery.toLowerCase();
+        const description = response.data.description;
         
-        // Check if object was found in description
-        if (description.includes(query)) {
+        // Check if object was found using the new format from backend
+        if (description.includes("OBJETO ENCONTRADO")) {
           setFoundObject(searchQuery);
           
-          // Determine location based on description
+          // Extract location from description
           let location = "centro";
-          if (description.includes("esquerda") || description.includes("left")) {
-            location = "esquerda";
-          } else if (description.includes("direita") || description.includes("right")) {
-            location = "direita";
-          }
+          const descLower = description.toLowerCase();
           
-          if (description.includes("alto") || description.includes("top") || description.includes("cima")) {
-            location += " superior";
-          } else if (description.includes("baixo") || description.includes("bottom")) {
-            location += " inferior";
+          if (descLower.includes("esquerda") && descLower.includes("superior")) {
+            location = "esquerda superior";
+          } else if (descLower.includes("esquerda") && descLower.includes("inferior")) {
+            location = "esquerda inferior";
+          } else if (descLower.includes("direita") && descLower.includes("superior")) {
+            location = "direita superior";
+          } else if (descLower.includes("direita") && descLower.includes("inferior")) {
+            location = "direita inferior";
+          } else if (descLower.includes("esquerda")) {
+            location = "esquerda";
+          } else if (descLower.includes("direita")) {
+            location = "direita";
+          } else if (descLower.includes("superior") || descLower.includes("cima")) {
+            location = "superior";
+          } else if (descLower.includes("inferior") || descLower.includes("baixo")) {
+            location = "inferior";
           }
           
           setObjectLocation(location);
           
           // Stop search and announce
           stopSearch();
-          announceStatus(`${searchQuery} encontrado! Localização: ${location}. ${response.data.description}`);
-          toast.success(`${searchQuery} encontrado!`, { duration: 4000 });
+          announceStatus(`${searchQuery} encontrado! Localização: ${location}. ${description.replace("OBJETO ENCONTRADO:", "").substring(0, 150)}`);
+          toast.success(`${searchQuery} encontrado em: ${location}`, { duration: 5000 });
           
           // Play success sound
           playSuccessSound();
