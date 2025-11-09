@@ -377,7 +377,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Ambient Sound Classification Disable Validation"
+    - "Search Functionality with search_query Parameter"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
