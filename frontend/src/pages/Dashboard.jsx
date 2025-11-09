@@ -101,6 +101,14 @@ const Dashboard = () => {
             {currentView === 'history' && <DetectionHistory />}
             {currentView === 'reports' && <IntelligentReports />}
             {currentView === 'about' && <About />}
+            {currentView === 'more' && (
+              <ModeSelector 
+                onSelectMode={handleModeSelect}
+                currentMode={selectedMode}
+                onNavigate={handleNavigation}
+                showMoreMenu={true}
+              />
+            )}
           </div>
         </div>
       )}
