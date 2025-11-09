@@ -262,6 +262,9 @@ class DetectionCreate(BaseModel):
     image_data: str
     # Optional geolocation data from frontend
     geo_location: Optional[Dict[str, Any]] = None
+    # Optional search query for object finding
+    search_query: Optional[str] = None
+    
 def auto_categorize_detection(detection: Detection) -> str:
     """Automatically categorize detection based on content analysis"""
     
