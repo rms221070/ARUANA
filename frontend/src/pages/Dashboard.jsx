@@ -82,6 +82,14 @@ const Dashboard = () => {
         )}
       </div>
 
+      {/* Search Mode - always rendered but hidden when not active */}
+      <div className={currentView === 'search' ? 'block' : 'hidden'}>
+        <SearchMode 
+          onBack={handleBackToModeSelector}
+          isActive={currentView === 'search'}
+        />
+      </div>
+
       {/* Other Views */}
       {currentView !== 'modes' && currentView !== 'camera' && (
         <div className="min-h-screen p-6">
