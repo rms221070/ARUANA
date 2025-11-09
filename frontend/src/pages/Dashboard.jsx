@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ModeSelector from "@/components/ModeSelector";
 import CameraView from "@/components/CameraView";
+import SearchMode from "@/components/SearchMode";
 import DetectionHistory from "@/components/DetectionHistory";
 import IntelligentReports from "@/components/IntelligentReports";
 import About from "@/components/About";
@@ -16,17 +17,22 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [selectedMode, setSelectedMode] = useState(null);
   const [showModeSelector, setShowModeSelector] = useState(true);
-  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'history', 'reports', 'about', 'more'
+  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'search', 'history', 'reports', 'about', 'more'
 
   useEffect(() => {
-    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Selecione Leitura para leitura em tempo real, Descrição para descrição contínua, ou MAIS para outras opções.`;
+    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Selecione Leitura, Descrição, Buscar para localizar objetos, ou MAIS para outras opções.`;
     narrate(welcomeMessage);
   }, []);
 
   const handleModeSelect = (mode) => {
-    setSelectedMode(mode);
-    setShowModeSelector(false);
-    setCurrentView('camera');
+    if (mode === 'search') {
+      setCurrentView('search');
+      setShowModeSelector(false);
+    } else {
+      setSelectedMode(mode);
+      setShowModeSelector(false);
+      setCurrentView('camera');
+    }
   };
 
   const handleBackToModeSelector = () => {
