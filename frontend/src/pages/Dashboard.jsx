@@ -1,52 +1,21 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import ModeSelector from "@/components/ModeSelector";
 import CameraView from "@/components/CameraView";
-import WebcamDetection from "@/components/WebcamDetection";
-import UploadDetection from "@/components/UploadDetection";
-import DetectionHistory from "@/components/DetectionHistory";
-import AlertsManager from "@/components/AlertsManager";
-import NutritionAnalysis from "@/components/NutritionAnalysis";
-import Settings from "@/components/Settings";
-import About from "@/components/About";
-import AdminDashboard from "@/components/AdminDashboard";
-import IntelligentReports from "@/components/IntelligentReports";
-import ScientificCollaboration from "@/components/ScientificCollaboration";
-import SystemManual from "@/components/SystemManual";
-import TechnicalDocument from "@/components/TechnicalDocumentNew";
-import { Camera, Upload, History, Bell, Apple, Settings as SettingsIcon, Info, Shield, BarChart3, Network, LogOut, User } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 import { useAuth } from "@/context/AuthContext";
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const { narrate, settings } = useSettings();
-  const { user, logout, isAdmin } = useAuth();
-  const [activeTab, setActiveTab] = useState("webcam");
-  const [isFullscreenMode, setIsFullscreenMode] = useState(false);
-  const [selectedMode, setSelectedMode] = useState(null); // Track selected detection mode
-  const [showModeSelector, setShowModeSelector] = useState(true); // Show mode selector by default
+  const { user, logout } = useAuth();
+  const [selectedMode, setSelectedMode] = useState(null);
+  const [showModeSelector, setShowModeSelector] = useState(true);
 
   useEffect(() => {
-    // Detailed welcome message with navigation info
-    const welcomeMessage = `${t('app.title')}. ${t('app.subtitle')}. ${t('navigation.welcome')}`;
+    const welcomeMessage = `${t('app.title')}. ${t('app.subtitle')}. Bem-vindo ${user?.name || 'usuário'}`;
     narrate(welcomeMessage);
   }, []);
-
-  const handleTabChange = (value) => {
-    setActiveTab(value);
-    
-    // Reset mode selector when changing to webcam tab
-    if (value === "webcam") {
-      setShowModeSelector(true);
-      setSelectedMode(null);
-    }
-    
-    const tabMessage = `${t('navigation.navigatingTo')} ${t(`navigation.${value}`)}. ${t(`navigation.${value}Description`)}`;
-    narrate(tabMessage);
-  };
 
   const handleModeSelect = (mode) => {
     setSelectedMode(mode);
@@ -57,6 +26,31 @@ const Dashboard = () => {
     setShowModeSelector(true);
     setSelectedMode(null);
   };
+
+  return (
+    <div 
+      className={`min-h-screen ${
+        settings.highContrast 
+          ? 'bg-black text-white' 
+          : 'bg-gradient-to-br from-slate-900 via-blue-950 to-slate-800'
+      }`}
+    >
+      {showModeSelector ? (
+        <ModeSelector 
+          onSelectMode={handleModeSelect}
+          currentMode={selectedMode}
+        />
+      ) : (
+        <CameraView 
+          mode={selectedMode}
+          onBack={handleBackToModeSelector}
+        />
+      )}
+    </div>
+  );
+};
+
+export default Dashboard;
 
   return (
     <div 
