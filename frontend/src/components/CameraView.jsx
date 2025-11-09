@@ -248,42 +248,73 @@ const CameraView = ({ mode, onBack }) => {
 
       {/* Camera Feed */}
       <div className="relative w-full h-[70vh] bg-black">
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="w-full h-full object-cover"
-          aria-label="Visualização da câmera"
-        />
-
-        {/* Status Overlay */}
-        <div className="absolute top-4 left-4 right-4">
-          <div className={`p-4 rounded-xl backdrop-blur-xl ${
-            settings.highContrast ? 'bg-black/90 border-2 border-white' : 'bg-blue-950/80 border border-blue-500/30'
-          }`}>
-            <div className="flex items-center gap-3">
-              {isAnalyzing ? (
-                <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
-              ) : (
-                <Volume2 className="w-6 h-6 text-orange-500" />
-              )}
-              <p className={`text-sm font-medium ${settings.highContrast ? 'text-white' : 'text-white'}`}>
-                {statusMessage}
+        {!isStreaming ? (
+          // Show big "Activate Camera" button when not streaming
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
+            <div className="text-center mb-8">
+              <Camera className="w-32 h-32 mx-auto mb-6 text-orange-500" />
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Câmera Não Ativada
+              </h3>
+              <p className="text-blue-200 mb-2">
+                Toque no botão abaixo para ativar a câmera
+              </p>
+              <p className="text-sm text-blue-300">
+                Você precisará permitir o acesso quando solicitado
               </p>
             </div>
             
-            {currentLocation && (
-              <div className="flex items-center gap-2 mt-2 text-xs text-green-400">
-                <MapPin className="w-4 h-4" />
-                <span>Localização capturada</span>
-              </div>
-            )}
+            <Button
+              onClick={startWebcam}
+              size="lg"
+              className="py-8 px-12 text-2xl font-bold rounded-2xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white shadow-2xl"
+            >
+              <Camera className="w-8 h-8 mr-4" />
+              Ativar Câmera
+            </Button>
           </div>
-        </div>
+        ) : (
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-full h-full object-cover"
+            aria-label="Visualização da câmera"
+          />
+        )}
+
+        {/* Status Overlay - only show when streaming or has message */}
+        {statusMessage && (
+          <div className="absolute top-4 left-4 right-4">
+            <div className={`p-4 rounded-xl backdrop-blur-xl ${
+              settings.highContrast ? 'bg-black/90 border-2 border-white' : 'bg-blue-950/80 border border-blue-500/30'
+            }`}>
+              <div className="flex items-center gap-3">
+                {isAnalyzing ? (
+                  <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
+                ) : isStreaming ? (
+                  <Volume2 className="w-6 h-6 text-orange-500" />
+                ) : (
+                  <Camera className="w-6 h-6 text-orange-500" />
+                )}
+                <p className={`text-sm font-medium ${settings.highContrast ? 'text-white' : 'text-white'}`}>
+                  {statusMessage}
+                </p>
+              </div>
+              
+              {currentLocation && (
+                <div className="flex items-center gap-2 mt-2 text-xs text-green-400">
+                  <MapPin className="w-4 h-4" />
+                  <span>Localização capturada</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Camera Guidelines - visual guide for positioning */}
-        {!isAnalyzing && (
+        {isStreaming && !isAnalyzing && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-64 h-64 border-4 border-dashed border-white/50 rounded-2xl"></div>
           </div>
