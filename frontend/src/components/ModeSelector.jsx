@@ -247,73 +247,85 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
           settings.highContrast ? 'text-gray-400' : 'text-blue-200'
         }`}
         role="list">
-          <li role="listitem">• Toque em um modo para iniciar a detecção</li>
-          <li role="listitem">• A câmera será ativada automaticamente</li>
-          <li role="listitem">• Posicione o objeto na frente da câmera</li>
-          <li role="listitem">• Ouça a descrição narrada em português</li>
-          <li role="listitem">• Use o botão Voltar para retornar aos modos</li>
+          {!showMoreMenu ? (
+            <>
+              <li role="listitem">• <strong>Leitura</strong>: Ativa câmera e lê texto em tempo real</li>
+              <li role="listitem">• <strong>Descrição</strong>: Ativa câmera e descreve ambiente continuamente</li>
+              <li role="listitem">• <strong>MAIS</strong>: Acessa mais modos de detecção e configurações</li>
+            </>
+          ) : (
+            <>
+              <li role="listitem">• Toque em um modo para iniciar a detecção</li>
+              <li role="listitem">• A câmera será ativada automaticamente</li>
+              <li role="listitem">• Posicione o objeto na frente da câmera</li>
+              <li role="listitem">• Ouça a descrição narrada em português</li>
+              <li role="listitem">• Use o botão Voltar para retornar</li>
+            </>
+          )}
         </ul>
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="max-w-4xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <button
-          onClick={() => handleNavigation('history')}
-          onFocus={() => narrate('Histórico de Detecções. Acesse suas análises anteriores.')}
-          className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-            settings.highContrast
-              ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
-              : 'bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-[0_10px_30px_rgba(8,145,178,0.5)] hover:shadow-2xl'
-          }`}
-          aria-label="Histórico de Detecções. Acesse suas análises anteriores"
-          role="button"
-          tabIndex={0}
-        >
-          <div className="flex flex-col items-center gap-3">
-            <History className="w-12 h-12" aria-hidden="true" />
-            <span className="text-lg font-bold">Histórico</span>
-            <span className="text-sm opacity-90">Suas detecções</span>
-          </div>
-        </button>
+      {/* Navigation Buttons - Only show in MORE submenu */}
+      {showMoreMenu && (
+        <div className="max-w-4xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => handleNavigation('history')}
+            onFocus={() => narrate('Histórico de Detecções. Acesse suas análises anteriores.')}
+            className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+              settings.highContrast
+                ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
+                : 'bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-[0_10px_30px_rgba(8,145,178,0.5)] hover:shadow-2xl'
+            }`}
+            aria-label="Histórico de Detecções. Acesse suas análises anteriores"
+            role="button"
+            tabIndex={0}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <History className="w-12 h-12" aria-hidden="true" />
+              <span className="text-lg font-bold">Histórico</span>
+              <span className="text-sm opacity-90">Suas detecções</span>
+            </div>
+          </button>
 
-        <button
-          onClick={() => handleNavigation('reports')}
-          onFocus={() => narrate('Relatórios Inteligentes. Visualize análises e estatísticas.')}
-          className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-            settings.highContrast
-              ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
-              : 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white shadow-[0_10px_30px_rgba(5,150,105,0.5)] hover:shadow-2xl'
-          }`}
-          aria-label="Relatórios Inteligentes. Visualize análises e estatísticas"
-          role="button"
-          tabIndex={0}
-        >
-          <div className="flex flex-col items-center gap-3">
-            <BarChart3 className="w-12 h-12" aria-hidden="true" />
-            <span className="text-lg font-bold">Relatórios</span>
-            <span className="text-sm opacity-90">Análises e estatísticas</span>
-          </div>
-        </button>
+          <button
+            onClick={() => handleNavigation('reports')}
+            onFocus={() => narrate('Relatórios Inteligentes. Visualize análises e estatísticas.')}
+            className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+              settings.highContrast
+                ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
+                : 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white shadow-[0_10px_30px_rgba(5,150,105,0.5)] hover:shadow-2xl'
+            }`}
+            aria-label="Relatórios Inteligentes. Visualize análises e estatísticas"
+            role="button"
+            tabIndex={0}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <BarChart3 className="w-12 h-12" aria-hidden="true" />
+              <span className="text-lg font-bold">Relatórios</span>
+              <span className="text-sm opacity-90">Análises e estatísticas</span>
+            </div>
+          </button>
 
-        <button
-          onClick={() => handleNavigation('about')}
-          onFocus={() => narrate('Sobre o Sistema. Informações sobre o ARUANÃ e equipe.')}
-          className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
-            settings.highContrast
-              ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
-              : 'bg-gradient-to-br from-violet-600 to-violet-800 text-white shadow-[0_10px_30px_rgba(124,58,237,0.5)] hover:shadow-2xl'
-          }`}
-          aria-label="Sobre o Sistema. Informações sobre o ARUANÃ e equipe"
-          role="button"
-          tabIndex={0}
-        >
-          <div className="flex flex-col items-center gap-3">
-            <Info className="w-12 h-12" aria-hidden="true" />
-            <span className="text-lg font-bold">Sobre</span>
-            <span className="text-sm opacity-90">Informações do sistema</span>
-          </div>
-        </button>
-      </div>
+          <button
+            onClick={() => handleNavigation('about')}
+            onFocus={() => narrate('Sobre o Sistema. Informações sobre o ARUANÃ e equipe.')}
+            className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+              settings.highContrast
+                ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
+                : 'bg-gradient-to-br from-violet-600 to-violet-800 text-white shadow-[0_10px_30px_rgba(124,58,237,0.5)] hover:shadow-2xl'
+            }`}
+            aria-label="Sobre o Sistema. Informações sobre o ARUANÃ e equipe"
+            role="button"
+            tabIndex={0}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <Info className="w-12 h-12" aria-hidden="true" />
+              <span className="text-lg font-bold">Sobre</span>
+              <span className="text-sm opacity-90">Informações do sistema</span>
+            </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
