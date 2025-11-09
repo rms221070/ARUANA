@@ -121,17 +121,22 @@ const CameraView = ({ mode, onBack, isActive }) => {
 
     try {
       setIsAnalyzing(true);
-      announceStatus("Capturando imagem. Por favor, aguarde.");
+      announceStatus("Capturando imagem. Aguarde.");
 
       // Capture frame from video
       const canvas = document.createElement('canvas');
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
+      
+      if (canvas.width === 0 || canvas.height === 0) {
+        throw new Error("Câmera ainda não está pronta. Tente novamente em alguns segundos.");
+      }
+      
       const ctx = canvas.getContext('2d');
       ctx.drawImage(videoRef.current, 0, 0);
       const imageData = canvas.toDataURL('image/jpeg', 0.8);
 
-      announceStatus("Analisando imagem com inteligência artificial. Aguarde o resultado.");
+      announceStatus("Analisando imagem. Por favor, aguarde.");
 
       // Determine detection type based on mode
       let endpoint = `${API}/detect/analyze-frame`;
@@ -157,20 +162,39 @@ const CameraView = ({ mode, onBack, isActive }) => {
         }
       );
 
-      setLastDetection(response.data);
-      
-      // Narrate result
-      if (response.data.description) {
-        announceStatus("Análise concluída. Resultado: " + response.data.description);
+      if (response.data && response.data.description) {
+        setLastDetection(response.data);
+        announceStatus("Análise concluída com sucesso.");
+        
+        // Announce the actual result
+        setTimeout(() => {
+          narrate(response.data.description);
+        }, 500);
+        
+        toast.success("Imagem analisada com sucesso!", { duration: 2000 });
+      } else {
+        throw new Error("Resposta inválida do servidor.");
       }
-
-      toast.success("Detecção realizada com sucesso!");
 
     } catch (error) {
       console.error("Analysis error:", error);
-      const errorMessage = error.response?.data?.detail || "Erro ao analisar imagem. Tente novamente.";
-      announceStatus("Erro na análise. " + errorMessage);
-      toast.error(errorMessage);
+      
+      let errorMessage = "Erro ao analisar imagem.";
+      
+      if (error.message.includes("Câmera ainda não está pronta")) {
+        errorMessage = error.message;
+      } else if (error.response) {
+        // Server responded with error
+        errorMessage = error.response.data?.detail || "Erro no servidor. Tente novamente.";
+      } else if (error.request) {
+        // Request made but no response
+        errorMessage = "Sem conexão com servidor. Verifique sua internet.";
+      } else {
+        errorMessage = error.message || "Erro desconhecido.";
+      }
+      
+      announceStatus(errorMessage);
+      toast.error(errorMessage, { duration: 4000 });
     } finally {
       setIsAnalyzing(false);
     }
