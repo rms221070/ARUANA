@@ -55,7 +55,7 @@ const CameraView = ({ mode, onBack }) => {
 
   const startWebcam = async () => {
     try {
-      announceStatus("Iniciando câmera...");
+      announceStatus("Iniciando câmera. Por favor, aguarde.");
       
       // Determine facing mode based on selected mode
       const facingMode = mode === "selfie" ? "user" : "environment";
@@ -77,11 +77,8 @@ const CameraView = ({ mode, onBack }) => {
         await videoRef.current.play();
         setIsStreaming(true);
         const cameraType = facingMode === "user" ? "frontal" : "traseira";
-        announceStatus(`Câmera ${cameraType} ativa. Posicione o objeto na frente da câmera.`);
-        toast.success(`Câmera ${cameraType} ativada!`);
-        
-        // Get location in background
-        getCurrentLocation();
+        announceStatus(`Câmera ${cameraType} ativada e pronta. Posicione o objeto na frente da câmera e pressione o botão Capturar.`);
+        toast.success(`Câmera ${cameraType} ativada com sucesso!`);
       }
     } catch (error) {
       console.error("Webcam error:", error);
@@ -89,7 +86,7 @@ const CameraView = ({ mode, onBack }) => {
       let errorMessage = "Erro ao acessar câmera. ";
       
       if (error.name === 'NotAllowedError') {
-        errorMessage = "Permissão de câmera negada. Por favor, permita o acesso à câmera no seu navegador.";
+        errorMessage = "Permissão de câmera negada. Por favor, permita o acesso à câmera no seu navegador e recarregue a página.";
       } else if (error.name === 'NotFoundError') {
         errorMessage = "Nenhuma câmera encontrada no dispositivo.";
       } else if (error.name === 'NotReadableError') {
