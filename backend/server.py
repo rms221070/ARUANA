@@ -516,10 +516,37 @@ async def analyze_frame(input: DetectionCreate, request: Request):
             
             image_content = ImageContent(image_base64=image_data)
             
-            # Conditional section for ambient sound inference
-            sound_section = ""
-            if ENABLE_AMBIENT_SOUND_INFERENCE:
-                sound_section = """**SONS IMPLÍCITOS (inferidos pela cena visual):**
+            # Check if this is a search request
+            if input.search_query:
+                # Special prompt for object search
+                search_prompt = f"""🔍 TAREFA ESPECÍFICA: LOCALIZAR OBJETO
+
+Você deve identificar SE o objeto "{input.search_query}" está presente nesta imagem.
+
+**INSTRUÇÕES CRÍTICAS:**
+1. Se o objeto "{input.search_query}" ESTIVER na imagem:
+   - Comece sua resposta com: "OBJETO ENCONTRADO: {input.search_query}"
+   - Descreva a LOCALIZAÇÃO EXATA: esquerda, direita, centro, superior, inferior
+   - Exemplo: "OBJETO ENCONTRADO: celular. Localização: direita superior da imagem, próximo à borda."
+
+2. Se o objeto NÃO estiver na imagem:
+   - Comece com: "OBJETO NÃO ENCONTRADO"
+   - Liste brevemente o que você VÊ na imagem
+
+3. SEMPRE use PORTUGUÊS DO BRASIL
+
+Objeto procurado: {input.search_query}
+
+Analise a imagem e responda:"""
+
+                user_message = UserMessage(text=search_prompt, image=image_content)
+                
+            else:
+                # Original detailed prompt
+                # Conditional section for ambient sound inference
+                sound_section = ""
+                if ENABLE_AMBIENT_SOUND_INFERENCE:
+                    sound_section = """**SONS IMPLÍCITOS (inferidos pela cena visual):**
    - Sons ambientes prováveis: silêncio total, ruído urbano de fundo, trânsito, conversas distantes, música tocando (se há caixas de som), TV ligada, natureza (pássaros, vento, água)
    - Sons de atividades: digitação, passos, objetos sendo manipulados, máquinas funcionando
    - Nível de ruído estimado: ambiente silencioso, moderado, barulhento
