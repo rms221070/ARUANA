@@ -108,15 +108,21 @@ const ModeSelector = ({ onSelectMode, currentMode }) => {
               key={mode.id}
               onClick={() => handleModeSelect(mode)}
               onFocus={() => narrate(`${mode.title}. ${mode.description}`)}
-              className={`group relative p-8 rounded-3xl transition-all duration-300 transform hover:scale-105 ${
+              className={`group relative p-8 rounded-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:scale-95 ${
                 settings.highContrast
                   ? isActive
                     ? 'bg-white text-black border-4 border-white'
                     : 'bg-gray-900 text-white border-2 border-white hover:bg-gray-800'
                   : isActive
-                    ? `bg-gradient-to-br ${mode.color} text-white shadow-2xl ring-4 ring-white/50`
-                    : 'bg-gradient-to-br from-blue-900/50 to-slate-800/50 text-white hover:from-blue-800/60 hover:to-slate-700/60 backdrop-blur-xl border border-blue-500/30'
-              }`}
+                    ? `bg-gradient-to-br ${mode.color} text-white ${mode.shadow} ring-4 ring-white/50`
+                    : `bg-gradient-to-br ${mode.color} text-white ${mode.shadow} hover:shadow-2xl backdrop-blur-xl`
+              } cursor-pointer`}
+              style={!settings.highContrast ? {
+                boxShadow: isActive 
+                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3)'
+                  : '0 20px 40px -12px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2)',
+                transform: isActive ? 'translateY(-4px)' : 'translateY(0)'
+              } : {}}
               aria-label={`${mode.title}: ${mode.description}`}
             >
               {/* Icon */}
