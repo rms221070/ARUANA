@@ -372,14 +372,33 @@ const SearchMode = ({ onBack, isActive }) => {
           aria-label="Visualização da câmera"
         />
 
+        {/* Direction Guidance Indicator */}
+        {isSearching && directionGuidance && !foundObject && (
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className={`p-4 rounded-xl backdrop-blur-xl animate-pulse ${
+              settings.highContrast ? 'bg-yellow-500/90 border-2 border-white' : 'bg-amber-500/90 border border-amber-300'
+            }`}>
+              <p className="text-white text-center font-bold text-lg">
+                💡 {directionGuidance}
+              </p>
+              <p className="text-white text-center text-sm mt-1">
+                Tentativa {searchAttempts}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Object Found Indicator */}
         {foundObject && objectLocation && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="bg-green-500/90 text-white p-8 rounded-3xl text-center animate-pulse">
-              <Search className="w-16 h-16 mx-auto mb-4" />
-              <p className="text-2xl font-bold">{foundObject}</p>
-              <p className="text-lg mt-2">Encontrado!</p>
-              <p className="text-md mt-1">{objectLocation}</p>
+            <div className="bg-green-500/90 text-white p-8 rounded-3xl text-center animate-pulse shadow-2xl">
+              <Search className="w-20 h-20 mx-auto mb-4" />
+              <p className="text-3xl font-bold">{foundObject}</p>
+              <p className="text-2xl mt-2">✓ Encontrado!</p>
+              <p className="text-xl mt-2">📍 {objectLocation}</p>
+              {objectDistance && (
+                <p className="text-lg mt-1 opacity-90">↔️ {objectDistance}</p>
+              )}
             </div>
           </div>
         )}
