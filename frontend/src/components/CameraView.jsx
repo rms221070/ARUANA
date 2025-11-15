@@ -63,53 +63,80 @@ const CameraView = ({ mode, onBack, isActive }) => {
 
   const startWebcam = async () => {
     try {
-      announceStatus("Ativando câmera. Por favor, aguarde.");
+      announceStatus("Ativando câmera. Aguarde.");
       
       // Determine facing mode based on selected mode
       const facingMode = mode === "selfie" ? "user" : "environment";
       
-      const constraints = {
+      // Try with ideal constraints first
+      let constraints = {
         video: {
-          facingMode: facingMode,
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
+          facingMode: { ideal: facingMode },
+          width: { ideal: 1280, min: 640 },
+          height: { ideal: 720, min: 480 }
         },
         audio: false
       };
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      streamRef.current = stream;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        streamRef.current = stream;
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-        setIsStreaming(true);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
+          setIsStreaming(true);
+          hasPermissionRef.current = true;
+          
+          const cameraType = facingMode === "user" ? "frontal" : "traseira";
+          announceStatus(`Câmera ${cameraType} pronta. Posicione o objeto e clique em Capturar e Analisar.`);
+          toast.success("Câmera ativada!", { duration: 1500 });
+        }
+      } catch (err) {
+        // Fallback: try without facingMode constraint (for desktop)
+        console.log("Trying fallback constraints for desktop...");
+        constraints = {
+          video: {
+            width: { ideal: 1280, min: 640 },
+            height: { ideal: 720, min: 480 }
+          },
+          audio: false
+        };
         
-        const cameraType = facingMode === "user" ? "frontal" : "traseira";
-        announceStatus(`Câmera ${cameraType} pronta. Posicione o objeto e clique em Capturar e Analisar.`);
-        
-        // Short success toast
-        toast.success("Câmera ativada!", { duration: 1500 });
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        streamRef.current = stream;
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
+          setIsStreaming(true);
+          hasPermissionRef.current = true;
+          
+          announceStatus("Câmera ativada. Posicione o objeto e clique em Capturar e Analisar.");
+          toast.success("Câmera ativada!", { duration: 1500 });
+        }
       }
     } catch (error) {
       console.error("Webcam error:", error);
       setIsStreaming(false);
-      hasPermissionRef.current = false; // Reset so user can try again
+      hasPermissionRef.current = false;
       
       let errorMessage = "";
       
       if (error.name === 'NotAllowedError') {
-        errorMessage = "Você precisa permitir o acesso à câmera. Clique em PERMITIR quando o navegador solicitar. Esta permissão é necessária apenas uma vez.";
+        errorMessage = "PERMISSÃO NEGADA. Para ativar a câmera: 1) Clique no ícone de cadeado/câmera na barra de endereço. 2) Selecione 'Permitir' para câmera. 3) Recarregue a página.";
       } else if (error.name === 'NotFoundError') {
-        errorMessage = "Nenhuma câmera encontrada no dispositivo.";
+        errorMessage = "Nenhuma câmera encontrada. Verifique se há uma webcam conectada ao computador.";
       } else if (error.name === 'NotReadableError') {
-        errorMessage = "Câmera em uso por outro aplicativo. Feche outros apps e recarregue a página.";
+        errorMessage = "Câmera em uso por outro aplicativo. Feche outros programas que estejam usando a câmera (Zoom, Teams, etc) e recarregue a página.";
+      } else if (error.name === 'OverconstrainedError') {
+        errorMessage = "Configuração de câmera não suportada. Tentando modo simplificado...";
       } else {
-        errorMessage = "Erro ao acessar câmera: " + error.message;
+        errorMessage = "Erro ao acessar câmera: " + error.message + ". Verifique as permissões no navegador.";
       }
       
       announceStatus(errorMessage);
-      toast.error(errorMessage, { duration: 6000 });
+      toast.error(errorMessage, { duration: 8000 });
     }
   };
 
