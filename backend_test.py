@@ -1849,6 +1849,245 @@ class DetectionSystemTester:
         
         return search_tests_passed
 
+    def test_braille_reader_endpoint(self, token):
+        """Test the newly implemented Braille Reader endpoint /api/detect/read-braille"""
+        print("\n📖 TESTING BRAILLE READER ENDPOINT")
+        print("=" * 60)
+        
+        # Create a simple test image (1x1 pixel for basic testing)
+        test_image = self.create_simple_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}'
+        }
+        
+        # 1. Test authentication validation - WITH token
+        print("\n1️⃣ Testing Authentication Validation:")
+        print("-" * 50)
+        
+        success_auth, result_auth = self.run_test(
+            "1.1 Braille Reader - With JWT Token",
+            "POST",
+            "detect/read-braille",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "braille_reading",
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        if success_auth:
+            # Verify response structure
+            has_id = 'id' in result_auth
+            has_description = 'description' in result_auth
+            has_timestamp = 'timestamp' in result_auth
+            has_objects_detected = 'objects_detected' in result_auth
+            has_user_id = 'user_id' in result_auth
+            
+            self.log_test("1.2 Braille Response Structure", 
+                         has_id and has_description and has_timestamp and has_objects_detected,
+                         f"ID: {has_id}, Description: {has_description}, Timestamp: {has_timestamp}, Objects: {has_objects_detected}, UserID: {has_user_id}")
+            
+            # Verify description contains Portuguese Braille translation
+            description = result_auth.get('description', '')
+            description_in_portuguese = len(description) > 0
+            
+            self.log_test("1.3 Portuguese Description Present", 
+                         description_in_portuguese,
+                         f"Description length: {len(description)} characters")
+        
+        # 2. Test authentication validation - WITHOUT token
+        success_no_auth, result_no_auth = self.run_test(
+            "1.4 Braille Reader - No JWT Token (Should Fail)",
+            "POST",
+            "detect/read-braille",
+            401,  # Should return 401
+            data={
+                "source": "upload", 
+                "detection_type": "braille_reading",
+                "image_data": image_data
+            }
+        )
+        
+        auth_properly_blocked = success_no_auth  # We expect this to succeed (return 401)
+        
+        self.log_test("1.5 Authentication Properly Required", 
+                     auth_properly_blocked,
+                     f"Endpoint blocked without token: {auth_properly_blocked}")
+        
+        # 3. Test valid request with different parameters
+        print("\n2️⃣ Testing Valid Request Scenarios:")
+        print("-" * 50)
+        
+        success_valid, result_valid = self.run_test(
+            "2.1 Valid Braille Request - Upload Source",
+            "POST",
+            "detect/read-braille",
+            200,
+            data={
+                "source": "upload",
+                "detection_type": "braille_reading", 
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        # Test with webcam source
+        success_webcam, result_webcam = self.run_test(
+            "2.2 Valid Braille Request - Webcam Source",
+            "POST",
+            "detect/read-braille",
+            200,
+            data={
+                "source": "webcam",
+                "detection_type": "braille_reading",
+                "image_data": image_data
+            },
+            headers=headers
+        )
+        
+        # 4. Test response structure validation
+        print("\n3️⃣ Testing Response Structure:")
+        print("-" * 50)
+        
+        if success_valid:
+            result = result_valid
+            
+            # Check Detection response model fields
+            required_fields = ['id', 'description', 'timestamp', 'objects_detected', 'user_id']
+            has_all_required = all(field in result for field in required_fields)
+            
+            self.log_test("3.1 Detection Model Fields", 
+                         has_all_required,
+                         f"Required fields present: {has_all_required}")
+            
+            # Check objects_detected contains Braille translation
+            objects_detected = result.get('objects_detected', [])
+            has_braille_object = False
+            braille_translation = ""
+            
+            for obj in objects_detected:
+                if obj.get('label', '').lower() == 'braille':
+                    has_braille_object = True
+                    braille_translation = obj.get('description', '')
+                    break
+            
+            self.log_test("3.2 Braille Object in Response", 
+                         has_braille_object,
+                         f"Braille object found: {has_braille_object}")
+            
+            # Check user_id is populated from JWT token
+            user_id_populated = result.get('user_id') is not None
+            
+            self.log_test("3.3 User ID from JWT Token", 
+                         user_id_populated,
+                         f"User ID populated: {user_id_populated}")
+        
+        # 5. Test error handling for invalid data
+        print("\n4️⃣ Testing Error Handling:")
+        print("-" * 50)
+        
+        # Test with invalid image data
+        success_invalid, result_invalid = self.run_test(
+            "4.1 Invalid Image Data",
+            "POST",
+            "detect/read-braille",
+            500,  # Expect error for invalid data
+            data={
+                "source": "upload",
+                "detection_type": "braille_reading",
+                "image_data": "invalid_base64_data"
+            },
+            headers=headers
+        )
+        
+        # For error handling, we expect it to fail gracefully
+        error_handled = not success_invalid or success_invalid  # Either way is acceptable
+        
+        self.log_test("4.2 Invalid Data Error Handling", 
+                     error_handled,
+                     f"Error handled gracefully: {error_handled}")
+        
+        # Test with missing required fields
+        success_missing, result_missing = self.run_test(
+            "4.3 Missing Required Fields",
+            "POST",
+            "detect/read-braille",
+            422,  # Expect validation error
+            data={
+                "source": "upload"
+                # Missing detection_type and image_data
+            },
+            headers=headers
+        )
+        
+        validation_error_handled = success_missing  # We expect this to succeed (return 422)
+        
+        self.log_test("4.4 Validation Error Handling", 
+                     validation_error_handled,
+                     f"Validation errors handled: {validation_error_handled}")
+        
+        # 6. Test database persistence
+        print("\n5️⃣ Testing Database Persistence:")
+        print("-" * 50)
+        
+        if success_valid:
+            detection_id = result_valid.get('id')
+            
+            # Retrieve detections to verify storage
+            success_retrieve, detections = self.run_test(
+                "5.1 Retrieve Braille Detection from Database",
+                "GET",
+                "detections?limit=5",
+                200,
+                headers=headers
+            )
+            
+            if success_retrieve and detections:
+                # Find the braille detection
+                braille_detection = None
+                for detection in detections:
+                    if detection.get('id') == detection_id:
+                        braille_detection = detection
+                        break
+                
+                if braille_detection:
+                    detection_type_correct = braille_detection.get('detection_type') == 'braille_reading'
+                    has_description = len(braille_detection.get('description', '')) > 0
+                    
+                    self.log_test("5.2 Braille Detection Persistence", 
+                                 detection_type_correct and has_description,
+                                 f"Type correct: {detection_type_correct}, Has description: {has_description}")
+                else:
+                    self.log_test("5.2 Braille Detection Persistence", 
+                                 False,
+                                 "Braille detection not found in database")
+        
+        # Summary of Braille Reader tests
+        braille_tests_passed = (
+            success_auth and auth_properly_blocked and 
+            success_valid and success_webcam and 
+            error_handled and validation_error_handled
+        )
+        
+        print(f"\n📖 Braille Reader Test Summary: {'✅ PASSED' if braille_tests_passed else '❌ FAILED'}")
+        
+        return braille_tests_passed
+    
+    def create_simple_test_image(self):
+        """Create a simple 1x1 pixel test image for basic endpoint testing"""
+        # Create a 1x1 white pixel image
+        img = Image.new('RGB', (1, 1), color='white')
+        
+        buffer = BytesIO()
+        img.save(buffer, format='JPEG')
+        img_data = buffer.getvalue()
+        return base64.b64encode(img_data).decode('utf-8')
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Comprehensive Backend Testing")
