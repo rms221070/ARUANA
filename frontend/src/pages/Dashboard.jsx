@@ -94,8 +94,16 @@ const Dashboard = () => {
         />
       </div>
 
+      {/* Braille Reader - always rendered but hidden when not active */}
+      <div className={currentView === 'braille' ? 'block' : 'hidden'}>
+        <BrailleReader 
+          onBack={handleBackToModeSelector}
+          isActive={currentView === 'braille'}
+        />
+      </div>
+
       {/* Other Views */}
-      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && (
+      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && (
         <div className="min-h-screen p-6">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
