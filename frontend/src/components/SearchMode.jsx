@@ -152,6 +152,9 @@ const SearchMode = ({ onBack, isActive }) => {
     setIsSearching(false);
     setFoundObject(null);
     setObjectLocation(null);
+    setObjectDistance(null);
+    setSearchAttempts(0);
+    setDirectionGuidance("");
     announceStatus("Busca interrompida.");
   };
 
