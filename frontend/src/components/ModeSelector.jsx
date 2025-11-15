@@ -118,6 +118,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       description: "Identificação de dinheiro",
       color: "from-yellow-500 to-yellow-700",
       shadow: "shadow-[0_10px_30px_rgba(234,179,8,0.5)]"
+    },
+    {
+      id: "braille",
+      icon: Grid3x3,
+      title: "Braille",
+      description: "Leitor de Braille Grade 1 e 2",
+      color: "from-teal-500 to-teal-700",
+      shadow: "shadow-[0_10px_30px_rgba(20,184,166,0.5)]"
     }
   ];
 
