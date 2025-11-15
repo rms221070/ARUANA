@@ -48,24 +48,50 @@ const SearchMode = ({ onBack, isActive }) => {
     try {
       announceStatus("Ativando câmera para busca. Aguarde.");
       
-      const constraints = {
+      // Try with ideal constraints first
+      let constraints = {
         video: {
-          facingMode: "environment",
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
+          facingMode: { ideal: "environment" },
+          width: { ideal: 1280, min: 640 },
+          height: { ideal: 720, min: 480 }
         },
         audio: false
       };
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      streamRef.current = stream;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        streamRef.current = stream;
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-        setIsStreaming(true);
-        announceStatus("Câmera pronta. Digite ou fale o que você procura.");
-        toast.success("Câmera ativada!");
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
+          setIsStreaming(true);
+          hasPermissionRef.current = true;
+          announceStatus("Câmera pronta. Digite ou fale o que você procura.");
+          toast.success("Câmera ativada!");
+        }
+      } catch (err) {
+        // Fallback for desktop without facingMode
+        console.log("Trying fallback constraints for desktop...");
+        constraints = {
+          video: {
+            width: { ideal: 1280, min: 640 },
+            height: { ideal: 720, min: 480 }
+          },
+          audio: false
+        };
+        
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        streamRef.current = stream;
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          await videoRef.current.play();
+          setIsStreaming(true);
+          hasPermissionRef.current = true;
+          announceStatus("Câmera pronta. Digite ou fale o que você procura.");
+          toast.success("Câmera ativada!");
+        }
       }
     } catch (error) {
       console.error("Webcam error:", error);
@@ -74,9 +100,11 @@ const SearchMode = ({ onBack, isActive }) => {
       
       let errorMessage = "Erro ao acessar câmera: ";
       if (error.name === 'NotAllowedError') {
-        errorMessage = "Permissão de câmera negada. Por favor, permita o acesso.";
+        errorMessage = "PERMISSÃO NEGADA. Clique no ícone de cadeado/câmera na barra de endereço e permita o acesso à câmera.";
       } else if (error.name === 'NotFoundError') {
-        errorMessage = "Nenhuma câmera encontrada no dispositivo.";
+        errorMessage = "Nenhuma câmera encontrada. Verifique se há uma webcam conectada.";
+      } else if (error.name === 'NotReadableError') {
+        errorMessage = "Câmera em uso. Feche outros programas (Zoom, Teams, etc) e recarregue.";
       }
       
       announceStatus(errorMessage);
