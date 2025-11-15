@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import ModeSelector from "@/components/ModeSelector";
 import CameraView from "@/components/CameraView";
 import SearchMode from "@/components/SearchMode";
+import BrailleReader from "@/components/BrailleReader";
 import DetectionHistory from "@/components/DetectionHistory";
 import IntelligentReports from "@/components/IntelligentReports";
 import About from "@/components/About";
