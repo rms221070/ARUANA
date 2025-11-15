@@ -129,7 +129,9 @@ const SearchMode = ({ onBack, isActive }) => {
     }
 
     setIsSearching(true);
-    announceStatus(`Iniciando busca por: ${searchQuery}. Movimente a câmera para procurar.`);
+    setSearchAttempts(0);
+    setDirectionGuidance("Movimente a câmera lentamente em todas as direções.");
+    announceStatus(`Iniciando busca por: ${searchQuery}. Movimente a câmera lentamente para procurar.`);
     
     // Add to recent searches
     if (!recentSearches.includes(searchQuery)) {
