@@ -36,23 +36,9 @@ const CameraView = ({ mode, onBack, isActive }) => {
   useEffect(() => {
     if (isStreaming && mode) {
       const modeTitle = getModeTitle();
-      announceStatus(`Modo alterado para ${modeTitle}. Câmera continua ativa.`);
+      announceStatus(`Modo alterado para ${modeTitle}. Câmera continua ativa. Clique em Capturar quando estiver pronto.`);
     }
   }, [mode]);
-
-  // Auto-detect only for description mode (NOT reading)
-  useEffect(() => {
-    if (isStreaming && isActive && mode === "description") {
-      // Start continuous detection only for description
-      const interval = setInterval(() => {
-        if (!isAnalyzing) {
-          captureAndAnalyze();
-        }
-      }, 3000); // Capture every 3 seconds
-      
-      return () => clearInterval(interval);
-    }
-  }, [isStreaming, isActive, mode, isAnalyzing]);
 
   // Auto-detect based on mode
   useEffect(() => {
