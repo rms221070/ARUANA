@@ -89,8 +89,17 @@ class TTSService {
 
     const utterance = new SpeechSynthesisUtterance(text);
     
+    // Force pt-BR language
+    utterance.lang = 'pt-BR';
+    
     if (this.currentVoice) {
       utterance.voice = this.currentVoice;
+    } else {
+      // If no voice set, try to get Brazilian male voice
+      const brMaleVoice = this.getMaleVoice('pt-BR');
+      if (brMaleVoice) {
+        utterance.voice = brMaleVoice;
+      }
     }
     
     utterance.rate = options.rate || this.rate;
