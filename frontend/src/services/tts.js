@@ -34,6 +34,27 @@ class TTSService {
 
   getMaleVoice(lang) {
     const voices = this.getVoicesByLang(lang);
+    
+    // Prioritize Brazilian Portuguese male voices
+    if (lang === 'pt' || lang === 'pt-BR') {
+      // Look for specific Brazilian male voices
+      const brMaleVoice = voices.find(v => 
+        (v.lang === 'pt-BR' || v.lang.startsWith('pt-BR')) &&
+        (v.name.includes('Google português do Brasil') || 
+         v.name.includes('Luciana') === false &&
+         v.name.includes('male') ||
+         v.name.includes('Masculino') ||
+         v.name.toLowerCase().includes('male'))
+      );
+      
+      if (brMaleVoice) return brMaleVoice;
+      
+      // Fallback to any Brazilian Portuguese voice
+      const brVoice = voices.find(v => v.lang === 'pt-BR' || v.lang.startsWith('pt-BR'));
+      if (brVoice) return brVoice;
+    }
+    
+    // General male voice selection
     return voices.find(v => v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female'))
       || voices.find(v => !v.name.toLowerCase().includes('female'))
       || voices[0];
