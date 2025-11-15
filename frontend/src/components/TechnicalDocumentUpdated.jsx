@@ -910,7 +910,7 @@ com precisão científica`}
                   <div className="space-y-6">
                     <h3 className="text-lg font-bold">BASE URL</h3>
                     <pre className="bg-slate-900 text-green-400 p-4 rounded text-xs">
-{`Production: https://aruana-vision-2.preview.emergentagent.com
+{`Production: https://sight-helper-8.preview.emergentagent.com
 API Base: /api`}
                     </pre>
 

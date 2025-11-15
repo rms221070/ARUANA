@@ -6,7 +6,7 @@ import random
 
 def test_admin_access():
     """Test admin access specifically"""
-    base_url = "https://aruana-vision-2.preview.emergentagent.com/api"
+    base_url = "https://sight-helper-8.preview.emergentagent.com/api"
     
     # Create a regular user first
     random_id = random.randint(10000, 99999)

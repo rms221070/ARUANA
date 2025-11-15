@@ -7,7 +7,7 @@ from io import BytesIO
 from PIL import Image
 
 class DetectionSystemTester:
-    def __init__(self, base_url="https://aruana-vision-2.preview.emergentagent.com"):
+    def __init__(self, base_url="https://sight-helper-8.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
