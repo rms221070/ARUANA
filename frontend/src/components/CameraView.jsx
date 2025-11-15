@@ -86,7 +86,7 @@ const CameraView = ({ mode, onBack, isActive }) => {
         setIsStreaming(true);
         
         const cameraType = facingMode === "user" ? "frontal" : "traseira";
-        announceStatus(`Câmera ${cameraType} pronta. Posicione o objeto e pressione Capturar.`);
+        announceStatus(`Câmera ${cameraType} pronta. Posicione o objeto e clique em Capturar e Analisar.`);
         
         // Short success toast
         toast.success("Câmera ativada!", { duration: 1500 });
