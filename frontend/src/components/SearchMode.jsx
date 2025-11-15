@@ -20,6 +20,9 @@ const SearchMode = ({ onBack, isActive }) => {
   const [isListening, setIsListening] = useState(false);
   const [foundObject, setFoundObject] = useState(null);
   const [objectLocation, setObjectLocation] = useState(null); // left, center, right, top, bottom
+  const [objectDistance, setObjectDistance] = useState(null); // close, medium, far
+  const [searchAttempts, setSearchAttempts] = useState(0);
+  const [directionGuidance, setDirectionGuidance] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
   const [statusMessage, setStatusMessage] = useState("Digite o que você procura");
   
