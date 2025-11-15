@@ -1561,6 +1561,278 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
         logging.error(f"Error in OCR text reading: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/detect/read-braille", response_model=Detection)
+async def read_braille(input: DetectionCreate, request: Request):
+    """Leitor especializado de Braille - Suporta Grade 1 e Grade 2"""
+    try:
+        # Get authenticated user
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
+        detection = Detection(
+            source=input.source,
+            detection_type="braille_reading",
+            image_data=input.image_data,
+            user_id=user_id
+        )
+        
+        # Extract base64 image data
+        image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
+        
+        # Braille Expert Prompt - Ultra-Specialized for Grade 1 & Grade 2
+        braille_prompt = """🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+
+Você é um ESPECIALISTA MÁXIMO em LEITURA DE BRAILLE, tanto Grade 1 (literário/não contraído) quanto Grade 2 (contraído/abreviado).
+Sua expertise inclui conhecimento profundo do Sistema Braille brasileiro, contrações, sinais especiais e contextos.
+
+**SUA MISSÃO:**
+Analise a imagem fornecida e identifique, traduza e transcreva TODOS os caracteres Braille visíveis com PRECISÃO ABSOLUTA.
+
+**CONHECIMENTO ESSENCIAL DE BRAILLE:**
+
+📍 **BRAILLE GRADE 1 (Literário/Não Contraído):**
+- Cada célula Braille representa UMA letra, número ou pontuação
+- Sistema 1:1 entre letra e célula
+- 6 pontos por célula (pontos 1-2-3 esquerda, pontos 4-5-6 direita)
+- Números usam sinal de número (pontos 3-4-5-6) seguido de letras a-j
+
+📍 **BRAILLE GRADE 2 (Contraído/Abreviado):**
+- Usa contrações e abreviaturas para economia de espaço
+- Uma célula pode representar palavra inteira ou sílaba
+- Contrações comuns em português:
+  * "com" = ponto 6 + m
+  * "para" = ponto 6 + p
+  * "por" = ponto 6 + r
+  * "que" = ponto 6 + q
+  * "são" = pontos 3-4-5 + s
+  * "ção" = pontos 5-6 + c
+  * Prefixos e sufixos especiais
+- Indicadores de maiúscula, ênfase, itálico
+- Sinais matemáticos e científicos especializados
+
+**ESTRUTURA DE ANÁLISE:**
+
+1. **IDENTIFICAÇÃO INICIAL:**
+   - A imagem contém Braille? (Sim/Não)
+   - Qualidade da imagem (excelente/boa/regular/ruim)
+   - Contraste e iluminação adequados?
+   - Braille tátil (em relevo) ou impresso?
+   - Estimativa: Grade 1, Grade 2, ou misto?
+
+2. **LEITURA CÉLULA POR CÉLULA:**
+   - Identifique cada célula Braille na ordem de leitura (esquerda→direita, cima→baixo)
+   - Para cada célula, identifique os pontos ativos (combinação de 1-2-3-4-5-6)
+   - Traduza célula por célula considerando contexto (Grade 1 vs Grade 2)
+   - Detecte espaços entre palavras, quebras de linha, parágrafos
+
+3. **TRADUÇÃO ESPECIALIZADA:**
+   - Para Grade 1: tradução direta letra-por-letra
+   - Para Grade 2: expanda contrações e abreviaturas
+   - Identifique e expanda prefixos/sufixos contraídos
+   - Detecte indicadores especiais:
+     * Maiúsculas (pontos 4-6 antes da letra)
+     * Números (pontos 3-4-5-6 antes dos dígitos)
+     * Pontuação especial
+     * Símbolos matemáticos/científicos
+
+4. **VALIDAÇÃO E CONTEXTO:**
+   - Valide se a tradução faz sentido linguístico
+   - Detecte possíveis erros de impressão/produção do Braille
+   - Identifique palavras parciais, texto truncado
+   - Detecte linha em branco, indentação, formatação
+
+5. **ANÁLISE DE QUALIDADE:**
+   - Pontos Braille bem definidos ou borrados?
+   - Espaçamento correto entre células?
+   - Alinhamento preservado?
+   - Partes ilegíveis ou danificadas?
+
+**DETECÇÃO DE PADRÕES COMUNS:**
+- Títulos (geralmente centralizados, com espaços)
+- Parágrafos e estrutura de texto
+- Listas numeradas ou com marcadores
+- Fórmulas matemáticas (reconheça Nemeth Code se presente)
+- Notação musical (se Braille musical)
+- Braille em outros idiomas (inglês, espanhol, francês)
+
+**RESPOSTA JSON ESTRUTURADA:**
+Forneça uma resposta JSON COMPLETA em português com esta estrutura:
+
+{
+  "braille_detected": true/false,
+  "braille_grade": "Grade 1" / "Grade 2" / "Misto" / "Não identificado",
+  "image_quality": {
+    "overall": "excelente/boa/regular/ruim",
+    "contrast": "alto/médio/baixo",
+    "clarity": "nítido/aceitável/borrado",
+    "recommendations": "sugestões para melhorar captura"
+  },
+  "braille_text": "REPRESENTAÇÃO DOS PONTOS BRAILLE (use notação: ⠁⠃⠉⠙ ou descrição de pontos)",
+  "translated_text": "TEXTO TRADUZIDO COMPLETO EM PORTUGUÊS",
+  "detailed_translation": [
+    {
+      "line_number": 1,
+      "braille_cells": "sequência de células Braille",
+      "cell_by_cell": [
+        {
+          "cell": "⠁",
+          "dots": "ponto 1",
+          "character": "a",
+          "notes": "Grade 1, letra minúscula"
+        }
+      ],
+      "translated_line": "texto da linha traduzido"
+    }
+  ],
+  "contractions_used": [
+    {
+      "contraction": "descrição da contração Grade 2",
+      "expanded": "forma expandida",
+      "position": "localização no texto"
+    }
+  ],
+  "special_symbols": [
+    {
+      "symbol": "descrição do símbolo especial",
+      "meaning": "significado",
+      "context": "contexto de uso"
+    }
+  ],
+  "formatting": {
+    "paragraphs": 2,
+    "blank_lines": 1,
+    "indentation": "presente/ausente",
+    "alignment": "esquerda/centro/direita"
+  },
+  "issues_detected": [
+    "lista de problemas ou imperfeições encontradas"
+  ],
+  "confidence_score": 0.0-1.0,
+  "description": "DESCRIÇÃO NARRATIVA COMPLETA: Texto traduzido do Braille, incluindo formatação, estrutura, qualidade da leitura, tipo de Grade identificado, e qualquer observação relevante para o usuário. Esta é a resposta principal que será lida em voz alta."
+}
+
+**DIRETRIZES CRÍTICAS:**
+- 🇧🇷 TODA A RESPOSTA DEVE SER EM PORTUGUÊS BRASILEIRO
+- Se não houver Braille na imagem, informe claramente
+- Se o Braille estiver ilegível, explique o problema
+- Seja PRECISO: erros em Braille podem mudar completamente o significado
+- VALIDE: leia duas vezes para garantir precisão
+- CONTEXTUALIZE: use o contexto para desambiguar contrações
+- Se houver dúvida entre Grade 1 e Grade 2, EXPLIQUE ambas interpretações
+- Pense em ACESSIBILIDADE: a pessoa precisa confiar na sua tradução
+
+**CASOS ESPECIAIS:**
+- Se detectar Braille matemático (Nemeth Code): traduza e explique
+- Se detectar Braille musical: identifique e descreva
+- Se detectar múltiplos idiomas: identifique cada um
+- Se detectar códigos ou abreviaturas especializadas: traduza e explique
+
+🇧🇷 LEMBRE-SE: SUA RESPOSTA É ESSENCIAL PARA ACESSIBILIDADE. SEJA PRECISO E DETALHADO! 🇧🇷
+"""
+        
+        # Process via Gemini 2.0 Flash with retry logic
+        max_retries = 3
+        retry_delay = 2
+        response = None
+        last_error = None
+        
+        for attempt in range(max_retries):
+            try:
+                chat = LlmChat(
+                    api_key=GOOGLE_API_KEY,
+                    session_id=f"braille_analysis_{uuid.uuid4()}",
+                    system_message="Você é um especialista máximo em leitura e tradução de Braille (Grade 1 e Grade 2). RESPONDA SEMPRE EM PORTUGUÊS BRASILEIRO. Sua precisão é essencial para acessibilidade."
+                ).with_model("gemini", "gemini-2.0-flash")
+                
+                response = await chat.send_message(
+                    UserMessage(
+                        text=braille_prompt,
+                        file_contents=[ImageContent(image_base64=image_data)]
+                    )
+                )
+                
+                # If we got here, request succeeded
+                break
+                
+            except Exception as e:
+                last_error = e
+                error_msg = str(e).lower()
+                
+                # Check if it's a retryable error
+                if '503' in error_msg or 'overloaded' in error_msg or 'rate' in error_msg:
+                    if attempt < max_retries - 1:
+                        logging.warning(f"Gemini API overloaded, retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                        await asyncio.sleep(retry_delay)
+                        retry_delay *= 2
+                        continue
+                    else:
+                        raise HTTPException(
+                            status_code=503,
+                            detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
+                        )
+                else:
+                    raise
+        
+        if response is None:
+            raise last_error or Exception("Failed to get response from Gemini")
+        
+        # Parse response
+        try:
+            response_text = response.strip()
+            if '```json' in response_text:
+                response_text = response_text.split('```json')[1].split('```')[0].strip()
+            elif '```' in response_text:
+                response_text = response_text.split('```')[1].split('```')[0].strip()
+            
+            result = json.loads(response_text)
+            
+            # Store the description for TTS
+            detection.description = result.get('description', result.get('translated_text', ''))
+            
+            # Store Braille-specific data in objects_detected
+            braille_object = DetectedObject(
+                label="Braille",
+                confidence=result.get('confidence_score', 0.9),
+                description=result.get('translated_text', '')
+            )
+            detection.objects_detected = [braille_object]
+            
+        except json.JSONDecodeError as e:
+            logging.error(f"JSON parsing failed for Braille: {str(e)}")
+            # Use raw response as description
+            detection.description = response_text if 'response_text' in locals() else str(response)
+        except Exception as e:
+            logging.error(f"Error processing Braille data: {str(e)}")
+            detection.description = response_text if 'response_text' in locals() else str(response)
+        
+        # Process geolocation if provided
+        if input.geo_location:
+            detection.geo_location = GeoLocation(**input.geo_location)
+        
+        # Auto-categorize detection
+        detection.category = auto_categorize_detection(detection)
+        
+        # Generate smart tags
+        detection.tags = generate_tags(detection)
+        
+        # Save to database
+        doc = detection.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        if doc.get('geo_location') and doc['geo_location'].get('timestamp'):
+            doc['geo_location']['timestamp'] = doc['geo_location']['timestamp'].isoformat()
+        await db.detections.insert_one(doc)
+        
+        return detection
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in Braille reading: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Authentication endpoints
 @api_router.post("/auth/register")
 async def register_user(user_data: UserRegister):
