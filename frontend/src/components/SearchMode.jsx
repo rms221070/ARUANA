@@ -162,6 +162,8 @@ const SearchMode = ({ onBack, isActive }) => {
     if (!videoRef.current || !isStreaming) return;
 
     try {
+      setSearchAttempts(prev => prev + 1);
+      
       // Capture frame
       const canvas = document.createElement('canvas');
       canvas.width = videoRef.current.videoWidth;
@@ -197,37 +199,70 @@ const SearchMode = ({ onBack, isActive }) => {
         if (description.includes("OBJETO ENCONTRADO")) {
           setFoundObject(searchQuery);
           
-          // Extract location from description
-          let location = "centro";
+          // Extract detailed location and distance from description
           const descLower = description.toLowerCase();
           
-          if (descLower.includes("esquerda") && descLower.includes("superior")) {
-            location = "esquerda superior";
-          } else if (descLower.includes("esquerda") && descLower.includes("inferior")) {
-            location = "esquerda inferior";
-          } else if (descLower.includes("direita") && descLower.includes("superior")) {
-            location = "direita superior";
-          } else if (descLower.includes("direita") && descLower.includes("inferior")) {
-            location = "direita inferior";
-          } else if (descLower.includes("esquerda")) {
-            location = "esquerda";
-          } else if (descLower.includes("direita")) {
-            location = "direita";
-          } else if (descLower.includes("superior") || descLower.includes("cima")) {
-            location = "superior";
-          } else if (descLower.includes("inferior") || descLower.includes("baixo")) {
-            location = "inferior";
+          // Determine location
+          let location = "centro";
+          let horizontalPos = "";
+          let verticalPos = "";
+          
+          if (descLower.includes("esquerda")) horizontalPos = "esquerda";
+          if (descLower.includes("direita")) horizontalPos = "direita";
+          if (descLower.includes("superior") || descLower.includes("cima") || descLower.includes("alto")) verticalPos = "superior";
+          if (descLower.includes("inferior") || descLower.includes("baixo")) verticalPos = "inferior";
+          
+          if (horizontalPos && verticalPos) {
+            location = `${horizontalPos} ${verticalPos}`;
+          } else if (horizontalPos) {
+            location = horizontalPos;
+          } else if (verticalPos) {
+            location = verticalPos;
           }
           
           setObjectLocation(location);
           
-          // Stop search and announce
-          stopSearch();
-          announceStatus(`${searchQuery} encontrado! Localização: ${location}. ${description.replace("OBJETO ENCONTRADO:", "").substring(0, 150)}`);
-          toast.success(`${searchQuery} encontrado em: ${location}`, { duration: 5000 });
+          // Determine distance
+          let distance = "próximo";
+          if (descLower.includes("distante") || descLower.includes("longe") || descLower.includes("fundo")) {
+            distance = "distante";
+          } else if (descLower.includes("perto") || descLower.includes("próximo") || descLower.includes("frente")) {
+            distance = "próximo";
+          } else if (descLower.includes("médio") || descLower.includes("meio")) {
+            distance = "média distância";
+          }
           
-          // Play success sound
-          playSuccessSound();
+          setObjectDistance(distance);
+          
+          // Stop search and announce with detailed info
+          stopSearch();
+          
+          const locationAnnounce = `${searchQuery} encontrado! Posição: ${location}. Distância: ${distance}.`;
+          announceStatus(locationAnnounce);
+          toast.success(`✓ ${searchQuery} encontrado em: ${location}!`, { duration: 5000 });
+          
+          // Play directional success sound
+          playDirectionalSound(location);
+          
+        } else {
+          // Object not found, provide guidance
+          const attempts = searchAttempts + 1;
+          
+          if (attempts === 3) {
+            setDirectionGuidance("Tente virar a câmera para a esquerda.");
+            playGuidanceBeep("left");
+          } else if (attempts === 6) {
+            setDirectionGuidance("Tente virar a câmera para a direita.");
+            playGuidanceBeep("right");
+          } else if (attempts === 9) {
+            setDirectionGuidance("Tente apontar para cima.");
+            playGuidanceBeep("up");
+          } else if (attempts === 12) {
+            setDirectionGuidance("Tente apontar para baixo.");
+            playGuidanceBeep("down");
+          } else if (attempts === 15) {
+            setDirectionGuidance("Procurando... Continue movimentando a câmera.");
+          }
         }
       }
     } catch (error) {
