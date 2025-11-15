@@ -2113,6 +2113,9 @@ class DetectionSystemTester:
             # Test alerts functionality
             self.test_alerts_crud()
             
+            # SPECIFIC TEST FOR REVIEW REQUEST: Test Braille Reader endpoint
+            self.test_braille_reader_endpoint(user_token)
+            
             # SPECIFIC TEST FOR REVIEW REQUEST: Test analyze-frame without ambient sound
             self.test_analyze_frame_without_ambient_sound(user_token)
             
