@@ -29,6 +29,9 @@ const Dashboard = () => {
     if (mode === 'search') {
       setCurrentView('search');
       setShowModeSelector(false);
+    } else if (mode === 'braille') {
+      setCurrentView('braille');
+      setShowModeSelector(false);
     } else {
       setSelectedMode(mode);
       setShowModeSelector(false);
