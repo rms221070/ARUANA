@@ -1,328 +1,472 @@
 {
   "summary": {
-    "total_tests": 53,
-    "passed_tests": 45,
-    "success_rate": 84.90566037735849,
-    "timestamp": "2025-11-09T20:20:32.979249"
+    "total_tests": 77,
+    "passed_tests": 75,
+    "success_rate": 97.40259740259741,
+    "timestamp": "2025-11-15T15:05:56.197988"
   },
   "detailed_results": [
     {
       "test_name": "Root API Endpoint",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:47.068084"
+      "timestamp": "2025-11-15T15:04:22.015642"
     },
     {
       "test_name": "1.1 Register New User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:47.351787"
+      "timestamp": "2025-11-15T15:04:22.327823"
     },
     {
       "test_name": "1.2 Login with Registered User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:47.616133"
+      "timestamp": "2025-11-15T15:04:22.592123"
     },
     {
       "test_name": "1.3 Get Current User Info",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:47.690006"
+      "timestamp": "2025-11-15T15:04:22.634135"
     },
     {
       "test_name": "1.4 User Info Verification",
       "success": true,
       "details": "Required fields: True, Password excluded: True",
-      "timestamp": "2025-11-09T20:19:47.690693"
+      "timestamp": "2025-11-15T15:04:22.634803"
     },
     {
       "test_name": "2.1 Create Detection with JWT Token",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:55.370916"
+      "timestamp": "2025-11-15T15:04:30.632243"
     },
     {
       "test_name": "2.2 Detection User ID Verification",
       "success": true,
       "details": "Detection user_id matches: True",
-      "timestamp": "2025-11-09T20:19:55.371583"
+      "timestamp": "2025-11-15T15:04:30.632955"
     },
     {
       "test_name": "3.1 Get Detections as User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:55.431971"
+      "timestamp": "2025-11-15T15:04:30.696454"
     },
     {
       "test_name": "3.2 User Access Control Verification",
       "success": true,
       "details": "User sees only own detections: True, Count: 1",
-      "timestamp": "2025-11-09T20:19:55.432688"
+      "timestamp": "2025-11-15T15:04:30.697174"
     },
     {
       "test_name": "4.1 Register Admin User",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:55.691573"
+      "timestamp": "2025-11-15T15:04:30.960467"
     },
     {
       "test_name": "4.2 Login as Admin",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:55.951418"
+      "timestamp": "2025-11-15T15:04:31.227756"
     },
     {
       "test_name": "4.3 Get All Detections as Admin",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:55.986275"
+      "timestamp": "2025-11-15T15:04:31.271206"
     },
     {
       "test_name": "4.4 Admin Access Verification",
       "success": false,
       "details": "Admin sees all detections: False, Users seen: 0",
-      "timestamp": "2025-11-09T20:19:55.987009"
+      "timestamp": "2025-11-15T15:04:31.271872"
     },
     {
       "test_name": "5.1 Analyze Frame - No Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-11-09T20:19:56.021755"
+      "timestamp": "2025-11-15T15:04:31.310919"
     },
     {
       "test_name": "5.2 Get Detections - No Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-11-09T20:19:56.057030"
+      "timestamp": "2025-11-15T15:04:31.347741"
     },
     {
       "test_name": "5.3 Analyze Frame - Invalid Token",
       "success": true,
       "details": "Status: 401, Expected: 401",
-      "timestamp": "2025-11-09T20:19:56.089711"
+      "timestamp": "2025-11-15T15:04:31.388398"
     },
     {
       "test_name": "5.4 Unauthorized Access Summary",
       "success": true,
       "details": "No token blocked: True, Invalid token blocked: True",
-      "timestamp": "2025-11-09T20:19:56.090414"
+      "timestamp": "2025-11-15T15:04:31.389049"
     },
     {
       "test_name": "JWT Test - User Registration",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:56.350863"
+      "timestamp": "2025-11-15T15:04:31.686751"
     },
     {
       "test_name": "JWT Test - User Login",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:56.615578"
+      "timestamp": "2025-11-15T15:04:31.943408"
     },
     {
       "test_name": "JWT Token Format",
       "success": true,
       "details": "Token parts: 3, Expected: 3",
-      "timestamp": "2025-11-09T20:19:56.616292"
+      "timestamp": "2025-11-15T15:04:31.944108"
     },
     {
       "test_name": "JWT Token - Protected Endpoint Access",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:56.647972"
+      "timestamp": "2025-11-15T15:04:32.021911"
     },
     {
       "test_name": "Password Security - Registration",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:56.903471"
+      "timestamp": "2025-11-15T15:04:32.283011"
     },
     {
       "test_name": "Password Security - Login",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:57.162685"
+      "timestamp": "2025-11-15T15:04:32.544117"
     },
     {
       "test_name": "Password Security - Not in Response",
       "success": true,
       "details": "Password excluded from response: True",
-      "timestamp": "2025-11-09T20:19:57.163484"
+      "timestamp": "2025-11-15T15:04:32.544807"
     },
     {
       "test_name": "Create Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:57.199322"
+      "timestamp": "2025-11-15T15:04:32.584521"
     },
     {
       "test_name": "Get Alerts",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:57.234078"
+      "timestamp": "2025-11-15T15:04:32.621605"
     },
     {
       "test_name": "Find Created Alert",
       "success": true,
-      "details": "Alert ID: 09598d24-8eb3-4c0a-8006-4842cd214151",
-      "timestamp": "2025-11-09T20:19:57.234769"
+      "details": "Alert ID: ffc68d4d-f7c9-4da8-8a21-436e451e3142",
+      "timestamp": "2025-11-15T15:04:32.622284"
     },
     {
       "test_name": "Toggle Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:57.269978"
+      "timestamp": "2025-11-15T15:04:32.659061"
     },
     {
       "test_name": "Delete Alert",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:19:57.347338"
+      "timestamp": "2025-11-15T15:04:32.695673"
+    },
+    {
+      "test_name": "1.1 Braille Reader - With JWT Token",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:02.148643"
+    },
+    {
+      "test_name": "1.2 Braille Response Structure",
+      "success": true,
+      "details": "ID: True, Description: True, Timestamp: True, Objects: True, UserID: True",
+      "timestamp": "2025-11-15T15:05:02.149335"
+    },
+    {
+      "test_name": "1.3 Portuguese Description Present",
+      "success": true,
+      "details": "Description length: 95 characters",
+      "timestamp": "2025-11-15T15:05:02.149354"
+    },
+    {
+      "test_name": "1.4 Braille Reader - No JWT Token (Should Fail)",
+      "success": true,
+      "details": "Status: 401, Expected: 401",
+      "timestamp": "2025-11-15T15:05:02.220770"
+    },
+    {
+      "test_name": "1.5 Authentication Properly Required",
+      "success": true,
+      "details": "Endpoint blocked without token: True",
+      "timestamp": "2025-11-15T15:05:02.221432"
+    },
+    {
+      "test_name": "2.1 Valid Braille Request - Upload Source",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:05.051825"
+    },
+    {
+      "test_name": "2.2 Valid Braille Request - Webcam Source",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:08.201865"
+    },
+    {
+      "test_name": "3.1 Detection Model Fields",
+      "success": true,
+      "details": "Required fields present: True",
+      "timestamp": "2025-11-15T15:05:08.202557"
+    },
+    {
+      "test_name": "3.2 Braille Object in Response",
+      "success": true,
+      "details": "Braille object found: True",
+      "timestamp": "2025-11-15T15:05:08.202570"
+    },
+    {
+      "test_name": "3.3 User ID from JWT Token",
+      "success": true,
+      "details": "User ID populated: True",
+      "timestamp": "2025-11-15T15:05:08.202577"
+    },
+    {
+      "test_name": "4.1 Invalid Image Data",
+      "success": false,
+      "details": "Status: 503, Expected: 500, Response: {'detail': 'O servi\u00e7o de IA est\u00e1 temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes.'}",
+      "timestamp": "2025-11-15T15:05:14.355303"
+    },
+    {
+      "test_name": "4.2 Invalid Data Error Handling",
+      "success": true,
+      "details": "Error handled gracefully: True",
+      "timestamp": "2025-11-15T15:05:14.355968"
+    },
+    {
+      "test_name": "4.3 Missing Required Fields",
+      "success": true,
+      "details": "Status: 422, Expected: 422",
+      "timestamp": "2025-11-15T15:05:14.426343"
+    },
+    {
+      "test_name": "4.4 Validation Error Handling",
+      "success": true,
+      "details": "Validation errors handled: True",
+      "timestamp": "2025-11-15T15:05:14.427009"
+    },
+    {
+      "test_name": "5.1 Retrieve Braille Detection from Database",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:14.464796"
+    },
+    {
+      "test_name": "5.2 Braille Detection Persistence",
+      "success": true,
+      "details": "Type correct: True, Has description: True",
+      "timestamp": "2025-11-15T15:05:14.465533"
     },
     {
       "test_name": "Analyze Frame - No Ambient Sound (Cloud Detection)",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:20:04.048189"
+      "timestamp": "2025-11-15T15:05:21.324045"
     },
     {
       "test_name": "Response Structure Validation",
       "success": true,
       "details": "ID: True, Description: True, Timestamp: True",
-      "timestamp": "2025-11-09T20:20:04.048883"
+      "timestamp": "2025-11-15T15:05:21.324931"
     },
     {
       "test_name": "Emotion Analysis Working",
       "success": true,
       "details": "Present: True, Valid structure: True",
-      "timestamp": "2025-11-09T20:20:04.048909"
+      "timestamp": "2025-11-15T15:05:21.324959"
     },
     {
       "test_name": "Sentiment Analysis Working",
       "success": true,
       "details": "Present: True, Valid structure: True",
-      "timestamp": "2025-11-09T20:20:04.048918"
+      "timestamp": "2025-11-15T15:05:21.324968"
     },
     {
       "test_name": "No Sound References in Description",
       "success": true,
       "details": "Sound terms found: None",
-      "timestamp": "2025-11-09T20:20:04.049174"
+      "timestamp": "2025-11-15T15:05:21.325001"
     },
     {
       "test_name": "Description Still Detailed",
       "success": true,
-      "details": "Description length: 1043 characters",
-      "timestamp": "2025-11-09T20:20:04.049188"
+      "details": "Description length: 701 characters",
+      "timestamp": "2025-11-15T15:05:21.325008"
     },
     {
       "test_name": "No Errors or Crashes",
       "success": true,
       "details": "Clean response without errors: True",
-      "timestamp": "2025-11-09T20:20:04.049251"
+      "timestamp": "2025-11-15T15:05:21.325079"
     },
     {
       "test_name": "Object Detection Still Working",
       "success": true,
       "details": "Objects field present: True, Valid list: True",
-      "timestamp": "2025-11-09T20:20:04.049260"
+      "timestamp": "2025-11-15T15:05:21.325098"
     },
     {
       "test_name": "OVERALL: Analyze Frame Without Ambient Sound",
       "success": true,
       "details": "All criteria met: True",
-      "timestamp": "2025-11-09T20:20:04.049266"
+      "timestamp": "2025-11-15T15:05:21.325105"
     },
     {
       "test_name": "Enhanced AI Analysis - Emotion/Sentiment (Authenticated)",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:20:10.423982"
+      "timestamp": "2025-11-15T15:05:29.806854"
     },
     {
       "test_name": "Emotion Analysis - Structure (Authenticated)",
       "success": true,
       "details": "Present: True, Valid: True",
-      "timestamp": "2025-11-09T20:20:10.424690"
+      "timestamp": "2025-11-15T15:05:29.807564"
     },
     {
       "test_name": "Nutrition Analysis Endpoint (Authenticated)",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:20:23.901239"
+      "timestamp": "2025-11-15T15:05:43.621079"
     },
     {
       "test_name": "Nutrition Analysis - Response Structure (Authenticated)",
       "success": true,
       "details": "ID: True, Description: True, Timestamp: True, Nutrition: True",
-      "timestamp": "2025-11-09T20:20:23.901942"
+      "timestamp": "2025-11-15T15:05:43.621792"
     },
     {
       "test_name": "Search Query - Object Found (pessoa)",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:23.971453"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:44.622933"
+    },
+    {
+      "test_name": "Search Response - Object Found Format",
+      "success": true,
+      "details": "Found marker: True, Location info: True",
+      "timestamp": "2025-11-15T15:05:44.623723"
+    },
+    {
+      "test_name": "Search Response - Portuguese Language",
+      "success": true,
+      "details": "Portuguese detected: True",
+      "timestamp": "2025-11-15T15:05:44.623742"
     },
     {
       "test_name": "Search Query - Object Not Found (elefante)",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:24.006926"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:45.503551"
+    },
+    {
+      "test_name": "Search Response - Object Not Found Format",
+      "success": true,
+      "details": "Not found marker present: True",
+      "timestamp": "2025-11-15T15:05:45.504389"
     },
     {
       "test_name": "Search Query - Common Object (telefone)",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:24.082710"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:46.338932"
+    },
+    {
+      "test_name": "Search Response Format - telefone",
+      "success": true,
+      "details": "Valid search response format: True",
+      "timestamp": "2025-11-15T15:05:46.339777"
     },
     {
       "test_name": "Search Query - Common Object (livro)",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:24.160232"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:47.213662"
+    },
+    {
+      "test_name": "Search Response Format - livro",
+      "success": true,
+      "details": "Valid search response format: True",
+      "timestamp": "2025-11-15T15:05:47.214461"
     },
     {
       "test_name": "Search Query - Common Object (cadeira)",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:24.198953"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:48.030826"
+    },
+    {
+      "test_name": "Search Response Format - cadeira",
+      "success": true,
+      "details": "Valid search response format: True",
+      "timestamp": "2025-11-15T15:05:48.031516"
     },
     {
       "test_name": "Search Query - Parameter Processing",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:24.235152"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:48.658415"
+    },
+    {
+      "test_name": "Search Query - Special Prompt Usage",
+      "success": true,
+      "details": "Special search prompt detected: True",
+      "timestamp": "2025-11-15T15:05:48.659101"
     },
     {
       "test_name": "Search Query - Location Detection (pessoa)",
-      "success": false,
-      "details": "Status: 500, Expected: 200, Response: {'detail': \"UserMessage.__init__() got an unexpected keyword argument 'image'\"}",
-      "timestamp": "2025-11-09T20:20:24.268262"
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-11-15T15:05:49.413322"
+    },
+    {
+      "test_name": "Search Response - Location Details",
+      "success": true,
+      "details": "Location words found: ['centro', 'superior', 'localiza\u00e7\u00e3o']",
+      "timestamp": "2025-11-15T15:05:49.414195"
     },
     {
       "test_name": "Normal Analysis - No Search Query",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:20:32.550152"
+      "timestamp": "2025-11-15T15:05:55.719218"
     },
     {
       "test_name": "Normal Analysis - No Search Format",
       "success": true,
       "details": "Normal analysis format confirmed: True",
-      "timestamp": "2025-11-09T20:20:32.550935"
+      "timestamp": "2025-11-15T15:05:55.719937"
     },
     {
       "test_name": "Export Report - JSON",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:20:32.870823"
+      "timestamp": "2025-11-15T15:05:56.084743"
     },
     {
       "test_name": "Export Report - CSV",
       "success": true,
       "details": "Status: 200, Expected: 200",
-      "timestamp": "2025-11-09T20:20:32.977924"
+      "timestamp": "2025-11-15T15:05:56.196765"
     }
   ]
 }
