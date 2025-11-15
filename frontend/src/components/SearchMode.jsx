@@ -270,23 +270,70 @@ const SearchMode = ({ onBack, isActive }) => {
     }
   };
 
-  const playSuccessSound = () => {
-    // Create a simple beep sound
+  const playDirectionalSound = (location) => {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Create multiple oscillators for richer sound
+    const createOscillator = (freq, startTime, duration, panValue = 0) => {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      const panner = audioContext.createStereoPanner();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(panner);
+      panner.connect(audioContext.destination);
+      
+      oscillator.frequency.value = freq;
+      oscillator.type = 'sine';
+      panner.pan.value = panValue; // -1 (left) to 1 (right)
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + startTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + startTime + duration);
+      
+      oscillator.start(audioContext.currentTime + startTime);
+      oscillator.stop(audioContext.currentTime + startTime + duration);
+    };
+    
+    // Direction-based sound
+    let panValue = 0;
+    if (location.includes("esquerda")) panValue = -0.8;
+    if (location.includes("direita")) panValue = 0.8;
+    
+    // Success melody with panning
+    createOscillator(800, 0, 0.15, panValue);
+    createOscillator(1000, 0.15, 0.15, panValue);
+    createOscillator(1200, 0.3, 0.3, panValue);
+  };
+
+  const playGuidanceBeep = (direction) => {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
+    const panner = audioContext.createStereoPanner();
     
     oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    gainNode.connect(panner);
+    panner.connect(audioContext.destination);
     
-    oscillator.frequency.value = 800;
-    oscillator.type = 'sine';
+    // Direction-specific beeps
+    const directionMap = {
+      'left': { freq: 600, pan: -0.9 },
+      'right': { freq: 600, pan: 0.9 },
+      'up': { freq: 800, pan: 0 },
+      'down': { freq: 400, pan: 0 }
+    };
     
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    const config = directionMap[direction] || { freq: 500, pan: 0 };
+    
+    oscillator.frequency.value = config.freq;
+    oscillator.type = 'square';
+    panner.pan.value = config.pan;
+    
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
     
     oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
+    oscillator.stop(audioContext.currentTime + 0.2);
   };
 
   return (
