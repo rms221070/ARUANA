@@ -70,7 +70,7 @@ const BrailleReader = ({ onBack, isActive }) => {
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
           setIsStreaming(true);
-          announceStatus("Câmera pronta. Posicione o texto em Braille sob boa iluminação. Mantenha a câmera estável e paralela ao texto.");
+          announceStatus("Câmera pronta. Centralize o texto em Braille na tela. Use boa iluminação e mantenha a câmera estável.");
           toast.success("Câmera ativada em alta resolução para Braille!");
         }
       } catch (err) {
