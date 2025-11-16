@@ -19,7 +19,7 @@ const BrailleReader = ({ onBack, isActive }) => {
   const [translatedText, setTranslatedText] = useState("");
   const [imageQuality, setImageQuality] = useState(null); // good, medium, poor
   const [brailleHistory, setBrailleHistory] = useState([]);
-  const [statusMessage, setStatusMessage] = useState("Posicione o texto em Braille");
+  const [statusMessage, setStatusMessage] = useState("Ativando câmera para leitura de Braille");
   const [captureMode, setCaptureMode] = useState("single"); // single, continuous
   
   const videoRef = useRef(null);
