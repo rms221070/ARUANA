@@ -522,8 +522,96 @@ const SearchMode = ({ onBack, isActive }) => {
           </Button>
         )}
 
+        {/* Detailed Results - Distance & Navigation */}
+        {foundObject && (objectDistance || navigationInstructions) && (
+          <div className={`p-6 rounded-2xl ${
+            settings.highContrast
+              ? 'bg-gray-900 border-2 border-white'
+              : 'bg-gradient-to-br from-green-900/50 to-emerald-900/50 backdrop-blur-xl border border-green-500/30'
+          }`}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className={`text-lg font-bold ${settings.highContrast ? 'text-white' : 'text-white'} flex items-center gap-2`}>
+                <MapPin className="w-6 h-6 text-green-400" />
+                Objeto Localizado
+              </h3>
+              <Button
+                onClick={resetSearch}
+                size="sm"
+                className="bg-blue-600 hover:bg-blue-700"
+                aria-label="Nova busca"
+              >
+                Nova Busca
+              </Button>
+            </div>
+
+            {/* Object Name */}
+            <div className="mb-4 pb-4 border-b border-white/20">
+              <p className={`text-2xl font-bold ${settings.highContrast ? 'text-white' : 'text-green-300'}`}>
+                ✓ {foundObject}
+              </p>
+            </div>
+
+            {/* Position */}
+            {objectLocation && (
+              <div className="mb-4">
+                <p className={`text-sm font-semibold mb-1 ${settings.highContrast ? 'text-gray-400' : 'text-green-200'}`}>
+                  📍 POSIÇÃO:
+                </p>
+                <p className={`text-lg ${settings.highContrast ? 'text-white' : 'text-white'}`}>
+                  {objectLocation}
+                </p>
+              </div>
+            )}
+
+            {/* Distance */}
+            {objectDistance && (
+              <div className="mb-4 bg-blue-900/30 p-4 rounded-xl">
+                <p className={`text-sm font-semibold mb-1 ${settings.highContrast ? 'text-gray-400' : 'text-blue-200'}`}>
+                  📏 DISTÂNCIA ESTIMADA:
+                </p>
+                <p className={`text-xl font-bold ${settings.highContrast ? 'text-white' : 'text-blue-100'}`}>
+                  {objectDistance}
+                </p>
+              </div>
+            )}
+
+            {/* Navigation Instructions */}
+            {navigationInstructions && (
+              <div className="bg-amber-900/30 p-4 rounded-xl">
+                <p className={`text-sm font-semibold mb-2 ${settings.highContrast ? 'text-gray-400' : 'text-amber-200'} flex items-center gap-2`}>
+                  🧭 NAVEGAÇÃO:
+                </p>
+                <p className={`text-base leading-relaxed ${settings.highContrast ? 'text-white' : 'text-amber-50'}`}>
+                  {navigationInstructions}
+                </p>
+                <Button
+                  onClick={() => narrate(navigationInstructions)}
+                  size="sm"
+                  className="mt-3 bg-amber-600 hover:bg-amber-700"
+                  aria-label="Repetir instruções"
+                >
+                  <Volume2 className="w-4 h-4 mr-2" />
+                  Repetir Instruções
+                </Button>
+              </div>
+            )}
+
+            {/* Full Description (collapsible) */}
+            {fullDescription && (
+              <details className="mt-4">
+                <summary className={`cursor-pointer text-sm font-semibold ${settings.highContrast ? 'text-gray-400' : 'text-green-200'} hover:text-white`}>
+                  Ver Descrição Completa ▼
+                </summary>
+                <p className={`mt-2 text-xs ${settings.highContrast ? 'text-gray-300' : 'text-white/80'} whitespace-pre-wrap`}>
+                  {fullDescription}
+                </p>
+              </details>
+            )}
+          </div>
+        )}
+
         {/* Recent Searches */}
-        {recentSearches.length > 0 && !isSearching && (
+        {recentSearches.length > 0 && !isSearching && !foundObject && (
           <div className={`p-4 rounded-xl ${
             settings.highContrast
               ? 'bg-gray-900 border-2 border-white'
