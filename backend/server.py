@@ -52,30 +52,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 days
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# OAuth Configuration
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://sight-helper-8.preview.emergentagent.com')
-BACKEND_URL = os.environ.get('BACKEND_URL', 'https://sight-helper-8.preview.emergentagent.com')
-
-oauth = OAuth()
-
-# Google OAuth
-oauth.register(
-    name='google',
-    client_id=os.environ.get('GOOGLE_CLIENT_ID', ''),
-    client_secret=os.environ.get('GOOGLE_CLIENT_SECRET', ''),
-    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid email profile'}
-)
-
-# Microsoft OAuth
-oauth.register(
-    name='microsoft',
-    client_id=os.environ.get('MICROSOFT_CLIENT_ID', ''),
-    client_secret=os.environ.get('MICROSOFT_CLIENT_SECRET', ''),
-    server_metadata_url='https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid email profile'}
-)
-
 # Authentication utilities
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
