@@ -73,10 +73,10 @@ const TechnicalDocumentUpdated = () => {
       <Card className="lg:col-span-3 bg-white/90 backdrop-blur-sm">
         <CardHeader>
           <CardTitle>
-            ARUANÃ - Documentação Técnico-Científica v3.0
+            ARUANÃ - Documentação Técnico-Científica v5.0
           </CardTitle>
           <p className="text-sm text-slate-600">
-            Sistema Avançado de Visão Assistiva com IA
+            Sistema Avançado de Visão Assistiva com IA - 15 Módulos Especializados
           </p>
         </CardHeader>
         <CardContent>
