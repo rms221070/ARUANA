@@ -20,11 +20,13 @@ const SearchMode = ({ onBack, isActive }) => {
   const [isListening, setIsListening] = useState(false);
   const [foundObject, setFoundObject] = useState(null);
   const [objectLocation, setObjectLocation] = useState(null); // left, center, right, top, bottom
-  const [objectDistance, setObjectDistance] = useState(null); // close, medium, far
+  const [objectDistance, setObjectDistance] = useState(null); // distance in meters
+  const [navigationInstructions, setNavigationInstructions] = useState(""); // step-by-step navigation
   const [searchAttempts, setSearchAttempts] = useState(0);
   const [directionGuidance, setDirectionGuidance] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
   const [statusMessage, setStatusMessage] = useState("Digite o que você procura");
+  const [fullDescription, setFullDescription] = useState(""); // Full AI response
   
   const videoRef = useRef(null);
   const streamRef = useRef(null);
