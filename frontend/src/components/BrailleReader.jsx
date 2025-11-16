@@ -412,14 +412,6 @@ const BrailleReader = ({ onBack, isActive }) => {
               </h3>
               <div className="flex gap-2">
                 <Button
-                  onClick={() => shareReading(translatedText)}
-                  size="sm"
-                  className="bg-green-600 hover:bg-green-700"
-                  aria-label="Compartilhar leitura"
-                >
-                  <Share2 className="w-4 h-4" />
-                </Button>
-                <Button
                   onClick={() => downloadReading(translatedText)}
                   size="sm"
                   className="bg-blue-600 hover:bg-blue-700"
