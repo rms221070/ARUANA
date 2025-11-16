@@ -17,10 +17,35 @@ const LoginPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    // Check for OAuth token in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const provider = urlParams.get('provider');
+    const error = urlParams.get('error');
+
+    if (error) {
+      toast.error('Erro ao fazer login com ' + (provider || 'OAuth'));
+      narrate('Erro ao fazer login social.');
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    if (token) {
+      // Store token and redirect
+      localStorage.setItem('auth_token', token);
+      toast.success(`Login realizado com sucesso via ${provider || 'OAuth'}!`);
+      narrate(`Login realizado com sucesso via ${provider || 'OAuth'}. Bem-vindo ao sistema.`);
+      // Clean URL and redirect
+      window.history.replaceState({}, document.title, window.location.pathname);
+      navigate('/');
+      return;
+    }
+
     if (isAuthenticated) {
       navigate('/');
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, narrate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
