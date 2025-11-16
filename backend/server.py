@@ -1952,6 +1952,276 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
         logging.error(f"Error in Braille reading: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/detect/traffic-safety", response_model=Detection)
+async def traffic_safety_analysis(input: DetectionCreate, request: Request):
+    """Sistema avançado de segurança no trânsito para pessoas cegas"""
+    try:
+        # Get authenticated user
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
+        detection = Detection(
+            source=input.source,
+            detection_type="traffic_safety",
+            image_data=input.image_data,
+            user_id=user_id
+        )
+        
+        # Extract base64 image data
+        image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
+        
+        # Get mode from input (navigation or crossing)
+        mode = "navigation"
+        if hasattr(input, 'mode'):
+            mode = input.mode
+        
+        # Ultra-specialized Traffic Safety Prompt
+        traffic_prompt = f"""🚦 SISTEMA AVANÇADO DE SEGURANÇA NO TRÂNSITO 🚦
+🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+
+**CONTEXTO CRÍTICO:**
+Você é um SISTEMA DE SEGURANÇA NO TRÂNSITO para pessoas CEGAS. Sua análise pode SALVAR VIDAS.
+A pessoa não consegue ver nada. Ela depende 100% da sua descrição para navegar com segurança.
+
+**MODO ATIVO:** {"ATRAVESSIA DE RUA" if mode == "crossing" else "NAVEGAÇÃO EM CALÇADA"}
+
+═══════════════════════════════════════════════════════════════
+## 🚗 ANÁLISE DE VEÍCULOS - PRIORIDADE MÁXIMA
+═══════════════════════════════════════════════════════════════
+
+**DETECÇÃO OBRIGATÓRIA:**
+
+1. **IDENTIFICAR TODOS OS VEÍCULOS:**
+   - Carros, motos, ônibus, caminhões, bicicletas, patinetes
+   - Quantidade: "1 carro", "2 motos", "nenhum veículo"
+   - Tipo específico: "carro sedan preto", "ônibus articulado", "motocicleta vermelha"
+
+2. **ESTIMATIVA DE DISTÂNCIA:**
+   - **MUITO PRÓXIMO (0-5 metros):** PERIGO CRÍTICO!
+     * Ocupa >40% da imagem
+     * Detalhes como placa, farol, roda muito visíveis
+     * RESPOSTA: "PERIGO CRÍTICO! Carro a 3 metros se aproximando!"
+   
+   - **PRÓXIMO (5-15 metros):** ATENÇÃO MÁXIMA
+     * Ocupa 20-40% da imagem
+     * Modelo do veículo identificável
+     * RESPOSTA: "ATENÇÃO! Ônibus a aproximadamente 10 metros"
+   
+   - **MÉDIO (15-30 metros):** CUIDADO
+     * Ocupa 10-20% da imagem
+     * Silhueta clara
+     * RESPOSTA: "CUIDADO: 2 carros a cerca de 20 metros"
+   
+   - **LONGE (>30 metros):** INFORMATIVO
+     * Ocupa <10% da imagem
+     * Apenas contorno
+     * RESPOSTA: "Veículos distantes (mais de 30 metros)"
+
+3. **DIREÇÃO E MOVIMENTO:**
+   - Vindo da ESQUERDA, DIREITA, FRENTE
+   - Velocidade aparente: parado, lento, médio, rápido
+   - Exemplo: "Moto vindo da direita em velocidade média, aproximadamente 8 metros"
+
+4. **NÍVEL DE PERIGO:**
+   - **CRÍTICO:** Veículo a menos de 5m, movimento rápido, na trajetória do usuário
+   - **ALTO:** Veículo próximo (5-10m), movimento detectado
+   - **MÉDIO:** Veículo visível mas distante (10-30m)
+   - **BAIXO:** Nenhum veículo próximo ou veículos parados distantes
+
+═══════════════════════════════════════════════════════════════
+## 🚦 SINAIS DE TRÂNSITO E SEMÁFOROS
+═══════════════════════════════════════════════════════════════
+
+**IDENTIFICAR E DESCREVER:**
+
+1. **SEMÁFOROS:**
+   - Estado atual: VERMELHO, AMARELO, VERDE
+   - Posição: à esquerda, centro, direita
+   - Para pedestres ou veículos?
+   - Exemplo: "Semáforo de pedestres VERDE à sua frente"
+
+2. **PLACAS DE SINALIZAÇÃO:**
+   - PARE (octogonal vermelho)
+   - DÊ A PREFERÊNCIA (triângulo invertido)
+   - PROIBIDO (círculo com barra)
+   - VELOCIDADE MÁXIMA (circular com número)
+   - DIREÇÃO (setas indicativas)
+   - Exemplo: "Placa de PARE à direita, 4 metros"
+
+3. **PLACAS DE RUA:**
+   - Nome da rua/avenida
+   - Ler TODO o texto visível
+   - Exemplo: "Placa de rua: AVENIDA PAULISTA"
+
+═══════════════════════════════════════════════════════════════
+## 🚶 FAIXAS DE PEDESTRE E TRAVESSIA
+═══════════════════════════════════════════════════════════════
+
+**ANÁLISE ESPECÍFICA:**
+
+1. **FAIXA DE PEDESTRE:**
+   - Detectada ou não?
+   - Tipo: zebrada, elevada, semaforizadas
+   - Posição: à frente, esquerda, direita
+   - Estado: bem conservada, desgastada, visível
+   - Exemplo: "Faixa de pedestre zebrada à sua frente, bem conservada"
+
+2. **SEGURANÇA PARA ATRAVESSAR (Modo Atravessia):**
+   
+   **SEGURO ATRAVESSAR se:**
+   - Semáforo de pedestre VERDE
+   - Nenhum veículo próximo (<15m) se movendo
+   - Via vazia ou veículos parados distantes
+   - RESPOSTA: "✓ SEGURO ATRAVESSAR. Nenhum veículo próximo. Semáforo verde."
+   
+   **NÃO ATRAVESSAR se:**
+   - Semáforo VERMELHO ou AMARELO
+   - Veículos a menos de 15 metros se aproximando
+   - Movimento intenso de veículos
+   - RESPOSTA: "✋ NÃO ATRAVESSE! Semáforo vermelho. 2 carros se aproximando."
+
+═══════════════════════════════════════════════════════════════
+## 🛣️ ANÁLISE DO AMBIENTE E OBSTÁCULOS
+═══════════════════════════════════════════════════════════════
+
+1. **TIPO DE VIA:**
+   - Rua residencial, avenida, estacionamento, praça
+   - Largura estimada
+   - Movimento: tranquilo, moderado, intenso
+
+2. **OBSTÁCULOS NA CALÇADA (Modo Navegação):**
+   - Buracos, degraus, postes, lixeiras
+   - Bicicletas/motos estacionadas na calçada
+   - Obras, barreiras, cones
+   - Distância e posição
+
+3. **ELEMENTOS DE SEGURANÇA:**
+   - Guarda-corpo, meio-fio
+   - Iluminação pública
+   - Outras pessoas na calçada
+
+═══════════════════════════════════════════════════════════════
+## 📋 FORMATO DE RESPOSTA OBRIGATÓRIO
+═══════════════════════════════════════════════════════════════
+
+**ESTRUTURA (Modo Navegação):**
+
+NÍVEL DE PERIGO: [CRÍTICO/ALTO/MÉDIO/BAIXO]
+
+VEÍCULOS DETECTADOS:
+- [Tipo] a [distância] metros, [direção], [velocidade]
+- Exemplo: "Carro sedan a 8 metros, vindo da esquerda, velocidade média"
+
+SINAIS E PLACAS:
+- [Descrição completa]
+
+OBSTÁCULOS:
+- [Se houver]
+
+RECOMENDAÇÃO:
+- [Ação clara e direta]
+
+---
+
+**ESTRUTURA (Modo Atravessia):**
+
+STATUS DE TRAVESSIA: [SEGURO ATRAVESSAR / NÃO ATRAVESSAR]
+
+SEMÁFORO: [Estado se visível]
+
+VEÍCULOS:
+- [Descrição detalhada de proximidade]
+
+FAIXA DE PEDESTRE: [Detectada/Não detectada]
+
+INSTRUÇÃO:
+- [Comando claro: atravesse agora OU aguarde]
+
+═══════════════════════════════════════════════════════════════
+
+**REGRAS CRÍTICAS:**
+- SEMPRE em português brasileiro
+- Priorize VEÍCULOS PRÓXIMOS acima de tudo
+- Seja ESPECÍFICO em distâncias (metros)
+- Use COMANDOS CLAROS: "Pare", "Aguarde", "Pode atravessar"
+- NUNCA diga "parece seguro" - seja DEFINITIVO
+- Se houver DÚVIDA, sempre opte pela SEGURANÇA (não atravessar)
+
+ANALISE A IMAGEM E RESPONDA:"""
+
+        # Process via Gemini 2.0 Flash with retry logic
+        max_retries = 3
+        retry_delay = 2
+        response = None
+        last_error = None
+        
+        for attempt in range(max_retries):
+            try:
+                chat = LlmChat(
+                    api_key=GOOGLE_API_KEY,
+                    session_id=f"traffic_safety_{uuid.uuid4()}",
+                    system_message="Você é um sistema especializado em segurança no trânsito para pessoas cegas. SEMPRE responda em português brasileiro. Sua análise pode salvar vidas - seja preciso e claro."
+                ).with_model("gemini", "gemini-2.0-flash")
+                
+                response = await chat.send_message(
+                    UserMessage(
+                        text=traffic_prompt,
+                        file_contents=[ImageContent(image_base64=image_data)]
+                    )
+                )
+                
+                # If we got here, request succeeded
+                break
+                
+            except Exception as e:
+                last_error = e
+                error_msg = str(e).lower()
+                
+                # Check if it's a retryable error
+                if '503' in error_msg or 'overloaded' in error_msg or 'rate' in error_msg:
+                    if attempt < max_retries - 1:
+                        logging.warning(f"Gemini API overloaded, retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                        await asyncio.sleep(retry_delay)
+                        retry_delay *= 2
+                        continue
+                    else:
+                        raise HTTPException(
+                            status_code=503,
+                            detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
+                        )
+                else:
+                    raise
+        
+        if response is None:
+            raise last_error or Exception("Failed to get response from Gemini")
+        
+        # Store the description
+        detection.description = response.strip()
+        
+        # Auto-categorize detection
+        detection.category = "traffic_safety"
+        
+        # Generate smart tags
+        detection.tags = ["trânsito", "segurança", "acessibilidade"]
+        
+        # Save to database
+        doc = detection.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        if doc.get('geo_location') and doc['geo_location'].get('timestamp'):
+            doc['geo_location']['timestamp'] = doc['geo_location']['timestamp'].isoformat()
+        await db.detections.insert_one(doc)
+        
+        return detection
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in traffic safety analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Authentication endpoints
 @api_router.post("/auth/register")
 async def register_user(user_data: UserRegister):
