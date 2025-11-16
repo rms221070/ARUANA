@@ -264,6 +264,8 @@ class DetectionCreate(BaseModel):
     geo_location: Optional[Dict[str, Any]] = None
     # Optional search query for object finding
     search_query: Optional[str] = None
+    # Optional mode for traffic safety (navigation/crossing)
+    mode: Optional[str] = None
     
 def auto_categorize_detection(detection: Detection) -> str:
     """Automatically categorize detection based on content analysis"""
