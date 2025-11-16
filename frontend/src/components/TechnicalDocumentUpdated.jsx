@@ -344,6 +344,50 @@ const TechnicalDocumentUpdated = () => {
                         </div>
                       </div>
                     </div>
+
+
+                    {/* Versão 3.5.0 */}
+                    <div className="border-l-4 border-cyan-500 pl-4">
+                      <h3 className="text-xl font-bold text-cyan-600">v3.5.0 - "Specialized Modes" 🎨</h3>
+                      <p className="text-sm text-slate-600">10 de Novembro de 2025</p>
+                      
+                      <div className="mt-4 space-y-3">
+                        <div>
+                          <p className="font-bold">🪙 MODO IDENTIFICAÇÃO DE MOEDAS [v3.5.1]</p>
+                          <ul className="list-disc list-inside ml-4 text-xs">
+                            <li>Detecção de moedas brasileiras (5¢, 10¢, 25¢, 50¢, R$1)</li>
+                            <li>Identificação de cédulas (R$2, R$5, R$10, R$20, R$50, R$100, R$200)</li>
+                            <li>Valor total calculado automaticamente</li>
+                            <li>Estado de conservação avaliado</li>
+                            <li>Autenticidade verificada (características de segurança)</li>
+                          </ul>
+                        </div>
+
+                        <div>
+                          <p className="font-bold">🎨 MODO DETECÇÃO DE CORES [v3.5.2]</p>
+                          <ul className="list-disc list-inside ml-4 text-xs">
+                            <li>Identificação de cores dominantes</li>
+                            <li>Código RGB e Hexadecimal</li>
+                            <li>Nome da cor em português</li>
+                            <li>Paleta de cores presente</li>
+                            <li>Tons e saturação descritos</li>
+                            <li>Contraste e harmonia analisados</li>
+                          </ul>
+                        </div>
+
+                        <div>
+                          <p className="font-bold">🤳 MODO SELFIE/PESSOAS [v3.5.3]</p>
+                          <ul className="list-disc list-inside ml-4 text-xs">
+                            <li>Análise facial detalhada</li>
+                            <li>Estimativa de idade</li>
+                            <li>Expressão facial identificada</li>
+                            <li>Características faciais descritas</li>
+                            <li>Vestuário e acessórios</li>
+                            <li>Fundo e contexto da foto</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                     
                     {/* Versão 3.0.0 */}
                     <div className="border-l-4 border-green-500 pl-4">
