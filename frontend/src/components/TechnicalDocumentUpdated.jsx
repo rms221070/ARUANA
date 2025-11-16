@@ -148,8 +148,202 @@ const TechnicalDocumentUpdated = () => {
               {activeSection === "versions" && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-bold">📚 HISTÓRICO DE VERSÕES DETALHADO</h2>
+                  <p className="text-sm text-slate-600">Evolução completa do sistema com atribuição de versões por recurso</p>
                   
                   <div className="space-y-6 mt-6">
+                    
+                    {/* Versão 5.0.0 - ATUAL */}
+                    <div className="border-l-4 border-red-500 pl-4">
+                      <h3 className="text-xl font-bold text-red-600">v5.0.0 - "Safety & Accessibility Revolution" 🚦</h3>
+                      <p className="text-sm text-slate-600">16 de Novembro de 2025</p>
+                      <p className="mt-2 font-semibold">⭐ VERSÃO ATUAL - CRITICAL SAFETY UPDATE</p>
+                      
+                      <div className="mt-4 space-y-3">
+                        <div>
+                          <p className="font-bold">🚦 SISTEMA DE SEGURANÇA NO TRÂNSITO [v5.0.0]</p>
+                          <p className="text-xs italic mb-2">Módulo crítico para navegação segura de pessoas cegas em ambientes urbanos</p>
+                          <ul className="list-disc list-inside ml-4 text-xs">
+                            <li><strong>Endpoint Backend:</strong> POST /api/detect/traffic-safety</li>
+                            <li><strong>Componente:</strong> TrafficSafety.jsx (520 linhas)</li>
+                            <li><strong>Prompt IA:</strong> ~180 linhas especializadas em segurança viária</li>
+                            <li><strong>Dois Modos Especializados:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Navegação: Alertas contínuos sobre veículos e obstáculos (análise a cada 2s)</li>
+                                <li>• Atravessia: Verificação de segurança para travessia de rua (análise a cada 1.5s)</li>
+                              </ul>
+                            </li>
+                            <li><strong>Detecção de Veículos com Distância:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Muito Próximo: 0-5m (PERIGO CRÍTICO)</li>
+                                <li>• Próximo: 5-15m (ATENÇÃO MÁXIMA)</li>
+                                <li>• Médio: 15-30m (CUIDADO)</li>
+                                <li>• Longe: >30m (INFORMATIVO)</li>
+                                <li>• Tipos identificados: carros, motos, ônibus, caminhões, bicicletas, patinetes</li>
+                                <li>• Direção: esquerda, direita, frente</li>
+                                <li>• Velocidade estimada: parado, lento, médio, rápido</li>
+                              </ul>
+                            </li>
+                            <li><strong>Identificação de Sinais de Trânsito:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Semáforos: Estado (vermelho/amarelo/verde), tipo (pedestre/veículo)</li>
+                                <li>• Placas: PARE, Dê a Preferência, Proibido, Velocidade, Direcionais</li>
+                                <li>• Leitura de placas de rua completa</li>
+                              </ul>
+                            </li>
+                            <li><strong>Detecção de Faixa de Pedestre:</strong> Tipo (zebrada/elevada/semaforizada), conservação, posição</li>
+                            <li><strong>Sistema de Segurança para Atravessia:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Análise completa: veículos + semáforo + faixa</li>
+                                <li>• Resposta definitiva: "PODE ATRAVESSAR" ✓ ou "NÃO ATRAVESSE" ✋</li>
+                                <li>• Feedback visual grande e colorido</li>
+                                <li>• Nunca ambíguo - sempre comando claro</li>
+                              </ul>
+                            </li>
+                            <li><strong>Sistema de Alertas com 4 Níveis:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• 🟢 SEGURO (verde)</li>
+                                <li>• 🟡 CUIDADO (amarelo)</li>
+                                <li>• 🟠 ATENÇÃO (laranja)</li>
+                                <li>• 🔴 PERIGO CRÍTICO (vermelho)</li>
+                                <li>• Alertas sonoros automáticos para perigos críticos</li>
+                                <li>• Sons diferentes por nível de perigo</li>
+                              </ul>
+                            </li>
+                            <li><strong>Interface:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Indicador de perigo no topo (cor + ícone + texto)</li>
+                                <li>• Visualização de estado do semáforo (círculo animado)</li>
+                                <li>• Cards informativos: veículos, sinais, faixa</li>
+                                <li>• Histórico de alertas (últimos 10)</li>
+                                <li>• Botões grandes para alternar modo</li>
+                              </ul>
+                            </li>
+                            <li><strong>Análise Ambiental:</strong> Tipo de via, obstáculos na calçada, movimento do trânsito, elementos de segurança</li>
+                            <li><strong>Base Científica:</strong> Princípios de segurança viária da OMS + normas ABNT NBR 9050</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Versão 4.5.0 */}
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <h3 className="text-xl font-bold text-purple-600">v4.5.0 - "Braille Master" ⠃</h3>
+                      <p className="text-sm text-slate-600">15 de Novembro de 2025</p>
+                      
+                      <div className="mt-4 space-y-3">
+                        <div>
+                          <p className="font-bold">⠃ LEITOR ESPECIALIZADO DE BRAILLE [v4.5.0]</p>
+                          <p className="text-xs italic mb-2">Primeiro sistema de leitura de Braille via IA para pessoas cegas</p>
+                          <ul className="list-disc list-inside ml-4 text-xs">
+                            <li><strong>Endpoint Backend:</strong> POST /api/detect/read-braille</li>
+                            <li><strong>Componente:</strong> BrailleReader.jsx</li>
+                            <li><strong>Prompt IA:</strong> ~150 linhas especializadas em Braille</li>
+                            <li><strong>Suporte Completo:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Braille Grade 1 (literário/não contraído) - correspondência 1:1</li>
+                                <li>• Braille Grade 2 (contraído/abreviado) - com contrações e sinais especiais</li>
+                                <li>• Sistema Braille brasileiro conforme normas</li>
+                              </ul>
+                            </li>
+                            <li><strong>Análise Célula por Célula:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Identificação dos 6 pontos por célula (pontos 1-6)</li>
+                                <li>• Tradução considerando contexto</li>
+                                <li>• Expansão de contrações Grade 2</li>
+                                <li>• Detecção de indicadores especiais (maiúscula, números, ênfase)</li>
+                              </ul>
+                            </li>
+                            <li><strong>Verificação de Qualidade:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Análise de iluminação e contraste</li>
+                                <li>• Detecção de pontos bem definidos vs. borrados</li>
+                                <li>• Verificação de espaçamento</li>
+                                <li>• Recomendações para melhorar captura</li>
+                              </ul>
+                            </li>
+                            <li><strong>Resposta JSON Estruturada:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• braille_detected: true/false</li>
+                                <li>• braille_grade: "Grade 1"/"Grade 2"/"Misto"</li>
+                                <li>• image_quality: overall, contrast, clarity</li>
+                                <li>• braille_text: representação dos pontos</li>
+                                <li>• translated_text: texto traduzido completo em português</li>
+                                <li>• detailed_translation: linha por linha, célula por célula</li>
+                                <li>• contractions_used: lista de contrações encontradas</li>
+                                <li>• confidence_score: 0.0-1.0</li>
+                              </ul>
+                            </li>
+                            <li><strong>Interface Frontend:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Câmera alta resolução (1920x1080)</li>
+                                <li>• Análise de qualidade em tempo real (brilho, contraste)</li>
+                                <li>• Dois modos: Captura única ou contínua (3s)</li>
+                                <li>• Histórico das últimas 10 leituras</li>
+                                <li>• Compartilhamento: copiar, baixar .txt</li>
+                                <li>• Narração TTS de todos os status</li>
+                                <li>• Instruções de posicionamento atualizadas</li>
+                              </ul>
+                            </li>
+                            <li><strong>Base Científica:</strong> Sistema Braille Louis Braille (1829) + Normas ABNT NBR 9050</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Versão 4.0.0 */}
+                    <div className="border-l-4 border-indigo-500 pl-4">
+                      <h3 className="text-xl font-bold text-indigo-600">v4.0.0 - "Smart Navigation" 🧭</h3>
+                      <p className="text-sm text-slate-600">14 de Novembro de 2025</p>
+                      
+                      <div className="mt-4 space-y-3">
+                        <div>
+                          <p className="font-bold">🔍 BUSCA INTELIGENTE COM DISTÂNCIA E NAVEGAÇÃO [v4.0.0]</p>
+                          <p className="text-xs italic mb-2">Sistema avançado de localização de objetos com guia de trajetória</p>
+                          <ul className="list-disc list-inside ml-4 text-xs">
+                            <li><strong>Prompt IA Aprimorado:</strong> ~150 linhas com instruções detalhadas</li>
+                            <li><strong>Estimativa de Distância em Metros:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Muito próximo: 0.5 a 1 metro (objeto >30% da imagem)</li>
+                                <li>• Próximo: 1.5 a 3 metros (10-30% da imagem)</li>
+                                <li>• Médio: 3 a 5 metros (5-10% da imagem)</li>
+                                <li>• Longe: 5 a 8 metros (2-5% da imagem)</li>
+                                <li>• Muito longe: >8 metros (<2% da imagem)</li>
+                                <li>• Análise baseada em: tamanho aparente, detalhes visíveis, contexto espacial</li>
+                              </ul>
+                            </li>
+                            <li><strong>Posicionamento Ultra-Preciso (Grid 7x3):</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Horizontal: 7 zonas (Esquerda extrema, Esquerda, Centro-esquerda, Centro, Centro-direita, Direita, Direita extrema)</li>
+                                <li>• Vertical: 3 zonas (Superior 0-33%, Meio 33-66%, Inferior 66-100%)</li>
+                                <li>• Coordenadas em percentual</li>
+                                <li>• Exemplo: "CENTRO-DIREITA (60% horizontal), MEIO (45% vertical)"</li>
+                              </ul>
+                            </li>
+                            <li><strong>Instruções de Navegação e Trajetória:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Direção de giro em graus precisos</li>
+                                <li>• Distância em metros e número de passos (1 passo ≈ 0.7m)</li>
+                                <li>• Altura do objeto (chão, altura do peito, acima)</li>
+                                <li>• Considerações de segurança sobre obstáculos</li>
+                                <li>• Exemplo: "Vire 30 graus para a direita. Caminhe em linha reta por aproximadamente 2 metros (3 passos)"</li>
+                              </ul>
+                            </li>
+                            <li><strong>Interface Aprimorada:</strong>
+                              <ul className="ml-6 mt-1">
+                                <li>• Painel de resultados detalhados com seções coloridas</li>
+                                <li>• Seção de posição com ícone 📍</li>
+                                <li>• Seção de distância em metros (destaque azul)</li>
+                                <li>• Seção de navegação com comandos (destaque âmbar)</li>
+                                <li>• Botão "Repetir Instruções" com TTS</li>
+                                <li>• Botão "Nova Busca" para resetar</li>
+                                <li>• Descrição completa expansível</li>
+                              </ul>
+                            </li>
+                            <li><strong>Base Científica:</strong> Teoria de navegação espacial + Ciências Cognitivas</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                     
                     {/* Versão 3.0.0 */}
                     <div className="border-l-4 border-green-500 pl-4">
