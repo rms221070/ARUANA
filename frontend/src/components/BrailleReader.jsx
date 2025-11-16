@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Camera, Loader2, Volume2, Share2, BookOpen, Grid3x3, CheckCircle, AlertCircle, Download, Copy } from "lucide-react";
+import { ArrowLeft, Camera, Loader2, Volume2, BookOpen, Grid3x3, CheckCircle, AlertCircle, Download, Copy } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
