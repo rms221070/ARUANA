@@ -680,7 +680,8 @@ const TechnicalDocumentUpdated = () => {
                   
                   <pre className="bg-slate-900 text-green-400 p-4 rounded text-[10px]">
 {`┌─────────────────────────────────────────────────────────────────────┐
-│                    ARQUITETURA ARUANÃ v3.0                          │
+│                    ARQUITETURA ARUANÃ v5.0                          │
+│            15 Módulos Especializados + IA Multi-Modelo              │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  ┌─────────────┐                                                   │
