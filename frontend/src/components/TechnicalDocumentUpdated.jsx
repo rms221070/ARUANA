@@ -112,21 +112,25 @@ const TechnicalDocumentUpdated = () => {
                       proporcionando autonomia total para pessoas cegas ou com deficiência visual.
                     </p>
 
-                    <h3 className="text-lg font-bold mt-6">🌟 PRINCIPAIS CARACTERÍSTICAS</h3>
+                    <h3 className="text-lg font-bold mt-6">🌟 PRINCIPAIS CARACTERÍSTICAS (15 Módulos)</h3>
                     <ul className="list-disc list-inside space-y-2 ml-4">
                       <li>✅ Detecção em Tempo Real via Webcam</li>
                       <li>✅ Análise de Imagens por Upload</li>
-                      <li>✅ OCR Avançado para Leitura de Textos (Livros, Quadros, Documentos)</li>
-                      <li>✅ Análise Nutricional em Nível PhD</li>
-                      <li>✅ Análise de Emoções e Sentimentos</li>
+                      <li>✅ OCR Avançado para Leitura de Textos</li>
+                      <li>✅ Análise Nutricional PhD com 30+ nutrientes</li>
+                      <li>✅ Busca Inteligente de Objetos com Distância e Navegação</li>
+                      <li>✅ Leitor Especializado de Braille (Grade 1 e 2)</li>
+                      <li>✅ Sistema de Segurança no Trânsito (2 modos)</li>
+                      <li>✅ Identificação de Moedas e Valores</li>
+                      <li>✅ Detecção de Cores com RGB/Hex</li>
+                      <li>✅ Análise de Pessoas (Selfie Mode)</li>
                       <li>✅ Geolocalização GPS Integrada</li>
-                      <li>✅ Sistema de Categorização Inteligente (11 categorias)</li>
-                      <li>✅ Tags Automáticas para Busca Avançada</li>
-                      <li>✅ Text-to-Speech em 5 Idiomas</li>
-                      <li>✅ Autenticação JWT Completa</li>
-                      <li>✅ Interface Responsiva e Acessível</li>
-                      <li>✅ Modo Alto Contraste</li>
-                      <li>✅ Descrições 200% Mais Detalhadas</li>
+                      <li>✅ Sistema de Categorização (11 categorias)</li>
+                      <li>✅ Text-to-Speech em 36 Idiomas</li>
+                      <li>✅ Autenticação JWT + Gestão de Perfil</li>
+                      <li>✅ Interface Ultra-Acessível com Alto Contraste</li>
+                      <li>✅ Descrições Ultradetalhadas (300+ palavras)</li>
+                      <li>✅ Relatórios Inteligentes e Histórico</li>
                     </ul>
 
                     <h3 className="text-lg font-bold mt-6">🔬 APLICAÇÕES CIENTÍFICAS</h3>
