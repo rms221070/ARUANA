@@ -653,9 +653,10 @@ const SearchMode = ({ onBack, isActive }) => {
           <ul className={`text-xs space-y-1 ${settings.highContrast ? 'text-gray-400' : 'text-blue-200'}`}>
             <li>1. Digite ou fale o objeto que procura</li>
             <li>2. Clique em "Iniciar Busca"</li>
-            <li>3. Movimente a câmera lentamente</li>
+            <li>3. Movimente a câmera lentamente pelo ambiente</li>
             <li>4. Ouça o alerta quando o objeto for encontrado</li>
-            <li>5. O sistema indicará a localização do objeto</li>
+            <li>5. Receba a posição exata, distância em metros e instruções de navegação</li>
+            <li>6. Siga as instruções de trajetória para chegar ao objeto</li>
           </ul>
         </div>
       </div>
