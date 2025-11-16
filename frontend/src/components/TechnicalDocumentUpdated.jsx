@@ -10,6 +10,7 @@ const TechnicalDocumentUpdated = () => {
   const sections = {
     intro: "Introdução",
     versions: "Histórico de Versões",
+    modules: "Módulos Especializados (15)",
     architecture: "Arquitetura Técnica",
     features: "Funcionalidades Implementadas",
     ai: "Inteligência Artificial",
