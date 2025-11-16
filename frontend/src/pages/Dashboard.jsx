@@ -106,8 +106,16 @@ const Dashboard = () => {
         />
       </div>
 
+      {/* Traffic Safety - always rendered but hidden when not active */}
+      <div className={currentView === 'traffic' ? 'block' : 'hidden'}>
+        <TrafficSafety 
+          onBack={handleBackToModeSelector}
+          isActive={currentView === 'traffic'}
+        />
+      </div>
+
       {/* Other Views */}
-      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && (
+      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && currentView !== 'traffic' && (
         <div className="min-h-screen p-6">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
