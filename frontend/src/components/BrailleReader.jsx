@@ -169,6 +169,11 @@ const BrailleReader = ({ onBack, isActive }) => {
       announceStatus("Processando texto em Braille com IA especializada. Aguarde.");
 
       const authToken = await getToken();
+      
+      if (!authToken) {
+        throw new Error("Sessão expirada. Por favor, faça login novamente.");
+      }
+
       const response = await axios.post(
         `${API}/detect/read-braille`,
         {
@@ -214,8 +219,13 @@ const BrailleReader = ({ onBack, isActive }) => {
       console.error("Braille analysis error:", error);
       
       let errorMessage = "Erro ao analisar Braille.";
+      
       if (error.message.includes("Câmera ainda não está pronta")) {
         errorMessage = error.message;
+      } else if (error.message.includes("Sessão expirada")) {
+        errorMessage = error.message;
+      } else if (error.response?.status === 401) {
+        errorMessage = "Sessão expirada. Por favor, faça login novamente.";
       } else if (error.response?.data?.detail) {
         errorMessage = error.response.data.detail;
       }
