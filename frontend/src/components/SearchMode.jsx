@@ -180,12 +180,21 @@ const SearchMode = ({ onBack, isActive }) => {
       searchIntervalRef.current = null;
     }
     setIsSearching(false);
+    setSearchAttempts(0);
+    setDirectionGuidance("");
+    if (!foundObject) {
+      announceStatus("Busca interrompida.");
+    }
+  };
+  
+  const resetSearch = () => {
     setFoundObject(null);
     setObjectLocation(null);
     setObjectDistance(null);
-    setSearchAttempts(0);
-    setDirectionGuidance("");
-    announceStatus("Busca interrompida.");
+    setNavigationInstructions("");
+    setFullDescription("");
+    setSearchQuery("");
+    announceStatus("Digite o que você procura.");
   };
 
   const searchForObject = async () => {
