@@ -326,26 +326,6 @@ const BrailleReader = ({ onBack, isActive }) => {
           aria-label="Visualização da câmera"
         />
 
-        {/* Braille Positioning Guide */}
-        {isStreaming && !isAnalyzing && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="relative">
-              {/* Main frame */}
-              <div className="w-80 h-48 border-4 border-dashed border-orange-500 rounded-lg"></div>
-              {/* Corner markers */}
-              <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-orange-400"></div>
-              <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-orange-400"></div>
-              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-orange-400"></div>
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-orange-400"></div>
-              
-              {/* Instructions */}
-              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-orange-500/90 text-white px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap">
-                ⬚ Posicione o Braille dentro desta área
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Status and Quality Overlay */}
         {statusMessage && (
           <div className="absolute top-4 left-4 right-4">
