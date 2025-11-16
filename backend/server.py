@@ -233,6 +233,9 @@ class User(BaseModel):
     birth_date: Optional[str] = None
     reset_token: Optional[str] = None
     reset_token_expiry: Optional[datetime] = None
+    # OAuth fields
+    oauth_provider: Optional[str] = None  # "google", "microsoft"
+    oauth_id: Optional[str] = None
 
 class UserLogin(BaseModel):
     email: str
