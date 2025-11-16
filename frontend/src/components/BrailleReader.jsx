@@ -258,25 +258,6 @@ const BrailleReader = ({ onBack, isActive }) => {
     }
   };
 
-  const shareReading = async (text) => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Leitura de Braille - ARUANÃ',
-          text: `Texto em Braille lido:\n\n${text}`,
-        });
-        announceStatus("Texto compartilhado com sucesso!");
-      } catch (err) {
-        console.log('Erro ao compartilhar:', err);
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(text);
-      toast.success("Texto copiado para área de transferência!");
-      announceStatus("Texto copiado. Cole onde desejar.");
-    }
-  };
-
   const downloadReading = (text, format = "txt") => {
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
