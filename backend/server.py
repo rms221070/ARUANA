@@ -2075,6 +2075,131 @@ async def reset_password(reset_data: PasswordReset):
         logging.error(f"Reset password error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to reset password")
 
+# ==================== OAUTH ENDPOINTS ====================
+
+@api_router.get("/auth/google")
+async def google_login(request: Request):
+    """Initiate Google OAuth login"""
+    redirect_uri = f"{BACKEND_URL}/api/auth/google/callback"
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+@api_router.get("/auth/google/callback")
+async def google_callback(request: Request):
+    """Handle Google OAuth callback"""
+    try:
+        token = await oauth.google.authorize_access_token(request)
+        user_info = token.get('userinfo')
+        
+        if not user_info:
+            raise HTTPException(status_code=400, detail="Failed to get user info from Google")
+        
+        # Check if user exists
+        email = user_info.get('email')
+        existing_user = await db.users.find_one({"email": email})
+        
+        if existing_user:
+            # User exists, log them in
+            user_id = existing_user['id']
+        else:
+            # Create new user
+            user = User(
+                name=user_info.get('name', email.split('@')[0]),
+                email=email,
+                password_hash=pwd_context.hash(secrets.token_urlsafe(32)),  # Random password
+                user_type="user",
+                oauth_provider="google",
+                oauth_id=user_info.get('sub')
+            )
+            
+            user_dict = user.model_dump()
+            user_dict['created_at'] = user_dict['created_at'].isoformat()
+            if user_dict.get('last_login'):
+                user_dict['last_login'] = user_dict['last_login'].isoformat()
+            
+            await db.users.insert_one(user_dict)
+            user_id = user.id
+        
+        # Create JWT token
+        access_token = create_access_token(data={"sub": user_id})
+        
+        # Redirect to frontend with token
+        return RedirectResponse(
+            url=f"{FRONTEND_URL}?token={access_token}&provider=google",
+            status_code=302
+        )
+        
+    except Exception as e:
+        logging.error(f"Google OAuth error: {str(e)}")
+        return RedirectResponse(
+            url=f"{FRONTEND_URL}?error=oauth_failed",
+            status_code=302
+        )
+
+@api_router.get("/auth/microsoft")
+async def microsoft_login(request: Request):
+    """Initiate Microsoft OAuth login"""
+    redirect_uri = f"{BACKEND_URL}/api/auth/microsoft/callback"
+    return await oauth.microsoft.authorize_redirect(request, redirect_uri)
+
+@api_router.get("/auth/microsoft/callback")
+async def microsoft_callback(request: Request):
+    """Handle Microsoft OAuth callback"""
+    try:
+        token = await oauth.microsoft.authorize_access_token(request)
+        
+        # Get user info from Microsoft Graph API
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                'https://graph.microsoft.com/v1.0/me',
+                headers={'Authorization': f'Bearer {token["access_token"]}'}
+            )
+            user_info = response.json()
+        
+        if not user_info:
+            raise HTTPException(status_code=400, detail="Failed to get user info from Microsoft")
+        
+        # Check if user exists
+        email = user_info.get('mail') or user_info.get('userPrincipalName')
+        existing_user = await db.users.find_one({"email": email})
+        
+        if existing_user:
+            # User exists, log them in
+            user_id = existing_user['id']
+        else:
+            # Create new user
+            user = User(
+                name=user_info.get('displayName', email.split('@')[0]),
+                email=email,
+                password_hash=pwd_context.hash(secrets.token_urlsafe(32)),  # Random password
+                user_type="user",
+                oauth_provider="microsoft",
+                oauth_id=user_info.get('id')
+            )
+            
+            user_dict = user.model_dump()
+            user_dict['created_at'] = user_dict['created_at'].isoformat()
+            if user_dict.get('last_login'):
+                user_dict['last_login'] = user_dict['last_login'].isoformat()
+            
+            await db.users.insert_one(user_dict)
+            user_id = user.id
+        
+        # Create JWT token
+        access_token = create_access_token(data={"sub": user_id})
+        
+        # Redirect to frontend with token
+        return RedirectResponse(
+            url=f"{FRONTEND_URL}?token={access_token}&provider=microsoft",
+            status_code=302
+        )
+        
+    except Exception as e:
+        logging.error(f"Microsoft OAuth error: {str(e)}")
+        return RedirectResponse(
+            url=f"{FRONTEND_URL}?error=oauth_failed",
+            status_code=302
+        )
+
 # ==================== ADMIN ENDPOINTS ====================
 
 @api_router.get("/admin/users")
