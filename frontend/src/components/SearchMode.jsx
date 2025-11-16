@@ -228,51 +228,53 @@ const SearchMode = ({ onBack, isActive }) => {
         // Check if object was found using the new format from backend
         if (description.includes("OBJETO ENCONTRADO")) {
           setFoundObject(searchQuery);
+          setFullDescription(description);
           
-          // Extract detailed location and distance from description
-          const descLower = description.toLowerCase();
+          // Extract detailed information using keywords
+          const lines = description.split('\n');
           
-          // Determine location
-          let location = "centro";
-          let horizontalPos = "";
-          let verticalPos = "";
-          
-          if (descLower.includes("esquerda")) horizontalPos = "esquerda";
-          if (descLower.includes("direita")) horizontalPos = "direita";
-          if (descLower.includes("superior") || descLower.includes("cima") || descLower.includes("alto")) verticalPos = "superior";
-          if (descLower.includes("inferior") || descLower.includes("baixo")) verticalPos = "inferior";
-          
-          if (horizontalPos && verticalPos) {
-            location = `${horizontalPos} ${verticalPos}`;
-          } else if (horizontalPos) {
-            location = horizontalPos;
-          } else if (verticalPos) {
-            location = verticalPos;
+          // Extract position
+          const positionLine = lines.find(l => l.includes('POSIÇÃO:') || l.includes('Posição:'));
+          if (positionLine) {
+            const posMatch = positionLine.match(/POSIÇÃO:\s*(.+)/i);
+            if (posMatch) {
+              setObjectLocation(posMatch[1].trim());
+            }
           }
           
-          setObjectLocation(location);
-          
-          // Determine distance
-          let distance = "próximo";
-          if (descLower.includes("distante") || descLower.includes("longe") || descLower.includes("fundo")) {
-            distance = "distante";
-          } else if (descLower.includes("perto") || descLower.includes("próximo") || descLower.includes("frente")) {
-            distance = "próximo";
-          } else if (descLower.includes("médio") || descLower.includes("meio")) {
-            distance = "média distância";
+          // Extract distance with meters
+          const distanceLine = lines.find(l => l.includes('DISTÂNCIA:') || l.includes('Distância:'));
+          if (distanceLine) {
+            const distMatch = distanceLine.match(/DISTÂNCIA:\s*(.+)/i);
+            if (distMatch) {
+              setObjectDistance(distMatch[1].trim());
+            }
           }
           
-          setObjectDistance(distance);
+          // Extract navigation instructions
+          const navLine = lines.find(l => l.includes('NAVEGAÇÃO:') || l.includes('Navegação:'));
+          if (navLine) {
+            const navMatch = navLine.match(/NAVEGAÇÃO:\s*(.+)/i);
+            if (navMatch) {
+              setNavigationInstructions(navMatch[1].trim());
+            }
+          }
           
           // Stop search and announce with detailed info
           stopSearch();
           
-          const locationAnnounce = `${searchQuery} encontrado! Posição: ${location}. Distância: ${distance}.`;
-          announceStatus(locationAnnounce);
-          toast.success(`✓ ${searchQuery} encontrado em: ${location}!`, { duration: 5000 });
+          const locationText = objectLocation || "posição detectada";
+          const distanceText = objectDistance || "distância estimada";
+          const navText = navigationInstructions || "objeto localizado";
+          
+          const announcement = `${searchQuery} encontrado! ${locationText}. ${distanceText}. ${navText}`;
+          announceStatus(announcement);
+          toast.success(`✓ ${searchQuery} encontrado!`, { duration: 5000 });
           
           // Play directional success sound
-          playDirectionalSound(location);
+          if (objectLocation) {
+            playDirectionalSound(objectLocation.toLowerCase());
+          }
           
         } else {
           // Object not found, provide guidance
