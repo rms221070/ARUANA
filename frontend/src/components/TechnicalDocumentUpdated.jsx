@@ -30,7 +30,7 @@ const TechnicalDocumentUpdated = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'ARUANA_Documentacao_Tecnica_v3.0.txt';
+    a.download = 'ARUANA_Documentacao_Tecnica_v5.0.txt';
     a.click();
   };
 
