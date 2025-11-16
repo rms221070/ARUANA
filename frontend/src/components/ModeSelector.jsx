@@ -126,6 +126,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       description: "Leitor de Braille Grade 1 e 2",
       color: "from-teal-500 to-teal-700",
       shadow: "shadow-[0_10px_30px_rgba(20,184,166,0.5)]"
+    },
+    {
+      id: "traffic",
+      icon: Car,
+      title: "Trânsito",
+      description: "Segurança no trânsito",
+      color: "from-red-500 to-red-700",
+      shadow: "shadow-[0_10px_30px_rgba(239,68,68,0.5)]"
     }
   ];
 
