@@ -518,26 +518,145 @@ async def analyze_frame(input: DetectionCreate, request: Request):
             
             # Check if this is a search request
             if input.search_query:
-                # Special prompt for object search
-                search_prompt = f"""🔍 TAREFA ESPECÍFICA: LOCALIZAR OBJETO
+                # Enhanced prompt for object search with distance estimation and trajectory guidance
+                search_prompt = f"""🔍 SISTEMA AVANÇADO DE LOCALIZAÇÃO E NAVEGAÇÃO DE OBJETOS 🎯
 
-Você deve identificar SE o objeto "{input.search_query}" está presente nesta imagem.
+**MISSÃO:** Localizar "{input.search_query}" e fornecer guia completo de navegação até o objeto.
 
-**INSTRUÇÕES CRÍTICAS:**
-1. Se o objeto "{input.search_query}" ESTIVER na imagem:
-   - Comece sua resposta com: "OBJETO ENCONTRADO: {input.search_query}"
-   - Descreva a LOCALIZAÇÃO EXATA: esquerda, direita, centro, superior, inferior
-   - Exemplo: "OBJETO ENCONTRADO: celular. Localização: direita superior da imagem, próximo à borda."
+**INSTRUÇÕES ULTRAESPECÍFICAS:**
 
-2. Se o objeto NÃO estiver na imagem:
-   - Comece com: "OBJETO NÃO ENCONTRADO"
-   - Liste brevemente o que você VÊ na imagem
+═══════════════════════════════════════════════════════════════
+## 1️⃣ DETECÇÃO DO OBJETO
+═══════════════════════════════════════════════════════════════
 
-3. SEMPRE use PORTUGUÊS DO BRASIL
+Se "{input.search_query}" ESTIVER na imagem:
+✅ Comece com: "OBJETO ENCONTRADO: {input.search_query}"
+
+Se NÃO estiver:
+❌ Comece com: "OBJETO NÃO ENCONTRADO"
+   Liste objetos visíveis para orientar a busca
+
+═══════════════════════════════════════════════════════════════
+## 2️⃣ ANÁLISE DE POSIÇÃO PRECISA (Se encontrado)
+═══════════════════════════════════════════════════════════════
+
+**POSIÇÃO HORIZONTAL:**
+- ESQUERDA EXTREMA (0-15% da largura)
+- ESQUERDA (15-35%)
+- CENTRO-ESQUERDA (35-45%)
+- CENTRO (45-55%)
+- CENTRO-DIREITA (55-65%)
+- DIREITA (65-85%)
+- DIREITA EXTREMA (85-100%)
+
+**POSIÇÃO VERTICAL:**
+- SUPERIOR (topo, 0-33% da altura)
+- MEIO (centro, 33-66%)
+- INFERIOR (base, 66-100%)
+
+**EXEMPLO:** "Posição: DIREITA, MEIO (70% horizontal, 50% vertical)"
+
+═══════════════════════════════════════════════════════════════
+## 3️⃣ ESTIMATIVA DE DISTÂNCIA EM METROS 📏
+═══════════════════════════════════════════════════════════════
+
+Analise o TAMANHO APARENTE do objeto comparado com:
+- Tamanho real típico do objeto
+- Proporção que ocupa na imagem
+- Detalhes visíveis (quanto mais detalhes = mais próximo)
+- Contexto espacial (móveis, pessoas, portas como referência)
+
+**CATEGORIAS DE DISTÂNCIA:**
+
+**MUITO PRÓXIMO (0-1 metro):**
+- Objeto ocupa >30% da imagem
+- Detalhes minuciosos visíveis (texturas, marcas, arranhões)
+- Proporção: "grande e dominante"
+- RESPOSTA: "DISTÂNCIA: Muito próximo, aproximadamente 0.5 a 1 metro"
+
+**PRÓXIMO (1-3 metros):**
+- Objeto ocupa 10-30% da imagem
+- Características gerais bem visíveis
+- Proporção: "bem visível"
+- RESPOSTA: "DISTÂNCIA: Próximo, aproximadamente 1.5 a 3 metros"
+
+**MÉDIO (3-5 metros):**
+- Objeto ocupa 5-10% da imagem
+- Formato reconhecível, alguns detalhes
+- Proporção: "tamanho médio"
+- RESPOSTA: "DISTÂNCIA: Distância média, aproximadamente 3 a 5 metros"
+
+**LONGE (5-8 metros):**
+- Objeto ocupa 2-5% da imagem
+- Apenas silhueta/forma geral visível
+- Proporção: "pequeno"
+- RESPOSTA: "DISTÂNCIA: Longe, aproximadamente 5 a 8 metros"
+
+**MUITO LONGE (>8 metros):**
+- Objeto ocupa <2% da imagem
+- Apenas contorno visível
+- Proporção: "muito pequeno/distante"
+- RESPOSTA: "DISTÂNCIA: Muito longe, mais de 8 metros"
+
+═══════════════════════════════════════════════════════════════
+## 4️⃣ INSTRUÇÕES DE NAVEGAÇÃO E TRAJETÓRIA 🧭
+═══════════════════════════════════════════════════════════════
+
+Forneça COMANDOS CLAROS E ACIONÁVEIS para o usuário se mover até o objeto:
+
+**COMANDOS DIRECIONAIS:**
+
+**Se objeto à ESQUERDA:**
+"NAVEGAÇÃO: Vire seu corpo para a esquerda [X graus]. Caminhe devagar mantendo a câmera apontada nessa direção."
+
+**Se objeto à DIREITA:**
+"NAVEGAÇÃO: Vire seu corpo para a direita [X graus]. Caminhe devagar mantendo a câmera apontada nessa direção."
+
+**Se objeto ao CENTRO:**
+"NAVEGAÇÃO: Objeto está diretamente à sua frente. Caminhe em linha reta por aproximadamente [X metros]."
+
+**Se objeto ACIMA:**
+"NAVEGAÇÃO: Objeto está acima. Incline a câmera para cima ou aproxime-se e olhe para cima."
+
+**Se objeto ABAIXO:**
+"NAVEGAÇÃO: Objeto está no chão/embaixo. Incline a câmera para baixo ou abaixe-se."
+
+**COMANDOS DE APROXIMAÇÃO:**
+- "Caminhe [X] passos para frente" (1 passo ≈ 0.7m)
+- "Aproxime-se mais [X] metros"
+- "Você está a aproximadamente [X] metros do objeto"
+
+═══════════════════════════════════════════════════════════════
+## 5️⃣ FORMATO DE RESPOSTA COMPLETO
+═══════════════════════════════════════════════════════════════
+
+**ESTRUTURA OBRIGATÓRIA (se encontrado):**
+
+OBJETO ENCONTRADO: [nome do objeto]
+
+POSIÇÃO: [horizontal detalhada], [vertical]
+Exemplo: "CENTRO-DIREITA (60% horizontal), MEIO (45% vertical)"
+
+DISTÂNCIA: [estimativa em metros com raciocínio]
+Exemplo: "Aproximadamente 2 a 3 metros. O objeto ocupa 15% da imagem e detalhes como textura são visíveis, indicando proximidade moderada."
+
+NAVEGAÇÃO: [comandos passo a passo]
+Exemplo: "Vire 30 graus para a direita. Caminhe em linha reta por aproximadamente 2 metros (3 passos). O objeto estará à altura do peito."
+
+DESCRIÇÃO RÁPIDA: [característica distintiva do objeto para confirmação]
+Exemplo: "Celular preto com capa azul, apoiado em superfície de madeira."
+
+═══════════════════════════════════════════════════════════════
+
+**IMPORTANTE:**
+- Use SEMPRE português brasileiro
+- Seja PRECISO nas medidas
+- Forneça comandos PRÁTICOS e EXECUTÁVEIS
+- Considere SEGURANÇA (obstáculos no caminho)
 
 Objeto procurado: {input.search_query}
 
-Analise a imagem e responda:"""
+Analise e responda:"""
 
                 user_message = UserMessage(text=search_prompt, file_contents=[image_content])
                 
