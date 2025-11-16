@@ -393,7 +393,6 @@ const TechnicalDocumentUpdated = () => {
                     <div className="border-l-4 border-green-500 pl-4">
                       <h3 className="text-xl font-bold text-green-600">v3.0.0 - "Intelligence Revolution" 🚀</h3>
                       <p className="text-sm text-slate-600">25 de Outubro de 2025</p>
-                      <p className="mt-2 font-semibold">⭐ VERSÃO ATUAL - MAJOR UPDATE</p>
                       
                       <div className="mt-4 space-y-3">
                         <div>
