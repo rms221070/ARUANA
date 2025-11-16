@@ -494,7 +494,7 @@ const BrailleReader = ({ onBack, isActive }) => {
           <ul className={`text-xs space-y-1 ${settings.highContrast ? 'text-gray-400' : 'text-blue-200'}`}>
             <li>• Use iluminação uniforme e adequada</li>
             <li>• Mantenha a câmera paralela ao texto</li>
-            <li>• Posicione o Braille dentro da área marcada</li>
+            <li>• Centralize o texto em Braille na tela</li>
             <li>• Evite sombras e reflexos</li>
             <li>• Mantenha a câmera estável durante a captura</li>
             <li>• Use modo contínuo para leitura de páginas</li>
