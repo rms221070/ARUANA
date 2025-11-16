@@ -168,7 +168,7 @@ const BrailleReader = ({ onBack, isActive }) => {
 
       announceStatus("Processando texto em Braille com IA especializada. Aguarde.");
 
-      const authToken = await getToken();
+      const authToken = getToken();
       
       if (!authToken) {
         throw new Error("Sessão expirada. Por favor, faça login novamente.");
