@@ -93,13 +93,14 @@ const TechnicalDocumentUpdated = () => {
                     <h3 className="text-lg font-bold">📋 INFORMAÇÕES DO DOCUMENTO</h3>
                     <pre className="bg-slate-900 text-green-400 p-4 rounded">
 {`┌─────────────────────────────────────────────────┐
-│ Versão do Sistema: 3.0.0 (Build 2025.10.25)   │
+│ Versão do Sistema: 5.0.0 (Build 2025.11.16)   │
 │ Tipo: Documentação Técnico-Científica         │
-│ Última Atualização: 25 de Outubro de 2025     │
+│ Última Atualização: 16 de Novembro de 2025    │
 │ Autores: Ricardo Marciano dos Santos (Pós-Doc)│
 │         Luiz Anastacio Alves (Supervisor)      │
 │ Instituição: LCC - Lab. Comunicação Celular   │
 │ Status: Produção - Totalmente Operacional     │
+│ Recursos: 15 Módulos Especializados          │
 └─────────────────────────────────────────────────┘`}
                     </pre>
 
