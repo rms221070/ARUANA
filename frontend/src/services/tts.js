@@ -5,6 +5,7 @@ class TTSService {
     this.currentVoice = null;
     this.rate = 1.0;
     this.autoNarrate = true;
+    this.currentAccent = 'neutro'; // Sotaque atual
     
     // Load voices
     this.loadVoices();
