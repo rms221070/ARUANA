@@ -12,7 +12,7 @@ const API = `${BACKEND_URL}/api`;
 
 const SearchMode = ({ onBack, isActive }) => {
   const { settings, narrate } = useSettings();
-  const { getToken } = useAuth();
+  // Authentication removed - no longer needed
   
   const [isStreaming, setIsStreaming] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
