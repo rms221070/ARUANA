@@ -16,8 +16,8 @@ i18n
       es: { translation: es },
       zh: { translation: zh }
     },
-    lng: 'pt',
-    fallbackLng: 'pt',
+    lng: 'pt-BR', // Forçar Português do Brasil como padrão
+    fallbackLng: 'pt-BR',
     interpolation: {
       escapeValue: false
     }
