@@ -62,45 +62,38 @@ class TTSService {
     return voices.find(v => v.lang === 'pt-BR' || v.lang.startsWith('pt-BR')) || voices[0];
   }
 
-  getMaleVoice(lang) {
-    const voices = this.getVoicesByLang(lang);
-    
-    // Prioritize Brazilian Portuguese male voices
-    if (lang === 'pt' || lang === 'pt-BR') {
-      // Look for specific Brazilian male voices
-      const brMaleVoice = voices.find(v => 
-        (v.lang === 'pt-BR' || v.lang.startsWith('pt-BR')) &&
-        (v.name.includes('Google português do Brasil') || 
-         v.name.includes('Luciana') === false &&
-         v.name.includes('male') ||
-         v.name.includes('Masculino') ||
-         v.name.toLowerCase().includes('male'))
-      );
-      
-      if (brMaleVoice) return brMaleVoice;
-      
-      // Fallback to any Brazilian Portuguese voice
-      const brVoice = voices.find(v => v.lang === 'pt-BR' || v.lang.startsWith('pt-BR'));
-      if (brVoice) return brVoice;
+  getMaleVoice(lang, accent = 'neutro') {
+    // Usar seleção por sotaque
+    return this.getVoiceByAccent(lang, 'male', accent);
+  }
+
+  getFemaleVoice(lang, accent = 'neutro') {
+    // Usar seleção por sotaque
+    return this.getVoiceByAccent(lang, 'female', accent);
+  }
+
+  setVoice(gender, lang = 'pt-BR', accent = 'neutro') {
+    // Forçar pt-BR se for apenas 'pt'
+    if (lang === 'pt') {
+      lang = 'pt-BR';
     }
     
-    // General male voice selection
-    return voices.find(v => v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female'))
-      || voices.find(v => !v.name.toLowerCase().includes('female'))
-      || voices[0];
-  }
-
-  getFemaleVoice(lang) {
-    const voices = this.getVoicesByLang(lang);
-    return voices.find(v => v.name.toLowerCase().includes('female'))
-      || voices[voices.length - 1]
-      || voices[0];
-  }
-
-  setVoice(gender, lang) {
+    this.currentAccent = accent;
     this.currentVoice = gender === 'male' 
-      ? this.getMaleVoice(lang) 
-      : this.getFemaleVoice(lang);
+      ? this.getMaleVoice(lang, accent) 
+      : this.getFemaleVoice(lang, accent);
+  }
+
+  // Obter parâmetros de pitch e rate baseados no sotaque
+  getAccentParameters(accent) {
+    const accentParams = {
+      'neutro': { pitch: 1.0, rate: 1.0 },
+      'sulista': { pitch: 0.95, rate: 0.95 }, // Fala mais pausada e grave
+      'carioca': { pitch: 1.1, rate: 1.05 }, // Fala mais aguda e rápida
+      'nordestino': { pitch: 1.05, rate: 1.1 } // Fala mais animada e rápida
+    };
+    
+    return accentParams[accent] || accentParams['neutro'];
   }
 
   setRate(rate) {
