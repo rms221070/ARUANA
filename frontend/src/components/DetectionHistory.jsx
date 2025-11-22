@@ -66,11 +66,7 @@ const DetectionHistory = () => {
 
   const shareDetection = async (detectionId) => {
     try {
-      const authToken = getToken();
-      if (!authToken) {
-        toast.error('Você precisa fazer login');
-        return;
-      }
+      // No authentication required (login removed)
 
       toast.loading('Gerando link de compartilhamento...');
 
