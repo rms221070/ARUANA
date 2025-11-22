@@ -72,12 +72,7 @@ const DetectionHistory = () => {
 
       const response = await axios.post(
         `${API}/detections/${detectionId}/share`,
-        {},
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`
-          }
-        }
+        {}
       );
 
       const shareUrl = response.data.share_url;
