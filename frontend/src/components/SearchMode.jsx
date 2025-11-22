@@ -165,40 +165,29 @@ const SearchMode = ({ onBack, isActive }) => {
   };
 
   const startVoiceSearch = () => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      
-      recognition.lang = 'pt-BR';
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.onstart = () => {
-        setIsListening(true);
-        announceStatus("Escutando. Diga o que você procura.");
-      };
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setSearchQuery(transcript);
-        announceStatus(`Procurando por: ${transcript}`);
-        setIsListening(false);
-      };
-
-      recognition.onerror = () => {
-        setIsListening(false);
-        toast.error("Erro ao reconhecer voz. Tente novamente.");
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognition.start();
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.start();
+        setShowVoiceTutorial(false);
+      } catch (error) {
+        console.error('Recognition start error:', error);
+        // If already running, stop and restart
+        if (error.message.includes('already started')) {
+          recognitionRef.current.stop();
+          setTimeout(() => {
+            recognitionRef.current.start();
+          }, 100);
+        }
+      }
     } else {
       toast.error("Reconhecimento de voz não disponível neste navegador.");
-      narrate("Reconhecimento de voz não disponível. Use o campo de texto.");
+      announceStatus("Reconhecimento de voz não disponível. Por favor, digite o nome do objeto.");
     }
+  };
+  
+  const showVoiceHelp = () => {
+    setShowVoiceTutorial(true);
+    announceStatus("Para usar o microfone: Clique no botão do microfone, aguarde o sinal sonoro, e diga claramente o nome do objeto que procura. Por exemplo: celular, chave, caneta, óculos. Depois clique em Iniciar Busca.");
   };
 
   const startSearch = async () => {
