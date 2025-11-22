@@ -72,14 +72,6 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       shadow: "shadow-[0_10px_30px_rgba(168,85,247,0.5)]"
     },
     {
-      id: "text-short",
-      icon: FileText,
-      title: "Texto Curto",
-      description: "Leitura instantânea de texto",
-      color: "from-blue-500 to-blue-700",
-      shadow: "shadow-[0_10px_30px_rgba(59,130,246,0.5)]"
-    },
-    {
       id: "food",
       icon: Apple,
       title: "Alimentos",
