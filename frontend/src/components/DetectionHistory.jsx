@@ -34,18 +34,8 @@ const DetectionHistory = () => {
   const fetchDetections = async () => {
     setLoading(true);
     try {
-      const authToken = getToken();
-      if (!authToken) {
-        console.warn('No auth token available for fetching detections');
-        setLoading(false);
-        return;
-      }
-      
-      const response = await axios.get(`${API}/detections?limit=50`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
+      // No authentication required (login removed)
+      const response = await axios.get(`${API}/detections?limit=50`);
       setDetections(response.data);
     } catch (error) {
       console.error('Error fetching detections:', error);
