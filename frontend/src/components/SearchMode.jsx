@@ -41,13 +41,60 @@ const SearchMode = ({ onBack, isActive }) => {
     narrate(message);
   };
 
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window) {
+      recognitionRef.current = new window.webkitSpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'pt-BR';
+
+      recognitionRef.current.onstart = () => {
+        setIsListening(true);
+        announceStatus("Ouvindo... Diga o nome do objeto que você procura.");
+      };
+
+      recognitionRef.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setSearchQuery(transcript);
+        setIsListening(false);
+        announceStatus(`Você disse: ${transcript}. Clique em Iniciar Busca para procurar.`);
+        toast.success(`Reconhecido: ${transcript}`);
+      };
+
+      recognitionRef.current.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+        if (event.error === 'no-speech') {
+          announceStatus("Não ouvi nada. Tente novamente.");
+          toast.error("Nenhuma fala detectada");
+        } else {
+          announceStatus("Erro ao reconhecer voz. Tente novamente.");
+          toast.error("Erro no reconhecimento de voz");
+        }
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
+
   // Start camera when component becomes active
   useEffect(() => {
     if (isActive && !hasPermissionRef.current) {
       startWebcam();
       hasPermissionRef.current = true;
+      
+      // Show voice tutorial on first time
+      if (isFirstTime) {
+        setTimeout(() => {
+          announceStatus("Bem-vindo ao modo de busca! Use o microfone para dizer o que procura, ou digite no campo de texto. Depois clique em Iniciar Busca. Vou movimentar a câmera procurando o objeto e avisar quando encontrar.");
+          setIsFirstTime(false);
+        }, 2000);
+      }
     }
-  }, [isActive]);
+  }, [isActive, isFirstTime]);
 
   const startWebcam = async () => {
     try {
