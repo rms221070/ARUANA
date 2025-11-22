@@ -1677,12 +1677,9 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
 async def read_braille(input: DetectionCreate, request: Request):
     """Leitor especializado de Braille - Suporta Grade 1 e Grade 2"""
     try:
-        # Get authenticated user
+        # Use default user_id if no authentication (login removed)
         auth_header = request.headers.get("Authorization")
-        user_id = get_current_user(auth_header)
-        
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Authentication required")
+        user_id = get_current_user(auth_header) if auth_header else "anonymous_user"
         
         detection = Detection(
             source=input.source,
