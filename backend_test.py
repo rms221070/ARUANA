@@ -2178,6 +2178,9 @@ class DetectionSystemTester:
             # Test alerts functionality
             self.test_alerts_crud()
             
+            # SPECIFIC TEST FOR REVIEW REQUEST: Test Math-Physics endpoint
+            self.test_math_physics_endpoint()
+            
             # SPECIFIC TEST FOR REVIEW REQUEST: Test Braille Reader endpoint
             self.test_braille_reader_endpoint(user_token)
             
