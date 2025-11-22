@@ -92,10 +92,7 @@ const MathPhysicsReader = ({ onBack, isActive }) => {
         return;
       }
 
-      const token = getToken();
-      if (!token) {
-        throw new Error("Sessão expirada. Por favor, faça login novamente.");
-      }
+      // No authentication required (login removed)
 
       const response = await axios.post(
         `${API}/detect/math-physics`,
@@ -106,8 +103,7 @@ const MathPhysicsReader = ({ onBack, isActive }) => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json'
           }
         }
       );
