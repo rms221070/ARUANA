@@ -2088,6 +2088,71 @@ class DetectionSystemTester:
         img_data = buffer.getvalue()
         return base64.b64encode(img_data).decode('utf-8')
 
+    def test_math_physics_endpoint(self):
+        """Test POST /api/detect/math-physics endpoint"""
+        print("\n🧮 Testing Math-Physics Analysis Endpoint:")
+        print("-" * 50)
+        
+        # Create a simple 1x1 pixel base64 image as requested
+        test_image = self.create_simple_test_image()
+        image_data = f"data:image/jpeg;base64,{test_image}"
+        
+        success, result = self.run_test(
+            "Math-Physics Analysis Endpoint",
+            "POST",
+            "detect/math-physics",
+            200,
+            data={
+                "source": "math_physics_reader",
+                "detection_type": "math_physics",
+                "image_data": image_data
+            }
+        )
+        
+        if success:
+            # Check response structure as requested
+            has_id = 'id' in result
+            has_description = 'description' in result and result['description']
+            has_timestamp = 'timestamp' in result
+            
+            self.log_test("Math-Physics - Response Structure", 
+                         has_id and has_description and has_timestamp,
+                         f"ID: {has_id}, Description: {bool(has_description)}, Timestamp: {has_timestamp}")
+            
+            # Check if description contains Portuguese text
+            description = result.get('description', '')
+            has_portuguese_text = len(description) > 0 and any(
+                word in description.lower() for word in [
+                    'matemática', 'física', 'equação', 'fórmula', 'problema', 
+                    'análise', 'cálculo', 'resultado', 'solução', 'expressão'
+                ]
+            )
+            
+            self.log_test("Math-Physics - Portuguese Description", 
+                         has_portuguese_text,
+                         f"Description length: {len(description)}, Contains Portuguese: {has_portuguese_text}")
+            
+            # Verify proper JSON structure
+            valid_json_structure = isinstance(result, dict)
+            
+            self.log_test("Math-Physics - Valid JSON Structure", 
+                         valid_json_structure,
+                         f"Response is valid JSON dict: {valid_json_structure}")
+            
+            return has_id and has_description and has_timestamp and has_portuguese_text
+        
+        return False
+
+    def create_simple_test_image(self):
+        """Create a simple 1x1 pixel test image as requested"""
+        # Create a 1x1 pixel image (minimal as requested)
+        img = Image.new('RGB', (1, 1), color='white')
+        
+        buffer = BytesIO()
+        img.save(buffer, format='JPEG')
+        img_data = buffer.getvalue()
+        return base64.b64encode(img_data).decode('utf-8')
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Comprehensive Backend Testing")
