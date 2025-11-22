@@ -25,6 +25,16 @@ const PersonalAssistant = ({ onBack, isActive }) => {
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
 
+  // Automatic screen entry narration
+  useEffect(() => {
+    if (isActive) {
+      const entryMessage = "Assistente Pessoal Ajuda ativado. Estou aqui para apoiar você emocionalmente e praticamente. Pode digitar sua mensagem ou usar o botão de microfone para falar. Como posso ajudar?";
+      setTimeout(() => {
+        announceStatus(entryMessage);
+      }, 500);
+    }
+  }, [isActive]);
+
   // Scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
