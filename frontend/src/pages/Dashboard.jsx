@@ -28,19 +28,40 @@ const Dashboard = () => {
   }, []);
 
   const handleModeSelect = (mode) => {
+    const modeNames = {
+      'search': 'Modo Buscar - Localizar objetos específicos',
+      'braille': 'Leitor de Braille - Grade 1 e 2',
+      'mathphysics': 'Leitor de Matemática e Física',
+      'assistant': 'Ajuda - Assistente pessoal',
+      'description': 'Modo Descrição - Análise completa do ambiente',
+      'general': 'Modo Geral - Análise de objetos',
+      'colors': 'Identificação de Cores',
+      'document': 'Captura de Documento',
+      'food': 'Análise de Alimentos',
+      'selfie': 'Modo Selfie',
+      'people': 'Detecção de Pessoas',
+      'currency': 'Identificação de Moedas'
+    };
+    
     if (mode === 'search') {
+      narrate(modeNames[mode] + '. Câmera será ativada. Use comandos de voz para buscar objetos.');
       setCurrentView('search');
       setShowModeSelector(false);
     } else if (mode === 'braille') {
+      narrate(modeNames[mode] + '. Câmera será ativada em alta resolução. Centralize o texto Braille.');
       setCurrentView('braille');
       setShowModeSelector(false);
     } else if (mode === 'mathphysics') {
+      narrate(modeNames[mode] + '. Câmera será ativada. Aponte para fórmulas matemáticas ou físicas.');
       setCurrentView('mathphysics');
       setShowModeSelector(false);
     } else if (mode === 'assistant') {
+      narrate(modeNames[mode] + '. Interface de chat carregada. Comece a conversar sobre seus desafios.');
       setCurrentView('assistant');
       setShowModeSelector(false);
     } else {
+      const modeName = modeNames[mode] || 'Modo de câmera';
+      narrate(modeName + '. Câmera será ativada automaticamente.');
       setSelectedMode(mode);
       setShowModeSelector(false);
       setCurrentView('camera');
@@ -51,10 +72,19 @@ const Dashboard = () => {
     setShowModeSelector(true);
     setSelectedMode(null);
     setCurrentView('modes');
-    narrate("Voltando ao menu principal");
+    narrate("Voltando ao menu principal. Use as setas do teclado para navegar entre os modos.");
   };
 
   const handleNavigation = (nav) => {
+    const navMessages = {
+      'more': 'Submenu MAIS aberto. 9 funcionalidades adicionais disponíveis.',
+      'history': 'Histórico de Detecções. Acesse suas análises anteriores.',
+      'reports': 'Relatórios Inteligentes. Visualize estatísticas e análises.',
+      'about': 'Sobre o Sistema. Informações sobre o ARUANÃ e equipe.'
+    };
+    
+    narrate(navMessages[nav] || 'Navegando...');
+    
     if (nav === 'more') {
       setCurrentView('more');
       setShowModeSelector(false);
