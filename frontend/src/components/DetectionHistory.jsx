@@ -15,7 +15,7 @@ const API = `${BACKEND_URL}/api`;
 const DetectionHistory = () => {
   const { t } = useTranslation();
   const { settings, narrate, narrateInterface } = useSettings();
-  const { token, getToken, user, isAdmin } = useAuth();
+  // Authentication removed - no longer needed
   const [detections, setDetections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDetection, setSelectedDetection] = useState(null);
