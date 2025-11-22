@@ -106,8 +106,16 @@ const Dashboard = () => {
         />
       </div>
 
+      {/* Math & Physics Reader - always rendered but hidden when not active */}
+      <div className={currentView === 'mathphysics' ? 'block' : 'hidden'}>
+        <MathPhysicsReader 
+          onBack={handleBackToModeSelector}
+          isActive={currentView === 'mathphysics'}
+        />
+      </div>
+
       {/* Other Views */}
-      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && (
+      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && currentView !== 'mathphysics' && (
         <div className="min-h-screen p-6">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
