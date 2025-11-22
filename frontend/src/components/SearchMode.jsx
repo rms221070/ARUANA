@@ -507,6 +507,31 @@ const SearchMode = ({ onBack, isActive }) => {
 
       {/* Search Controls */}
       <div className="p-6 space-y-4">
+        {/* Voice Tutorial Banner */}
+        {showVoiceTutorial && (
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-xl text-white animate-pulse">
+            <div className="flex items-start gap-3">
+              <Mic className="w-6 h-6 flex-shrink-0 mt-1" />
+              <div className="flex-1">
+                <p className="font-bold mb-2">Como usar o microfone:</p>
+                <ol className="text-sm space-y-1 list-decimal list-inside">
+                  <li>Clique no botão do microfone (🎤)</li>
+                  <li>Aguarde o sinal sonoro</li>
+                  <li>Diga claramente: "celular", "chave", "óculos", etc.</li>
+                  <li>Clique em "Iniciar Busca"</li>
+                </ol>
+              </div>
+              <button
+                onClick={() => setShowVoiceTutorial(false)}
+                className="p-1 hover:bg-white/20 rounded"
+                aria-label="Fechar tutorial"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Search Input */}
         <div className="flex gap-2">
           <Input
@@ -524,13 +549,27 @@ const SearchMode = ({ onBack, isActive }) => {
             aria-label="Campo de busca"
           />
           <Button
+            onClick={showVoiceHelp}
+            disabled={isSearching}
+            size="lg"
+            variant="outline"
+            className={settings.highContrast ? 'bg-gray-800 text-white border-white' : 'bg-slate-700 text-white border-blue-500/30'}
+            aria-label="Como usar o microfone"
+          >
+            <Volume2 className="w-5 h-5" />
+          </Button>
+          <Button
             onClick={startVoiceSearch}
             disabled={isSearching || isListening}
             size="lg"
-            className={settings.highContrast ? 'bg-white text-black' : 'bg-blue-600'}
-            aria-label="Busca por voz"
+            className={`${
+              isListening 
+                ? 'bg-red-600 animate-pulse' 
+                : settings.highContrast ? 'bg-white text-black' : 'bg-blue-600'
+            }`}
+            aria-label={isListening ? "Ouvindo..." : "Busca por voz"}
           >
-            <Mic className={`w-6 h-6 ${isListening ? 'animate-pulse text-red-500' : ''}`} />
+            <Mic className={`w-6 h-6 ${isListening ? 'text-white' : ''}`} />
           </Button>
         </div>
 
