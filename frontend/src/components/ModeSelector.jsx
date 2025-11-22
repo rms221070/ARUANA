@@ -266,16 +266,24 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
           return (
             <button
               key={mode.id}
-              onClick={() => handleModeSelect(mode)}
-              onFocus={() => narrate(`${mode.title}. ${mode.description}. Pressione Enter para selecionar.`)}
-              className={`group relative p-8 rounded-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:scale-95 ${
+              onClick={() => {
+                handleModeSelect(mode);
+                narrate(`${mode.title} selecionado. ${mode.description}`);
+              }}
+              onFocus={() => {
+                narrate(`${mode.title}. ${mode.description}. Pressione Enter para selecionar.`);
+              }}
+              onMouseEnter={() => {
+                narrate(`${mode.title}. ${mode.description}`);
+              }}
+              className={`group relative p-8 rounded-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:scale-95 focus:ring-4 focus:ring-offset-2 ${
                 settings.highContrast
                   ? isActive
-                    ? 'bg-white text-black border-4 border-white'
-                    : 'bg-gray-900 text-white border-2 border-white hover:bg-gray-800'
+                    ? 'bg-white text-black border-4 border-white focus:ring-white'
+                    : 'bg-gray-900 text-white border-2 border-white hover:bg-gray-800 focus:ring-white'
                   : isActive
-                    ? `bg-gradient-to-br ${mode.color} text-white ${mode.shadow} ring-4 ring-white/50`
-                    : `bg-gradient-to-br ${mode.color} text-white ${mode.shadow} hover:shadow-2xl backdrop-blur-xl`
+                    ? `bg-gradient-to-br ${mode.color} text-white ${mode.shadow} ring-4 ring-white/50 focus:ring-blue-500`
+                    : `bg-gradient-to-br ${mode.color} text-white ${mode.shadow} hover:shadow-2xl backdrop-blur-xl focus:ring-blue-500`
               } cursor-pointer`}
               style={!settings.highContrast ? {
                 boxShadow: isActive 
