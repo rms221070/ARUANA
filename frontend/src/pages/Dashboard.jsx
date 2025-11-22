@@ -33,6 +33,9 @@ const Dashboard = () => {
     } else if (mode === 'braille') {
       setCurrentView('braille');
       setShowModeSelector(false);
+    } else if (mode === 'mathphysics') {
+      setCurrentView('mathphysics');
+      setShowModeSelector(false);
     } else {
       setSelectedMode(mode);
       setShowModeSelector(false);
