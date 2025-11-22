@@ -191,10 +191,12 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
                 setShowLanguageMenu(!showLanguageMenu);
                 narrate(`Seletor de idioma. Idioma atual: ${getCurrentLanguage().name}`);
               }}
-              className={`p-3 rounded-xl flex items-center gap-2 transition-all ${
+              onFocus={() => narrate(`Seletor de idioma. Idioma atual: ${getCurrentLanguage().name}. Pressione Enter para alterar.`)}
+              onMouseEnter={() => narrate(`Seletor de idioma. Idioma atual: ${getCurrentLanguage().name}`)}
+              className={`p-3 rounded-xl flex items-center gap-2 transition-all focus:ring-4 focus:ring-offset-2 ${
                 settings.highContrast
-                  ? 'bg-white text-black border-2 border-black hover:bg-gray-200'
-                  : 'bg-blue-900/50 text-white hover:bg-blue-800/60 backdrop-blur-xl border border-blue-500/30'
+                  ? 'bg-white text-black border-2 border-black hover:bg-gray-200 focus:ring-white'
+                  : 'bg-blue-900/50 text-white hover:bg-blue-800/60 backdrop-blur-xl border border-blue-500/30 focus:ring-blue-500'
               }`}
               aria-label={`Idioma atual: ${getCurrentLanguage().name}. Clique para alterar`}
             >
