@@ -1729,6 +1729,8 @@ Analise a imagem fornecida e identifique, traduza e transcreva TODOS os caracter
    - Qualidade da imagem (excelente/boa/regular/ruim)
    - Contraste e iluminação adequados?
    - Braille tátil (em relevo) ou impresso?
+   - Tipo de Braille visual: pontos escuros em fundo claro OU pontos brancos/claros em qualquer fundo
+   - **IMPORTANTE:** Braille branco (pontos claros) é COMUM e deve ser detectado normalmente
    - Estimativa: Grade 1, Grade 2, ou misto?
 
 2. **LEITURA CÉLULA POR CÉLULA:**
