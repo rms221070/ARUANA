@@ -1946,12 +1946,9 @@ Forneça uma resposta JSON COMPLETA em português com esta estrutura:
 async def traffic_safety_analysis(input: DetectionCreate, request: Request):
     """Sistema avançado de segurança no trânsito para pessoas cegas"""
     try:
-        # Get authenticated user
+        # Use default user_id if no authentication (login removed)
         auth_header = request.headers.get("Authorization")
-        user_id = get_current_user(auth_header)
-        
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Authentication required")
+        user_id = get_current_user(auth_header) if auth_header else "anonymous_user"
         
         detection = Detection(
             source=input.source,
