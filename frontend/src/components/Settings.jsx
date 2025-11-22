@@ -13,21 +13,35 @@ const Settings = () => {
   const { settings, updateSettings, narrate } = useSettings();
 
   const languages = [
-    { code: 'pt', name: 'Português', flag: '🇧🇷' },
+    { code: 'pt-BR', name: 'Português (Brasil)', flag: '🇧🇷' },
     { code: 'en', name: 'English', flag: '🇺🇸' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
     { code: 'zh', name: '中文', flag: '🇨🇳' }
   ];
 
+  const accents = [
+    { code: 'neutro', name: 'Neutro (Padrão)', description: 'Sotaque neutro brasileiro' },
+    { code: 'sulista', name: 'Sulista', description: 'Sul: RS, SC, PR - Fala mais pausada' },
+    { code: 'carioca', name: 'Carioca', description: 'Rio de Janeiro - Fala mais animada' },
+    { code: 'nordestino', name: 'Nordestino', description: 'Nordeste - Fala mais rápida e expressiva' }
+  ];
+
   const handleLanguageChange = (lang) => {
     updateSettings({ language: lang });
-    narrate(`${t('settings.language')} ${languages.find(l => l.code === lang)?.name}`);
+    narrate(`Idioma alterado para ${languages.find(l => l.code === lang)?.name}`);
   };
 
   const handleVoiceGenderChange = (gender) => {
     updateSettings({ voiceGender: gender });
-    narrate(`${t('settings.voice')} ${t(`settings.${gender}`)}`);
+    const genderText = gender === 'male' ? 'Masculina' : 'Feminina';
+    narrate(`Voz alterada para ${genderText}`);
+  };
+
+  const handleAccentChange = (accent) => {
+    updateSettings({ voiceAccent: accent });
+    const accentName = accents.find(a => a.code === accent)?.name || 'Neutro';
+    narrate(`Sotaque alterado para ${accentName}. ${accents.find(a => a.code === accent)?.description}`);
   };
 
   const handleSpeedChange = (value) => {
