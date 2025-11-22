@@ -29,8 +29,8 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
     {
       id: "assistant",
       icon: Heart,
-      title: "Assistente",
-      description: "Apoio emocional e dicas práticas",
+      title: "Ajuda",
+      description: "Converse sobre seus desafios",
       color: "from-pink-500 to-rose-700",
       shadow: "shadow-[0_10px_30px_rgba(236,72,153,0.5)]"
     },
