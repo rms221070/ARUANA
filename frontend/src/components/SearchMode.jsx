@@ -80,6 +80,16 @@ const SearchMode = ({ onBack, isActive }) => {
     }
   }, []);
 
+  // Automatic screen entry narration
+  useEffect(() => {
+    if (isActive) {
+      const entryMessage = "Modo Buscar ativado. Localização de objetos específicos com distância e navegação. Digite o nome do objeto que procura ou use o botão de microfone para comando de voz. Depois clique em Iniciar Busca.";
+      setTimeout(() => {
+        announceStatus(entryMessage);
+      }, 500);
+    }
+  }, [isActive]);
+
   // Start camera when component becomes active
   useEffect(() => {
     if (isActive && !hasPermissionRef.current) {
@@ -89,9 +99,10 @@ const SearchMode = ({ onBack, isActive }) => {
       // Show voice tutorial on first time
       if (isFirstTime) {
         setTimeout(() => {
-          announceStatus("Bem-vindo ao modo de busca! Use o microfone para dizer o que procura, ou digite no campo de texto. Depois clique em Iniciar Busca. Vou movimentar a câmera procurando o objeto e avisar quando encontrar.");
+          setShowVoiceTutorial(true);
+          announceStatus("Tutorial de voz disponível. Use o microfone para dizer o que procura, ou digite no campo de texto. Depois clique em Iniciar Busca. A câmera irá procurar o objeto e fornecer distância e instruções de navegação.");
           setIsFirstTime(false);
-        }, 2000);
+        }, 2500);
       }
     }
   }, [isActive, isFirstTime]);
