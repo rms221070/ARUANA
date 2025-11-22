@@ -725,16 +725,44 @@ const SearchMode = ({ onBack, isActive }) => {
             : 'bg-blue-900/30 backdrop-blur-xl border border-blue-500/30'
         }`}>
           <h3 className={`text-sm font-bold mb-2 ${settings.highContrast ? 'text-white' : 'text-white'}`}>
-            Como usar:
+            🎯 Instruções Detalhadas:
           </h3>
-          <ul className={`text-xs space-y-1 ${settings.highContrast ? 'text-gray-400' : 'text-blue-200'}`}>
-            <li>1. Digite ou fale o objeto que procura</li>
-            <li>2. Clique em "Iniciar Busca"</li>
-            <li>3. Movimente a câmera lentamente pelo ambiente</li>
-            <li>4. Ouça o alerta quando o objeto for encontrado</li>
-            <li>5. Receba a posição exata, distância em metros e instruções de navegação</li>
-            <li>6. Siga as instruções de trajetória para chegar ao objeto</li>
+          <ul className={`text-xs space-y-2 ${settings.highContrast ? 'text-gray-400' : 'text-blue-200'}`}>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-amber-400">1.</span>
+              <span><strong>Digite ou use voz:</strong> Clique no 🎤 para falar, ou digite no campo (ex: "celular", "chave", "controle remoto")</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-amber-400">2.</span>
+              <span><strong>Iniciar busca:</strong> Clique no botão "Iniciar Busca" para começar</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-amber-400">3.</span>
+              <span><strong>Movimente a câmera:</strong> Gire lentamente 360° em 3-4 segundos. Se não encontrar, mova para outro cômodo</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-amber-400">4.</span>
+              <span><strong>Alerta encontrado:</strong> O sistema narra quando encontra e exibe localização visual</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-amber-400">5.</span>
+              <span><strong>Navegação precisa:</strong> Receba posição (grid 7x3), distância em metros e comandos passo a passo</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="font-bold text-amber-400">6.</span>
+              <span><strong>Siga instruções:</strong> Ouça: "Vire X graus, caminhe Y metros (Z passos)"</span>
+            </li>
           </ul>
+          
+          <div className="mt-4 p-3 bg-indigo-900/30 rounded-lg">
+            <p className="text-xs font-bold text-indigo-300 mb-1">💡 Dicas Avançadas:</p>
+            <ul className="text-xs space-y-1 text-indigo-200">
+              <li>• Objetos pequenos: Aproxime a câmera (30-50cm)</li>
+              <li>• Ambientes escuros: Acenda luzes para melhor detecção</li>
+              <li>• Objetos transparentes/reflexivos: Mude o ângulo da luz</li>
+              <li>• Busca rápida: Diga objetos comuns (chave, celular, carteira)</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
