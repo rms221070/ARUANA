@@ -27,11 +27,14 @@ const SearchMode = ({ onBack, isActive }) => {
   const [recentSearches, setRecentSearches] = useState([]);
   const [statusMessage, setStatusMessage] = useState("Digite o que você procura");
   const [fullDescription, setFullDescription] = useState(""); // Full AI response
+  const [showVoiceTutorial, setShowVoiceTutorial] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(true);
   
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const searchIntervalRef = useRef(null);
   const hasPermissionRef = useRef(false);
+  const recognitionRef = useRef(null);
 
   const announceStatus = (message) => {
     setStatusMessage(message);
