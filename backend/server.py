@@ -1736,6 +1736,8 @@ Analise a imagem fornecida e identifique, traduza e transcreva TODOS os caracter
 2. **LEITURA CÉLULA POR CÉLULA:**
    - Identifique cada célula Braille na ordem de leitura (esquerda→direita, cima→baixo)
    - Para cada célula, identifique os pontos ativos (combinação de 1-2-3-4-5-6)
+   - **ATENÇÃO ESPECIAL:** Se o Braille for branco/claro, os pontos elevados/visíveis são os que CONTAM
+   - Em Braille branco, procure por pontos mais claros, brilhantes ou em relevo visual
    - Traduza célula por célula considerando contexto (Grade 1 vs Grade 2)
    - Detecte espaços entre palavras, quebras de linha, parágrafos
 
