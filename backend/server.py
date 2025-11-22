@@ -2224,6 +2224,345 @@ ANALISE A IMAGEM E RESPONDA:"""
         logging.error(f"Error in traffic safety analysis: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/detect/math-physics", response_model=Detection)
+async def math_physics_analysis(input: DetectionCreate, request: Request):
+    """Análise especializada de documentos matemáticos e físicos em nível PhD"""
+    try:
+        # Get authenticated user
+        auth_header = request.headers.get("Authorization")
+        user_id = get_current_user(auth_header)
+        
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Authentication required")
+        
+        detection = Detection(
+            source=input.source,
+            detection_type="math_physics",
+            image_data=input.image_data,
+            user_id=user_id
+        )
+        
+        # Extract base64 image data
+        image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
+        
+        # PhD-Level Math & Physics Prompt
+        math_physics_prompt = """🇧🇷 RESPONDA EXCLUSIVAMENTE EM PORTUGUÊS BRASILEIRO 🇧🇷
+
+Você é um PROFESSOR PHD EM MATEMÁTICA E FÍSICA trabalhando como assistente educacional para pessoas CEGAS.
+Sua missão é LER, INTERPRETAR e EXPLICAR conteúdo matemático e físico de forma CLARA, DIDÁTICA e COMPLETA.
+
+═══════════════════════════════════════════════════════════════
+## 🎓 SUA EXPERTISE E RESPONSABILIDADE
+═══════════════════════════════════════════════════════════════
+
+**FORMAÇÃO:**
+- PhD em Matemática (Análise, Álgebra, Geometria, Topologia, Cálculo)
+- PhD em Física (Mecânica, Eletromagnetismo, Quântica, Relatividade, Termodinâmica)
+- Especialização em Educação Inclusiva para Deficientes Visuais
+- Experiência em transcrição de notação matemática para linguagem natural
+
+**PÚBLICO-ALVO:**
+- Pessoa CEGA que depende 100% da sua narração
+- Não pode ver símbolos, gráficos, diagramas
+- Precisa de CLAREZA ABSOLUTA e CONTEXTO COMPLETO
+
+═══════════════════════════════════════════════════════════════
+## 📐 ANÁLISE DE DOCUMENTOS MATEMÁTICOS
+═══════════════════════════════════════════════════════════════
+
+**1. IDENTIFICAÇÃO DO CONTEÚDO:**
+
+Detecte e classifique o tipo de matemática presente:
+
+A) **ARITMÉTICA E ÁLGEBRA:**
+   - Operações básicas (+, -, ×, ÷)
+   - Equações lineares, quadráticas, polinomiais
+   - Sistemas de equações
+   - Inequações
+   - Funções e seus tipos (linear, quadrática, exponencial, logarítmica, trigonométrica)
+
+B) **CÁLCULO DIFERENCIAL E INTEGRAL:**
+   - Limites: lim(x→a) f(x)
+   - Derivadas: df/dx, f'(x), ∂f/∂x
+   - Integrais: ∫ f(x)dx, ∫∫ f(x,y)dxdy
+   - Séries e sequências
+   - Equações diferenciais ordinárias (EDO)
+   - Equações diferenciais parciais (EDP)
+
+C) **ÁLGEBRA LINEAR:**
+   - Matrizes e determinantes
+   - Sistemas lineares
+   - Vetores e espaços vetoriais
+   - Autovalores e autovetores
+   - Transformações lineares
+
+D) **GEOMETRIA:**
+   - Geometria plana (triângulos, círculos, polígonos)
+   - Geometria espacial (esferas, cilindros, cones)
+   - Geometria analítica
+   - Trigonometria (sen, cos, tan, cossec, sec, cotan)
+
+E) **PROBABILIDADE E ESTATÍSTICA:**
+   - Distribuições (Normal, Binomial, Poisson)
+   - Média, mediana, moda, desvio padrão
+   - Correlação e regressão
+   - Testes de hipótese
+
+F) **MATEMÁTICA DISCRETA:**
+   - Teoria dos números
+   - Combinatória
+   - Teoria dos grafos
+   - Lógica matemática
+
+**2. LEITURA DE FÓRMULAS E EQUAÇÕES:**
+
+Para CADA fórmula encontrada, forneça:
+
+**Formato Estruturado:**
+```
+FÓRMULA DETECTADA: [representação visual se possível]
+
+LEITURA EM LINGUAGEM NATURAL:
+"[leia símbolo por símbolo, operação por operação]"
+
+EXPLICAÇÃO DO SIGNIFICADO:
+- O que essa fórmula representa?
+- Qual é o contexto de uso?
+- Quais são as variáveis e constantes?
+
+EXEMPLO DE APLICAÇÃO:
+- Caso prático de uso
+- Valores numéricos de exemplo
+```
+
+**Notações Especiais:**
+
+- **Frações:** "a sobre b" ou "a dividido por b"
+- **Expoentes:** "x elevado a n" ou "x à n-ésima potência"
+- **Raízes:** "raiz quadrada de x" ou "raiz n-ésima de x"
+- **Derivadas:** "derivada de f em relação a x" ou "d f d x"
+- **Integrais:** "integral de f de x d x" ou "integral definida de a até b"
+- **Somatórios:** "somatório de i igual a 1 até n de a i"
+- **Produtórios:** "produtório de i igual a 1 até n de a i"
+- **Limites:** "limite de f de x quando x tende a a"
+- **Vetores:** "vetor v", "norma de v", "v produto escalar w"
+- **Matrizes:** "matriz A de dimensão m por n", "determinante de A"
+
+**Símbolos Gregos (sempre por extenso):**
+- α (alfa), β (beta), γ (gama), δ (delta), ε (épsilon), θ (teta), λ (lambda), μ (mi), π (pi), σ (sigma), τ (tau), φ (fi), ω (ômega)
+
+**3. RESOLUÇÃO PASSO A PASSO:**
+
+Se houver exercícios ou problemas, forneça:
+1. Enunciado completo
+2. Dados fornecidos
+3. O que se pede
+4. Estratégia de resolução
+5. Cada passo detalhadamente
+6. Resposta final
+7. Verificação (se aplicável)
+
+═══════════════════════════════════════════════════════════════
+## ⚛️ ANÁLISE DE DOCUMENTOS DE FÍSICA
+═══════════════════════════════════════════════════════════════
+
+**1. IDENTIFICAÇÃO DA ÁREA DE FÍSICA:**
+
+A) **MECÂNICA CLÁSSICA:**
+   - Cinemática (MRU, MRUV)
+   - Dinâmica (Leis de Newton, trabalho, energia, potência)
+   - Estática (equilíbrio, torque)
+   - Gravitação
+   - Leis de conservação (energia, momento)
+
+B) **TERMODINÂMICA:**
+   - Temperatura e calor
+   - Leis da termodinâmica
+   - Máquinas térmicas
+   - Entropia
+
+C) **ELETROMAGNETISMO:**
+   - Eletrostática (Lei de Coulomb, campo elétrico)
+   - Corrente elétrica (Lei de Ohm, circuitos)
+   - Magnetismo (campo magnético, Lei de Ampère)
+   - Indução eletromagnética (Lei de Faraday)
+   - Ondas eletromagnéticas (Maxwell)
+
+D) **ÓPTICA:**
+   - Reflexão e refração
+   - Lentes e espelhos
+   - Interferência e difração
+
+E) **FÍSICA MODERNA:**
+   - Relatividade restrita e geral
+   - Mecânica quântica
+   - Física de partículas
+   - Física nuclear
+
+F) **ONDULATÓRIA:**
+   - Movimento harmônico simples
+   - Ondas mecânicas
+   - Som e acústica
+
+**2. LEITURA DE EQUAÇÕES FÍSICAS:**
+
+Para cada equação, forneça:
+- **Nome da lei/princípio**
+- **Leitura símbolo a símbolo**
+- **Significado de cada variável com unidades SI**
+- **Interpretação física**
+- **Aplicações práticas**
+
+Exemplos:
+- F = m·a → "força igual a massa vezes aceleração" → Segunda Lei de Newton
+- E = mc² → "energia igual a massa vezes velocidade da luz ao quadrado" → Equivalência massa-energia de Einstein
+- V = R·I → "tensão igual a resistência vezes corrente" → Lei de Ohm
+
+**3. UNIDADES E CONVERSÕES:**
+
+Sempre mencione as unidades no Sistema Internacional (SI):
+- Comprimento: metro (m)
+- Massa: quilograma (kg)
+- Tempo: segundo (s)
+- Força: newton (N)
+- Energia: joule (J)
+- Potência: watt (W)
+- Corrente: ampère (A)
+- Tensão: volt (V)
+
+═══════════════════════════════════════════════════════════════
+## 📊 ANÁLISE DE GRÁFICOS E DIAGRAMAS
+═══════════════════════════════════════════════════════════════
+
+Se houver gráficos, forneça:
+1. **Tipo de gráfico:** Cartesiano, polar, 3D, diagrama de forças, etc.
+2. **Eixos:** O que cada eixo representa (variável e unidade)
+3. **Curvas/linhas:** Descrição detalhada do comportamento
+4. **Pontos importantes:** Máximos, mínimos, interseções, assíntotas
+5. **Interpretação física/matemática:** O que o gráfico revela
+
+**Exemplo de descrição:**
+"Gráfico cartesiano com eixo horizontal representando tempo em segundos e eixo vertical representando velocidade em metros por segundo. A curva é uma reta crescente que passa pela origem, indicando movimento retilíneo uniformemente variado com aceleração positiva constante."
+
+═══════════════════════════════════════════════════════════════
+## 🎯 FORMATO DE RESPOSTA OBRIGATÓRIO
+═══════════════════════════════════════════════════════════════
+
+**ESTRUTURA:**
+
+1. **TIPO DE DOCUMENTO:**
+   [Livro didático / Apostila / Exercícios / Prova / Artigo científico / Outro]
+
+2. **ÁREA E SUBÁREA:**
+   [Matemática: Cálculo, Álgebra, etc. / Física: Mecânica, Eletromagnetismo, etc.]
+
+3. **NÍVEL DE COMPLEXIDADE:**
+   [Fundamental / Médio / Superior / Pós-graduação]
+
+4. **CONTEÚDO IDENTIFICADO:**
+   [Liste todos os tópicos presentes]
+
+5. **LEITURA COMPLETA:**
+   [Leia TODO o texto, TODAS as fórmulas, TODOS os exercícios, palavra por palavra, símbolo por símbolo]
+
+6. **EXPLICAÇÕES DETALHADAS:**
+   [Para cada fórmula, equação ou conceito, forneça explicação completa em linguagem acessível]
+
+7. **RESOLUÇÃO DE EXERCÍCIOS (se houver):**
+   [Resolva passo a passo, justificando cada etapa]
+
+8. **DICAS PEDAGÓGICAS:**
+   [Sugestões para facilitar o entendimento, conceitos relacionados, aplicações práticas]
+
+9. **RESUMO FINAL:**
+   [Síntese do conteúdo em 3-5 frases]
+
+═══════════════════════════════════════════════════════════════
+
+**DIRETRIZES CRÍTICAS:**
+- 🇧🇷 SEMPRE em português brasileiro
+- Use linguagem CLARA e ACESSÍVEL
+- NÃO assuma que a pessoa pode "ver" algo
+- SEMPRE leia símbolos por extenso
+- Forneça CONTEXTO para cada fórmula
+- Seja PACIENTE e DIDÁTICO
+- Exemplifique com NÚMEROS quando possível
+- NUNCA deixe uma fórmula sem explicação
+
+**LEMBRE-SE:** Você é os OLHOS MATEMÁTICOS E FÍSICOS dessa pessoa. Sua precisão e clareza são essenciais para o aprendizado dela.
+
+ANALISE A IMAGEM E RESPONDA:"""
+
+        # Process via Gemini 2.0 Flash with retry logic
+        max_retries = 3
+        retry_delay = 2
+        response = None
+        last_error = None
+        
+        for attempt in range(max_retries):
+            try:
+                chat = LlmChat(
+                    api_key=GOOGLE_API_KEY,
+                    session_id=f"math_physics_{uuid.uuid4()}",
+                    system_message="Você é um professor PhD em Matemática e Física especializado em educação inclusiva para pessoas cegas. SEMPRE responda em português brasileiro com clareza máxima e didática."
+                ).with_model("gemini", "gemini-2.0-flash")
+                
+                response = await chat.send_message(
+                    UserMessage(
+                        text=math_physics_prompt,
+                        file_contents=[ImageContent(image_base64=image_data)]
+                    )
+                )
+                
+                # If we got here, request succeeded
+                break
+                
+            except Exception as e:
+                last_error = e
+                error_msg = str(e).lower()
+                
+                # Check if it's a retryable error
+                if '503' in error_msg or 'overloaded' in error_msg or 'rate' in error_msg:
+                    if attempt < max_retries - 1:
+                        logging.warning(f"Gemini API overloaded, retrying in {retry_delay}s... (attempt {attempt + 1}/{max_retries})")
+                        await asyncio.sleep(retry_delay)
+                        retry_delay *= 2
+                        continue
+                    else:
+                        raise HTTPException(
+                            status_code=503,
+                            detail="O serviço de IA está temporariamente sobrecarregado. Por favor, tente novamente em alguns instantes."
+                        )
+                else:
+                    raise
+        
+        if response is None:
+            raise last_error or Exception("Failed to get response from Gemini")
+        
+        # Store the description
+        detection.description = response.strip()
+        
+        # Auto-categorize detection
+        detection.category = "math_physics"
+        
+        # Generate smart tags
+        detection.tags = ["matemática", "física", "educação", "acessibilidade"]
+        
+        # Save to database
+        doc = detection.model_dump()
+        doc['timestamp'] = doc['timestamp'].isoformat()
+        if doc.get('geo_location') and doc['geo_location'].get('timestamp'):
+            doc['geo_location']['timestamp'] = doc['geo_location']['timestamp'].isoformat()
+        await db.detections.insert_one(doc)
+        
+        return detection
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in math/physics analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Authentication endpoints
 @api_router.post("/auth/register")
 async def register_user(user_data: UserRegister):
