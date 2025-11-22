@@ -155,7 +155,7 @@ const MathPhysicsReader = ({ onBack, isActive }) => {
   };
 
   const readFullResult = () => {
-    if (analysisResult && 'speechSynthesis' in window && settings.voiceEnabled) {
+    if (analysisResult && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(analysisResult);
       utterance.lang = 'pt-BR';
@@ -163,6 +163,10 @@ const MathPhysicsReader = ({ onBack, isActive }) => {
       utterance.pitch = 1.0;
       window.speechSynthesis.speak(utterance);
       toast.success("Lendo análise completa...");
+    } else if (!analysisResult) {
+      toast.error("Nenhuma análise para ler.");
+    } else {
+      toast.error("Narração não disponível neste navegador.");
     }
   };
 
