@@ -37,6 +37,9 @@ const Dashboard = () => {
     } else if (mode === 'mathphysics') {
       setCurrentView('mathphysics');
       setShowModeSelector(false);
+    } else if (mode === 'assistant') {
+      setCurrentView('assistant');
+      setShowModeSelector(false);
     } else {
       setSelectedMode(mode);
       setShowModeSelector(false);
