@@ -23,6 +23,7 @@ const BrailleReader = ({ onBack, isActive }) => {
   const [captureMode, setCaptureMode] = useState("single"); // single, continuous
   
   const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const streamRef = useRef(null);
   const hasPermissionRef = useRef(false);
   const continuousCaptureRef = useRef(null);
