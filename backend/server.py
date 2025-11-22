@@ -1429,12 +1429,9 @@ IMPORTANTE - DIRETRIZES PhD:
 async def read_text_ocr(input: DetectionCreate, request: Request):
     """OCR especializado para leitura de textos - livros, quadros, documentos"""
     try:
-        # Get authenticated user
+        # Use default user_id if no authentication (login removed)
         auth_header = request.headers.get("Authorization")
-        user_id = get_current_user(auth_header)
-        
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Authentication required")
+        user_id = get_current_user(auth_header) if auth_header else "anonymous_user"
         
         detection = Detection(
             source=input.source,
