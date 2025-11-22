@@ -19,7 +19,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [selectedMode, setSelectedMode] = useState(null);
   const [showModeSelector, setShowModeSelector] = useState(true);
-  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'search', 'braille', 'history', 'reports', 'about', 'more'
+  const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'search', 'braille', 'mathphysics', 'history', 'reports', 'about', 'more'
 
   useEffect(() => {
     const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Selecione Leitura, Descrição, Buscar para localizar objetos, ou MAIS para outras opções.`;
