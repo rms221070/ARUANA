@@ -5,6 +5,7 @@ import CameraView from "@/components/CameraView";
 import SearchMode from "@/components/SearchMode";
 import BrailleReader from "@/components/BrailleReader";
 import MathPhysicsReader from "@/components/MathPhysicsReader";
+import PersonalAssistant from "@/components/PersonalAssistant";
 import DetectionHistory from "@/components/DetectionHistory";
 import IntelligentReports from "@/components/IntelligentReports";
 import About from "@/components/About";
