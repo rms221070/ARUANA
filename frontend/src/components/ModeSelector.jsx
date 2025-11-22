@@ -126,6 +126,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       description: "Leitor de Braille Grade 1 e 2",
       color: "from-teal-500 to-teal-700",
       shadow: "shadow-[0_10px_30px_rgba(20,184,166,0.5)]"
+    },
+    {
+      id: "mathphysics",
+      icon: Calculator,
+      title: "Mat & Física",
+      description: "Análise PhD de fórmulas",
+      color: "from-purple-500 to-indigo-700",
+      shadow: "shadow-[0_10px_30px_rgba(168,85,247,0.5)]"
     }
   ];
 
