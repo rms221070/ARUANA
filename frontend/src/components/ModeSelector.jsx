@@ -40,18 +40,10 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   // Submenu modes - shown when in "more" menu
   const subModes = [
     {
-      id: "scene",
-      icon: Eye,
-      title: "Cena",
-      description: "Descrição detalhada do ambiente",
-      color: "from-green-500 to-green-700",
-      shadow: "shadow-[0_10px_30px_rgba(34,197,94,0.5)]"
-    },
-    {
       id: "general",
       icon: Sparkles,
       title: "Geral",
-      description: "Detecção completa",
+      description: "Análise completa de ambiente e objetos",
       color: "from-indigo-500 to-indigo-700",
       shadow: "shadow-[0_10px_30px_rgba(99,102,241,0.5)]"
     },
