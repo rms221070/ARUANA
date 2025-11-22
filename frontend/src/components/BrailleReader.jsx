@@ -182,27 +182,26 @@ const BrailleReader = ({ onBack, isActive }) => {
       setIsAnalyzing(true);
       announceStatus("Capturando e analisando Braille. Mantenha a câmera estável.");
 
-      const canvas = document.createElement('canvas');
-      canvas.width = videoRef.current.videoWidth;
-      canvas.height = videoRef.current.videoHeight;
-      
-      if (canvas.width === 0 || canvas.height === 0) {
+      // Check if camera is ready
+      if (videoRef.current.videoWidth === 0 || videoRef.current.videoHeight === 0) {
         throw new Error("Câmera ainda não está pronta. Aguarde alguns segundos.");
       }
       
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(videoRef.current, 0, 0);
+      // Capture frame with enhanced contrast processing
+      const imageData = captureFrame();
       
-      // Analyze image quality
-      const qualityCheck = analyzeImageQuality(canvas);
+      if (!imageData) {
+        throw new Error("Erro ao capturar imagem da câmera.");
+      }
+      
+      // Analyze image quality using the canvas
+      const qualityCheck = analyzeImageQuality(canvasRef.current);
       setImageQuality(qualityCheck.quality);
       
       if (qualityCheck.quality === "poor") {
         announceStatus(qualityCheck.message);
         toast.warning(qualityCheck.message, { duration: 4000 });
       }
-      
-      const imageData = canvas.toDataURL('image/jpeg', 0.95); // High quality for Braille
 
       announceStatus("Processando texto em Braille com IA especializada. Aguarde.");
 
