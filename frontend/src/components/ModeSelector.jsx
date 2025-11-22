@@ -400,10 +400,11 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
           <button
             onClick={() => handleNavigation('reports')}
             onFocus={() => narrate('Relatórios Inteligentes. Visualize análises e estatísticas.')}
-            className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+            onMouseEnter={() => narrate('Relatórios Inteligentes. Visualize análises e estatísticas.')}
+            className={`p-6 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 focus:ring-4 focus:ring-offset-2 ${
               settings.highContrast
-                ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700'
-                : 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white shadow-[0_10px_30px_rgba(5,150,105,0.5)] hover:shadow-2xl'
+                ? 'bg-gray-800 text-white border-2 border-white hover:bg-gray-700 focus:ring-white'
+                : 'bg-gradient-to-br from-emerald-600 to-emerald-800 text-white shadow-[0_10px_30px_rgba(5,150,105,0.5)] hover:shadow-2xl focus:ring-emerald-500'
             }`}
             aria-label="Relatórios Inteligentes. Visualize análises e estatísticas"
             role="button"
