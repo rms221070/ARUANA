@@ -21,13 +21,22 @@ export const SettingsProvider = ({ children }) => {
     const saved = localStorage.getItem('aruanaSettings');
     if (saved) {
       const parsed = JSON.parse(saved);
+      // Garantir que language seja sempre pt-BR se for 'pt'
+      if (parsed.language === 'pt') {
+        parsed.language = 'pt-BR';
+      }
+      // Adicionar voiceAccent se não existir
+      if (!parsed.voiceAccent) {
+        parsed.voiceAccent = 'neutro';
+      }
       setSettings(parsed);
       i18n.changeLanguage(parsed.language);
-      ttsService.setVoice(parsed.voiceGender, parsed.language);
+      ttsService.setVoice(parsed.voiceGender, parsed.language, parsed.voiceAccent);
       ttsService.setRate(parsed.voiceSpeed);
       ttsService.setAutoNarrate(parsed.autoNarrate);
     } else {
-      ttsService.setVoice('female', 'pt');
+      // Padrão: Português do Brasil, voz feminina, sotaque neutro
+      ttsService.setVoice('female', 'pt-BR', 'neutro');
     }
   }, [i18n]);
 
