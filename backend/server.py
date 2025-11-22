@@ -2213,12 +2213,9 @@ ANALISE A IMAGEM E RESPONDA:"""
 async def math_physics_analysis(input: DetectionCreate, request: Request):
     """Análise especializada de documentos matemáticos e físicos em nível PhD"""
     try:
-        # Get authenticated user
+        # Use default user_id if no authentication (login removed)
         auth_header = request.headers.get("Authorization")
-        user_id = get_current_user(auth_header)
-        
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Authentication required")
+        user_id = get_current_user(auth_header) if auth_header else "anonymous_user"
         
         detection = Detection(
             source=input.source,
