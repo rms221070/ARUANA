@@ -118,8 +118,16 @@ const Dashboard = () => {
         />
       </div>
 
+      {/* Personal Assistant - always rendered but hidden when not active */}
+      <div className={currentView === 'assistant' ? 'block' : 'hidden'}>
+        <PersonalAssistant 
+          onBack={handleBackToModeSelector}
+          isActive={currentView === 'assistant'}
+        />
+      </div>
+
       {/* Other Views */}
-      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && currentView !== 'mathphysics' && (
+      {currentView !== 'modes' && currentView !== 'camera' && currentView !== 'search' && currentView !== 'braille' && currentView !== 'mathphysics' && currentView !== 'assistant' && (
         <div className="min-h-screen p-6">
           {/* Back Button */}
           <div className="max-w-7xl mx-auto mb-6">
