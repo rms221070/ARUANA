@@ -156,7 +156,11 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   ];
 
   const getCurrentLanguage = () => {
-    const currentLang = i18n.language || 'pt';
+    let currentLang = i18n.language || 'pt-BR';
+    // Converter 'pt' para 'pt-BR'
+    if (currentLang === 'pt') {
+      currentLang = 'pt-BR';
+    }
     return languages.find(lang => lang.code === currentLang) || languages[0];
   };
 
