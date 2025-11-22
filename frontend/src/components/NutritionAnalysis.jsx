@@ -179,7 +179,6 @@ const NutritionAnalysis = () => {
         geo_location: geoLocation  // Include geolocation
       }, {
         headers: {
-          'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'application/json'
         },
         timeout: 60000 // 60 seconds timeout
