@@ -255,17 +255,8 @@ const NutritionAnalysis = () => {
 
   const loadNutritionHistory = async () => {
     try {
-      const authToken = getToken();
-      if (!authToken) {
-        console.warn('No auth token available for loading history');
-        return;
-      }
-      
-      const response = await axios.get(`${API}/detections?limit=20`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
-      });
+      // No authentication required (login removed)
+      const response = await axios.get(`${API}/detections?limit=20`);
       
       // Filter only nutrition detections
       const nutritionDetections = response.data.filter(d => d.detection_type === 'nutrition');
