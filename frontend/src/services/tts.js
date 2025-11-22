@@ -112,21 +112,24 @@ class TTSService {
 
     const utterance = new SpeechSynthesisUtterance(text);
     
-    // Force pt-BR language
+    // SEMPRE forçar pt-BR (Português do Brasil)
     utterance.lang = 'pt-BR';
     
     if (this.currentVoice) {
       utterance.voice = this.currentVoice;
     } else {
-      // If no voice set, try to get Brazilian male voice
-      const brMaleVoice = this.getMaleVoice('pt-BR');
-      if (brMaleVoice) {
-        utterance.voice = brMaleVoice;
+      // Se nenhuma voz definida, tentar obter voz brasileira feminina
+      const brVoice = this.getFemaleVoice('pt-BR', this.currentAccent);
+      if (brVoice) {
+        utterance.voice = brVoice;
       }
     }
     
-    utterance.rate = options.rate || this.rate;
-    utterance.pitch = options.pitch || 1.0;
+    // Aplicar parâmetros do sotaque regional
+    const accentParams = this.getAccentParameters(this.currentAccent);
+    
+    utterance.rate = options.rate || (this.rate * accentParams.rate);
+    utterance.pitch = options.pitch || accentParams.pitch;
     utterance.volume = options.volume || 1.0;
 
     if (options.onEnd) {
