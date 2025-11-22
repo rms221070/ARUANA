@@ -24,6 +24,29 @@ const CameraView = ({ mode, onBack, isActive }) => {
   const autoDetectTimerRef = useRef(null);
   const hasPermissionRef = useRef(false); // Track if permission was already granted
 
+  // Automatic screen entry narration
+  useEffect(() => {
+    if (isActive) {
+      const modeDescriptions = {
+        'description': 'Modo Descrição - Análise completa e detalhada do ambiente',
+        'general': 'Modo Geral - Análise rápida de objetos',
+        'colors': 'Identificação de Cores',
+        'document': 'Captura de Documento - Página completa',
+        'food': 'Análise de Alimentos - Informações nutricionais',
+        'selfie': 'Modo Selfie - Câmera frontal',
+        'people': 'Detecção de Pessoas - Análise de emoções',
+        'currency': 'Identificação de Moedas'
+      };
+      
+      const modeDesc = modeDescriptions[mode] || 'Modo de câmera';
+      const entryMessage = `${modeDesc}. Câmera será ativada. Posicione o objeto na frente da câmera e clique em Capturar e Analisar.`;
+      
+      setTimeout(() => {
+        narrate(entryMessage);
+      }, 500);
+    }
+  }, [isActive]);
+
   // Start camera only once when component first becomes active
   useEffect(() => {
     if (isActive && !hasPermissionRef.current) {
