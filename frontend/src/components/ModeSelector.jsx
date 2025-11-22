@@ -357,23 +357,25 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
 
       {/* Mode Cards */}
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {modes.map((mode) => {
+        {modes.map((mode, index) => {
           const Icon = mode.icon;
           const isActive = currentMode === mode.id;
           
           return (
             <button
               key={mode.id}
+              data-mode-index={index}
               onClick={() => {
                 handleModeSelect(mode);
-                narrate(`${mode.title} selecionado. ${mode.description}`);
               }}
               onFocus={() => {
+                setFocusedModeIndex(index);
                 narrate(`${mode.title}. ${mode.description}. Pressione Enter para selecionar.`);
               }}
               onMouseEnter={() => {
                 narrate(`${mode.title}. ${mode.description}`);
               }}
+              onKeyDown={(e) => handleKeyDown(e, modes, index)}
               className={`group relative p-8 rounded-3xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:scale-95 focus:ring-4 focus:ring-offset-2 ${
                 settings.highContrast
                   ? isActive
@@ -393,6 +395,7 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
               role="button"
               tabIndex={0}
               aria-pressed={isActive}
+              aria-current={isActive ? "true" : "false"}
             >
               {/* Icon */}
               <div className="flex justify-center mb-4">
