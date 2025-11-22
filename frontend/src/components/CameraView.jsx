@@ -178,7 +178,7 @@ const CameraView = ({ mode, onBack, isActive }) => {
         endpoint = `${API}/detect/analyze-nutrition`;
       }
 
-      const authToken = await getToken();
+      // Authentication removed - no longer needed
       const response = await axios.post(
         endpoint,
         {
@@ -188,8 +188,7 @@ const CameraView = ({ mode, onBack, isActive }) => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
+            'Content-Type': 'application/json'
           }
         }
       );
