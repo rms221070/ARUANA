@@ -168,6 +168,9 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   };
 
   const handleModeSelect = (mode) => {
+    // Audio feedback click sound
+    playClickSound();
+    
     // Check if it's a navigation button (like MAIS)
     if (mode.isNavigation) {
       const message = `${mode.title} selecionado. ${mode.description}`;
@@ -182,6 +185,8 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   };
 
   const handleNavigation = (nav) => {
+    playClickSound();
+    
     const navTitles = {
       history: "Histórico de Detecções",
       reports: "Relatórios Inteligentes",
@@ -190,6 +195,73 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
     const message = `Navegando para ${navTitles[nav]}`;
     narrate(message);
     if (onNavigate) onNavigate(nav);
+  };
+
+  // Audio feedback for interactions
+  const playClickSound = () => {
+    if (settings.audioFeedback !== false) {
+      // Create a subtle click sound using Web Audio API
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+  };
+
+  // Keyboard navigation
+  const handleKeyDown = (e, modes, currentIndex) => {
+    const totalModes = modes.length;
+    
+    switch(e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % totalModes;
+        setFocusedModeIndex(nextIndex);
+        const nextMode = modes[nextIndex];
+        narrate(`${nextMode.title}. ${nextMode.description}. Pressione Enter para selecionar.`);
+        // Focus the next button
+        document.querySelector(`[data-mode-index="${nextIndex}"]`)?.focus();
+        break;
+        
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        const prevIndex = (currentIndex - 1 + totalModes) % totalModes;
+        setFocusedModeIndex(prevIndex);
+        const prevMode = modes[prevIndex];
+        narrate(`${prevMode.title}. ${prevMode.description}. Pressione Enter para selecionar.`);
+        // Focus the previous button
+        document.querySelector(`[data-mode-index="${prevIndex}"]`)?.focus();
+        break;
+        
+      case 'Enter':
+      case ' ':
+        e.preventDefault();
+        handleModeSelect(modes[currentIndex]);
+        break;
+        
+      case 'Escape':
+        if (showLanguageMenu) {
+          setShowLanguageMenu(false);
+          narrate("Menu de idiomas fechado");
+        } else if (showMoreMenu && onNavigate) {
+          onNavigate('modes');
+          narrate("Voltando ao menu principal");
+        }
+        break;
+    }
   };
 
   return (
