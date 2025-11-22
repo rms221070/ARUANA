@@ -94,22 +94,51 @@ const Settings = () => {
           <div className="space-y-3">
             <Label className={`text-lg flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>
               <Volume2 className="w-5 h-5" />
-              {t('settings.voice')}
+              Gênero da Voz
             </Label>
             <RadioGroup value={settings.voiceGender} onValueChange={handleVoiceGenderChange}>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="male" id="male" />
                 <Label htmlFor="male" className={`cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
-                  {t('settings.male')}
+                  Masculina
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="female" id="female" />
                 <Label htmlFor="female" className={`cursor-pointer ${settings.highContrast ? 'text-white' : ''}`}>
-                  {t('settings.female')}
+                  Feminina
                 </Label>
               </div>
             </RadioGroup>
+          </div>
+
+          {/* Regional Accent - NEW */}
+          <div className="space-y-3">
+            <Label className={`text-lg flex items-center gap-2 ${settings.highContrast ? 'text-white' : 'text-slate-700'}`}>
+              <Volume2 className="w-5 h-5" />
+              🗣️ Sotaque Regional Brasileiro
+            </Label>
+            <Select 
+              value={settings.voiceAccent || 'neutro'} 
+              onValueChange={handleAccentChange}
+            >
+              <SelectTrigger className={`w-full ${settings.highContrast ? 'bg-gray-800 text-white border-white' : ''}`}>
+                <SelectValue placeholder="Selecione o sotaque" />
+              </SelectTrigger>
+              <SelectContent>
+                {accents.map((accent) => (
+                  <SelectItem key={accent.code} value={accent.code}>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{accent.name}</span>
+                      <span className="text-xs text-gray-500">{accent.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className={`text-xs ${settings.highContrast ? 'text-gray-400' : 'text-gray-600'} mt-2`}>
+              💡 O sotaque ajusta a velocidade e entonação da voz para simular diferentes regiões do Brasil
+            </p>
           </div>
 
           {/* Voice Speed */}
