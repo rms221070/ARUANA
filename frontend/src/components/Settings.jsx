@@ -183,7 +183,7 @@ const Settings = () => {
           {/* Accessibility Notice */}
           <div className={`p-4 rounded-lg border ${settings.highContrast ? 'bg-gray-800 border-white' : 'bg-indigo-50 border-indigo-200'}`}>
             <p className={`text-sm ${settings.highContrast ? 'text-white' : 'text-indigo-900'}`}>
-              ♿ {settings.language === 'pt' && 'Este sistema foi projetado com foco em acessibilidade, incluindo suporte para leitores de tela e navegação por teclado.'}
+              ♿ {(settings.language === 'pt' || settings.language === 'pt-BR') && 'Este sistema foi projetado com foco em acessibilidade para usuários cegos, incluindo suporte para leitores de tela, navegação por teclado e sotaques regionais brasileiros.'}
               {settings.language === 'en' && 'This system was designed with a focus on accessibility, including support for screen readers and keyboard navigation.'}
               {settings.language === 'es' && 'Este sistema fue diseñado con un enfoque en accesibilidad, incluyendo soporte para lectores de pantalla y navegación por teclado.'}
               {settings.language === 'fr' && 'Ce système a été conçu en mettant l\'accent sur l\'accessibilité, y compris le support des lecteurs d\'écran et de la navigation au clavier.'}
