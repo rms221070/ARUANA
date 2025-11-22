@@ -11,7 +11,7 @@ const API = `${BACKEND_URL}/api`;
 
 const MathPhysicsReader = ({ onBack, isActive }) => {
   const { settings } = useSettings();
-  const { getToken } = useAuth();
+  // Authentication removed - no longer needed
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
