@@ -148,7 +148,7 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
 
   // Available languages
   const languages = [
-    { code: 'pt', name: 'Português', flag: '🇧🇷' },
+    { code: 'pt-BR', name: 'Português (Brasil)', flag: '🇧🇷' },
     { code: 'en', name: 'English', flag: '🇺🇸' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
