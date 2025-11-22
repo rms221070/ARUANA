@@ -162,15 +162,7 @@ const NutritionAnalysis = () => {
 
   const analyzeNutrition = async (imageData) => {
     try {
-      // Get the current token
-      const authToken = getToken();
-      
-      if (!authToken) {
-        toast.error('Você precisa fazer login para usar esta funcionalidade');
-        narrate('Você precisa fazer login para usar esta funcionalidade');
-        setIsAnalyzing(false);
-        return;
-      }
+      // No authentication required (login removed)
 
       narrate(t('nutrition.analyzingFood'));
 
