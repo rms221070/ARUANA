@@ -8,7 +8,7 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   const { settings, narrate } = useSettings();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
-  // Main menu modes - 3 buttons now
+  // Main menu modes - 4 buttons now
   const mainModes = [
     {
       id: "description",
@@ -25,6 +25,14 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
       description: "Localizar objetos específicos",
       color: "from-amber-500 to-amber-700",
       shadow: "shadow-[0_10px_30px_rgba(245,158,11,0.5)]"
+    },
+    {
+      id: "assistant",
+      icon: Heart,
+      title: "Assistente",
+      description: "Apoio emocional e dicas práticas",
+      color: "from-pink-500 to-rose-700",
+      shadow: "shadow-[0_10px_30px_rgba(236,72,153,0.5)]"
     },
     {
       id: "more",
