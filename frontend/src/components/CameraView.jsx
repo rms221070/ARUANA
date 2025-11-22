@@ -14,7 +14,7 @@ const API = `${BACKEND_URL}/api`;
 const CameraView = ({ mode, onBack, isActive }) => {
   const { t } = useTranslation();
   const { settings, narrate } = useSettings();
-  const { getToken } = useAuth();
+  // Authentication removed - no longer needed
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastDetection, setLastDetection] = useState(null);
