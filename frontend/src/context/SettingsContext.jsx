@@ -47,11 +47,15 @@ export const SettingsProvider = ({ children }) => {
 
     if (newSettings.language) {
       i18n.changeLanguage(newSettings.language);
-      ttsService.setVoice(updated.voiceGender, newSettings.language);
+      ttsService.setVoice(updated.voiceGender, newSettings.language, updated.voiceAccent);
     }
 
     if (newSettings.voiceGender !== undefined) {
-      ttsService.setVoice(newSettings.voiceGender, updated.language);
+      ttsService.setVoice(newSettings.voiceGender, updated.language, updated.voiceAccent);
+    }
+
+    if (newSettings.voiceAccent !== undefined) {
+      ttsService.setVoice(updated.voiceGender, updated.language, newSettings.voiceAccent);
     }
 
     if (newSettings.voiceSpeed !== undefined) {
