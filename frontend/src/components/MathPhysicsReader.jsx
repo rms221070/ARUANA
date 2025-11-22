@@ -165,19 +165,42 @@ const MathPhysicsReader = ({ onBack, isActive }) => {
   };
 
   const readFullResult = () => {
-    if (analysisResult && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(analysisResult);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.9; // Slightly slower for complex content
-      utterance.pitch = 1.0;
-      window.speechSynthesis.speak(utterance);
-      toast.success("Lendo análise completa...");
-    } else if (!analysisResult) {
-      toast.error("Nenhuma análise para ler.");
-    } else {
-      toast.error("Narração não disponível neste navegador.");
+    if (!analysisResult) {
+      const errorMsg = "Nenhuma análise para ler. Por favor, capture e analise um documento primeiro.";
+      toast.error(errorMsg);
+      announceStatus(errorMsg);
+      return;
     }
+    
+    if (!('speechSynthesis' in window)) {
+      const errorMsg = "Narração não disponível neste navegador.";
+      toast.error(errorMsg);
+      announceStatus(errorMsg);
+      return;
+    }
+    
+    // FORCE narration regardless of settings - user explicitly requested it
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(analysisResult);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 0.9; // Slightly slower for complex content
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    
+    utterance.onstart = () => {
+      toast.success("Lendo análise completa...", { duration: 2000 });
+    };
+    
+    utterance.onend = () => {
+      toast.success("Leitura completa finalizada.", { duration: 2000 });
+    };
+    
+    utterance.onerror = (e) => {
+      console.error("Speech synthesis error:", e);
+      toast.error("Erro ao ler análise. Tente novamente.");
+    };
+    
+    window.speechSynthesis.speak(utterance);
   };
 
   return (
