@@ -349,6 +349,12 @@ const BrailleReader = ({ onBack, isActive }) => {
           className="w-full h-full object-cover"
           aria-label="Visualização da câmera"
         />
+        {/* Hidden canvas for image processing */}
+        <canvas
+          ref={canvasRef}
+          style={{ display: 'none' }}
+          aria-hidden="true"
+        />
 
         {/* Status and Quality Overlay */}
         {statusMessage && (
