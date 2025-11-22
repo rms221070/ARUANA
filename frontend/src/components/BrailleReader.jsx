@@ -70,6 +70,16 @@ const BrailleReader = ({ onBack, isActive }) => {
     narrate(message);
   };
 
+  // Automatic screen entry narration
+  useEffect(() => {
+    if (isActive) {
+      const entryMessage = "Leitor de Braille ativado. Suporta Braille Grade 1 e 2. Centralize o texto na câmera. Use boa iluminação. Pressione o botão Capturar e Ler Braille quando estiver pronto.";
+      setTimeout(() => {
+        narrate(entryMessage);
+      }, 500);
+    }
+  }, [isActive]);
+
   // Start camera when active
   useEffect(() => {
     if (isActive && !hasPermissionRef.current) {
