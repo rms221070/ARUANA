@@ -2871,22 +2871,9 @@ async def get_detections(
     limit: int = Query(50, ge=1, le=100),
     skip: int = Query(0, ge=0)
 ):
-    """Get detection history - filtered by user unless admin"""
-    auth_header = request.headers.get("Authorization")
-    user_id = get_current_user(auth_header)
-    
-    if not user_id:
-        raise HTTPException(status_code=401, detail="Authentication required")
-    
-    # Get user to check if admin
-    user = await db.users.find_one({"id": user_id})
-    if not user:
-        raise HTTPException(status_code=401, detail="User not found")
-    
-    # Filter detections by user unless admin
+    """Get detection history - no authentication required (login removed)"""
+    # Show all detections since there's no user authentication
     filter_query = {}
-    if user.get("user_type") != "admin":
-        filter_query["user_id"] = user_id
     
     detections = await db.detections.find(
         filter_query, {"_id": 0}
