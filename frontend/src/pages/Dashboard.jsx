@@ -23,7 +23,7 @@ const Dashboard = () => {
   const [currentView, setCurrentView] = useState('modes'); // 'modes', 'camera', 'search', 'braille', 'mathphysics', 'assistant', 'history', 'reports', 'about', 'more'
 
   useEffect(() => {
-    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Selecione Leitura, Descrição, Buscar para localizar objetos, ou MAIS para outras opções.`;
+    const welcomeMessage = `Bem-vindo ao ARUANÃ, Sistema de Visão Assistiva. Olá ${user?.name || 'usuário'}. Selecione Descrição para análise completa, Buscar para localizar objetos específicos, Ajuda para assistência pessoal, ou MAIS para funcionalidades adicionais.`;
     narrate(welcomeMessage);
   }, []);
 
