@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info, BookOpen, MoreHorizontal, Globe, Palette, Search, Grid3x3, Calculator } from "lucide-react";
+import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info, BookOpen, MoreHorizontal, Globe, Palette, Search, Grid3x3, Calculator, Heart } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
 import { useState } from "react";
 
