@@ -28,6 +28,43 @@ const BrailleReader = ({ onBack, isActive }) => {
   const hasPermissionRef = useRef(false);
   const continuousCaptureRef = useRef(null);
 
+  const captureFrame = () => {
+    if (!videoRef.current || !canvasRef.current) return null;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // ENHANCE: Apply contrast enhancement for better Braille detection
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    
+    // Calculate average brightness
+    let totalBrightness = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      totalBrightness += (data[i] + data[i + 1] + data[i + 2]) / 3;
+    }
+    const avgBrightness = totalBrightness / (data.length / 4);
+    
+    // Apply adaptive contrast enhancement
+    const contrastFactor = avgBrightness > 180 ? 2.0 : 1.5; // Higher contrast for bright images
+    const factor = (259 * (contrastFactor * 255 + 255)) / (255 * (259 - contrastFactor * 255));
+    
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = factor * (data[i] - 128) + 128;     // Red
+      data[i + 1] = factor * (data[i + 1] - 128) + 128; // Green
+      data[i + 2] = factor * (data[i + 2] - 128) + 128; // Blue
+    }
+    
+    context.putImageData(imageData, 0, 0);
+
+    return canvas.toDataURL('image/jpeg', 0.95);
+  };
+
   const announceStatus = (message) => {
     setStatusMessage(message);
     narrate(message);
