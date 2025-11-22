@@ -8,21 +8,13 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
   const { settings, narrate } = useSettings();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
-  // Main menu modes - 4 buttons now
+  // Main menu modes - 3 buttons now
   const mainModes = [
-    {
-      id: "reading",
-      icon: BookOpen,
-      title: "Leitura",
-      description: "Leitura em tempo real",
-      color: "from-blue-500 to-blue-700",
-      shadow: "shadow-[0_10px_30px_rgba(59,130,246,0.5)]"
-    },
     {
       id: "description",
       icon: Eye,
       title: "Descrição",
-      description: "Descrição contínua do ambiente",
+      description: "Descrição completa do ambiente",
       color: "from-green-500 to-green-700",
       shadow: "shadow-[0_10px_30px_rgba(34,197,94,0.5)]"
     },
