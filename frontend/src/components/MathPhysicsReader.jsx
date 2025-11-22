@@ -21,6 +21,16 @@ const MathPhysicsReader = ({ onBack, isActive }) => {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [readingHistory, setReadingHistory] = useState([]);
 
+  // Automatic screen entry narration
+  useEffect(() => {
+    if (isActive) {
+      const entryMessage = "Leitor de Matemática e Física ativado. Nível de análise PhD. Aponte a câmera para fórmulas, equações ou problemas matemáticos. Clique em Capturar e Analisar quando estiver pronto.";
+      setTimeout(() => {
+        announceStatus(entryMessage);
+      }, 500);
+    }
+  }, [isActive]);
+
   useEffect(() => {
     if (isActive) {
       startCamera();
