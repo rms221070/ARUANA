@@ -168,11 +168,7 @@ const BrailleReader = ({ onBack, isActive }) => {
 
       announceStatus("Processando texto em Braille com IA especializada. Aguarde.");
 
-      const authToken = getToken();
-      
-      if (!authToken) {
-        throw new Error("Sessão expirada. Por favor, faça login novamente.");
-      }
+      // No authentication required (login removed)
 
       const response = await axios.post(
         `${API}/detect/read-braille`,
@@ -183,8 +179,7 @@ const BrailleReader = ({ onBack, isActive }) => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
+            'Content-Type': 'application/json'
           }
         }
       );
