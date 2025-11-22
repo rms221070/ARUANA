@@ -232,14 +232,15 @@ const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = fa
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
                   onFocus={() => narrate(`${lang.name}`)}
-                  className={`p-4 rounded-xl text-left transition-all ${
+                  onMouseEnter={() => narrate(`${lang.name}`)}
+                  className={`p-4 rounded-xl text-left transition-all focus:ring-4 focus:ring-offset-2 ${
                     i18n.language === lang.code
                       ? settings.highContrast
-                        ? 'bg-white text-black border-2 border-white'
-                        : 'bg-orange-500 text-white'
+                        ? 'bg-white text-black border-2 border-white focus:ring-white'
+                        : 'bg-orange-500 text-white focus:ring-orange-500'
                       : settings.highContrast
-                        ? 'bg-gray-800 text-white border border-white hover:bg-gray-700'
-                        : 'bg-blue-800/50 text-white hover:bg-blue-700/60'
+                        ? 'bg-gray-800 text-white border border-white hover:bg-gray-700 focus:ring-white'
+                        : 'bg-blue-800/50 text-white hover:bg-blue-700/60 focus:ring-blue-500'
                   }`}
                   aria-label={`Selecionar idioma ${lang.name}`}
                 >
