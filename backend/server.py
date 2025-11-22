@@ -490,12 +490,9 @@ async def root():
 async def analyze_frame(input: DetectionCreate, request: Request):
     """Analisa um frame da webcam ou imagem carregada usando Gemini Vision"""
     try:
-        # Get authenticated user
+        # Use default user_id if no authentication (login removed)
         auth_header = request.headers.get("Authorization")
-        user_id = get_current_user(auth_header)
-        
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Authentication required")
+        user_id = get_current_user(auth_header) if auth_header else "anonymous_user"
         
         # Decode base64 image
         image_data = input.image_data.split(',')[1] if ',' in input.image_data else input.image_data
