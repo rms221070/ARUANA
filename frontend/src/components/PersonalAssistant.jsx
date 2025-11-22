@@ -195,7 +195,7 @@ const PersonalAssistant = ({ onBack, isActive }) => {
         </Button>
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Heart className="w-6 h-6 text-pink-400" />
-          Assistente Pessoal
+          Ajuda
         </h2>
         <Button
           onClick={clearConversation}
