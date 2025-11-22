@@ -214,7 +214,7 @@ const SearchMode = ({ onBack, isActive }) => {
       ctx.drawImage(videoRef.current, 0, 0);
       const imageData = canvas.toDataURL('image/jpeg', 0.7);
 
-      const authToken = await getToken();
+      // No authentication required (login removed)
       const response = await axios.post(
         `${API}/detect/analyze-frame`,
         {
@@ -225,8 +225,7 @@ const SearchMode = ({ onBack, isActive }) => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
+            'Content-Type': 'application/json'
           }
         }
       );
