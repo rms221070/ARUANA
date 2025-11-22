@@ -7,9 +7,10 @@ const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [settings, setSettings] = useState({
-    language: 'pt',
+    language: 'pt-BR', // Forçar Português do Brasil
     voiceGender: 'female',
     voiceSpeed: 1.0,
+    voiceAccent: 'neutro', // Novo: sotaque regional (neutro, sulista, carioca, nordestino)
     autoNarrate: true,
     highContrast: false,
     fontSize: 'medium'
