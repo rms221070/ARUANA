@@ -32,9 +32,6 @@ const Dashboard = () => {
     } else if (mode === 'braille') {
       setCurrentView('braille');
       setShowModeSelector(false);
-    } else if (mode === 'traffic') {
-      setCurrentView('traffic');
-      setShowModeSelector(false);
     } else {
       setSelectedMode(mode);
       setShowModeSelector(false);
