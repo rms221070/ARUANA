@@ -21,16 +21,45 @@ class TTSService {
   getVoicesByLang(lang) {
     const langMap = {
       'pt': 'pt-BR',
+      'pt-BR': 'pt-BR', // Garantir mapeamento explícito
       'en': 'en-US',
       'es': 'es-ES',
       'fr': 'fr-FR',
       'zh': 'zh-CN'
     };
     
-    const targetLang = langMap[lang] || lang;
+    const targetLang = langMap[lang] || 'pt-BR'; // Padrão pt-BR
     return this.voices.filter(voice => 
       voice.lang.startsWith(targetLang) || voice.lang.startsWith(lang)
     );
+  }
+
+  // Selecionar voz baseada no sotaque regional brasileiro
+  getVoiceByAccent(lang, gender, accent) {
+    const voices = this.getVoicesByLang(lang);
+    
+    // Mapeamento de sotaques para nomes de vozes
+    // Nota: A disponibilidade depende do navegador e sistema operacional
+    const accentMap = {
+      'neutro': ['Google português do Brasil', 'Microsoft Maria', 'Luciana', 'pt-BR'],
+      'sulista': ['Google português do Brasil', 'pt-BR'], // Sulista pode usar pitch/rate ajustado
+      'carioca': ['Google português do Brasil', 'pt-BR'], // Carioca pode usar pitch/rate ajustado
+      'nordestino': ['Google português do Brasil', 'pt-BR'] // Nordestino pode usar pitch/rate ajustado
+    };
+    
+    const preferredNames = accentMap[accent] || accentMap['neutro'];
+    
+    // Tentar encontrar voz que corresponda ao sotaque preferido
+    for (const prefName of preferredNames) {
+      const voice = voices.find(v => 
+        v.name.includes(prefName) && 
+        v.lang.startsWith('pt-BR')
+      );
+      if (voice) return voice;
+    }
+    
+    // Fallback: qualquer voz pt-BR
+    return voices.find(v => v.lang === 'pt-BR' || v.lang.startsWith('pt-BR')) || voices[0];
   }
 
   getMaleVoice(lang) {
