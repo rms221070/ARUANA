@@ -29,16 +29,7 @@ const DetectionHistory = () => {
     fetchDetections();
   }, []);
 
-  const getAuthHeaders = () => {
-    const authToken = getToken();
-    if (!authToken) {
-      console.warn('No auth token available');
-      return {};
-    }
-    return {
-      'Authorization': `Bearer ${authToken}`
-    };
-  };
+  // No authentication headers needed (login removed)
 
   const fetchDetections = async () => {
     setLoading(true);
