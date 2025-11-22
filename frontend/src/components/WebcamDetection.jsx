@@ -347,16 +347,7 @@ const WebcamDetection = ({ onFullscreenChange, isFullscreen }) => {
     narrate(t('webcam.imageCapturedd') + '. ' + t('webcam.analyzingImage'));
 
     try {
-      // Get the current token
-      const authToken = getToken();
-      
-      if (!authToken) {
-        const errorMsg = 'Você precisa fazer login para usar esta funcionalidade';
-        toast.error(errorMsg);
-        narrate(errorMsg);
-        setIsAnalyzing(false);
-        return;
-      }
+      // No authentication required (login removed)
 
       // Capture geolocation
       const geoLocation = await getCurrentLocation();
