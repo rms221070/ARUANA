@@ -122,10 +122,7 @@ const TrafficSafety = ({ onBack, isActive }) => {
         return;
       }
 
-      const token = getToken();
-      if (!token) {
-        throw new Error("Sessão expirada. Por favor, faça login novamente.");
-      }
+      // No authentication required (login removed)
 
       const response = await axios.post(
         `${API}/detect/traffic-safety`,
@@ -137,8 +134,7 @@ const TrafficSafety = ({ onBack, isActive }) => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json'
           }
         }
       );
