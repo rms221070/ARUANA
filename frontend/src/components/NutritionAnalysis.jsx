@@ -16,7 +16,7 @@ const API = `${BACKEND_URL}/api`;
 const NutritionAnalysis = () => {
   const { t } = useTranslation();
   const { settings, narrate, narrateInterface } = useSettings();
-  const { token, getToken } = useAuth();
+  // Authentication removed - no longer needed
   const [isStreaming, setIsStreaming] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [lastAnalysis, setLastAnalysis] = useState(null);
