@@ -1,12 +1,35 @@
 import { useTranslation } from "react-i18next";
 import { Camera, FileText, Eye, Apple, Users, Sparkles, Volume2, History, BarChart3, Info, BookOpen, MoreHorizontal, Globe, Palette, Search, Grid3x3, Calculator, Heart } from "lucide-react";
 import { useSettings } from "@/context/SettingsContext";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ModeSelector = ({ onSelectMode, currentMode, onNavigate, showMoreMenu = false }) => {
   const { t, i18n } = useTranslation();
   const { settings, narrate } = useSettings();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [focusedModeIndex, setFocusedModeIndex] = useState(0);
+  const hasAnnouncedEntry = useRef(false);
+
+  // Automatic screen entry narration
+  useEffect(() => {
+    if (!hasAnnouncedEntry.current) {
+      const menuType = showMoreMenu ? "submenu de funcionalidades adicionais" : "menu principal";
+      const modeCount = showMoreMenu ? subModes.length : mainModes.length;
+      const entryMessage = `${menuType} do ARUANÃ. ${modeCount} opções disponíveis. Use as setas do teclado para navegar e Enter para selecionar.`;
+      
+      // Delay narration slightly to ensure component is fully mounted
+      setTimeout(() => {
+        narrate(entryMessage);
+      }, 300);
+      
+      hasAnnouncedEntry.current = true;
+    }
+  }, [showMoreMenu]);
+
+  // Reset announcement flag when menu changes
+  useEffect(() => {
+    hasAnnouncedEntry.current = false;
+  }, [showMoreMenu]);
 
   // Main menu modes - 4 buttons now
   const mainModes = [
