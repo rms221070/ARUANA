@@ -5,7 +5,7 @@ import { ArrowLeft, Camera, Loader2, Volume2 } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSettings } from "@/context/SettingsContext";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext"; // Removed - authentication no longer needed
 import EmotionAnalysis from "@/components/EmotionAnalysis";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
